@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return view('pacient.index');
-});
+// Landing
+Route::view("/", "pacient.index");
+
+// Authentication
+Route::get("/masuk", fn () => view("pacient.auth.login"));
