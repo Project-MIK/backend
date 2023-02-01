@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use PhpParser\Node\Expr\Cast\Bool_;
 
 class AppPacient extends Component
 {
@@ -11,7 +12,9 @@ class AppPacient extends Component
      *
      * @return void
      */
-    public $title;
+    public String $title;
+    public $styles = null;
+    public $scripts = null;
     public function __construct(String $title = "Telemedicine")
     {
         $this->title = $title;

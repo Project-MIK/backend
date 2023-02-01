@@ -1,11 +1,58 @@
 :root {
-    --blue-bunting : #003399;
+    --blue-bunting : #241C99;
     --blue-dogger : #0054E3;
+    --trouth : #525666;
 }
 
 .btn-dogger {
     background-color: var(--blue-dogger);
 }
+
+.btn-bunting {
+    background-color: var(--blue-bunting);
+}
+
+.text-bunting {
+    color: var(--blue-bunting);
+}
+
+.text-trouth {
+    color: var(--trouth);
+}
+
+body {
+    background-color: var(--blue-bunting);
+}
+
+.card {
+    border-radius: 25px !important;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.form-auth {
+    width: 100%;
+}
+
+.img-card-login {
+    border-radius: 20px 0px 0px 20px;
+    background-image: url("/images/doctor-offering.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.img-card-forgot-password {
+    border-radius: 20px 0px 0px 20px;
+    background-image: url("/images/doctor-offering-medical.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* --- */
 
 .landing {
     height: 100vh;
@@ -16,7 +63,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    width: 60vw;
+    width: 70vw;
     height: 100vh;
 }
 
@@ -35,6 +82,7 @@
 
 .landing-content-wrapper h1 {
     font-size: 3rem;
+    letter-spacing: 2px;
 }
 
 .landing-content-wrapper p {
@@ -46,5 +94,8 @@
 @media (min-width: 991.98px) {
     .landing-content-wrapper h1 {
         font-size: 4rem;
+    }
+    .form-auth {
+        width: 50%;
     }
 }
