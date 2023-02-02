@@ -10,7 +10,10 @@
             #back-page-2{
                 display: block;
             }
-            #send-proof-payment {
+            #information-bank {
+                margin-top: 30px;
+            }
+            #next-step {
                 width: 100%;
             }
             @media (min-width: 991.98px) {
@@ -20,7 +23,10 @@
                 #back-page-2{
                     display: none;
                 }
-                #send-proof-payment {
+                #information-bank {
+                    margin-top: 0px;
+                }
+                #next-step {
                     width: 50%;
                 }
             }
@@ -30,7 +36,7 @@
         <div class="card shadow-lg rounded-lg w-100 mx-auto">
             <div class="card-body">
                 <div class="p-5 d-flex">
-                    <a id="back-page-1" class="mr-3" href="/konsultasi/poliklinik">
+                    <a id="back-page-1" class="mr-3" href="/konsultasi/rincian">
                         <svg role="button" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M38 24H10" stroke="#525666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M24 38L10 24L24 10" stroke="#525666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -39,7 +45,7 @@
                     <form class="w-100" action="" method="POST">
                         @csrf
                         <div class="d-flex align-items-center">
-                            <a id="back-page-2" class="mr-3" href="/konsultasi/poliklinik">
+                            <a id="back-page-2" class="mr-3" href="/konsultasi/rincian">
                                 <svg role="button" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M38 24H10" stroke="#525666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M24 38L10 24L24 10" stroke="#525666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -60,11 +66,11 @@
                                         <option selected value="BRI">BRI ( Bank Rakyat Indonesia )</option>
                                     </select>
                                     <div class="d-flex flex-column mt-5">
-                                        <div class="d-flex flex-column flex-md-row align-items-center">
+                                        <div class="d-flex flex-column flex-lg-row align-items-center">
                                             <div class="col-12 col-md-5">
                                                 <img id="image-bank" src="{{ asset('/images/bca-logo.png') }}" alt="logo-bca" width="150">
                                             </div>
-                                            <div class="col-12 col-md-8">
+                                            <div id="information-bank" class="col-12 col-md-8">
                                                 <p id="number-bank" class="font-weight-bold text-trouth">NO. REK : 435793455</p>
                                                 <p id="name-account-bank" class="font-weight-bold text-trouth">RS. CITRA HUSADA JEMBER</p>
                                             </div>
@@ -81,7 +87,7 @@
                             </div>        
                         </div>
                         <div class="d-flex mt-4 flex-column align-items-end">
-                            <button id="send-proof-payment" type="submit" class="btn btn-bunting text-white font-weight-bold py-2 mb-4">Kirim Bukti Pembayaran</button>
+                            <button id="next-step" type="submit" class="btn btn-bunting text-white font-weight-bold py-2 mb-4">Kirim Bukti Pembayaran</button>
                         </div>
                     </form>
                 </div>
