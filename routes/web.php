@@ -48,22 +48,42 @@ Route::view("/dashboard", "pacient.dashboard.index", [
     ]
 ]);
 
-// Konsultasi
+// Consultation
+
 Route::prefix('konsultasi')->group(function () {
     Route::get('/', function () {
-        echo "keluhan";
+        return view("pacient.consultation.complaint");
     });
+    Route::post('/', function () {
+        return view("pacient.consultation.complaint");
+    });
+
     Route::get('/poliklinik', function () {
-        echo "poliklinik";
+        return view("pacient.consultation.polyclinic");
     });
+    Route::post('/poliklinik', function () {
+        return view("pacient.consultation.polyclinic");
+    });
+
     Route::get('/dokter', function () {
-        echo "dokter";
+        return view("pacient.consultation.doctor");
     });
+    Route::post('/dokter', function () {
+        return view("pacient.consultation.doctor");
+    });
+
     Route::get('/rincian', function () {
-        echo "rincian";
+        return view("pacient.consultation.detail");
     });
+    Route::post('/rincian', function () {
+        return view("pacient.consultation.detail");
+    });
+
     Route::get('/pembayaran', function () {
-        echo "pembayaran";
+        return view("pacient.consultation.payment");
+    });
+    Route::post('/pembayaran', function () {
+        return view("pacient.consultation.payment");
     });
 });
 

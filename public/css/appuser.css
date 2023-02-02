@@ -22,6 +22,11 @@
 
 body {
     background-color: var(--blue-bunting);
+    background-image: url("/images/network-world.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 .card {
