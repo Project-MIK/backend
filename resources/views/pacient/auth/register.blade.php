@@ -4,7 +4,7 @@
         <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.id.min.js') }}"></script>
         <style>
-            select {
+            select, button {
                 height: 50px !important;
             }
         </style>
