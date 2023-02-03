@@ -12,6 +12,10 @@
     background-color: var(--blue-bunting);
 }
 
+.btn-trouth {
+    background-color: var(--trouth);
+}
+
 .text-bunting {
     color: var(--blue-bunting);
 }

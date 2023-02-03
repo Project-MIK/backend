@@ -1,5 +1,8 @@
 <x-app-pacient title="Dashboard">
     @slot('styles')
+        <link rel="stylesheet" href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.css') }}">
+        <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+        <script src="{{ asset('/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.id.min.js') }}"></script>
         <style>
             table{
                 display: block;
@@ -7,8 +10,11 @@
                 margin: 0 auto;
                 overflow-x: auto;
             }
-            select {
+            select, button[id=btn-change-password] {
                 height: 50px !important;
+            }
+            #pacient-name-tag {
+                column-gap: 20px;
             }
             #pacient-actions{
                 column-gap: 20px;
@@ -22,6 +28,10 @@
             #create_consulation{
                 margin-top:20px 
             }
+            #btn-change-profile{
+                width: 100%;
+                height: 50px;
+            }
             @media (min-width: 991.98px) {
                 .text_action {
                     display: block;
@@ -29,8 +39,14 @@
                 .icon_action {
                     display: none;
                 }
+                #pacient-name-tag{
+                    column-gap: 0px;
+                }
                 #create_consulation{
                     margin-top:0px 
+                }
+                #btn-change-profile{
+                    width: 50%;
                 }
             }
         </style>
@@ -40,7 +56,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="p-5 w-100">
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div id="pacient-name-tag" class="d-flex align-items-center justify-content-between">
                             <div>
                                 <h1 class="font-weight-bold text-bunting text-xl">Halo, Lathisa Maharani</h1>
                                 <p class="text-trouth font-weight-light text-sm">Gunakan layanan telemedicine untuk mewujudkan akses kesehatan terjangkau secara online</p>
@@ -125,118 +141,141 @@
                                   </table>
                             </div>
                             <div id="setting">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                                        <select id="inputCitizen" class="form-control" name="citizen" onchange="setCitizen(this)">
-                                            <option selected value="indonesia">Indonesia</option>
-                                            <option value="WNA">Warga Negara Asing</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <div id="nik" class="d-block">
-                                            <label for="inputNik" class="text-trouth">NIK <span class="text-sm font-weight-normal">( Nomor Induk Kependudukan )</span></label>
-                                            <input type="text" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" oninput="numberOnly(this)" autofocus required>
+                                <form action="" method="post">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
+                                            <select id="inputCitizen" class="form-control" name="citizen" onchange="setCitizen(this)">
+                                                <option selected value="indonesia">Indonesia</option>
+                                                <option value="WNA">Warga Negara Asing</option>
+                                            </select>
                                         </div>
-                                        <div id="paspor" class="d-none">
-                                            <label for="inputPaspor" class="text-trouth">Nomor Paspor</label>
-                                            <input type="text" class="form-control py-4" id="inputPaspor" name="nopaspor" placeholder="Ketikkan nomor paspor" value="-" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputNama" class="text-trouth">Nama lengkap</label>
-                                        <input type="text" class="form-control py-4" id="inputNama" name="fullname" placeholder="Ketikkan nama lengkap" required>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="inputPlaceBirth" class="text-trouth">Tempat Lahir</label>
-                                                <input type="text" class="form-control py-4" id="inputPlaceBirth" name="place_birth" placeholder="Ketikkan tempat lahir" required>
+                                        <div class="form-group col-md-6">
+                                            <div id="nik" class="d-block">
+                                                <label for="inputNik" class="text-trouth">NIK <span class="text-sm font-weight-normal">( Nomor Induk Kependudukan )</span></label>
+                                                <input type="text" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" oninput="numberOnly(this)" autofocus required>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="inputBirthDate" class="text-trouth">Tanggal Lahir</label>
-                                                <input type="text" class="form-control datepicker py-4 pl-3" id="inputBirthDate" name="birth_date" placeholder="Hari-Bulan-Tahun" required>
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="inputGender" class="text-trouth">Jenis Kelamin</label>
-                                                <select id="inputGender" class="form-control" name="gender">
-                                                    <option selected value="male">Laki-Laki</option>
-                                                    <option value="female">Perempuan</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="inputBloodGroup" class="text-trouth">Golongan Darah</label>
-                                                <select id="inputBloodGroup" class="form-control" name="blood">
-                                                    <option selected value="A">A</option>
-                                                    <option value="B">B</option>
-                                                    <option value="AB">AB</option>
-                                                    <option value="O">O</option>
-                                                </select>
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputPekerjaan" class="text-trouth">Pekerjaan</label>
-                                        <input type="text" class="form-control py-4" id="inputPekerjaan" name="profession" placeholder="Ketikkan nama pekerjaan" required>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-12">
-                                        <label for="address" class="text-trouth">Alamat</label>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-3">
-                                                <label for="inputRT" class="text-trouth font-weight-light">RT</label>
-                                                <input type="text" class="form-control py-4" id="inputRT" name="address_RT" placeholder="Ketikkan nomor RT" oninput="numberOnly(this)" required>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label for="inputRW" class="text-trouth font-weight-light">RW</label>
-                                                <input type="text" class="form-control py-4" id="inputRW" name="address_RW" placeholder="Ketikkan nomor RW" oninput="numberOnly(this)" required>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label for="inputDusun" class="text-trouth font-weight-light">Dusun</label>
-                                                <input type="text" class="form-control py-4" id="inputDusun" name="address_Dusun" placeholder="Ketikkan nama dusun" required>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label for="inputDesa" class="text-trouth font-weight-light">Desa</label>
-                                                <input type="text" class="form-control py-4" id="inputDesa" name="address_Desa" placeholder="Ketikkan nama desa" required>
+                                            <div id="paspor" class="d-none">
+                                                <label for="inputPaspor" class="text-trouth">Nomor Paspor</label>
+                                                <input type="text" class="form-control py-4" id="inputPaspor" name="nopaspor" placeholder="Ketikkan nomor paspor" value="-" required>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputKecamatan" class="text-trouth font-weight-light">Kecamatan</label>
-                                        <input type="text" class="form-control py-4" id="inputKecamatan" name="address_kecamatan" placeholder="Ketikkan nama kecamatan" required>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputNama" class="text-trouth">Nama lengkap</label>
+                                            <input type="text" class="form-control py-4" id="inputNama" name="fullname" placeholder="Ketikkan nama lengkap" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputPlaceBirth" class="text-trouth">Tempat Lahir</label>
+                                                    <input type="text" class="form-control py-4" id="inputPlaceBirth" name="place_birth" placeholder="Ketikkan tempat lahir" required>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputBirthDate" class="text-trouth">Tanggal Lahir</label>
+                                                    <input type="text" class="form-control datepicker py-4 pl-3" id="inputBirthDate" name="birth_date" placeholder="Hari-Bulan-Tahun" required>
+                                                </div>
+                                            </div> 
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputKabupaten" class="text-trouth font-weight-light">Kabupaten</label>
-                                        <input type="text" class="form-control py-4" id="inputKabupaten" name="address_kabupaten" placeholder="Ketikkan nama kabupaten" required>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputGender" class="text-trouth">Jenis Kelamin</label>
+                                                    <select id="inputGender" class="form-control" name="gender">
+                                                        <option selected value="male">Laki-Laki</option>
+                                                        <option value="female">Perempuan</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputBloodGroup" class="text-trouth">Golongan Darah</label>
+                                                    <select id="inputBloodGroup" class="form-control" name="blood">
+                                                        <option selected value="A">A</option>
+                                                        <option value="B">B</option>
+                                                        <option value="AB">AB</option>
+                                                        <option value="O">O</option>
+                                                    </select>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputPekerjaan" class="text-trouth">Pekerjaan</label>
+                                            <input type="text" class="form-control py-4" id="inputPekerjaan" name="profession" placeholder="Ketikkan nama pekerjaan" required>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputNoTelp" class="text-trouth">Nomor Telepon</label>
-                                        <input type="text" class="form-control py-4" id="inputNoTelp" name="no_telp" oninput="numberOnly(this)" placeholder="Ketikkan nomor telepon" required>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="address" class="text-trouth">Alamat</label>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                    <label for="inputRT" class="text-trouth font-weight-light">RT</label>
+                                                    <input type="text" class="form-control py-4" id="inputRT" name="address_RT" placeholder="Ketikkan nomor RT" oninput="numberOnly(this)" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="inputRW" class="text-trouth font-weight-light">RW</label>
+                                                    <input type="text" class="form-control py-4" id="inputRW" name="address_RW" placeholder="Ketikkan nomor RW" oninput="numberOnly(this)" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="inputDusun" class="text-trouth font-weight-light">Dusun</label>
+                                                    <input type="text" class="form-control py-4" id="inputDusun" name="address_Dusun" placeholder="Ketikkan nama dusun" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="inputDesa" class="text-trouth font-weight-light">Desa</label>
+                                                    <input type="text" class="form-control py-4" id="inputDesa" name="address_Desa" placeholder="Ketikkan nama desa" required>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputEmail" class="text-trouth">Email</label>
-                                        <input type="text" class="form-control py-4" id="inputEmail" name="email" placeholder="Ketikkan email" required>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputKecamatan" class="text-trouth font-weight-light">Kecamatan</label>
+                                            <input type="text" class="form-control py-4" id="inputKecamatan" name="address_kecamatan" placeholder="Ketikkan nama kecamatan" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputKabupaten" class="text-trouth font-weight-light">Kabupaten</label>
+                                            <input type="text" class="form-control py-4" id="inputKabupaten" name="address_kabupaten" placeholder="Ketikkan nama kabupaten" required>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputPassword" class="text-trouth">Kata Sandi</label>
-                                        <input type="text" class="form-control py-4" id="inputPassword" name="passwor" placeholder="Ketikkan kata sandi" required>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputNoTelp" class="text-trouth">Nomor Telepon</label>
+                                            <input type="text" class="form-control py-4" id="inputNoTelp" name="no_telp" oninput="numberOnly(this)" placeholder="Ketikkan nomor telepon" required>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputRT" class="text-trouth">Email</label>
+                                            <div class="d-flex">
+                                                <div class="w-75">
+                                                    <input type="text" class="form-control py-4 mr-2" name="email" placeholder="Ketikkan email" readonly required>
+                                                </div>
+                                                <button type="button" class="btn btn-trouth text-white w-50 ml-2">
+                                                    Ganti Email
+                                                </button>
+                                            </div>
+                                            <small class="text-bunting">Terverifikasi</small>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputKecamatan" class="text-trouth">Kata Sandi</label>
+                                                    <button id="btn-change-password" type="button" class="btn btn-trouth text-white w-100">
+                                                        Ganti Kata Sandi
+                                                    </button>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="createdAt" class="text-trouth">Terdaftar Sejak</label>
+                                                    <input id="createdAt" type="text" class="form-control py-4" placeholder="Terdaftar sejak" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <button id="btn-change-profile" type="submit" class="btn btn-bunting text-white font-weight-bold">Simpan Perubahan</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -246,6 +285,12 @@
     </div>
     @slot('scripts')
         <script>
+            $(".datepicker").datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                todayHighlight: true,
+                language: "id"
+            });
             pacientSelected(document.getElementById("consultation"));
             function pacientSelected(e){
                 const actions = document.getElementById("pacient-actions");

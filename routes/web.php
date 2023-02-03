@@ -85,6 +85,12 @@ Route::prefix('konsultasi')->group(function () {
     Route::post('/pembayaran', function () {
         return view("pacient.consultation.payment");
     });
+
+    Route::get('/{id}', function ($id) {
+        return $id;
+    });
 });
+
+// Logout
 
 Route::redirect("/keluar", "/masuk");
