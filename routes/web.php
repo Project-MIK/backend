@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegistrationOfficersController;
+use App\Models\RegistrationOfficers;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource("login", LoginController::class);
+
+Route::controller(RegistrationOfficersController::class)->middleware("guest")->group(function () {
+    Route::get("/officers" , "index")->name('index');
+    Route::get("/officers/create", "create")->name('create');
+    Route::post("/officers", "store")->name('store');
+    Route::get("/officers/{id}/edit", "show")->name('show');
+    Route::put("/officers/{id}", "update")->name('update');
+    Route::delete("/officers/{id}" , "destroy")->name('destroy');
+    Route::get('/officers/{id}', "show")->name('show');
+});
+
