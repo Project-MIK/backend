@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PolyclinicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::controller(PolyclinicController::class)->group(function () {
+    Route::get('/polyclinics', 'index');
+    Route::get('/polyclinics/create', 'create');
+    Route::post('/polyclinics', 'store');
+    Route::get('/polyclinics/{id}', 'show');
+    Route::get('/polyclinics/edit/{id}', 'edit');
+    Route::post('/polyclinics/update/{id}', 'update');
+    Route::post('/polyclinics/delete/{id}', 'destroy');
 });
