@@ -69,9 +69,10 @@ class PolyclinicController extends Controller
      * @param  \App\Models\Polyclinic  $polyclinic
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Polyclinic $polyclinic)
+    public function update(PolyclinicRequest $request, $id)
     {
-        //
+        Polyclinic::where('id', $id)
+            ->update($request->all());
     }
 
     /**
@@ -80,8 +81,8 @@ class PolyclinicController extends Controller
      * @param  \App\Models\Polyclinic  $polyclinic
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Polyclinic $polyclinic)
+    public function destroy($id)
     {
-        //
+        Polyclinic::destroy($id);
     }
 }

@@ -24,6 +24,8 @@ Route::controller(PolyclinicController::class)->group(function () {
     Route::post('/polyclinics', 'store');
     Route::get('/polyclinics/{id}', 'show');
     Route::get('/polyclinics/edit/{id}', 'edit');
-    Route::post('/polyclinics/update/{id}', 'update');
-    Route::post('/polyclinics/delete/{id}', 'destroy');
+    // Route::post('/polyclinics/update/{id}', 'update');
+    Route::put('/polyclinics/{id}', 'update');
+    // Route::post('/polyclinics/delete/{id}', 'destroy');
+    Route::delete('/polyclinics/{id}', 'destroy');
 });

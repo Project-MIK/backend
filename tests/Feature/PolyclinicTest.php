@@ -37,4 +37,29 @@ class PolyclinicTest extends TestCase
 
         $response->assertInvalid();
     }
+
+    public function test_success_update_data_polyclinic()
+    {
+        $response = $this->put('/polyclinics/8', [
+            'name' => 'testSuccess'
+        ]);
+
+        $response->assertOk();
+    }
+
+    public function test_failed_update_data_polyclinic()
+    {
+        $response = $this->put('/polyclinics/5', [
+            'name' => 800
+        ]);
+
+        $response->assertInvalid();
+    }
+
+    public function test_success_delete_data_polyclinic()
+    {
+        $response = $this->delete('/polyclinics/5');
+
+        $response->assertOk();
+    }
 }
