@@ -67,4 +67,10 @@ Route::prefix('konsultasi')->group(function () {
     });
 });
 
+//admin
+Route::prefix('admin')->group(function(){
+    Route::view('layout','layouts.admin.app');
+    Route::view('pasien','admin.pasien');
+});
+
 Route::redirect("/keluar", "/masuk");
