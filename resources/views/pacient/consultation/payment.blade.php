@@ -75,7 +75,14 @@
                                                 <p id="name-account-bank" class="font-weight-bold text-trouth">RS. CITRA HUSADA JEMBER</p>
                                             </div>
                                         </div>
-                                        <p class="text-sm mt-4">Harap melakukan pembayaran sesuai nominal yang tertera.</p>
+                                        <div class="text-sm mt-4">
+                                            <p>Harap melakukan pembayaran sesuai nominal yang tertera.</p>
+                                            <p>Pembayaran berlaku sampai 
+                                                <span class="font-weight-bold">
+                                                    4 - Februari - 2023 23:00:00.
+                                                </span>
+                                            </p>
+                                        </div>
                                         <div class="input-group my-3">
                                             <div class="custom-file">
                                               <input type="file" class="custom-file-input" id="upload-proof-payment" aria-describedby="inputGroupFileAddon01">

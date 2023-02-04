@@ -36,15 +36,33 @@ Route::view("/dashboard", "pacient.dashboard.index", [
         [
             "id" => "KL6584690",
             "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
-            "status" => "terkonfirmasi",
+            "status" => "waiting-consultation-payment",
             "schedule" => "29 / Januari / 2023 15:30:00 - 16:30:00",
         ],
         [
-            "id" => "KL6584690",
+            "id" => "KL6584691",
             "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
-            "status" => "terkonfirmasi",
-            "schedule" => "29 / Januari / 2023 15:30:00 - 16:30:00",
-        ]
+            "status" => "confirmed-consultation-payment",
+            "schedule" => "30 / Januari / 2023 15:30:00 - 16:30:00",
+        ],
+        [
+            "id" => "KL6584692",
+            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
+            "status" => "waiting-medical-prescription-payment",
+            "schedule" => "30 / Januari / 2023 15:30:00 - 16:30:00",
+        ],
+        [
+            "id" => "KL6584693",
+            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
+            "status" => "confirmed-medical-prescription-payment",
+            "schedule" => "30 / Januari / 2023 15:30:00 - 16:30:00",
+        ],
+        [
+            "id" => "KL6584694",
+            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya dsdsdsdsds makanan mie......",
+            "status" => "consultation-complete",
+            "schedule" => "30 / Januari / 2023 15:30:00 - 16:30:00",
+        ],
     ]
 ]);
 
@@ -73,10 +91,10 @@ Route::prefix('konsultasi')->group(function () {
     });
 
     Route::get('/rincian', function () {
-        return view("pacient.consultation.detail");
+        return view("pacient.consultation.detail-order");
     });
     Route::post('/rincian', function () {
-        return view("pacient.consultation.detail");
+        return view("pacient.consultation.detail-order");
     });
 
     Route::get('/pembayaran', function () {
@@ -87,7 +105,7 @@ Route::prefix('konsultasi')->group(function () {
     });
 
     Route::get('/{id}', function ($id) {
-        return $id;
+        return view("pacient.consultation.detail-consultation", compact("id"));
     });
 });
 
