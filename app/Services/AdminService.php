@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminService
 {
-
     private Admin $admin;
 
     public function __construct()
@@ -72,4 +71,5 @@ class AdminService
             return false;
         }
     }
+    
 }
