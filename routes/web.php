@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::resource('admin', AdminController::class);
+//contoh middleware
+// Route::resource("/admin", AdminController::class)->middleware('isAdmin');

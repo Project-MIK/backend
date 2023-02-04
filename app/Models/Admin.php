@@ -25,6 +25,8 @@ class Admin extends Model
         return "id";
     }
 
+    
+
     public $timestamps = true;
 
 }
