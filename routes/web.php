@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,9 +69,21 @@ Route::prefix('konsultasi')->group(function () {
 });
 
 //admin
-Route::prefix('admin')->group(function(){
-    Route::view('layout','layouts.admin.app');
-    Route::view('pasien','admin.pasien');
+Route::prefix('admin')->group(function () {
+    Route::view('layout', 'layouts.admin.app');
+    Route::view('pasien', 'admin.pasien');
+
+    Route::get('/token', function (Request $request) {
+        $token = $request->session()->token();
+
+        $token = csrf_token();
+
+        echo $token;
+
+        return $token;
+
+        // ...
+    });
 });
 
 Route::redirect("/keluar", "/masuk");

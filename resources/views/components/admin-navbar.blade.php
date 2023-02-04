@@ -1,5 +1,5 @@
 <div>
-    <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <div class="container">
             <a href="" class="navbar-brand">
                 <img src="{{asset('images/logo-rshusada.png')}}" alt="AdminLTE Logo" class="brand-image " style="opacity: .8">
