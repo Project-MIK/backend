@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Telemedicine</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Dashboard</title>
 
-    <x-admin-prerendered-assets></x-admin-prerendered-assets>
-
+  <x-admin-prerendered-assets/>
 </head>
-<body class="hold-transition sidebar-collapse layout-top-nav">
-    <div class="wrapper">
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
 
-        <x-admin-navbar/>
+  <!-- Preloader -->
+  {{-- <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+  </div> --}}
 
+  <x-admin-navbar/>
 
-        <x-admin-sidebar/>
+  <x-admin-sidebar/>
 
-        <x-admin-content/>
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
-
-        
-        <x-admin-footer/>
+  <x-admin-content/>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.2.0
     </div>
-    <!-- ./wrapper -->
+  </footer>
 
-    
-    <x-admin-postrendered-assets/>
-    @yield('datatable-script')
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+
+
+<x-admin-postrendered-assets/>
+
+@yield('after-js')
 </body>
 </html>

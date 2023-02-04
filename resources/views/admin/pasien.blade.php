@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('content-header',)
+@section('content-header')
 <h1>pasien</h1>
 @endsection
 
@@ -28,6 +28,19 @@
                 <tr>
                     <td>1</td>
                     <td>Bachtiar Arya Habibie</td>
+                    <td>xxx-xxx-xxx</td>
+                    <td>laki laki</td>
+                    <th>351xxxxxxxxxx</th>
+                    <th>
+                        <div class="row">
+                            <div class="col"><button type="button" class="col btn btn-block btn-primary">Detail</button></div>
+                            <div class="col"><button type="button" class=" col btn btn-block btn-danger">Danger</button></div>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Aristo Cessar</td>
                     <td>xxx-xxx-xxx</td>
                     <td>laki laki</td>
                     <th>351xxxxxxxxxx</th>
@@ -66,7 +79,7 @@
 @endsection
 
 
-@section('datatable-script')
+@section('after-js')
 <script>
     $(function() {
         $("#example1").DataTable({
