@@ -25,7 +25,10 @@ class RegistrationOfficersRequest extends FormRequest
     {
         return [
             "email" => ["required" , "email" , "unique:registration_officers,email"] ,
-            "name" => ['required'] ,  
+            "name" => ['required' , 'string'] ,
+            "password" => ['required' , 'min:6'],
+            "address" => ['required' , 'string'],
+            "gender" => ['required']
         ];
     }
 }
