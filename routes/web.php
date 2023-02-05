@@ -36,32 +36,37 @@ Route::view("/dashboard", "pacient.dashboard.index", [
         [
             "id" => "KL6584690",
             "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
+            "schedule" => "1 / Januari / 2023 15:30:00 - 16:30:00",
             "status" => "waiting-consultation-payment",
-            "schedule" => "29 / Januari / 2023 15:30:00 - 16:30:00",
+            "valid_status" => 1675571753
         ],
         [
             "id" => "KL6584691",
             "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
+            "schedule" => "2 / Januari / 2023 15:30:00 - 16:30:00",
             "status" => "confirmed-consultation-payment",
-            "schedule" => "30 / Januari / 2023 15:30:00 - 16:30:00",
+            "valid_status" => 1685571753
         ],
         [
             "id" => "KL6584692",
             "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
+            "schedule" => "3 / Januari / 2023 15:30:00 - 16:30:00",
             "status" => "waiting-medical-prescription-payment",
-            "schedule" => "30 / Januari / 2023 15:30:00 - 16:30:00",
+            "valid_status" => 1675571753
         ],
         [
             "id" => "KL6584693",
             "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
+            "schedule" => "4 / Januari / 2023 15:30:00 - 16:30:00",
             "status" => "confirmed-medical-prescription-payment",
-            "schedule" => "30 / Januari / 2023 15:30:00 - 16:30:00",
+            "valid_status" => 1675571753
         ],
         [
             "id" => "KL6584694",
             "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya dsdsdsdsds makanan mie......",
             "status" => "consultation-complete",
-            "schedule" => "30 / Januari / 2023 15:30:00 - 16:30:00",
+            "schedule" => "5 / Januari / 2023 15:30:00 - 16:30:00",
+            "valid_status" => 1675571753
         ],
     ]
 ]);
@@ -105,7 +110,13 @@ Route::prefix('konsultasi')->group(function () {
     });
 
     Route::get('/{id}', function ($id) {
-        return view("pacient.consultation.detail-consultation", compact("id"));
+        return view("pacient.consultation.detail-consultation", [
+            "id" => $id,
+            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya dsdsdsdsds makanan mie......",
+            "status" => "consultation-complete",
+            "schedule" => "5 / Januari / 2023 15:30:00 - 16:30:00",
+            "valid_status" => 1675571753
+        ]);
     });
 });
 

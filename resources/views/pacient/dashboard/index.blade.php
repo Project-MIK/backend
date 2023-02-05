@@ -100,7 +100,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($complaints as $item)
-                                            @if($item["status"] != "consultation-complete")
+                                            @if($item["status"] != "consultation-complete" && $item["valid_status"] > time())
                                             <tr class="text-trouth">
                                                 <td>{{$item["description"]}}</td>
                                                 <td class="text-center">
