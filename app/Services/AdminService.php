@@ -15,7 +15,7 @@ class AdminService
         $this->admin = new Admin();
     }
 
-    public function getAllData()
+    public function findAll()
     {
         $data =  $this->admin->get();
         return $data;

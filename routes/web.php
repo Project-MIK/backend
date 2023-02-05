@@ -19,4 +19,5 @@ Route::get('/', function () {
 });
 
 //contoh middleware
+// semua route dari controller admin controller akan di handle dengan middleware is admin
 // Route::resource("/admin", AdminController::class)->middleware('isAdmin');

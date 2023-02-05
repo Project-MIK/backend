@@ -21,7 +21,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        $data = $this->service->getAllData();
+        $data = $this->service->findAll();
         return $data;
     }
     public function create()
@@ -35,14 +35,11 @@ class AdminController extends Controller
         $response = $this->service->store($request->validate($request->rules()));
         return $response;
     }
-
-
     public function show(Admin $admin)
     {
         $data = $this->service->findById($admin->id);
         return $data;
     }
-
     public function edit(Admin $admin)
     {
         $data = $this->service->findById($admin->id);
@@ -77,7 +74,7 @@ class AdminController extends Controller
         }
         return $res;
     }
-    public function findByname(KeyRequest $keyRequest){
+    public function searchByName(KeyRequest $keyRequest){
         $data = $this->service->findByName($keyRequest->name);
         if($data->count() > 0){
             // if data not found , the return is null
@@ -87,8 +84,9 @@ class AdminController extends Controller
             return $data;
         }
     }
-    public function findByEmail(KeyRequest $request){
+    public function searchByEmail(KeyRequest $request){
         // return null if not exist , return array if exist
         return $this->service->findByEmail($request->email);
    }
+
 }
