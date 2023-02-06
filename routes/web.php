@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -113,9 +114,21 @@ Route::prefix('konsultasi')->group(function () {
         return view("pacient.consultation.detail-consultation", [
             "id" => $id,
             "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya dsdsdsdsds makanan mie......",
-            "status" => "consultation-complete",
-            "schedule" => "5 / Januari / 2023 15:30:00 - 16:30:00",
-            "valid_status" => 1675571753
+            "category" => "Penyakit Dalam",
+            "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
+            "doctor" => "Aristo Caesar Pratama",
+            "schedule" => "7 / Februari / 2023 15:30:00 - 16:30:00",
+            "status" => "confirmed-consultation-payment",
+            "price_consultation" => "Rp. 90.000",
+            "consultation_proof_payment" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
+            "status_payment" => "TERKONFIRMASI",
+            "valid_status" => "6 / Februari / 2023 01:00:00"
+        ]);
+    });
+    Route::post('/{id}', function (Request $request, $id) {
+        dd([
+            "id" => $id,
+            "upload-proof-payment" => $request->file('upload-proof-payment')
         ]);
     });
 });
