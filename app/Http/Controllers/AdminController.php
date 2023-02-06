@@ -14,7 +14,8 @@ class AdminController extends Controller
 
     private AdminService $service;
 
-    public function __construct(){
+    public function __construct()
+    {
         // inject dependency injection
         $this->service = new AdminService();
     }
@@ -48,10 +49,10 @@ class AdminController extends Controller
     public function update(UpdateAdminRequest $request,  Admin $admin)
     {
         $responseAsbool = $this->service->update($request->validate($request->rules()), $admin);
-        if($responseAsbool){
+        if ($responseAsbool) {
             // success update
             session()->flash("message", "berhasil memperbarui admin");
-        }else{
+        } else {
             // failed update
             session()->flash("message", "gagal memperbarui admin");
         }
@@ -65,28 +66,29 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
         $res = $this->service->deleteById($admin->id);
-        if($res){
+        if ($res) {
             // success deelte
             session()->flash("message", "berhasil menghapus admin");
-        }else{
+        } else {
             // failed delete
             session()->flash("message", "gagal menghapus admin");
         }
         return $res;
     }
-    public function searchByName(KeyRequest $keyRequest){
+    public function searchByName(KeyRequest $keyRequest)
+    {
         $data = $this->service->findByName($keyRequest->name);
-        if($data->count() > 0){
+        if ($data->count() > 0) {
             // if data not found , the return is null
             return null;
-        }else{
+        } else {
             // use  foreach to access data
             return $data;
         }
     }
-    public function searchByEmail(KeyRequest $request){
+    public function searchByEmail(KeyRequest $request)
+    {
         // return null if not exist , return array if exist
         return $this->service->findByEmail($request->email);
-   }
-
+    }
 }
