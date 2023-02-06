@@ -28,7 +28,7 @@ class StorePattientRequest extends FormRequest
             'email' => ['required', 'email' , 'unique:pattient,email'],
             'gender' => ['required'],
             'password' => ['required'],
-            'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/' , 'min:10'],
+            'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/' , 'min:10' , 'max:13'],
             'address' => ['required', 'string'],
             'citizen' => ['required'],
             'profession' => ['required'],

@@ -25,10 +25,10 @@ class UpdatePattientRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:4'],
-            'email' => ['requred', 'email'],
+            'email' => ['required', 'email'],
             'gender' => ['required'],
             'password' => ['required'],
-            'phone_number' => ['required', 'numeric'],
+            'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/' , 'min:10' , 'max:13'],
             'address' => ['required', 'string'],
             'citizen' => ['required'],
             'profession' => ['required'],

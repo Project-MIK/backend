@@ -23,8 +23,6 @@ class PattientService
         $data = $this->model->all();
         return $data;
     }
-
-
     public function store(array $request)
     {
         try {
@@ -38,13 +36,12 @@ class PattientService
             return false;
         }
     }
-
     public function findById($id)
     {
         $res = $this->model->where('id', $id)->first();
         return $res;
     }
-
+    // return array 
     public function update(array $request, $id): array
     {
         $data = $this->findById($id);
@@ -60,7 +57,7 @@ class PattientService
             }
         }
         if ($data == null) {
-            $response['status'] = 'false';
+            $response['status'] = false;
             $response['message'] = 'data tidak ditemukan';
             return $response;
         } else {
@@ -70,10 +67,18 @@ class PattientService
                 $response['message'] = 'berhasil memperbarui data pasien';
                 return $response;
             } else {
-                $response['status'] = 'false';
+                $response['status'] = false;
                 $response['message'] = 'gagal memperbarui data pasien terjadi kesalahan server';
                 return $response;
             }
         }
+    }
+
+    public function deleteById($id){
+        $res = $this->model->where('id', $id)->delete();
+        if($res){
+            return true;
+        }
+        return false;
     }
 }
