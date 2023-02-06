@@ -145,4 +145,12 @@ class PattientTest extends TestCase
         $res = $service->deleteById(2);
         $this->assertTrue($res);
     }
+
+    public function test_delete_pattient_in_service_failed(){
+        $service = new PattientService();
+        $res = $service->deleteById(10);
+        $this->assertFalse($res);
+    }
+    
+    // unit test for controller
 }

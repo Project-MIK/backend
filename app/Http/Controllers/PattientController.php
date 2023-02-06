@@ -5,82 +5,61 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePattientRequest;
 use App\Http\Requests\UpdatePattientRequest;
 use App\Models\Pattient;
+use App\Services\PattientService;
 
 class PattientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    private PattientService $service;
+
+
+    public function __construct()
+    {
+        $this->service = new PattientService();
+    }
+
     public function index()
     {
-        //
+        $data = $this->service->findAll();
+        if ($data->count() > 0) {
+            // ada data
+            return $data;
+        }
+        return $data;
+        // no data
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        // return view create new pattient
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorePattientRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StorePattientRequest $request)
     {
-        //
+        // bool return
+        $res =  $this->service->store($request->validate($request->rules()));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pattient  $pattient
-     * @return \Illuminate\Http\Response
-     */
     public function show(Pattient $pattient)
     {
-        //
+        $data = $this->service->findById($pattient->id);
+        return $data;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pattient  $pattient
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Pattient $pattient)
     {
-        //
+        $data = $this->service->findById($pattient);
+        // return view to edit , with data variable 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePattientRequest  $request
-     * @param  \App\Models\Pattient  $pattient
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdatePattientRequest $request, Pattient $pattient)
     {
-        //
+        // response array , you can see in service class to documentation
+        $res =  $this->service->update($request->validate($request->rules()), $pattient->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pattient  $pattient
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Pattient $pattient)
     {
-        //
+        // res boolean true if success false if not found
+        $res = $this->service->deleteById($pattient->id);
     }
 }
