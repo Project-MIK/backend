@@ -21,7 +21,7 @@
 </div>
 <form action="/konsultasi/{{ $id }}/pickup-delivery" method="POST" class="form-group col-12">
     @csrf
-    <label for="delivery-medical-prescription" class="text-trouth">Opsi Pengiriman Resep Obat</label>
+    <label for="delivery-medical-prescription" class="text-trouth">Opsi Pengiriman Obat</label>
     <select id="delivery-medical-prescription" class="form-control" name="pickup-medical-prescription" onchange="setDeliveryMedicalPrescription(this)">
         <option selected value="hospital-pharmacy" selected>Ambil di Apotek RS. Citra Husada Jember</option>
         <option selected value="delivery-gojek">Dikirim / Delivery menggunakan GOJEK</option>
@@ -29,8 +29,9 @@
     <div class="d-flex flex-column mt-4">
         <div id="hostipal-pharmacy" class="d-block">
             <div class="d-flex flex-column mb-4">
-                <label class="text-trouth">Cetak Bukti Pengambilan</label>
-                <a href="" target="_blank">CETAK BUKTI PEMBAYARAN OBAT</a>
+                <label class="text-trouth">Dokumen Pengambilan Obat</label>
+                <a href="" target="_blank" class="mb-2">CETAK DOKUMEN PENGAMBILAN OBAT</a>
+                <small>( Dokumen ini berguna sebagai syarat pengambilan obat )</small>
             </div>
             <div>
                 <label class="text-trouth">Alamat Pengambilan</label>
@@ -53,7 +54,7 @@
         <p><u>Setelah mengkonfirmasi, opsi pengiriman tidak dapat dirubah.</u></p>
     </div>
     <div class="d-flex mt-4 flex-column align-items-end">
-        <button id="confirmation-pickup" type="submit" class="btn btn-bunting text-white font-weight-bold py-2 mb-4 w-100">Konfirmasi Pengambilan Resep Obat</button>
+        <button id="confirmation-pickup" type="submit" class="btn btn-bunting text-white font-weight-bold py-2 mb-4 w-100">Konfirmasi Pengambilan Obat</button>
         <button type="button" class="btn btn-danger w-100 font-weight-bold" data-toggle="modal" data-target="#cancelPickup">Batal Menerima Obat</button>
     </div>
 </form>

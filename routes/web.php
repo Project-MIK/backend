@@ -33,42 +33,29 @@ Route::post("/recovery/{token}", fn () => view("pacient.auth.recovery"));
 // Dashboard
 
 Route::view("/dashboard", "pacient.dashboard.index", [
+    // show complaint not equlas consultation-complete && valid status
     "complaints" => [
         [
             "id" => "KL6584690",
-            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
-            "schedule" => "1 / Januari / 2023 15:30:00 - 16:30:00",
-            "status" => "waiting-consultation-payment",
-            "valid_status" => 1675571753
-        ],
+            "description" => "Consectetur veniam excepteur est ea consequat adipisicing sunt mollit. Mollit in quis ipsum fugiat officia ea est nostrud id cupidatat voluptate adipisicing. Est veniam ullamco velit consequat cupidatat ea ad tempor sunt et do qui pariatur proident.",
+            "schedule" => "1 / Januari / 2023",
+            "start_consultation" => 1685571753,
+            "end_consultation" => 1685572753,
+            "status" => "waiting-consultation-payment", // waiting-consultation-payment, confirmed-consultation-payment , waiting-medical-prescription-payment , confirmed-medical-prescription-payment, consultation-complete
+            "valid_status" => 1685571753
+        ]
+    ],
+    // show complaint consultation-complete, expired && not valid status
+    "history_complaints" => [
         [
-            "id" => "KL6584691",
-            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
-            "schedule" => "2 / Januari / 2023 15:30:00 - 16:30:00",
+            "id" => "KL6584690",
+            "description" => "Consectetur veniam excepteur est ea consequat adipisicing sunt mollit. Mollit in quis ipsum fugiat officia ea est nostrud id cupidatat voluptate adipisicing. Est veniam ullamco velit consequat cupidatat ea ad tempor sunt et do qui pariatur proident.",
+            "schedule" => "1 / Januari / 2023",
+            "start_consultation" => 1685571753,
+            "end_consultation" => 1685572753,
             "status" => "confirmed-consultation-payment",
             "valid_status" => 1685571753
-        ],
-        [
-            "id" => "KL6584692",
-            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
-            "schedule" => "3 / Januari / 2023 15:30:00 - 16:30:00",
-            "status" => "waiting-medical-prescription-payment",
-            "valid_status" => 1675571753
-        ],
-        [
-            "id" => "KL6584693",
-            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya mengkonsumsi makanan mie......",
-            "schedule" => "4 / Januari / 2023 15:30:00 - 16:30:00",
-            "status" => "confirmed-medical-prescription-payment",
-            "valid_status" => 1675571753
-        ],
-        [
-            "id" => "KL6584694",
-            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya dsdsdsdsds makanan mie......",
-            "status" => "consultation-complete",
-            "schedule" => "5 / Januari / 2023 15:30:00 - 16:30:00",
-            "valid_status" => 1675571753
-        ],
+        ]
     ]
 ]);
 
@@ -110,6 +97,7 @@ Route::prefix('konsultasi')->group(function () {
         return view("pacient.consultation.payment");
     });
 
+    // Show pacient consultation based on ID
     Route::get('/{id}', function ($id) {
         return view("pacient.consultation.detail-consultation", [
             "id" => $id,
@@ -118,25 +106,46 @@ Route::prefix('konsultasi')->group(function () {
             "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
             "doctor" => "Aristo Caesar Pratama",
             "schedule" => "8 / Februari / 2023 15:30:00 - 16:30:00",
-            "status" => "consultation-complete",
+            "status" => "waiting-consultation-payment",
 
             "price_consultation" => "Rp. 90.000",
-            "status_payment_consultation" => "TERKONFIRMASI",
+            "status_payment_consultation" => "BELUM TERKONFIRMASI",
             "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
 
-            "price_medical_prescription" => "Rp. 146.000",
+            "price_medical_prescription" => "Rp. 100.000", // null
             "status_payment_medical_prescription" => "TERKONFIRMASI",
             "proof_payment_medical_prescription" => "https://tangerangonline.id/wp-content/uploads/2021/06/IMG-20210531-WA0027.jpg",
 
-            "pickup_medical_prescription" => "hospital-pharmacy", // hospital_pharmacy, delivery_gojek
-            "pickup_medical_status" => null, // pending_pickup, complete_pickup, sending_by_gojek, be_deferred,
-            "pickup_medical_description" => null, // alamat penerima tidak valid, pasien tidak dapat dihubungi 
+            "pickup_medical_prescription" => "hospital-pharmacy", // hospital-pharmacy, delivery-gojek
+            "pickup_medical_status" => "SUDAH DIAMBIL", // MENUNGGU DIAMBIL, SUDAH DIAMBIL, DIKIRIM DENGAN GOJEK, GAGAL DIKIRIM,
+            "pickup_medical_no_telp_pacient" => "085235119101",
+            "pickup_medical_addreass_pacient" => "Enim ullamco reprehenderit nulla aliqua reprehenderit",
+            "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
+            "pickup_by_pacient" => "Aristo Caesar Pratama",
+            "pickup_datetime" => "7 Februari 2023 - 15:43:77",
 
             "valid_status" => "6 / Februari / 2023 03:00:00"
         ]);
     });
 
-    Route::post('/{id}', function (Request $request, $id) {
+    Route::post('/{id}/cancel-consultation', function () {
+        // cancel consultation
+    });
+
+    Route::post('/{id}/payment-consultation', function (Request $request, $id) {
+        dd([
+            "id" => $id,
+            "state-payment" => $request->input("state-payment"),
+            "bank-payment" => $request->input("bank-payment"),
+            "upload-proof-payment" => $request->file('upload-proof-payment')
+        ]);
+    });
+
+    Route::post('/{id}/cancel-medical-prescription', function () {
+        // cancel medical prescription
+    });
+
+    Route::post('/{id}/payment-medical-prescription', function (Request $request, $id) {
         dd([
             "id" => $id,
             "state-payment" => $request->input("state-payment"),

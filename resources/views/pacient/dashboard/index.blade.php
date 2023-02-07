@@ -126,7 +126,7 @@
                                     <p class="text-center font-weight-bold pt-4">Tidak ada jadwal konsultasi</p>
                                 @endif
                             </div>
-                            {{-- <div id="history">
+                            <div id="history">
                                 <table class="table table-bordered">
                                     <thead>
                                       <tr class="text-trouth text-center">
@@ -137,7 +137,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($complaints as $item)
+                                        @foreach ($history_complaints as $item)
                                         <tr class="text-trouth">
                                             <th scope="row">{{ $loop->iteration }}</th>
                                             <td>{{$item["description"]}}</td>
@@ -151,7 +151,7 @@
                                         @endforeach
                                     </tbody>
                                   </table>
-                            </div> --}}
+                            </div>
                             <div id="setting">
                                 <form action="" method="post">
                                     <div class="form-row">
