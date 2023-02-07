@@ -11,9 +11,16 @@ class StatusPaymentMedicalPrescription extends Component
      *
      * @return void
      */
-    public function __construct()
+    public $price;
+    public $status_payment;
+    public $valid_status;
+    public $proof_payment_medical_prescription;
+    public function __construct($price = "0", $status_payment = "", $valid_status = "", $proof_payment_medical_prescription = "")
     {
-        //
+        $this->price = $price;
+        $this->status_payment = $status_payment;
+        $this->valid_status = $valid_status;
+        $this->$proof_payment_medical_prescription = $proof_payment_medical_prescription;
     }
 
     /**

@@ -11,9 +11,16 @@ class SetDeliveryMedicalPrescription extends Component
      *
      * @return void
      */
-    public function __construct()
+    public $id;
+    public $pickup_medical_prescription;
+    public $pickup_medical_status;
+    public $pickup_medical_description;
+    public function __construct($id = "", $pickup_medical_prescription = null, $pickup_medical_status = null, $pickup_medical_description = null)
     {
-        //
+        $this->id = $id;
+        $this->pickup_medical_prescription = $pickup_medical_prescription;
+        $this->pickup_medical_status = $pickup_medical_status;
+        $this->pickup_medical_description = $pickup_medical_description;
     }
 
     /**

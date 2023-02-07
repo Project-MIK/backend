@@ -82,14 +82,14 @@
                                                 {{ $price_consultation }}
                                             </x-slot:price>
                                             <x-slot:status_payment>
-                                                {{ $status_payment }}
+                                                {{ $status_payment_consultation }}
                                             </x-slot:status_payment>
                                             <x-slot:valid_status>
                                                 {{ $valid_status }}
                                             </x-slot:valid_status>
-                                            <x-slot:consultation_proof_payment>
-                                                {{ $consultation_proof_payment }}
-                                            </x-slot:consultation_proof_payment>
+                                            <x-slot:proof_payment_consultation>
+                                                {{ $proof_payment_consultation }}
+                                            </x-slot:proof_payment_consultation>
                                         </x-pacient-consultation.status-payment-consultation>
                                     @elseif($status == "confirmed-consultation-payment")
                                         <x-pacient-consultation.confirmed-consultation-payment>
@@ -97,18 +97,44 @@
                                                 {{ $price_consultation }}
                                             </x-slot:price>
                                             <x-slot:status_payment>
-                                                {{ $status_payment }}
+                                                {{ $status_payment_consultation }}
                                             </x-slot:status_payment>
-                                            <x-slot:consultation_proof_payment>
-                                                {{ $consultation_proof_payment }}
-                                            </x-slot:consultation_proof_payment>
+                                            <x-slot:proof_payment_consultation>
+                                                {{ $proof_payment_consultation }}
+                                            </x-slot:proof_payment_consultation>
                                         </x-pacient-consultation.confirmed-consultation-payment>
                                     @elseif($status == "waiting-medical-prescription-payment")
-                                        <x-pacient-consultation.status-payment-medical-prescription/>
+                                        <x-pacient-consultation.status-payment-medical-prescription>
+                                            <x-slot:price>
+                                                {{ $price_medical_prescription }}
+                                            </x-slot:price>
+                                            <x-slot:status_payment>
+                                                {{ $status_payment_medical_prescription }}
+                                            </x-slot:status_payment>
+                                            <x-slot:valid_status>
+                                                {{ $valid_status }}
+                                            </x-slot:valid_status>
+                                            <x-slot:proof_payment_medical_prescription>
+                                                {{ $proof_payment_medical_prescription }}
+                                            </x-slot:proof_payment_medical_prescription>
+                                        </x-pacient-consultation.status-payment-medical-prescription>
                                     @elseif($status == "confirmed-medical-prescription-payment")
-                                        <x-pacient-consultation.set-delivery-medical-prescription/>
+                                        <x-pacient-consultation.set-delivery-medical-prescription>
+                                            <x-slot:id>{{ $id }}</x-slot:id>
+                                        </x-pacient-consultation.set-delivery-medical-prescription>
                                     @elseif($status == "consultation-complete")
-                                        <p>Consultasi telah berakhir</p>
+                                        <x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription>
+                                            <x-slot:id>{{ $id }}</x-slot:id>
+                                            <x-slot:pickup_medical_prescription>
+                                                {{ $pickup_medical_prescription }}
+                                            </x-slot:pickup_medical_prescription>
+                                            <x-slot:pickup_medical_status>
+                                                {{ $pickup_medical_status }}
+                                            </x-slot:pickup_medical_status>
+                                            <x-slot:pickup_medical_description>
+                                                {{ $pickup_medical_description }}
+                                            </x-slot:pickup_medical_description>
+                                        </x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription>
                                     @endif
                                 </div>
                             </div>  
@@ -120,7 +146,6 @@
     </div>
     @slot('scripts')
         <script>
-            setBankPayment(document.getElementById("bankPayment"));
             function setBankPayment(e) {
                 const imageBank = document.getElementById("image-bank");
                 const numberBank = document.getElementById("number-bank");
@@ -136,8 +161,31 @@
                 }
             }
             function setFileNameUpload(e) {
+                const buttonSendProof = document.getElementById("confirmation-payment");
                 const labelInputFile = document.getElementById("label-upload-proof-payment");
                 labelInputFile.textContent = e.files[0].name;
+                buttonSendProof.disabled = false;
+            }
+            function setDeliveryMedicalPrescription(e) {
+                const hospitalPharmacy = document.getElementById("hostipal-pharmacy");
+                const deliveryGojek = document.getElementById("delivery-gojek");
+                const PacientInputNoTelp = document.getElementById("pacient-notelp");
+                const PacientInputAddreass = document.getElementById("pacient-addreass");
+                if(e.value == "hospital-pharmacy"){
+                    hospitalPharmacy.classList.remove("d-none");
+                    hospitalPharmacy.classList.add("d-block");
+                    deliveryGojek.classList.remove("d-block");
+                    deliveryGojek.classList.add("d-none");
+                    PacientInputNoTelp.value = "-";
+                    PacientInputAddreass.value = "-";
+                }else{
+                    hospitalPharmacy.classList.remove("d-block");
+                    hospitalPharmacy.classList.add("d-none");
+                    deliveryGojek.classList.remove("d-none");
+                    deliveryGojek.classList.add("d-block");
+                    PacientInputNoTelp.value = "";
+                    PacientInputAddreass.value = "";    
+                }
             }
         </script>
     @endslot

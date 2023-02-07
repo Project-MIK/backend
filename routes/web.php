@@ -117,18 +117,46 @@ Route::prefix('konsultasi')->group(function () {
             "category" => "Penyakit Dalam",
             "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
             "doctor" => "Aristo Caesar Pratama",
-            "schedule" => "7 / Februari / 2023 15:30:00 - 16:30:00",
-            "status" => "confirmed-consultation-payment",
+            "schedule" => "8 / Februari / 2023 15:30:00 - 16:30:00",
+            "status" => "consultation-complete",
+
             "price_consultation" => "Rp. 90.000",
-            "consultation_proof_payment" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
-            "status_payment" => "TERKONFIRMASI",
-            "valid_status" => "6 / Februari / 2023 01:00:00"
+            "status_payment_consultation" => "TERKONFIRMASI",
+            "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
+
+            "price_medical_prescription" => "Rp. 146.000",
+            "status_payment_medical_prescription" => "TERKONFIRMASI",
+            "proof_payment_medical_prescription" => "https://tangerangonline.id/wp-content/uploads/2021/06/IMG-20210531-WA0027.jpg",
+
+            "pickup_medical_prescription" => "hospital-pharmacy", // hospital_pharmacy, delivery_gojek
+            "pickup_medical_status" => null, // pending_pickup, complete_pickup, sending_by_gojek, be_deferred,
+            "pickup_medical_description" => null, // alamat penerima tidak valid, pasien tidak dapat dihubungi 
+
+            "valid_status" => "6 / Februari / 2023 03:00:00"
         ]);
     });
+
     Route::post('/{id}', function (Request $request, $id) {
         dd([
             "id" => $id,
+            "state-payment" => $request->input("state-payment"),
+            "bank-payment" => $request->input("bank-payment"),
             "upload-proof-payment" => $request->file('upload-proof-payment')
+        ]);
+    });
+
+    Route::post('/{id}/pickup-delivery', function (Request $request, $id) {
+        dd([
+            "id" => $id,
+            "pickup-medical-prescription" => $request->input('pickup-medical-prescription'),
+            "pacient_notelp" => $request->input("pacient-notelp"),
+            "pacient_address" => $request->input("pacient-addreass")
+        ]);
+    });
+
+    Route::post('/{id}/cancel-pickup', function ($id) {
+        dd([
+            "id" => $id
         ]);
     });
 });

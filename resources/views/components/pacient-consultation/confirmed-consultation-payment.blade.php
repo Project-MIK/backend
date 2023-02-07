@@ -5,5 +5,5 @@
 <div class="form-group col-12">
     <label for="status-payment" class="text-trouth">Status Pembayaran</label>
     <input type="text" class="form-control py-4 mb-3" id="status-payment" value="{{ $status_payment }}" readonly>
-    <a href="{{ $consultation_proof_payment }}" target="_blank">CEK BUKTI PEMBAYARAN</a>
+    <a href="{{ $proof_payment_consultation }}" target="_blank">CEK BUKTI PEMBAYARAN</a>
 </div>
