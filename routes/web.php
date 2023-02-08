@@ -15,20 +15,32 @@ use Illuminate\Support\Facades\Route;
 // Landing
 Route::view("/", "pacient.index");
 
-// Authentication
+// Authentication - Login
 Route::view("/masuk", "pacient.auth.login");
-Route::post("/masuk", fn () => view("pacient.auth.login"));
-
-Route::view("/daftar", "pacient.auth.register");
-Route::post("/daftar", fn () => view("pacient.auth.register"));
-
-Route::view("/lupa-sandi", "pacient.auth.forgotPassword");
-Route::post("/lupa-sandi", fn () => view("pacient.auth.forgotPassword"));
-
-Route::get("/recovery/{token}", function ($token) {
-    return view("pacient.auth.recovery");
+Route::post("/masuk", function (Request $request) {
+    dd($request);
 });
-Route::post("/recovery/{token}", fn () => view("pacient.auth.recovery"));
+
+// Authentication - Register
+Route::view("/daftar", "pacient.auth.register");
+Route::post("/daftar", function (Request $request) {
+    dd($request);
+});
+
+// Authentication - Forgot Password
+Route::view("/lupa-sandi", "pacient.auth.forgotPassword");
+Route::post("/lupa-sandi", function (Request $request) {
+    dd($request);
+});
+
+// Authentication - Password Recovery
+Route::get("/recovery/{token}", function ($token) {
+    return view("pacient.auth.recovery", compact("token"));
+});
+Route::post("/recovery/{token}", function (Request $request, $token) {
+    dd($token);
+    dd($request);
+});
 
 // Dashboard
 
@@ -41,7 +53,7 @@ Route::view("/dashboard", "pacient.dashboard.index", [
             "schedule" => "1 / Januari / 2023",
             "start_consultation" => 1685571753,
             "end_consultation" => 1685572753,
-            "status" => "waiting-consultation-payment", // waiting-consultation-payment, confirmed-consultation-payment , waiting-medical-prescription-payment , confirmed-medical-prescription-payment, consultation-complete
+            "status" => "confirmed-consultation-payment", // waiting-consultation-payment, confirmed-consultation-payment , waiting-medical-prescription-payment , confirmed-medical-prescription-payment, consultation-complete
             "valid_status" => 1685571753
         ]
     ],
@@ -105,11 +117,13 @@ Route::prefix('konsultasi')->group(function () {
             "category" => "Penyakit Dalam",
             "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
             "doctor" => "Aristo Caesar Pratama",
-            "schedule" => "8 / Februari / 2023 15:30:00 - 16:30:00",
-            "status" => "waiting-consultation-payment",
+            "schedule" => "8 / Februari / 2023",
+            "start_consultation" => 1685571753,
+            "end_consultation" => 1685572753,
+            "status" => "confirmed-medical-prescription-payment",
 
             "price_consultation" => "Rp. 90.000",
-            "status_payment_consultation" => "BELUM TERKONFIRMASI",
+            "status_payment_consultation" => "TERKONFIRMASI",
             "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
 
             "price_medical_prescription" => "Rp. 100.000", // null

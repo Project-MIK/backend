@@ -33,7 +33,7 @@
                                     </div>
                                     <div id="paspor" class="d-none">
                                         <label for="inputPaspor" class="text-trouth">Nomor Paspor</label>
-                                        <input type="text" class="form-control py-4" id="inputPaspor" name="nopaspor" placeholder="Ketikkan nomor paspor" value="-" required>
+                                        <input type="text" class="form-control py-4" id="inputPaspor" name="no_paspor" placeholder="Ketikkan nomor paspor" value="-" required>
                                     </div>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="inputBirthDate" class="text-trouth">Tanggal Lahir</label>
-                                            <input type="text" class="form-control datepicker py-4 pl-3" id="inputBirthDate" name="birth_date" placeholder="Hari-Bulan-Tahun" required>
+                                            <input type="text" class="form-control datepicker py-4 pl-3" id="inputBirthDate" name="date_birth" placeholder="Hari-Bulan-Tahun" required>
                                         </div>
                                     </div> 
                                 </div>
@@ -67,7 +67,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="inputBloodGroup" class="text-trouth">Golongan Darah</label>
-                                            <select id="inputBloodGroup" class="form-control" name="blood">
+                                            <select id="inputBloodGroup" class="form-control" name="blood_group">
                                                 <option selected value="A">A</option>
                                                 <option value="B">B</option>
                                                 <option value="AB">AB</option>
@@ -95,11 +95,11 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="inputDusun" class="text-trouth font-weight-light">Dusun</label>
-                                            <input type="text" class="form-control py-4" id="inputDusun" name="address_Dusun" placeholder="Ketikkan nama dusun" required>
+                                            <input type="text" class="form-control py-4" id="inputDusun" name="address_dusun" placeholder="Ketikkan nama dusun" required>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="inputDesa" class="text-trouth font-weight-light">Desa</label>
-                                            <input type="text" class="form-control py-4" id="inputDesa" name="address_Desa" placeholder="Ketikkan nama desa" required>
+                                            <input type="text" class="form-control py-4" id="inputDesa" name="address_desa" placeholder="Ketikkan nama desa" required>
                                         </div>
                                     </div>
                                 </div>
@@ -127,7 +127,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputPassword" class="text-trouth">Kata Sandi</label>
-                                    <input type="text" class="form-control py-4" id="inputPassword" name="passwor" placeholder="Ketikkan kata sandi" required>
+                                    <input type="text" class="form-control py-4" id="inputPassword" name="password" placeholder="Ketikkan kata sandi" required>
                                 </div>
                             </div>
                         </div>

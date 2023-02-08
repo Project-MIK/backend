@@ -11,7 +11,7 @@
                         <div class="my-5">
                             <div class="form-group mb-4">
                                 <label for="noredis" class="text-trouth">Nomor Rekam Medis</label>
-                                <input type="text" class="form-control py-4" id="noredis" name="no_rekam_medis" aria-describedby="noredis" placeholder="Ketikkan nomor rekam medis" autofocus required>
+                                <input type="text" class="form-control py-4" id="noredis" name="no_medical_records" aria-describedby="noredis" placeholder="Ketikkan nomor rekam medis" autofocus required>
                             </div>
                             <div class="form-group">
                                 <div class="d-flex justify-content-between">
