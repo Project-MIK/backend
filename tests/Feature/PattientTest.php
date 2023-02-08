@@ -52,9 +52,7 @@ class PattientTest extends TestCase
         $res =  $service->store($request->validate($request->rules()));
         $this->assertTrue($res);
     }
-
     public function test_store_error_validation(){
-
         $this->expectException(ValidationException::class);
         $service = new PattientService();
         $request = new StorePattientRequest();
@@ -151,6 +149,6 @@ class PattientTest extends TestCase
         $res = $service->deleteById(10);
         $this->assertFalse($res);
     }
-    
+
     // unit test for controller
 }
