@@ -25,8 +25,10 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class
         ]);
 
+        $this->call(PattientSeeder::class);
         // \App\Models\User::factory(10)->create();
 
+        $this->call([RegistrationOfficersSeeder::class]);
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',

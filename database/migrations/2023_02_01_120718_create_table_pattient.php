@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('password');
             $table->enum('gender' , ["W" , "M"]);
             $table->string("phone_number" , 13);
             $table->string('address');
@@ -30,7 +31,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
