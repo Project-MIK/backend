@@ -17,7 +17,7 @@ class AdminService
 
     public function findAll()
     {
-        $data =  $this->admin->get();
+        $data = $this->admin->get();
         return $data;
     }
     public function store(array $request)
