@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Helper;
 use App\Models\Pattient;
 use Illuminate\Validation\ValidationException;
 
@@ -48,15 +49,9 @@ class PattientService
     {
         $data = $this->findById($id);
         $allData = $this->model->where('id', '<>', $id)->get();
-        $dataPattient = $this->model->find($id)->toArray();
-        $differences = collect($dataPattient)->diff($request);
-        $isChanged = false;
-        if($differences->isNotEmpty()){
-            $isChanged = false;
-        }
+        $isChanged = Helper::compareToArrays($request, $id, 'pattient');        
         if($isChanged){
             $response = [];
-       
             foreach ($allData as $key) {
                 # code...
                 if ($key->email == $request['email']) {
@@ -91,10 +86,10 @@ class PattientService
                 }
             }
         }else{
-            $response['status'] = 'false';
+            $response['status'] = false;
             $response['message'] = 'tidak ada perubahan data';
+            return $response;
         } 
-        
     }
 
     public function deleteById($id)

@@ -19,17 +19,18 @@ class PattientSeeder extends Seeder
     public function run()
     {
         Pattient::create([
-            "name" => "pattient", 
+            "name" => "zamz", 
             "password" =>  bcrypt("rahasia"),
-            "email" => "zam@gmail.com",
-            "gender" => "W" , 
+            "email" => "email@gmail.com",
+            "gender" => "M" , 
             "phone_number" => "085607185972",
-            "address" => "bwi",
+            "address" => "RT/RW : 1/2 Dusun sidoarjo Desa yosomulyo Kec. gambiaran Kab.banyuwangi",
             "citizen" => "WNI" , 
             "profession" => "GURU" , 
-            "date_birth" => Carbon::now()->toDateTimeString(),
-            "place_birth" => "indonesia" , 
-            "blood_group" => "B" , 
+            "date_birth" => "2023-02-08 12:51:41",
+            "place_birth" => "bwi" , 
+            "blood_group" => "B", 
+            "nik" => 287639876267861
         ]);
     }
 }

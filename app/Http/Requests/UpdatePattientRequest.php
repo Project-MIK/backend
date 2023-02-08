@@ -24,18 +24,22 @@ class UpdatePattientRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'min:4'],
-            'email' => ['required', 'email'],
-            'gender' => ['required'],
-            'password' => ['required'],
-            'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
-            'address' => ['required', 'string'],
-            'citizen' => ['required'],
-            'profession' => ['required'],
-            'date_birth' => ['required'],
-            'blood_group' => ['required'],
-            'place_birth' => ['required'],
-            'nik' => ['required', 'string', 'min:16']
+            0 => [
+                'name' => ['required', 'string', 'min:4'],
+                'email' => ['required', 'email'],
+                'gender' => ['required'],
+                'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                'address' => ['required', 'string'],
+                'citizen' => ['required'],
+                'profession' => ['required'],
+                'date_birth' => ['required'],
+                'blood_group' => ['required'],
+                'place_birth' => ['required'],
+                'nik' => ['required', 'numeric', 'min:15']
+            ],
+            1 => [
+                'password' => ['required'],
+            ]
         ];
     }
 }

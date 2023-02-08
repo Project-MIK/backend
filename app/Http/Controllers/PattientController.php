@@ -7,6 +7,8 @@ use App\Http\Requests\UpdatePattientRequest;
 use App\Models\Pattient;
 use App\Services\PattientService;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PattientController extends Controller
 {
 
@@ -21,7 +23,7 @@ class PattientController extends Controller
     public function index()
     {
         $data = $this->service->findAll();
-        if ($data->count() > 0) {
+        if (isEmpty($data)) {
             // ada data
             return $data;
         }
@@ -108,8 +110,12 @@ class PattientController extends Controller
 
     public function update(UpdatePattientRequest $request, Pattient $pattient)
     {
-        // response array , you can see in service class to documentation
         $res =  $this->service->update($request->validate($request->rules()), $pattient->id);
+        if($res['status']){
+            return view()->with("message", $res['message']);
+        }else{
+            return view()->with("message", $res['message']);
+        }   
     }
 
     public function destroy(Pattient $pattient)
