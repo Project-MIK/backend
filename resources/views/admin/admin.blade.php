@@ -64,7 +64,7 @@ Admin
     </div>
     <!-- /.card-body -->
 </div>
-
+{{var_dump($data)}}
 <x-modal modalid="modal-tambah" judul="Tambah Data Pasien">
     <x-slot:modalid>modal-tambah</x-slot:modalid>
     <x-slot:judul>Tambah Admin</x-slot:judul>

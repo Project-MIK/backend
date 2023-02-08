@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,10 +71,12 @@ Route::prefix('konsultasi')->group(function () {
 
 //admin
 Route::prefix('admin')->group(function () {
-    Route::view('/','admin.dashboard');
+    Route::view('/','admin.dashboard', );
     Route::view('layout', 'layouts.admin.app');
     Route::view('pasien', 'admin.pasien');
-    Route::view('admin','admin.admin');
+    Route::view('admin','admin.admin',[
+        "data" => (new AdminController())->index()->toArray()
+    ]);
     Route::view('petugas','admin.petugas');
 
     Route::get('/token', function (Request $request) {
