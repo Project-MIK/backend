@@ -25,9 +25,9 @@ return new class extends Migration
             $table->string('profession');
             $table->timestamp('date_birth');
             $table->string('place_birth');
-            $table->enum('blood_group', ["A", "B", "O", "AB"])->default(null);
-            $table->string('no_paspor' , 16)->default(null);
-            $table->string('nik' , 16)->default(null);
+            $table->enum('blood_group', ["A", "B", "O", "AB"])->nullable(true);
+            $table->string('no_paspor', 16)->nullable(true);
+            $table->string('nik', 16)->nullable(true);
             $table->enum('status', [1, 0])->default(0);
             $table->timestamps();
         });
