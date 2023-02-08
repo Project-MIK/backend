@@ -70,8 +70,11 @@ Route::prefix('konsultasi')->group(function () {
 
 //admin
 Route::prefix('admin')->group(function () {
+    Route::view('/','admin.dashboard');
     Route::view('layout', 'layouts.admin.app');
     Route::view('pasien', 'admin.pasien');
+    Route::view('admin','admin.admin');
+    Route::view('petugas','admin.petugas');
 
     Route::get('/token', function (Request $request) {
         $token = $request->session()->token();
