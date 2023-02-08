@@ -28,13 +28,14 @@ class UpdatePattientRequest extends FormRequest
             'email' => ['required', 'email'],
             'gender' => ['required'],
             'password' => ['required'],
-            'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/' , 'min:10' , 'max:13'],
+            'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
             'address' => ['required', 'string'],
             'citizen' => ['required'],
             'profession' => ['required'],
             'date_birth' => ['required'],
             'blood_group' => ['required'],
-            'place_birth' => ['required']
+            'place_birth' => ['required'],
+            'nik' => ['required', 'string', 'min:16']
         ];
     }
 }
