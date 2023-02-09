@@ -4,51 +4,7 @@
         <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.id.min.js') }}"></script>
         <style>
-            table{
-                display: block;
-                max-width: -moz-fit-content;
-                margin: 0 auto;
-                overflow-x: auto;
-            }
-            select, button[id=btn-change-password] {
-                height: 50px !important;
-            }
-            #pacient-name-tag {
-                column-gap: 20px;
-            }
-            #pacient-actions{
-                column-gap: 20px;
-            }
-            .text_action {
-                display: none;
-            }
-            .icon_action {
-                display: block;
-            }
-            #create_consulation{
-                margin-top:20px 
-            }
-            #btn-change-profile{
-                width: 100%;
-                height: 50px;
-            }
-            @media (min-width: 991.98px) {
-                .text_action {
-                    display: block;
-                }
-                .icon_action {
-                    display: none;
-                }
-                #pacient-name-tag{
-                    column-gap: 0px;
-                }
-                #create_consulation{
-                    margin-top:0px 
-                }
-                #btn-change-profile{
-                    width: 50%;
-                }
-            }
+            table{display:block;max-width:-moz-fit-content;margin:0 auto;overflow-x:auto}button[id=btn-change-password],select{height:50px!important}#pacient-actions,#pacient-name-tag{column-gap:20px}.text_action{display:none}.icon_action{display:block}#create_consulation{margin-top:20px}#btn-change-profile{width:100%;height:50px}@media (min-width:991.98px){.text_action{display:block}.icon_action{display:none}#pacient-name-tag{column-gap:0}#create_consulation{margin-top:0}#btn-change-profile{width:50%}}
         </style>
     @endslot
     <div class="container wrapper-pacient my-5">
@@ -297,35 +253,7 @@
     </div>
     @slot('scripts')
         <script>
-            $(".datepicker").datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                todayHighlight: true,
-                language: "id"
-            });
-            pacientSelected(document.getElementById("consultation"));
-            function pacientSelected(e){
-                const actions = document.getElementById("pacient-actions");
-                const contents = document.getElementById("pacient-contents");
-                for (let index = 0; index < actions.children.length; index++) {
-                    // Button selected effect
-                    if(actions.children[index].id == e.id){
-                        actions.children[index].classList.add("btn-bunting", "text-white");
-                        actions.children[index].classList.remove("border", "text-trouth");
-                    }else{
-                        actions.children[index].classList.remove("btn-bunting", "text-white");
-                        actions.children[index].classList.add("border", "text-trouth");
-                    }
-                    // Content selected effect
-                    if(contents.children[index].id == e.id){
-                        contents.children[index].classList.add("d-block");
-                        contents.children[index].classList.remove("d-none");
-                    }else{
-                        contents.children[index].classList.remove("d-block");
-                        contents.children[index].classList.add("d-none");
-                    }
-                }
-            }
+            function pacientSelected(e){let t=document.getElementById("pacient-actions"),d=document.getElementById("pacient-contents");for(let i=0;i<t.children.length;i++)t.children[i].id==e.id?(t.children[i].classList.add("btn-bunting","text-white"),t.children[i].classList.remove("border","text-trouth")):(t.children[i].classList.remove("btn-bunting","text-white"),t.children[i].classList.add("border","text-trouth")),d.children[i].id==e.id?(d.children[i].classList.add("d-block"),d.children[i].classList.remove("d-none")):(d.children[i].classList.remove("d-block"),d.children[i].classList.add("d-none"))}$(".datepicker").datepicker({format:"dd-mm-yyyy",autoclose:!0,todayHighlight:!0,language:"id"}),pacientSelected(document.getElementById("consultation"));
         </script>
     @endslot
 </x-app-pacient>

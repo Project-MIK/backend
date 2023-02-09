@@ -1,41 +1,7 @@
 <x-app-pacient title="Detail Konsultasi">
     @slot('styles')
     <style>
-        select,
-        button {
-            height: 50px !important;
-        }
-
-        #back-page-1 {
-            display: none;
-        }
-
-        #back-page-2 {
-            display: block;
-        }
-
-        #confirmation-payment {
-            width: 100%;
-        }
-
-        iframe {
-            height: 600px;
-            border : none;
-        }
-
-        @media (min-width: 991.98px) {
-            #back-page-1 {
-                display: block;
-            }
-
-            #back-page-2 {
-                display: none;
-            }
-
-            #confirmation-payment {
-                width: 50%;
-            }
-        }
+        button,select{height:50px!important}#back-page-1{display:none}#back-page-2{display:block}#confirmation-payment{width:100%}iframe{height:600px;border:none}@media (min-width:991.98px){#back-page-1{display:block}#back-page-2{display:none}#confirmation-payment{width:50%}}
     </style>
     @endslot
     <div class="{{ $live_consultation ? "container-fluid p-3" : "container my-5" }} wrapper-pacient">
@@ -220,71 +186,7 @@
     </div>
     @slot('scripts')
     <script>
-        function setBankPayment(e) {
-            const imageBank = document.getElementById("image-bank");
-            const numberBank = document.getElementById("number-bank");
-            const nameAccountBank = document.getElementById("name-account-bank");
-            for (let i = 0; i < e.children.length; i++) {
-                if(e.value == e.children[i].value){
-                    imageBank.src = `/images/${e.children[i].getAttribute('data-image')}`;
-                    numberBank.textContent = e.children[i].getAttribute('data-no-card');
-                    nameAccountBank.textContent = e.children[i].getAttribute('data-name-card');
-                }
-            }
-        }
-
-        function setFileNameUpload(e) {
-            const buttonSendProof = document.getElementById("confirmation-payment");
-            const labelInputFile = document.getElementById("label-upload-proof-payment");
-            labelInputFile.textContent = e.files[0].name;
-            buttonSendProof.disabled = false;
-        }
-
-        function setDeliveryMedicalPrescription(e) {
-            const hospitalPharmacy = document.getElementById("hostipal-pharmacy");
-            const deliveryGojek = document.getElementById("delivery-gojek");
-            const PacientInputNoTelp = document.getElementById("pacient-notelp");
-            const PacientInputAddreass = document.getElementById("pacient-addreass");
-            if (e.value == "hospital-pharmacy") {
-                hospitalPharmacy.classList.remove("d-none");
-                hospitalPharmacy.classList.add("d-block");
-                deliveryGojek.classList.remove("d-block");
-                deliveryGojek.classList.add("d-none");
-                PacientInputNoTelp.value = "-";
-                PacientInputAddreass.value = "-";
-            } else {
-                hospitalPharmacy.classList.remove("d-block");
-                hospitalPharmacy.classList.add("d-none");
-                deliveryGojek.classList.remove("d-none");
-                deliveryGojek.classList.add("d-block");
-                PacientInputNoTelp.value = "";
-                PacientInputAddreass.value = "";
-            }
-        }
-        function setEndTime(time) {
-            const timeReaming = document.getElementById("timetime_remaining");
-            // time now (milisecond)  to epoch (second)
-            const timeNow = Math.round(Date.now() / 1000);
-            if(time > timeNow){
-                setInterval(() => {
-                    // convert timestamp milisecond to second
-                    const endTime = new Date(time * 1000).getTime();
-                    const distance = endTime - new Date().getTime();
-
-                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                    
-                    if(distance < 0){
-                        location.reload();
-                    }else{
-                        timeReaming.textContent = hours + " Jam : " + minutes + " Menit : " + seconds + " Detik";
-                    }
-                }, 1000);
-            }else{
-                window.location.href = "/dashboard"
-            }
-        }
+        function setBankPayment(e){let t=document.getElementById("image-bank"),n=document.getElementById("number-bank"),a=document.getElementById("name-account-bank");for(let l=0;l<e.children.length;l++)e.value==e.children[l].value&&(t.src=`/images/${e.children[l].getAttribute("data-image")}`,n.textContent=e.children[l].getAttribute("data-no-card"),a.textContent=e.children[l].getAttribute("data-name-card"))}function setFileNameUpload(e){let t=document.getElementById("confirmation-payment"),n=document.getElementById("label-upload-proof-payment");n.textContent=e.files[0].name,t.disabled=!1}function setDeliveryMedicalPrescription(e){let t=document.getElementById("hostipal-pharmacy"),n=document.getElementById("delivery-gojek"),a=document.getElementById("pacient-notelp"),l=document.getElementById("pacient-addreass");"hospital-pharmacy"==e.value?(t.classList.remove("d-none"),t.classList.add("d-block"),n.classList.remove("d-block"),n.classList.add("d-none"),a.value="-",l.value="-"):(t.classList.remove("d-block"),t.classList.add("d-none"),n.classList.remove("d-none"),n.classList.add("d-block"),a.value="",l.value="")}function setEndTime(e){let t=document.getElementById("timetime_remaining"),n=Math.round(Date.now()/1e3);e>n?setInterval(()=>{let n=new Date(1e3*e).getTime(),a=n-new Date().getTime();a<0?location.reload():t.textContent=Math.floor(a%864e5/36e5)+" Jam : "+Math.floor(a%36e5/6e4)+" Menit : "+Math.floor(a%6e4/1e3)+" Detik"},1e3):window.location.href="/dashboard"}
     </script>
     @endslot
 </x-app-pacient>

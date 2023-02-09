@@ -4,9 +4,7 @@
         <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.id.min.js') }}"></script>
         <style>
-            select, button {
-                height: 50px !important;
-            }
+            select, button {height: 50px !important}
         </style>
     @endslot
     <div class="container wrapper-pacient my-5">
@@ -37,8 +35,8 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                                        <select id="inputCitizen" class="form-control" name="citizen" onchange="setCitizen(this)>
-                                            <option selected value="indonesia">Indonesia</option>
+                                        <select id="inputCitizen" class="form-control" name="citizen" onchange="setCitizen(this)">
+                                            <option value="indonesia" selected>Indonesia</option>
                                             <option value="WNA">Warga Negara Asing</option>
                                         </select>
                                     </div>
@@ -49,7 +47,7 @@
                                         </div>
                                         <div id="paspor" class="d-none">
                                             <label for="inputPaspor" class="text-trouth">Nomor Paspor</label>
-                                            <input type="text" class="form-control py-4" id="inputPaspor" name="no_paspor" value="{{ old('no_paspor') }}"placeholder="Ketikkan nomor paspor" value="-" required>
+                                            <input type="text" class="form-control py-4" id="inputPaspor" name="no_paspor" value="{{ old('no_paspor') }}" placeholder="Ketikkan nomor paspor" required>
                                         </div>
                                     </div>
                                 </div>

@@ -1,29 +1,7 @@
 <x-app-pacient title="Keluhan">
     @slot('styles')
         <style>
-            select, button {
-                height: 50px !important;
-            }
-            #back-page-1{
-                display: none;
-            }
-            #back-page-2{
-                display: block;
-            }
-            #next-step{
-                width: 100%;
-            }
-            @media (min-width: 991.98px) {
-                #back-page-1{
-                    display: block;
-                }
-                #back-page-2{
-                    display: none;
-                }
-                #next-step{
-                    width: 25%;
-                }
-            }
+            button,select{height:50px!important}#back-page-1{display:none}#back-page-2{display:block}#next-step{width:100%}@media (min-width:991.98px){#back-page-1{display:block}#back-page-2{display:none}#next-step{width:25%}}
         </style>
     @endslot
     <div class="container wrapper-pacient my-5">

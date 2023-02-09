@@ -1,6 +1,9 @@
 <x-app-pacient title="Pulihkan Kata Sandi">
+    <style>
+        .card{width:100%}@media (min-width:991.98px){.card{width:50%}}
+    </style>
     <div class="container wrapper-pacient my-5">
-        <div class="card shadow-lg rounded-lg w-50 mx-auto">
+        <div class="card shadow-lg rounded-lg mx-auto">
             <div class="card-body">
                 <form class="w100 px-5 py-5" action="" method="POST">
                     @csrf

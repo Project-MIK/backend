@@ -1,6 +1,9 @@
 <x-app-pacient title="Masuk">
+    <style>
+    .card{width:100%}@media (min-width:991.98px){.card{width:75%}}
+    </style>
     <div class="container wrapper-pacient my-5">
-        <div class="card shadow-lg rounded-lg w-75 mx-auto">
+        <div class="card shadow-lg rounded-lg mx-auto">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="img-card-login w-50 d-none d-lg-block"></div>

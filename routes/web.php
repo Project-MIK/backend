@@ -15,25 +15,27 @@ use Illuminate\Support\Facades\Route;
 // Landing
 Route::view("/", "pacient.index");
 
-// Authentication - Login
+// Authentication
+
+// # Login
 Route::view("/masuk", "pacient.auth.login");
 Route::post("/masuk", function (Request $request) {
     dd($request);
 });
 
-// Authentication - Register
+// # Register
 Route::view("/daftar", "pacient.auth.register");
 Route::post("/daftar", function (Request $request) {
     dd($request);
 });
 
-// Authentication - Forgot Password
+// # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgotPassword");
 Route::post("/lupa-sandi", function (Request $request) {
     dd($request);
 });
 
-// Authentication - Password Recovery
+// # Password Recovery
 Route::get("/recovery/{token}", function ($token) {
     return view("pacient.auth.recovery", compact("token"));
 });
@@ -44,6 +46,7 @@ Route::post("/recovery/{token}", function (Request $request, $token) {
 
 // Dashboard
 
+// # Showing data consultation, history and setting
 Route::view("/dashboard", "pacient.dashboard.index", [
     // show complaint not equlas consultation-complete && valid status
     "complaints" => [
@@ -71,9 +74,20 @@ Route::view("/dashboard", "pacient.dashboard.index", [
     ]
 ]);
 
+// # Action pacient change email
+Route::post("/dashboard/change-email", function (Request $request) {
+    dd($request);
+});
+
+// # Action pacient change password
+Route::post("/dashboard/change-password", function (Request $request) {
+    dd($request);
+});
+
 // Consultation
 
 Route::prefix('konsultasi')->group(function () {
+    // Create consultation #1 - description complaint & set category
     Route::get('/', function () {
         return view("pacient.consultation.complaint");
     });
@@ -81,6 +95,7 @@ Route::prefix('konsultasi')->group(function () {
         return view("pacient.consultation.complaint");
     });
 
+    // Create consultation #2 - set polyclinic
     Route::get('/poliklinik', function () {
         return view("pacient.consultation.polyclinic");
     });
@@ -88,6 +103,7 @@ Route::prefix('konsultasi')->group(function () {
         return view("pacient.consultation.polyclinic");
     });
 
+    // Create consultation #3 - set doctor & schedule consultation
     Route::get('/dokter', function () {
         return view("pacient.consultation.doctor");
     });
@@ -95,6 +111,7 @@ Route::prefix('konsultasi')->group(function () {
         return view("pacient.consultation.doctor");
     });
 
+    // Create consultation #4 - showing confirmation desciption data
     Route::get('/rincian', function () {
         return view("pacient.consultation.detail-order");
     });
@@ -102,6 +119,7 @@ Route::prefix('konsultasi')->group(function () {
         return view("pacient.consultation.detail-order");
     });
 
+    // Create consultation #5 - confirmation bank to payment consultation 
     Route::get('/pembayaran', function () {
         return view("pacient.consultation.payment");
     });
@@ -119,9 +137,9 @@ Route::prefix('konsultasi')->group(function () {
             "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
             "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
             "schedule" => "8 / Februari / 2023",
-            "start_consultation" => 1675949620,
-            "end_consultation" => 1675951620,
-            "live_consultation" => false,
+            "start_consultation" => 1675955014,
+            "end_consultation" => 1675955600,
+            "live_consultation" => true,
             "status" => "consultation-complete",
 
             "price_consultation" => "Rp. 90.000",
@@ -144,10 +162,12 @@ Route::prefix('konsultasi')->group(function () {
         ]);
     });
 
+    // Cancel sheduling consultation
     Route::post('/{id}/cancel-consultation', function ($id) {
         dd($id);
     });
 
+    // Send proof payment to confirmation consultation
     Route::post('/{id}/payment-consultation', function (Request $request, $id) {
         dd([
             "id" => $id,
@@ -157,10 +177,12 @@ Route::prefix('konsultasi')->group(function () {
         ]);
     });
 
+    // Cancel scheduling medical prescription
     Route::post('/{id}/cancel-medical-prescription', function ($id) {
         dd($id);
     });
 
+    // Send proof payment to confirmation medical prescription
     Route::post('/{id}/payment-medical-prescription', function (Request $request, $id) {
         dd([
             "id" => $id,
@@ -170,6 +192,7 @@ Route::prefix('konsultasi')->group(function () {
         ]);
     });
 
+    // Set option pickup delivery medical prescription
     Route::post('/{id}/pickup-delivery', function (Request $request, $id) {
         dd([
             "id" => $id,
@@ -179,6 +202,7 @@ Route::prefix('konsultasi')->group(function () {
         ]);
     });
 
+    // Cancel pickup medical prescription
     Route::post('/{id}/cancel-pickup', function ($id) {
         dd([
             "id" => $id
@@ -186,6 +210,7 @@ Route::prefix('konsultasi')->group(function () {
     });
 });
 
-// Logout
-
-Route::redirect("/keluar", "/masuk");
+// Logout ( Clear all session pacient )
+Route::get("/keluar", function () {
+    return redirect('/masuk');
+});
