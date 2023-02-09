@@ -1,4 +1,4 @@
-<x-app-pacient landing="true">
+<x-app-pacient>
     <div class="landing d-flex">
         <div class="landing-background"></div>
         <div class="landing-start">
