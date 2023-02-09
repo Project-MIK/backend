@@ -49,8 +49,8 @@ class PattientService
     {
         $data = $this->findById($id);
         $allData = $this->model->where('id', '<>', $id)->get();
-        $isChanged = Helper::compareToArrays($request, $id, 'pattient');        
-        if($isChanged){
+        $isChanged = Helper::compareToArrays($request, $id, 'pattient');
+        if ($isChanged) {
             $response = [];
             foreach ($allData as $key) {
                 # code...
@@ -59,11 +59,11 @@ class PattientService
                     $response['status'] = false;
                     $response['message'] = 'email sudah digunakan silahkan coba email yang lain';
                     return $response;
-                }else if( array_key_exists("nik" , $request) && $key->nik == $request['nik']){
+                } else if (array_key_exists("nik", $request) && $key->nik == $request['nik']) {
                     $response['status'] = false;
                     $response['message'] = 'nik sudah digunakan silahkan coba nik yang valid';
                     return $response;
-                }else if( array_key_exists("no_paspor" , $request) &&  $key->no_paspor == $request['no_paspor']){
+                } else if (array_key_exists("no_paspor", $request) &&  $key->no_paspor == $request['no_paspor']) {
                     $response['status'] = false;
                     $response['message'] = 'no paspor sudah digunakan silahkan coba no paspor yang valid';
                     return $response;
@@ -85,11 +85,16 @@ class PattientService
                     return $response;
                 }
             }
-        }else{
+        } else {
             $response['status'] = false;
             $response['message'] = 'tidak ada perubahan data';
             return $response;
-        } 
+        }
+    }
+
+    public function forgotPassword(array $rquest, $id)
+    {
+        // $res =  $this->model->where('id', $id)->update($rquest);
     }
 
     public function deleteById($id)
