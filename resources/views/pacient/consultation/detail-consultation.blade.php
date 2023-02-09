@@ -38,7 +38,7 @@
         }
     </style>
     @endslot
-    <div class="container wrapper-pacient my-5">
+    <div class="{{ $live_consultation ? "container-fluid p-3" : "container my-5" }} wrapper-pacient">
         <div class="card shadow-lg rounded-lg w-100 mx-auto">
             <div class="card-body">
                 <div class="p-5 d-flex">
@@ -112,6 +112,9 @@
                                             </div>
                                             @if ($status == "waiting-consultation-payment")
                                             <x-pacient-consultation.status-payment-consultation>
+                                                <x-slot:id>
+                                                    {{ $id }}
+                                                </x-slot:id>
                                                 <x-slot:price>
                                                     {{ $price_consultation }}
                                                 </x-slot:price>
@@ -139,6 +142,9 @@
                                             </x-pacient-consultation.confirmed-consultation-payment>
                                             @elseif($status == "waiting-medical-prescription-payment")
                                             <x-pacient-consultation.status-payment-medical-prescription>
+                                                <x-slot:id>
+                                                    {{ $id }}
+                                                </x-slot:id>
                                                 <x-slot:price>
                                                     {{ $price_medical_prescription }}
                                                 </x-slot:price>
@@ -214,19 +220,16 @@
     </div>
     @slot('scripts')
     <script>
-        moment.locale();
         function setBankPayment(e) {
             const imageBank = document.getElementById("image-bank");
             const numberBank = document.getElementById("number-bank");
             const nameAccountBank = document.getElementById("name-account-bank");
-            if (e.value == "BCA") {
-                imageBank.src = "/images/bca-logo.png";
-                numberBank.textContent = "NO. REK : 534534";
-                nameAccountBank.textContent = "RS. CITRA HUSADA JEMBER";
-            } else if (e.value == "BRI") {
-                imageBank.src = "/images/bri-logo.png";
-                numberBank.textContent = "NO. REK : 8765453";
-                nameAccountBank.textContent = "RS. CITRA HUSADA JEMBER";
+            for (let i = 0; i < e.children.length; i++) {
+                if(e.value == e.children[i].value){
+                    imageBank.src = `/images/${e.children[i].getAttribute('data-image')}`;
+                    numberBank.textContent = e.children[i].getAttribute('data-no-card');
+                    nameAccountBank.textContent = e.children[i].getAttribute('data-name-card');
+                }
             }
         }
 

@@ -119,9 +119,9 @@ Route::prefix('konsultasi')->group(function () {
             "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
             "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
             "schedule" => "8 / Februari / 2023",
-            "start_consultation" => 1675924610,
-            "end_consultation" => 1675926110,
-            "live_consultation" => true,
+            "start_consultation" => 1675949620,
+            "end_consultation" => 1675951620,
+            "live_consultation" => false,
             "status" => "consultation-complete",
 
             "price_consultation" => "Rp. 90.000",
@@ -144,8 +144,8 @@ Route::prefix('konsultasi')->group(function () {
         ]);
     });
 
-    Route::post('/{id}/cancel-consultation', function () {
-        // cancel consultation
+    Route::post('/{id}/cancel-consultation', function ($id) {
+        dd($id);
     });
 
     Route::post('/{id}/payment-consultation', function (Request $request, $id) {
@@ -157,8 +157,8 @@ Route::prefix('konsultasi')->group(function () {
         ]);
     });
 
-    Route::post('/{id}/cancel-medical-prescription', function () {
-        // cancel medical prescription
+    Route::post('/{id}/cancel-medical-prescription', function ($id) {
+        dd($id);
     });
 
     Route::post('/{id}/payment-medical-prescription', function (Request $request, $id) {
