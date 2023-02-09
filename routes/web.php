@@ -74,6 +74,11 @@ Route::view("/dashboard", "pacient.dashboard.index", [
     ]
 ]);
 
+// # Action pacient save setting
+Route::post("/dashboard/save-setting", function (Request $request) {
+    dd($request);
+});
+
 // # Action pacient change email
 Route::post("/dashboard/change-email", function (Request $request) {
     dd($request);
