@@ -77,9 +77,7 @@ Route::prefix('admin')->group(function () {
     Route::view('/','admin.dashboard', );
     Route::view('layout', 'layouts.admin.app');
     Route::view('pasien', 'admin.pasien');
-    Route::view('admin','admin.admin',[
-        "data" => (new AdminController())->index()->toArray()
-    ]);
+    Route::get('admin',[AdminController::class,'index']);
     Route::view('petugas','admin.petugas');
 
     Route::get('/token', function (Request $request) {

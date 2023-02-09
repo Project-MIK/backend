@@ -22,8 +22,8 @@ class AdminController extends Controller
 
     public function index()
     {
-        $data = $this->service->findAll();
-        return $data;
+        $data = $this->service->findAll()->toArray();
+        return view('admin.admin',['data'=>$data]);
     }
     public function create()
     {
