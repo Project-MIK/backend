@@ -27,7 +27,7 @@ Route::post("/masuk", function (Request $request) {
 
 // Authentication - Register
 Route::view("/daftar", "pacient.auth.register");
-Route::post("/daftar" , [PattientController::class , "insert"]);
+Route::post("/daftar" , [PattientController::class , "store"]);
 
 // Authentication - Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgotPassword");

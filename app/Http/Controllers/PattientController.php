@@ -36,7 +36,7 @@ class PattientController extends Controller
     {
         // return view create new pattient
     }
-    public function insert(StorePattientRequest $request)
+    public function store(StorePattientRequest $request)
     {
         dd("woi");
         $request->validate(['citizen' => ['required']]);
