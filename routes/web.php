@@ -113,14 +113,16 @@ Route::prefix('konsultasi')->group(function () {
     Route::get('/{id}', function ($id) {
         return view("pacient.consultation.detail-consultation", [
             "id" => $id,
+            "name_pacient" => "Aristo Caesar Pratama",
             "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya dsdsdsdsds makanan mie......",
             "category" => "Penyakit Dalam",
             "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
-            "doctor" => "Aristo Caesar Pratama",
+            "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
             "schedule" => "8 / Februari / 2023",
-            "start_consultation" => 1685571753,
-            "end_consultation" => 1685572753,
-            "status" => "confirmed-medical-prescription-payment",
+            "start_consultation" => 1675924610,
+            "end_consultation" => 1675926110,
+            "live_consultation" => true,
+            "status" => "consultation-complete",
 
             "price_consultation" => "Rp. 90.000",
             "status_payment_consultation" => "TERKONFIRMASI",
