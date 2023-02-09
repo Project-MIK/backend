@@ -17,14 +17,18 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->enum('gender' , ["W" , "M"]);
-            $table->integer("phone_number");
+            $table->enum('gender', ["W", "M"]);
+            $table->string("phone_number", 13);
             $table->string('address');
+            $table->string('password')->nullable(false);
             $table->string('citizen');
             $table->string('profession');
             $table->timestamp('date_birth');
             $table->string('place_birth');
-            $table->enum('blood_group', ["A" , "B" , "O" , "AB"])->default(null);
+            $table->enum('blood_group', ["A", "B", "O", "AB"])->nullable(true);
+            $table->string('no_paspor', 16)->nullable(true);
+            $table->string('nik', 16)->nullable(true);
+            $table->enum('status', [1, 0])->default(0);
             $table->timestamps();
         });
     }
