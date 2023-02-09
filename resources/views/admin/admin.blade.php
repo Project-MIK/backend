@@ -1,7 +1,12 @@
 @php
-    
+
 @endphp
 @extends('layouts.admin.app')
+@if (isset($message))
+    <div class="alert">
+        {{ $message }}
+    </div>
+@endif
 @section('content-header')
 Admin
 @endsection
@@ -27,10 +32,10 @@ Admin
             </thead>
             <tbody>
                 @php
-                    $no = 1;
+                $no = 1;
                 @endphp
                 @foreach($data as $item)
-                
+
                 <tr>
                     <td>{{$no}}</td>
                     <td>{{$item['name']}}</td>
@@ -44,7 +49,7 @@ Admin
                     </th>
                 </tr>
                 @php
-                    $no++;
+                $no++;
                 @endphp
                 @endforeach
             </tbody>
@@ -61,12 +66,27 @@ Admin
     </div>
     <!-- /.card-body -->
 </div>
-{{var_dump($data)}}
 <x-modal modalid="modal-tambah" judul="Tambah Data Pasien">
     <x-slot:modalid>modal-tambah</x-slot:modalid>
     <x-slot:judul>Tambah Admin</x-slot:judul>
-    <form action="{{url('')}}admin/token" method="post">
-        <input type="email" name="" id="">
+    <form action="admin/store" method="post">
+        @csrf
+        <div class="form-group">
+            <label>Nama</label>
+            <input type="text" class="form-control" name="name" placeholder="Nama">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" name="email" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Nama">
+        </div>
+        <div class="form-group">
+            <label>Alamat</label>
+            <textarea class="form-control" name="address" rows="3" placeholder="Alamat ......"></textarea>
+        </div>
         <button type="submit">simpan</button>
     </form>
 </x-modal>
