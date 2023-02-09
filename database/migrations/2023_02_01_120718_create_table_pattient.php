@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('password')->nullable(false);
             $table->string('citizen');
             $table->string('profession');
-            $table->timestamp('date_birth');
+            $table->string('date_birth');
             $table->string('place_birth');
             $table->enum('blood_group', ["A", "B", "O", "AB"])->nullable(true);
             $table->string('no_paspor', 16)->nullable(true);
