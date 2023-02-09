@@ -100,6 +100,7 @@ class AdminController extends Controller
             return $data;
         }
     }
+    
     public function searchByEmail(KeyRequest $request)
     {
         // return null if not exist , return array if exist
