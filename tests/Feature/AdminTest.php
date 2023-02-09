@@ -149,8 +149,8 @@ class AdminTest extends TestCase
     public function test_get_all_data_in_service()
     {
         $service = new AdminService();
-        $data = $service->getAllData();
-        dd($data);
+        $data = $service->findAll();
+        $this->assertNotNull($data);
     }
 
     public function test_store_data_in_service()
@@ -207,6 +207,17 @@ class AdminTest extends TestCase
         $service = new AdminService();
         $data = $service->findByEmail($keyword);
         $this->assertNull($data);
+    }
+
+    public function test_find_update_not_change(){
+        $service = new AdminService();
+        $admin = new Admin();
+        $admin->id = 1;
+        $request =  new UpdateAdminRequest();
+        $request['name'] = "admin";
+        $request['email'] = "email@email.com";
+        $request['address'] = "alamat";
+        $newData = $request->validate($request->rules()['update']);
     }
 
     public function test_find_by_name_in_service()
