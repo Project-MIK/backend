@@ -9,9 +9,14 @@
                         <h1 class="font-weight-bold text-bunting text-xl">Masuk</h1>
                         <p class="text-trouth font-weight-light text-sm">Masuk dengan akun anda untuk menggunakan layanan medis</p>
                         <div class="my-5">
+                            @if($errors->any())                   
+                                <div class="alert alert-danger" role="alert">
+                                    {{$errors->all()->first()}}
+                                </div>
+                            @endif         
                             <div class="form-group mb-4">
                                 <label for="noredis" class="text-trouth">Nomor Rekam Medis</label>
-                                <input type="text" class="form-control py-4" id="noredis" name="no_medical_records" aria-describedby="noredis" placeholder="Ketikkan nomor rekam medis" autofocus required>
+                                <input type="text" class="form-control py-4" id="noredis" name="no_medical_records" aria-describedby="noredis" placeholder="Ketikkan nomor rekam medis" value="{{ old('no_medical_records') }}" autofocus required>
                             </div>
                             <div class="form-group">
                                 <div class="d-flex justify-content-between">

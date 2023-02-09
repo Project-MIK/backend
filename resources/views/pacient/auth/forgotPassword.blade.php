@@ -9,9 +9,14 @@
                         <h1 class="font-weight-bold text-bunting text-xl">Lupa Kata Sandi</h1>
                         <p class="text-trouth font-weight-light text-sm">Masukkan e-mail yang terdaftar. Kami akan </br> mengirimkan tautan verifikasi untuk mengatur ulang kata sandi anda.</p>
                         <div class="my-5">
+                            @if($errors->any())                   
+                                <div class="alert alert-danger" role="alert">
+                                    {{$errors->all()->first()}}
+                                </div>
+                            @endif
                             <div class="form-group mb-4">
                                 <label for="email" class="text-trouth">Email</label>
-                                <input type="email" class="form-control py-4" name="email" id="email" aria-describedby="email" placeholder="Ketikkan email" autofocus required>
+                                <input type="email" class="form-control py-4" name="email" id="email" aria-describedby="email" placeholder="Ketikkan email" value="{{ old('email') }}" autofocus required>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-bunting w-100 text-white font-weight-bold py-2 mb-4">Lupa Kata Sandi</button>
