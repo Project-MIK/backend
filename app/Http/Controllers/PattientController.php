@@ -6,6 +6,7 @@ use App\Http\Requests\StorePattientRequest;
 use App\Http\Requests\UpdatePattientRequest;
 use App\Models\Pattient;
 use App\Services\PattientService;
+use Illuminate\Http\Request;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -35,8 +36,9 @@ class PattientController extends Controller
     {
         // return view create new pattient
     }
-    public function store(StorePattientRequest $request)
+    public function insert(StorePattientRequest $request)
     {
+        dd("woi");
         $request->validate(['citizen' => ['required']]);
         // bool return
         if ($request['citizen'] == 'WNI') {
@@ -122,5 +124,9 @@ class PattientController extends Controller
     {
         // res boolean true if success false if not found
         $res = $this->service->deleteById($pattient->id);
+    }
+
+    public function oke(){
+        dd("ok");
     }
 }
