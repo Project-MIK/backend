@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\KeyRequest;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
@@ -52,15 +53,23 @@ class AdminController extends Controller
     }
     public function update(UpdateAdminRequest $request,  Admin $admin)
     {
-        $responseAsbool = $this->service->update($request->validate($request->rules()), $admin);
-        if ($responseAsbool) {
-            // success update
-            session()->flash("message", "berhasil memperbarui admin");
+        $validatedData = $request->validate($request->validate($request->rules()['update']));
+        $isChanged = Helper::compareToArrays($validatedData, $admin, 'admin');
+        if ($isChanged) {
+            $responseAsbool = $this->service->update($request->validate($request->rules()), $admin);
+            if ($responseAsbool) {
+                // success update
+                session()->flash("message", "berhasil memperbarui admin");
+                return redirect('/admin/');
+            } else {
+                // failed update
+                session()->flash("message", "gagal memperbarui admin");
+                return redirect('/admin/');
+            }
         } else {
-            // failed update
-            session()->flash("message", "gagal memperbarui admin");
+            session()->flash("message", "gagal memperbarui admin , tidak ada perubahan");
+            return redirect("/admin/");
         }
-        return $responseAsbool;
     }
     /**
      * Remove the specified resource from storage.
@@ -73,11 +82,12 @@ class AdminController extends Controller
         if ($res) {
             // success deelte
             session()->flash("message", "berhasil menghapus admin");
+            return redirect('/admin');
         } else {
             // failed delete
             session()->flash("message", "gagal menghapus admin");
+            return redirect("/admin");
         }
-        return $res;
     }
     public function searchByName(KeyRequest $keyRequest)
     {

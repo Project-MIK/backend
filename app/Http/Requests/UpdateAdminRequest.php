@@ -28,7 +28,6 @@ class UpdateAdminRequest extends FormRequest
                 "email" => ["required", "email"],
                 "name" => ["required", "string"],
                 "address" =>  ["required", "string"],
-                "password" => ["required"]
             ],
             "insert" => [
                 "email" => ["required", "email"],
