@@ -24,10 +24,18 @@ class UpdateAdminRequest extends FormRequest
     public function rules()
     {
         return [
-            "email" => ["required", "email"],
-            "name" => ["required" , "string"],
-            "address" =>  ["required" , "string"],
-            "password" => ["required"]
+            "update" => [
+                "email" => ["required", "email"],
+                "name" => ["required", "string"],
+                "address" =>  ["required", "string"],
+                "password" => ["required"]
+            ],
+            "insert" => [
+                "email" => ["required", "email"],
+                "name" => ["required", "string"],
+                "address" =>  ["required", "string"],
+                "password" => ["required"]
+            ]
         ];
     }
 }

@@ -7,6 +7,8 @@ use App\Http\Requests\UpdatePattientRequest;
 use App\Models\Pattient;
 use App\Services\PattientService;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PattientController extends Controller
 {
 
@@ -21,7 +23,7 @@ class PattientController extends Controller
     public function index()
     {
         $data = $this->service->findAll();
-        if ($data->count() > 0) {
+        if (isEmpty($data)) {
             // ada data
             return $data;
         }
@@ -35,8 +37,63 @@ class PattientController extends Controller
     }
     public function store(StorePattientRequest $request)
     {
+        $request->validate(['citizen' => ['required']]);
         // bool return
-        $res =  $this->service->store($request->validate($request->rules()));
+        if ($request['citizen'] == 'WNI') {
+            $res =  $this->service->store($request->validate([
+                'fullname' => ['required', 'string', 'min:4'],
+                'email' => ['required', 'email', 'unique:pattient,email'],
+                'gender' => ['required'],
+                'password' => ['required'],
+                'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                'address_RT' => ['required', 'numeric'],
+                'address_RW' => ['required', 'numeric'],
+                'address_desa' => ['required', 'string'],
+                'address_dusun' => ['required', 'string'],
+                'address_kecamatan' => ['required', 'string'],
+                'address_kabupaten' => ['required', 'string'],
+                'citizen' => ['required'],
+                'profession' => ['required'],
+                'date_birth' => ['required'],
+                'blood_group' => ['required'],
+                'place_birth' => ['required'],
+                'nik' => ['required', 'numeric' , 'min:16' , 'unique:pattient,nik']
+            ]));
+            if($res){
+                // success register
+                session()->flash('message', 'berhasil registrasi harap menunggu hingga no rekam medis diberikan');
+            }else{
+                // failed register
+                session()->flash('message', 'gagal registrasi terjadi kesalahan server');
+            }
+        }else{
+            $res =  $this->service->store($request->validate([
+                'fullname' => ['required', 'string', 'min:4'],
+                'email' => ['required', 'email', 'unique:pattient,email'],
+                'gender' => ['required'],
+                'password' => ['required'],
+                'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                'address_RT' => ['required', 'numeric'],
+                'address_RW' => ['required', 'numeric'],
+                'address_desa' => ['required', 'string'],
+                'address_dusun' => ['required', 'string'],
+                'address_kecamatan' => ['required', 'string'],
+                'address_kabupaten' => ['required', 'string'],
+                'citizen' => ['required'],
+                'profession' => ['required'],
+                'date_birth' => ['required'],
+                'blood_group' => ['required'],
+                'place_birth' => ['required'],
+                'no_paspor' => ['required', 'string' , 'min:10' , 'unique:pattient,no_paspor']
+            ]));
+            if($res){
+                // success register
+                session()->flash('message', 'berhasil registrasi harap menunggu hingga no rekam medis diberikan');
+            }else{
+                // failed register
+                session()->flash('message', 'gagal registrasi terjadi kesalahan server');
+            }
+        }
     }
 
     public function show(Pattient $pattient)
@@ -53,8 +110,12 @@ class PattientController extends Controller
 
     public function update(UpdatePattientRequest $request, Pattient $pattient)
     {
-        // response array , you can see in service class to documentation
         $res =  $this->service->update($request->validate($request->rules()), $pattient->id);
+        if($res['status']){
+            return view()->with("message", $res['message']);
+        }else{
+            return view()->with("message", $res['message']);
+        }   
     }
 
     public function destroy(Pattient $pattient)

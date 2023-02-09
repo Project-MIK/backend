@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Helper;
 use App\Http\Requests\StoreAdminRequest;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,7 @@ class AdminService
 
     public function findAll()
     {
-        $data =  $this->admin->get();
+        $data = $this->admin->get();
         return $data;
     }
     public function store(array $request)
@@ -29,14 +30,26 @@ class AdminService
             return false;
         }
     }
-    public function update(array $request, Admin $admin)
+    public function update(array $request, Admin $admin): array
     {
-        if ($this->admin->where('id', '=', $admin->id)->count() > 0) {
-            $data = $this->admin->find($admin->id);
-            $data->update($request);
-            return true;
+        $isChanged = Helper::compareToArrays($request, $admin->id, 'admin');
+        $response = [];
+        if ($isChanged) {
+            if ($this->admin->where('id', '=', $admin->id)->count() > 0) {
+                $data = $this->admin->find($admin->id);
+                $data->update($request);
+                $response['status'] = true;
+                $response['message'] = 'berhasil memperbarui data admin';
+                return $response;
+            } else {
+                $response['status'] = false;
+                $response['message'] = 'gagal memperbarui data admin tidak ada perubahan';
+                return $response;
+            }
         } else {
-            return false;
+            $response['status'] = false;
+            $response['message'] = 'gagal memperbarui data admin , tidak ada perubahans';
+            return $response;
         }
     }
     public function findByEmail(string $email)
@@ -47,7 +60,7 @@ class AdminService
 
     public function findByName(string $name)
     {
-        $data = $this->admin->Where('name', 'like'. '%'.$name.'%')->get();
+        $data = $this->admin->Where('name', 'like' . '%' . $name . '%')->get();
         return $data;
     }
 
@@ -62,14 +75,14 @@ class AdminService
     {
         // todo send email
     }
-    public function deleteById($id):bool{
+    public function deleteById($id): bool
+    {
         $res = $this->admin->where('id', $id)->first();
-        if($res!=null){
+        if ($res != null) {
             $res->delete();
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
 }

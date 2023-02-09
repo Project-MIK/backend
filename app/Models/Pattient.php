@@ -23,7 +23,9 @@ class Pattient extends Model
         'profession',
         'date_birth',
         'blood_group',
-        'place_birth'
+        'place_birth' ,
+        'nik' , 
+        'no_paspor'
     ];
 
     protected $hidden = ['password'];
