@@ -47,32 +47,7 @@ Route::post("/recovery/{token}", function (Request $request, $token) {
 // Dashboard
 
 // # Showing data consultation, history and setting
-Route::view("/dashboard", "pacient.dashboard.index", [
-    // show complaint not equlas consultation-complete && valid status
-    "complaints" => [
-        [
-            "id" => "KL6584690",
-            "description" => "Consectetur veniam excepteur est ea consequat adipisicing sunt mollit. Mollit in quis ipsum fugiat officia ea est nostrud id cupidatat voluptate adipisicing. Est veniam ullamco velit consequat cupidatat ea ad tempor sunt et do qui pariatur proident.",
-            "schedule" => "1 / Januari / 2023",
-            "start_consultation" => 1685571753,
-            "end_consultation" => 1685572753,
-            "status" => "confirmed-consultation-payment", // waiting-consultation-payment, confirmed-consultation-payment , waiting-medical-prescription-payment , confirmed-medical-prescription-payment, consultation-complete
-            "valid_status" => 1685571753
-        ]
-    ],
-    // show complaint consultation-complete, expired && not valid status
-    "history_complaints" => [
-        [
-            "id" => "KL6584690",
-            "description" => "Consectetur veniam excepteur est ea consequat adipisicing sunt mollit. Mollit in quis ipsum fugiat officia ea est nostrud id cupidatat voluptate adipisicing. Est veniam ullamco velit consequat cupidatat ea ad tempor sunt et do qui pariatur proident.",
-            "schedule" => "1 / Januari / 2023",
-            "start_consultation" => 1685571753,
-            "end_consultation" => 1685572753,
-            "status" => "confirmed-consultation-payment",
-            "valid_status" => 1685571753
-        ]
-    ]
-]);
+Route::view("/dashboard", "pacient.dashboard.index");
 
 // # Action pacient save setting
 Route::post("/dashboard/save-setting", function (Request $request) {
@@ -94,7 +69,17 @@ Route::post("/dashboard/change-password", function (Request $request) {
 Route::prefix('konsultasi')->group(function () {
     // Create consultation #1 - description complaint & set category
     Route::get('/', function () {
-        return view("pacient.consultation.complaint");
+        return view("pacient.consultation.complaint", [
+            // Show categories type disease
+            "categories" => [
+                "Penyakit Langka",
+                "Kelainan Bawaan",
+                "Gangguan Mental",
+                "Cedera",
+                "Penyakit Dalam",
+                "Tidak Tahu"
+            ]
+        ]);
     });
     Route::post('/', function () {
         return view("pacient.consultation.complaint");
@@ -102,7 +87,15 @@ Route::prefix('konsultasi')->group(function () {
 
     // Create consultation #2 - set polyclinic
     Route::get('/poliklinik', function () {
-        return view("pacient.consultation.polyclinic");
+        return view("pacient.consultation.polyclinic", [
+            "polyclinics" => [
+                "POLIKLINIK OBGYN (OBSTETRI & GINEKOLOGI)",
+                "POLIKLINIK ANAK DAN TUMBUH KEMBANG",
+                "POLIKLINIK PENYAKIT DALAM (INTERNA)",
+                "POLIKLINIK BEDAH UMUM",
+                "POLIKLINIK BEDAH ONKOLOGI"
+            ]
+        ]);
     });
     Route::post('/poliklinik', function () {
         return view("pacient.consultation.polyclinic");
@@ -110,6 +103,9 @@ Route::prefix('konsultasi')->group(function () {
 
     // Create consultation #3 - set doctor & schedule consultation
     Route::get('/dokter', function () {
+        return view("pacient.consultation.doctor");
+    });
+    Route::get('/dokter/{id}', function ($id) {
         return view("pacient.consultation.doctor");
     });
     Route::post('/dokter', function () {
@@ -126,10 +122,29 @@ Route::prefix('konsultasi')->group(function () {
 
     // Create consultation #5 - confirmation bank to payment consultation 
     Route::get('/pembayaran', function () {
-        return view("pacient.consultation.payment");
+        return view("pacient.consultation.payment", [
+            "price_consultation" => "RP. 90.000",
+            "banks" => [
+                [
+                    "id" => "BCA",
+                    "name" => "BCA ( Bank Central Asia )",
+                    "image" => "bca-logo.png",
+                    "no_card" => "623724239",
+                    "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
+                ],
+                [
+                    "id" => "BRI",
+                    "name" => "BRI ( Bank Rakyat Indonesia )",
+                    "image" => "bri-logo.png",
+                    "no_card" => "689564234",
+                    "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
+                ]
+            ],
+            "valid_status" => 1676015722
+        ]);
     });
-    Route::post('/pembayaran', function () {
-        return view("pacient.consultation.payment");
+    Route::post('/pembayaran', function (Request $request) {
+        dd($request);
     });
 
     // Show pacient consultation based on ID
@@ -162,8 +177,6 @@ Route::prefix('konsultasi')->group(function () {
             "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
             "pickup_by_pacient" => "Aristo Caesar Pratama",
             "pickup_datetime" => "7 Februari 2023 - 15:43:77",
-
-            "valid_status" => "6 / Februari / 2023 03:00:00"
         ]);
     });
 

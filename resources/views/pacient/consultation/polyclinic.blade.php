@@ -29,7 +29,9 @@
                             <div class="form-group">
                                 <label for="category" class="text-trouth">Poliklinik</label>
                                 <select id="category" class="form-control" name="consultation_polyclinic">
-                                    <option value="-">POLI PENYAKIT DALAM</option>
+                                    @foreach ($polyclinics as $polyclinic)
+                                        <option value="{{$polyclinic}}">{{$polyclinic}}</option>
+                                    @endforeach
                                 </select>                                  
                             </div>                            
                         </div>

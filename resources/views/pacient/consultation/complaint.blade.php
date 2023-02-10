@@ -33,7 +33,9 @@
                             <div class="form-group">
                                 <label for="category" class="text-trouth">Kategori Keluhan</label>
                                 <select id="category" class="form-control" name="consultation_category">
-                                    <option value="-">Tidak Tahu</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{$category}}">{{$category}}</option>
+                                    @endforeach
                                 </select>                                  
                             </div>                            
                         </div>

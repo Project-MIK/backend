@@ -29,7 +29,7 @@
                             <div class="form-row mb-4">
                                 <div class="form-group col-md-6">
                                     <label for="inputDoctor" class="text-trouth">Dokter</label>
-                                    <select id="inputDoctor" class="form-control" name="consultation_doctor">
+                                    <select id="inputDoctor" class="form-control" name="consultation_doctor" onchange="getScheduleDoctor(this)">
                                         <option selected value="DR. H. M. Pilox Kamacho H., S.pb">DR. H. M. Pilox Kamacho H., S.pb</option>
                                         <option value="DR. H. M. Lili Amora H., S.pb">DR. H. M. Lili Amora H., S.pb</option>
                                     </select>
@@ -67,4 +67,11 @@
             </div>
         </div>
     </div>
+    @slot('scripts')
+    <script>
+        function getScheduleDoctor(e) {
+            location.href = "/konsultasi/dokter/"+e.value;
+        }
+    </script>
+    @endslot
 </x-app-pacient>
