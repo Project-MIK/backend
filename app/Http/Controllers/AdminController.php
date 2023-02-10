@@ -36,9 +36,9 @@ class AdminController extends Controller
         // bool return
         $response = $this->service->store($request->validate($request->rules()));
         if ($response) {
-            return view('admin.admin')->with('message', 'berhasil menambahkan data admin');
+            return redirect()->back()->with('message', 'berhasil menambahkan data admin');
         } else {
-            return view('admin.admin')->with('message', 'gagal menambahkan data admin , terjadi kesalahan server');
+            return redirect()->back()->with('message', 'Gagal menambahkan data admin');
         }
     }
     public function show(Admin $admin)
@@ -100,7 +100,7 @@ class AdminController extends Controller
             return $data;
         }
     }
-    
+
     public function searchByEmail(KeyRequest $request)
     {
         // return null if not exist , return array if exist
