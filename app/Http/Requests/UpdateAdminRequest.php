@@ -29,7 +29,6 @@ class UpdateAdminRequest extends Request
                 "email" => ["required", "email"],
                 "name" => ["required", "string"],
                 "address" =>  ["required", "string"],
-                "password" => ["required"]
             ],
             "insert" => [
                 "email" => ["required", "email"],

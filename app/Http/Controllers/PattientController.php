@@ -59,16 +59,16 @@ class PattientController extends Controller
                 'date_birth' => ['required'],
                 'blood_group' => ['required'],
                 'place_birth' => ['required'],
-                'nik' => ['required', 'numeric' , 'min:16' , 'unique:pattient,nik']
+                'nik' => ['required', 'numeric', 'min:16', 'unique:pattient,nik']
             ]));
-            if($res){
+            if ($res) {
                 // success register
-                session()->flash('message', 'berhasil registrasi harap menunggu hingga no rekam medis diberikan');
-            }else{
+                return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
+            } else {
                 // failed register
-                session()->flash('message', 'gagal registrasi terjadi kesalahan server');
+                return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
             }
-        }else{
+        } else {
             $res =  $this->service->store($request->validate([
                 'fullname' => ['required', 'string', 'min:4'],
                 'email' => ['required', 'email', 'unique:pattient,email'],
@@ -86,14 +86,15 @@ class PattientController extends Controller
                 'date_birth' => ['required'],
                 'blood_group' => ['required'],
                 'place_birth' => ['required'],
-                'no_paspor' => ['required', 'string' , 'min:10' , 'unique:pattient,no_paspor']
+                'no_paspor' => ['required', 'string', 'min:10', 'unique:pattient,no_paspor']
             ]));
-            if($res){
+            if ($res) {
                 // success register
-                session()->flash('message', 'berhasil registrasi harap menunggu hingga no rekam medis diberikan');
-            }else{
+                return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
+            } else {
                 // failed register
-                session()->flash('message', 'gagal registrasi terjadi kesalahan server');
+
+                return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
             }
         }
     }
@@ -113,11 +114,11 @@ class PattientController extends Controller
     public function update(UpdatePattientRequest $request, Pattient $pattient)
     {
         $res =  $this->service->update($request->validate($request->rules()), $pattient->id);
-        if($res['status']){
+        if ($res['status']) {
             return view()->with("message", $res['message']);
-        }else{
+        } else {
             return view()->with("message", $res['message']);
-        }   
+        }
     }
 
     public function destroy(Pattient $pattient)

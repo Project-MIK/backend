@@ -7,12 +7,13 @@ use App\Helpers\Helper;
 use App\Models\Pattient;
 use Illuminate\Validation\ValidationException;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PattientService
 {
 
 
     private Pattient $model;
-
 
     public function __construct()
     {
@@ -41,7 +42,7 @@ class PattientService
     }
     public function findById($id)
     {
-        $res = $this->model->where('id', $id)->first();
+        $res = $this->model->where('id', $id)->get()->toArray();
         return $res;
     }
     // return array 
@@ -96,7 +97,6 @@ class PattientService
     {
         // $res =  $this->model->where('id', $id)->update($rquest);
     }
-
     public function deleteById($id)
     {
         $res = $this->model->where('id', $id)->delete();
