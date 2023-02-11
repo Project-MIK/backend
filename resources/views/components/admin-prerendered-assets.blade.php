@@ -21,6 +21,9 @@
 <!-- summernote -->
 <link rel="stylesheet" href="{{ asset('/adminlte/plugins/summernote/summernote-bs4.min.css')}}">
 <script src="https://kit.fontawesome.com/5c43977293.js" crossorigin="anonymous"></script>
-
+<!-- SweetAlert2 -->
+<script src="{{ asset('/adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+<!-- Toastr -->
+<script src="{{asset('/adminlte/plugins/toastr/toastr.min.js')}}"></script>
 {{-- local css --}}
 <link rel="stylesheet" href="{{asset('css/appadmin.css')}}">

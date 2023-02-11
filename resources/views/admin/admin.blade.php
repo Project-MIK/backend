@@ -2,13 +2,11 @@
 
 @endphp
 @extends('layouts.admin.app')
-@if (isset($message))
-    <div class="alert">
-        {{ $message }}
-    </div>
-@endif
+
+
+
 @section('content-header')
-Admin
+<h1>Admin</h1>
 @endsection
 @section('content')
 {{-- {{dd($data[0])}} --}}
@@ -140,4 +138,21 @@ Admin
     }
 
 </script>
+
+@if(session()->has('message'))
+<script>
+    $(function() {
+        $(document).ready(function() {
+            $(document).Toasts('create', {
+                class : 'bg-success'
+                ,title: 'Toast Title 5'
+                , autohide: true
+                , delay: 2000
+                , body: '{{ session()->get('message') }}'
+            })
+        });
+    });
+
+</script>
+@endif
 @endsection
