@@ -270,4 +270,16 @@ class AdminTest extends TestCase
         $this->assertNull($res);
     }
 
+    
+    public function test_store_controller(){
+        $data=[
+            "name" => "zam" , 
+            "password" => "rahasia" , 
+            "address" => "bwi" , 
+            "email" => "zam@zam.com"
+        ];
+        $res = $this->post('/admin' , $data);
+        dd($res);
+    }
+
 }
