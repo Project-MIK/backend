@@ -36,9 +36,11 @@ class AdminController extends Controller
         // bool return
         $response = $this->service->store($request->validate($request->rules()));
         if ($response) {
-            return redirect()->back()->with('message', 'berhasil menambahkan data admin');
+            $message = ['status' => true, "message" => "berhasil menambahkan data admin"];
+            return redirect()->back()->with('message', $message);
         } else {
-            return redirect()->back()->with('message', 'Gagal menambahkan data admin');
+            $message = ['status' => false, "message" => "gagal menambahkan data admin"];
+            return redirect()->back()->with('message', $message);
         }
     }
     public function show(Admin $admin)
@@ -59,16 +61,16 @@ class AdminController extends Controller
             $responseAsbool = $this->service->update($request->validate($request->rules()), $admin);
             if ($responseAsbool) {
                 // success update
-                session()->flash("message", "berhasil memperbarui admin");
-                return redirect('/admin/');
+                $message = ['status' => true, "message" => "berhasil memperbarui data admin"];
+                return redirect()->back()->with('message', $message);
             } else {
                 // failed update
-                session()->flash("message", "gagal memperbarui admin");
-                return redirect('/admin/');
+                $message = ['status' => false, "message" => "gagal memperbarui data admin"];
+                return redirect()->back()->with('message', $message);
             }
         } else {
-            session()->flash("message", "gagal memperbarui admin , tidak ada perubahan");
-            return redirect("/admin/");
+            $message = ['status' => false, "message" => "gagal memperbarui data admin , tidak ada perubahan"];
+            return redirect()->back()->with('message', $message);
         }
     }
     /**
