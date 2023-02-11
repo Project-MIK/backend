@@ -45,7 +45,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-12">
-                                    <label for="schedule" class="text-trouth">Jadwal yang tersedia</label>
+                                    <label for="schedule" class="text-trouth">Jadwal yang dipilih</label>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="date" class="text-trouth font-weight-light">Tanggal</label>

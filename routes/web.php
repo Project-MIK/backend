@@ -81,8 +81,8 @@ Route::prefix('konsultasi')->group(function () {
             ]
         ]);
     });
-    Route::post('/', function () {
-        return view("pacient.consultation.complaint");
+    Route::post('/', function (Request $request) {
+        dd($request);
     });
 
     // Create consultation #2 - set polyclinic
@@ -97,8 +97,8 @@ Route::prefix('konsultasi')->group(function () {
             ]
         ]);
     });
-    Route::post('/poliklinik', function () {
-        return view("pacient.consultation.polyclinic");
+    Route::post('/poliklinik', function (Request $request) {
+        dd($request);
     });
 
     // Create consultation #3 - set doctor & schedule consultation
@@ -116,13 +116,14 @@ Route::prefix('konsultasi')->group(function () {
     Route::get('/rincian', function () {
         return view("pacient.consultation.detail-order");
     });
-    Route::post('/rincian', function () {
-        return view("pacient.consultation.detail-order");
+    Route::post('/rincian', function (Request $request) {
+        dd($request);
     });
 
     // Create consultation #5 - confirmation bank to payment consultation 
     Route::get('/pembayaran', function () {
         return view("pacient.consultation.payment", [
+            "id" => "KL6584690",
             "price_consultation" => "RP. 90.000",
             "banks" => [
                 [
@@ -159,7 +160,7 @@ Route::prefix('konsultasi')->group(function () {
             "schedule" => "8 / Februari / 2023",
             "start_consultation" => 1675955014,
             "end_consultation" => 1675955600,
-            "live_consultation" => true,
+            "live_consultation" => false,
             "status" => "consultation-complete",
 
             "price_consultation" => "Rp. 90.000",

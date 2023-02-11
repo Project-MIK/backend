@@ -7,6 +7,14 @@
     <div class="container wrapper-pacient my-5">
         <div class="card shadow-lg rounded-lg w-100 mx-auto">
             <div class="card-body">
+                @if ($message = true)
+                <div class="p-5 w-100 text-center">
+                    <h1 class="font-weight-bold text-trouth text-xl">Berhasil Mengirimkan Pembayaran</h1>
+                    <p class="text-trouth mb-4">Silahkan tunggu beberapa menit untuk kami mengkonfirmasi
+                        pembayaran anda, Harap cek secara berkala</p>
+                    <a href="/konsultasi/{{$id}}" class="btn btn-bunting px-5 text-white font-weight-bold">Cek Status Pembayaran</a>
+                </div>
+                @else
                 <div class="p-5 d-flex">
                     <a id="back-page-1" class="mr-3" href="/konsultasi/rincian">
                         <svg role="button" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,6 +86,7 @@
                         </div>
                     </form>
                 </div>
+                @endif
             </div>
         </div>
     </div>
