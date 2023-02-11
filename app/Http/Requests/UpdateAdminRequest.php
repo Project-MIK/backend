@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
-class UpdateAdminRequest extends FormRequest
+class UpdateAdminRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +29,6 @@ class UpdateAdminRequest extends FormRequest
                 "email" => ["required", "email"],
                 "name" => ["required", "string"],
                 "address" =>  ["required", "string"],
-                "password" => ["required"]
             ],
             "insert" => [
                 "email" => ["required", "email"],

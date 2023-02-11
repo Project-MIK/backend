@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\KeyRequest;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
@@ -35,9 +36,17 @@ class AdminController extends Controller
         // bool return
         $response = $this->service->store($request->validate($request->rules()));
         if ($response) {
+<<<<<<< HEAD
             return redirect('admin/admin')->with('message', 'berhasil menambahkan data admin');
         } else {
             return redirect('admin/admin')->with('message', 'gagal menambahkan data admin , terjadi kesalahan server');
+=======
+            $message = ['status' => true, "message" => "berhasil menambahkan data admin"];
+            return redirect()->back()->with('message', $message);
+        } else {
+            $message = ['status' => false, "message" => "gagal menambahkan data admin"];
+            return redirect()->back()->with('message', $message);
+>>>>>>> origin/backend
         }
     }
     public function show(Admin $admin)
@@ -52,15 +61,23 @@ class AdminController extends Controller
     }
     public function update(UpdateAdminRequest $request,  Admin $admin)
     {
-        $responseAsbool = $this->service->update($request->validate($request->rules()), $admin);
-        if ($responseAsbool) {
-            // success update
-            session()->flash("message", "berhasil memperbarui admin");
+        $validatedData = $request->validate($request->validate($request->rules()['update']));
+        $isChanged = Helper::compareToArrays($validatedData, $admin, 'admin');
+        if ($isChanged) {
+            $responseAsbool = $this->service->update($request->validate($request->rules()), $admin);
+            if ($responseAsbool) {
+                // success update
+                $message = ['status' => true, "message" => "berhasil memperbarui data admin"];
+                return redirect()->back()->with('message', $message);
+            } else {
+                // failed update
+                $message = ['status' => false, "message" => "gagal memperbarui data admin"];
+                return redirect()->back()->with('message', $message);
+            }
         } else {
-            // failed update
-            session()->flash("message", "gagal memperbarui admin");
+            $message = ['status' => false, "message" => "gagal memperbarui data admin , tidak ada perubahan"];
+            return redirect()->back()->with('message', $message);
         }
-        return $responseAsbool;
     }
     /**
      * Remove the specified resource from storage.
@@ -73,11 +90,12 @@ class AdminController extends Controller
         if ($res) {
             // success deelte
             session()->flash("message", "berhasil menghapus admin");
+            return redirect('/admin');
         } else {
             // failed delete
             session()->flash("message", "gagal menghapus admin");
+            return redirect("/admin");
         }
-        return $res;
     }
     public function searchByName(KeyRequest $keyRequest)
     {
@@ -90,6 +108,7 @@ class AdminController extends Controller
             return $data;
         }
     }
+
     public function searchByEmail(KeyRequest $request)
     {
         // return null if not exist , return array if exist
