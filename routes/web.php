@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PolyclinicController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/polyclinics/{id}', [PolyclinicController::class, 'show']);
+Route::get('/polyclinics/name/{name}', [PolyclinicController::class, 'searchByName']);
+Route::get('/polyclinics', [PolyclinicController::class, 'index']);
+
+Route::get('/doctors/{id}', [DoctorController::class, 'show']);

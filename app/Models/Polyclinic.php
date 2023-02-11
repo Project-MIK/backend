@@ -12,4 +12,13 @@ class Polyclinic extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function doctors()
+    {
+        return $this->hasMany(Doctor::class, 'id_polyclinic', 'id');
+    }
+
+    // public function getRouteKeyName() {
+    //     return "id";
+    // }
 }

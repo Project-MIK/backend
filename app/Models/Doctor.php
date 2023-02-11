@@ -10,4 +10,16 @@ class Doctor extends Model
     use HasFactory;
 
     protected $table = 'doctor';
+    protected $fillable = [
+        'name',
+        'gender',
+        'address',
+        'phone',
+        'id_polyclinic',
+    ];
+
+    public function polyclinic()
+    {
+        return $this->belongsTo(Polyclinic::class, 'id_polyclinic', 'id');
+    }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PolyclinicRequest;
-use App\Models\Polyclinic;
 use App\Services\PolyclinicService;
 use Illuminate\Http\Request;
 
@@ -23,6 +22,7 @@ class PolyclinicController extends Controller
     public function index()
     {
         $data = $this->service->findAll();
+        
         return $data;
     }
     /**
@@ -41,7 +41,7 @@ class PolyclinicController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PolyclinicRequest $request)
+    public function store(PolyclinicRequest $request) : bool
     {
         $response = $this->service->store($request->validate($request->rules()));
 
@@ -60,9 +60,9 @@ class PolyclinicController extends Controller
      * @param  \App\Models\Polyclinic  $polyclinic
      * @return \Illuminate\Http\Response
      */
-    public function show(Polyclinic $polyclinic)
-    {
-        $data = $this->service->findById($polyclinic->id);
+    public function show($id){
+
+        $data = $this->service->findById($id);
         return $data;
     }
     /**
@@ -71,9 +71,9 @@ class PolyclinicController extends Controller
      * @param  \App\Models\Polyclinic  $polyclinic
      * @return \Illuminate\Http\Response
      */
-    public function edit(Polyclinic $polyclinic)
+    public function edit($id)
     {
-        $data = $this->service->findById($polyclinic->id);
+        $data = $this->service->findById($id);
         return $data;
     }
 
@@ -84,9 +84,9 @@ class PolyclinicController extends Controller
      * @param  \App\Models\Polyclinic  $polyclinic
      * @return \Illuminate\Http\Response
      */
-    public function update(PolyclinicRequest $request, Polyclinic $polyclinic)
+    public function update(PolyclinicRequest $request, $id)
     {
-        $response = $this->service->update($request->validate($request->rules()), $polyclinic);
+        $response = $this->service->update($request->validate($request->rules()), $id);
         if ($response) {
             session()->flash("message", "berhasil memperbarui poliklinik");
         } else {
@@ -101,9 +101,9 @@ class PolyclinicController extends Controller
      * @param  \App\Models\Polyclinic  $polyclinic
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Polyclinic $polyclinic)
+    public function destroy($id)
     {
-        $response = $this->service->deleteById($polyclinic->id);
+        $response = $this->service->deleteById($id);
         if ($response) {
             session()->flash("message", "berhasil menghapus poliklinik");
         } else {
@@ -113,9 +113,9 @@ class PolyclinicController extends Controller
         return $response;
     }
 
-    public function searchByName(Request $request)
+    public function searchByName(string $search)
     {
-        $data = $this->service->findByName($request);
+        $data = $this->service->findByName($search);
         return $data;
     }
 }
