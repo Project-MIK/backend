@@ -139,16 +139,18 @@
 
 </script>
 
-@if(session()->has('message'))
+@if(session('message'))
+{{dd($_SESSION)}}
 <script>
+    console.log('kenek');
     $(function() {
         $(document).ready(function() {
             $(document).Toasts('create', {
-                class : 'bg-success'
+                class : 'bg-{{ session('message.status') ? 'success' : 'Warning' }}'
                 ,title: 'Toast Title 5'
                 , autohide: true
                 , delay: 2000
-                , body: '{{ session()->get('message') }}'
+                , body: '{{ session()->get('message.message') }}'
             })
         });
     });
@@ -156,3 +158,5 @@
 </script>
 @endif
 @endsection
+
+

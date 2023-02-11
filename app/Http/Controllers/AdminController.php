@@ -36,17 +36,13 @@ class AdminController extends Controller
         // bool return
         $response = $this->service->store($request->validate($request->rules()));
         if ($response) {
-<<<<<<< HEAD
-            return redirect('admin/admin')->with('message', 'berhasil menambahkan data admin');
-        } else {
-            return redirect('admin/admin')->with('message', 'gagal menambahkan data admin , terjadi kesalahan server');
-=======
+            // return redirect('admin/admin')->with('message', 'berhasil menambahkan data admin');
             $message = ['status' => true, "message" => "berhasil menambahkan data admin"];
             return redirect()->back()->with('message', $message);
         } else {
+            // return redirect('admin/admin')->with('message', 'gagal menambahkan data admin , terjadi kesalahan server');
             $message = ['status' => false, "message" => "gagal menambahkan data admin"];
             return redirect()->back()->with('message', $message);
->>>>>>> origin/backend
         }
     }
     public function show(Admin $admin)
