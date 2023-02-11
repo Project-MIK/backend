@@ -7,13 +7,6 @@ use Exception;
 
 class PolyclinicService
 {
-    private Polyclinic $polyclinic;
-
-    public function __construct()
-    {
-        $this->polyclinic = new Polyclinic();
-    }
-
     public function findAll()
     {
         $data = Polyclinic::all();

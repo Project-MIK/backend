@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DoctorRequest;
 use App\Models\Doctor;
+use App\Services\DoctorService;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
+    private DoctorService $service;
+
+    public function __construct() {
+        $this->service = new DoctorService();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,9 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        //
+        $data = $this->service->findAll();
+
+        return $data;
     }
 
     /**
@@ -33,7 +43,7 @@ class DoctorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DoctorRequest $request)
     {
         //
     }
@@ -46,7 +56,9 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
-        dd($id);
+        $data = $this->service->findById($id);
+
+        return $data;
     }
 
     /**
@@ -67,7 +79,7 @@ class DoctorController extends Controller
      * @param  \App\Models\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Doctor $doctor)
+    public function update(DoctorRequest $request, Doctor $doctor)
     {
         //
     }

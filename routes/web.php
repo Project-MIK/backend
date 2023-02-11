@@ -23,4 +23,5 @@ Route::get('/polyclinics/{id}', [PolyclinicController::class, 'show']);
 Route::get('/polyclinics/name/{name}', [PolyclinicController::class, 'searchByName']);
 Route::get('/polyclinics', [PolyclinicController::class, 'index']);
 
+Route::get('/doctors', [DoctorController::class, 'index']);
 Route::get('/doctors/{id}', [DoctorController::class, 'show']);
