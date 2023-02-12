@@ -65,7 +65,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputBloodGroup" class="text-trouth">Golongan Darah</label>
-                        <select id="inputBloodGroup" class="form-control" name="blood">
+                        <select id="inputBloodGroup" class="form-control" name="blood_group">
                             <option value="A">A</option>
                             <option value="B">B</option>
                             <option value="AB">AB</option>

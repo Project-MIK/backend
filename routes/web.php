@@ -30,7 +30,7 @@ Route::post("/daftar", function (Request $request) {
 });
 
 // # Forgot Password
-Route::view("/lupa-sandi", "pacient.auth.forgotPassword");
+Route::view("/lupa-sandi", "pacient.auth.forgot-password");
 Route::post("/lupa-sandi", function (Request $request) {
     dd($request);
 });
@@ -39,8 +39,7 @@ Route::post("/lupa-sandi", function (Request $request) {
 Route::get("/recovery/{token}", function ($token) {
     return view("pacient.auth.recovery", compact("token"));
 });
-Route::post("/recovery/{token}", function (Request $request, $token) {
-    dd($token);
+Route::post("/recovery/{token}", function (Request $request) {
     dd($request);
 });
 

@@ -10,6 +10,7 @@
                     <h1 class="font-weight-bold text-bunting text-center text-xl">Atur Ulang Kata Sandi</h1>
                     <p class="text-trouth font-weight-light text-sm mx-auto text-center w-75">Gunakan kata sandi yang rumit seperti gabungan karakter, angka dan simbol</p>
                     <div class="my-5">
+                        <input type="text" name="token_recovery" class="d-none" value="{{$token}}">
                         <div class="form-group mb-4">
                             <label for="password1" class="text-trouth">Kata Sandi</label>
                             <input type="password" class="form-control py-4" id="password1" name="password1" aria-describedby="password1" placeholder="Ketikkan password" autofocus required>

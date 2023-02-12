@@ -38,7 +38,7 @@ class Setting extends Component
             "place_birth" => "Banyuwangi",
             "date_birth" => "04-07-2002",
             "gender" => "W",
-            "blood" => "O",
+            "blood_group" => "O",
             "profession" => "Software Enginer",
             "addreass" => "003/005/Blokagung/Karangdoro/Tegalsari/Banyuwangi",
             "number_phone" => "085235119101",
