@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MedicinesController;
 use App\Http\Controllers\RegistrationOfficersController;
 use App\Models\RegistrationOfficers;
 use App\Http\Controllers\PattientController;
