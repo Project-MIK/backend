@@ -7,6 +7,7 @@ use App\Models\RegistrationOfficers;
 use App\Http\Controllers\PattientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -193,14 +194,54 @@ Route::prefix('konsultasi')->group(function () {
 //admin
 Route::prefix('admin')->group(function () {
     Route::view('/','admin.dashboard', );
-    Route::view('layout', 'layouts.admin.app');
-    Route::view('pasien', 'admin.pasien');
+    
+    Route::prefix('pasien')->group(function ()
+    {
+        Route::view('view','admin.pasien');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
+
     Route::prefix('admin')->group(function(){
         Route::get('/',[AdminController::class,'index']);
         Route::post('store',[AdminController::class,'store']);
+        Route::put('update');
+        Route::delete('destroy');
     });
-    Route::view('petugas','admin.petugas');
+    
+    Route::prefix('petugas')->group(function(){
+        Route::view('view','admin.petugas');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
 
+    Route::prefix('doctor')->group(function(){
+        Route::view('view','admin.doctor');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
+
+    Route::prefix('medrec')->group(function(){
+        Route::view('view','admin.medrec');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
+
+    Route::prefix('medicine')->group(function(){
+        Route::view('view','admin.medicine');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
 
     Route::get('/token', function (Request $request) {
         $token = $request->session()->token();

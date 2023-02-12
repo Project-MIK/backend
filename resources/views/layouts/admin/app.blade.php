@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
-
+  <title>TELEMEDICINE | Admin</title>
+  <link rel="icon" type="image/png" href="{{asset('images/logo-rshusada.png')}}">
   <x-admin-prerendered-assets/>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

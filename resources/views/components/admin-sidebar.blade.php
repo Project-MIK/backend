@@ -30,9 +30,9 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{url('')}}/admin" class="nav-link">
+                    <a href="/admin" class="nav-link">
                         <div class="row">
-                            <div class="col-2"><i class="fa-solid fa-user-tie"></i></div>
+                            <div class="col-2"><i class="fa-solid fa-gauge-high"></i></div>
                             <div class="col-10">
                                 <p>
                                     Dashboard
@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{url('')}}/admin/pasien" class="nav-link">
+                    <a href="/admin/pasien/view" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-bed-pulse"></i></div>
                             <div class="col-10"><p>Pasien</p></div>
@@ -50,7 +50,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{url('')}}/admin/admin" class="nav-link">
+                    <a href="admin/admin" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-user-tie"></i></div>
                             <div class="col-10">
@@ -62,12 +62,48 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{url('')}}/admin/petugas" class="nav-link">
+                    <a href="/admin/petugas/view" class="nav-link">
                         <div class="row">
-                            <div class="col-2"><i class="fa-solid fa-user-tie"></i></div>
+                            <div class="col-2"><i class="fa-solid fa-id-card"></i></div>
                             <div class="col-10">
                                 <p>
                                     Petugas
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/doctor/view" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-user-doctor"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Doctor
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/doctor/view" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-file-medical"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Medical Record
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/medicine/view" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-pills"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Medicine
                                 </p>
                             </div>
                         </div>

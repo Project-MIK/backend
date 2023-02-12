@@ -71,7 +71,7 @@
         @csrf
         <div class="form-group">
             <label>Nama</label>
-            <input type="text" class="form-control" name="name" placeholder="Nama">
+            <input type="text"  class="form-control" name="name" placeholder="Nama">
         </div>
         <div class="form-group">
             <label>Email</label>
@@ -140,14 +140,13 @@
 </script>
 
 @if(session('message'))
-{{dd($_SESSION)}}
 <script>
-    console.log('kenek');
+    console.log('mesage recorded');
     $(function() {
         $(document).ready(function() {
             $(document).Toasts('create', {
-                class : 'bg-{{ session('message.status') ? 'success' : 'Warning' }}'
-                ,title: 'Toast Title 5'
+                class : 'bg-success'
+                ,title: 'success'
                 , autohide: true
                 , delay: 2000
                 , body: '{{ session()->get('message.message') }}'
@@ -157,6 +156,22 @@
 
 </script>
 @endif
+@if($errors->any())
+<script>
+    console.log('mesage recorded');
+    $(function() {
+        $(document).ready(function() {
+            $(document).Toasts('create', {
+                class : 'bg-danger'
+                ,title: 'error'
+                , autohide: true
+                , delay: 2000
+                , body: '@foreach ($errors->all() as $error)<li>{{$error}}</li>@endforeach'
+            })
+        });
+    });
+
+</script>
+{{-- {{dd($errors)}} --}}
+@endif
 @endsection
-
-
