@@ -34,7 +34,7 @@
                                 <div class="form-row mb-4">
                                     <div class="form-group col-md-6">
                                         <label for="inputDoctor" class="text-trouth">Dokter</label>
-                                        <select id="inputDoctor" class="form-control" name="consultation_doctor" onchange="getScheduleDoctor(this)">
+                                        <select id="inputDoctor" class="form-control" name="consultation_doctor" onchange="getDoctor(this)">
                                             @if (!isset($id))
                                                 @foreach ($doctors as $doctor)
                                                     <option id="{{$doctor['id']}}" value="{{$doctor['name']}}">{{$doctor['name']}}</option>
@@ -57,9 +57,9 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="inputScheduleDate" class="text-trouth font-weight-normal">Tanggal</label>
-                                            <select id="inputScheduleDate" class="form-control" name="consultation_schedule_date">
+                                            <select id="inputScheduleDate" class="form-control" name="consultation_schedule_date" onchange="getDateSchedule(this)">
                                                 @foreach ($detail_doctor['date_schedule'] as $date)
-                                                    <option value="{{$date}}">{{$date}}</option>
+                                                    <option value="{{date('d-m-Y', $date)}}">{{date('d - M - Y', $date)}}</option>
                                                 @endforeach
                                             </select>
                                             </div>
@@ -67,7 +67,7 @@
                                                 <label for="inputScheduleTime" class="text-trouth font-weight-normal">Waktu (Waktu Indonesia Barat)</label>
                                                 <select id="inputScheduleTime" class="form-control" name="consultation_schedule_time">
                                                     @foreach ($detail_doctor['time_schedule'] as $time)
-                                                        <option value="{{$time}}">{{$time}}</option>
+                                                        <option value="{{date("h:m:s", $time["start"])}} - {{date("h:m:s", $time["end"])}}">{{date("h : m : s", $time["start"])}} - {{date("h : m : s", $time["end"])}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -86,12 +86,20 @@
     </div>
     @slot('scripts')
     <script>
-        function getScheduleDoctor(e) {
+        function getDoctor(e, redirect = true) {
             for (let i = 0; i < e.children.length; i++) {
-                if(e.children[i].value == e.value){
-                    location.href = "/konsultasi/dokter/"+e[i].id;
+                if(e.children[i].value == e.value) {
+                    if(redirect){
+                        location.href = `/konsultasi/dokter/${e[i].id}`;
+                    }else{
+                        return `/konsultasi/dokter/${e[i].id}`;
+                    }
                 }
             }
+        }
+        function getDateSchedule(e) {
+            const doctor = document.getElementById("inputDoctor");
+            location.href = `${getDoctor(doctor, false)}/${e.value}`;
         }
     </script>
     @endslot

@@ -120,14 +120,23 @@ Route::prefix('konsultasi')->group(function () {
             "detail_doctor" => [
                 "price_consultation" => "Rp. 90.000",
                 "date_schedule" => [
-                    "14 - Februari - 2023",
-                    "15 - Februari - 2023",
-                    "16 - Februari - 2023",
+                    1676394000,
+                    1676480400,
+                    1676653199,
                 ],
                 "time_schedule" => [
-                    "08 : 00 : 00 - 09 : 00 : 00",
-                    "10 : 00 : 00 - 11 : 00 : 00",
-                    "12 : 00 : 00 - 13 : 00 : 00",
+                    [
+                        "start" => 1676422800,
+                        "end" => 1676426400
+                    ],
+                    [
+                        "start" => 1676426400,
+                        "end" => 1676430000
+                    ],
+                    [
+                        "start" => 1676430000,
+                        "end" => 1676433600
+                    ]
                 ]
             ]
         ]);
@@ -152,14 +161,65 @@ Route::prefix('konsultasi')->group(function () {
             "detail_doctor" => [
                 "price_consultation" => "Rp. 90.000",
                 "date_schedule" => [
-                    "18 - Februari - 2023",
-                    "19 - Februari - 2023",
-                    "20 - Februari - 2023",
+                    1677395000,
+                    1677824000,
+                    1677654199,
                 ],
                 "time_schedule" => [
-                    "08 : 00 : 00 - 09 : 00 : 00",
-                    "10 : 00 : 00 - 11 : 00 : 00",
-                    "12 : 00 : 00 - 13 : 00 : 00",
+                    [
+                        "start" => 1676422800,
+                        "end" => 1676426400
+                    ],
+                    [
+                        "start" => 1676426400,
+                        "end" => 1676430000
+                    ],
+                    [
+                        "start" => 1676430000,
+                        "end" => 1676433600
+                    ]
+                ]
+            ]
+        ]);
+    });
+    Route::get('/dokter/{id}/{date}', function ($id, $date) {
+        return view("pacient.consultation.doctor", [
+            "id" => $id,
+            "date" => $date,
+            "doctors" => [
+                [
+                    "id" => 1,
+                    "name" => "dr. IDA AYU SRI KUSUMA DEWI, M.Sc, Sp.A,MARS",
+                ],
+                [
+                    "id" => 2,
+                    "name" => "dr. PUTU VIVI PARYATI, M.Biomed, Sp.A",
+                ],
+                [
+                    "id" => 3,
+                    "name" => "dr. LUH GDE AYU PRAMITHA DEWI, M.Biomed, Sp.A",
+                ],
+            ],
+            "detail_doctor" => [
+                "price_consultation" => "Rp. 90.000",
+                "date_schedule" => [
+                    1677395000,
+                    1677824000,
+                    1677654199,
+                ],
+                "time_schedule" => [
+                    [
+                        "start" => 1676422800,
+                        "end" => 1676426400
+                    ],
+                    [
+                        "start" => 1676426400,
+                        "end" => 1676430000
+                    ],
+                    [
+                        "start" => 1676430000,
+                        "end" => 1676433600
+                    ]
                 ]
             ]
         ]);
