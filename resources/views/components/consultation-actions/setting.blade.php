@@ -58,18 +58,17 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputGender" class="text-trouth">Jenis Kelamin</label>
-                        <select id="inputGender" class="form-control" name="gender">
-                            <option value="M">Laki-Laki</option>
-                            <option value="W">Perempuan</option>
+                        <select id="inputGender" class="form-control" name="gender" autocomplete="off">
+                            <option value="M" {{$pacient['gender'] == "M" ? "selected":""}}>Laki-Laki</option>
+                            <option value="W" {{$pacient['gender'] == "W" ? "selected":""}}>Perempuan</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputBloodGroup" class="text-trouth">Golongan Darah</label>
-                        <select id="inputBloodGroup" class="form-control" name="blood_group">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="AB">AB</option>
-                            <option value="O">O</option>
+                        <select id="inputBloodGroup" class="form-control" name="blood_group" autocomplete="off">
+                            @foreach ($blood_group as $blood)
+                                <option value="{{$blood}}" {{$pacient['blood_group'] == $blood ?"selected":""}}>{{$blood}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div> 

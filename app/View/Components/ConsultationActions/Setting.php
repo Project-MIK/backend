@@ -37,7 +37,7 @@ class Setting extends Component
             "fullname" => "Aristo Caesar Pratama",
             "place_birth" => "Banyuwangi",
             "date_birth" => "04-07-2002",
-            "gender" => "W",
+            "gender" => "M",
             "blood_group" => "O",
             "profession" => "Software Enginer",
             "addreass" => "003/005/Blokagung/Karangdoro/Tegalsari/Banyuwangi",
@@ -45,9 +45,18 @@ class Setting extends Component
             "email" => "aristo.belakang@gmail.com",
             "created_at" => now()
         ];
+
+        $blood_group = [
+            "A",
+            "B",
+            "AB",
+            "O"
+        ];
+
         return view('components.consultation-actions.setting', [
             "pacient" => $pacient,
-            "addreass" => $this->getAddreass($pacient['addreass'])
+            "addreass" => $this->getAddreass($pacient['addreass']),
+            "blood_group" => $blood_group
         ]);
     }
 }

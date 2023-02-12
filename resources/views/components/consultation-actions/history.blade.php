@@ -14,7 +14,7 @@
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td>{{$item["description"]}}</td>
                 <td class="text-center">
-                    <strong>{{$item["status"]}}</strong><br>{{$item["schedule"]}}
+                    <strong>{{$item["status"]}}</strong>
                 </td>
                 <td>
                     <a href="{{'/konsultasi/'.$item['id']}}" class="btn btn-bunting text-white font-weight-normal px-5">CEK</a>
