@@ -86,7 +86,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/doctor/view" class="nav-link">
+                    <a href="/admin/medrec/view" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-file-medical"></i></div>
                             <div class="col-10">
