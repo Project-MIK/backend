@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PattientSeeder::class);
 
         $this->call([
-            AdminSeeder::class , MedicinesSeeder::class
+            AdminSeeder::class , MedicinesSeeder::class , MedicalRecordsSeeder::class
         ]);
 
         // \App\Models\User::factory(10)->create();
