@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="input-group my-3">
                                             <div class="custom-file">
-                                              <input type="file" class="custom-file-input" id="upload-proof-payment" aria-describedby="inputGroupFileAddon01" onchange="setFileNameUpload(this)">
+                                              <input type="file" class="custom-file-input" id="upload-proof-payment" aria-describedby="inputGroupFileAddon01" onchange="setFileNameUpload(this)" name="proof-payment">
                                               <label id="label-upload-proof-payment" class="custom-file-label" for="upload-proof-payment">Unggah bukti pembayaran</label>
                                             </div>
                                           </div>                                          
@@ -82,7 +82,7 @@
                             </div>        
                         </div>
                         <div class="d-flex mt-4 flex-column align-items-end">
-                            <button id="next-step" type="submit" class="btn btn-bunting text-white font-weight-bold py-2 mb-4">Kirim Bukti Pembayaran</button>
+                            <button id="next-step" type="submit" class="btn btn-bunting text-white font-weight-bold py-2 mb-4" disabled>Kirim Bukti Pembayaran</button>
                         </div>
                     </form>
                 </div>
@@ -92,7 +92,7 @@
     </div>
     @slot('scripts')
         <script>
-             function setBankPayment(e){let t=document.getElementById("image-bank"),n=document.getElementById("number-bank"),a=document.getElementById("name-account-bank");for(let l=0;l<e.children.length;l++)e.value==e.children[l].value&&(t.src=`/images/${e.children[l].getAttribute("data-image")}`,n.textContent=e.children[l].getAttribute("data-no-card"),a.textContent=e.children[l].getAttribute("data-name-card"))}function setFileNameUpload(e){let t=document.getElementById("upload-proof-payment");document.getElementById("label-upload-proof-payment").textContent=e.files[0].name,t.disabled=!1}
+             function setBankPayment(e){let t=document.getElementById("image-bank"),n=document.getElementById("number-bank"),a=document.getElementById("name-account-bank");for(let l=0;l<e.children.length;l++)e.value==e.children[l].value&&(t.src=`/images/${e.children[l].getAttribute("data-image")}`,n.textContent=e.children[l].getAttribute("data-no-card"),a.textContent=e.children[l].getAttribute("data-name-card"))}function setFileNameUpload(e){let t=document.getElementById("next-step");document.getElementById("label-upload-proof-payment").textContent=e.files[0].name,t.disabled=!1}
         </script>
     @endslot
 </x-app-pacient>

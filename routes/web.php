@@ -264,6 +264,7 @@ Route::prefix('konsultasi')->group(function () {
         dd($request);
     });
 
+    
     // Show pacient consultation based on ID
     Route::get('/{id}', function ($id) {
         return view("pacient.consultation.detail-consultation", [
@@ -276,7 +277,7 @@ Route::prefix('konsultasi')->group(function () {
             "schedule" => 1676184847,
             "start_consultation" => 1676184847,
             "end_consultation" => 1676185247,
-            "live_consultation" => true,
+            "live_consultation" => false,
             "status" => "consultation-complete",
 
             "price_consultation" => "Rp. 90.000",
