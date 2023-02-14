@@ -58,9 +58,15 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputScheduleDate" class="text-trouth font-weight-normal">Tanggal</label>
                                             <select id="inputScheduleDate" class="form-control" name="consultation_schedule_date" onchange="getDateSchedule(this)">
-                                                @foreach ($detail_doctor['date_schedule'] as $date)
-                                                    <option value="{{date('d-m-Y', $date)}}">{{date('d - M - Y', $date)}}</option>
-                                                @endforeach
+                                                @if (!isset($date))
+                                                    @foreach ($detail_doctor['date_schedule'] as $date)
+                                                        <option value="{{date('d-m-Y', $date)}}">{{date('d - M - Y', $date)}}</option>
+                                                    @endforeach
+                                                @else
+                                                    @foreach ($detail_doctor['date_schedule'] as $dates)
+                                                        <option value="{{date('d-m-Y', $dates)}}" {{date('d-m-Y', $dates) == $date ? "selected" : ""}}>{{date('d - M - Y', $dates)}}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                             </div>
                                             <div class="form-group col-md-6">
