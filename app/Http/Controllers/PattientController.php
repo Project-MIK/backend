@@ -24,11 +24,7 @@ class PattientController extends Controller
     public function index()
     {
         $data = $this->service->findAll();
-        if (isEmpty($data)) {
-            // ada data
-            return $data;
-        }
-        return $data;
+        return view('admin.pasien'  , ["data" => $data]);
         // no data
     }
 
