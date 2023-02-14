@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MedicalRecordsController;
 use App\Http\Controllers\MedicinesController;
 use App\Http\Controllers\RegistrationOfficersController;
 use App\Models\RegistrationOfficers;
@@ -196,3 +197,4 @@ Route::prefix('konsultasi')->group(function () {
 // Logout
 
 Route::redirect("/keluar", "/masuk");
+Route::resource('rekam-medic', MedicalRecordsController::class);

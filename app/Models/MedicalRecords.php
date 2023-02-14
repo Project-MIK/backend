@@ -13,14 +13,14 @@ class MedicalRecords extends Model
 
     protected $fillable = [
         "medical_record_id" ,
-        "id_patient" , 
-        "id_registration" , 
+        "id_pattient" , 
+        "id_registration_officer" , 
     ];
 
     protected $table = "medical_records";
 
     public function getRouteKeyName(){
-        return "id";
+        return "medical_record_id";
     }
 
     public $timestamps = true;

@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(PattientSeeder::class);
+        $this->call([RegistrationOfficersSeeder::class]);
 
         $this->call([
             AdminSeeder::class , MedicinesSeeder::class , MedicalRecordsSeeder::class
@@ -28,7 +29,7 @@ class DatabaseSeeder extends Seeder
 
         // \App\Models\User::factory(10)->create();
 
-        $this->call([RegistrationOfficersSeeder::class]);
+      
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',

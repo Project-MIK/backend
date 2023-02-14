@@ -18,4 +18,20 @@ class Helper
             return false;
         }
     }
+    public static function compareToArraysCustomId(array $request , $id , $tableName , $idTable){
+        $oldData = DB::table($tableName)
+            ->where($idTable , $id)
+            ->select(array_keys($request))
+            ->get()->toArray();
+        $differences = collect($oldData[0])->diff($request);
+        if($differences->isNotEmpty()){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    public static function sendEmail(){
+        
+    }
 }

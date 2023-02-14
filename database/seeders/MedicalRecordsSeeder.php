@@ -17,7 +17,7 @@ class MedicalRecordsSeeder extends Seeder
     {
         //
         MedicalRecords::Create([
-            "medical_record_id" => "id_12312_id_",
+            "medical_record_id" => "0koaso",
             "id_pattient" => 1 , 
             "id_registration_officer" => 1
         ]);

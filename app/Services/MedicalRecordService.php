@@ -5,42 +5,49 @@ namespace App\Services;
 
 use App\Helpers\Helper;
 use App\Models\MedicalRecords;
+use App\Models\Pattient;
 
 class MedicalRecordService
 {
 
-    private MedicalRecords $model;
-
+    private MedicalRecords $medicalRecords;
+    private Pattient $pattient;
+    
 
     public function __construct()
     {
-        $this->model = new MedicalRecords();
+        $this->medicalRecords = new MedicalRecords();
     }
 
 
-    public function index()
+    public function findAll()
     {
-        return $this->model->all()->toArray();
+        return $this->medicalRecords->all()->toArray();
     }
 
 
     public function insert(array $request)
     {
-        $res = $this->model->create($request);
-        if ($res) {
-            return true;
+        try {
+            $res = $this->medicalRecords->create($request);
+            if ($res) {
+                return true;
+            }
+            return false;
+        } catch (\PDOException $th) {
+            //throw $th;
+            return false;
         }
-        return false;
     }
 
     public function update(array $request, $id)
     {
-        $isChange = Helper::compareToArrays($request, $id, 'medical_recors');
+        $isChange = Helper::compareToArraysCustomId($request, $id, 'medical_records' , 'medical_record_id');
         $response = [];
         if ($isChange) {
-            $res = $this->model->where('id', $id)->update(
+            $res = $this->medicalRecords->where('medical_record_id', $id)->update(
                 $request
-            );
+            );  
             if ($res) {
                 $response['status'] = true;
                 $response['message'] = 'berhasil memperbarui data rekam medic';
@@ -57,13 +64,14 @@ class MedicalRecordService
 
     public function findById($id)
     {
-        return $this->model->where('id' , $id)->first()->toArray();
+        $res =  $this->medicalRecords->where('medical_record_id', $id)->first();
+        return $res == null ? [] : $res->toArray();
     }
 
     public function deleteById($id)
-    {   
-        $res = $this->model->where('id' , $id)->delete();
-        if($res){
+    {
+        $res = $this->medicalRecords->where('medical_record_id', $id)->delete();
+        if ($res) {
             return true;
         }
         return false;

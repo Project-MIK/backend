@@ -25,9 +25,9 @@ class MedicalRecordsStoreRequest extends FormRequest
     {
         return [
                 //
-            "medical_record_id" => ["required"] , 
-            "id_patient" => ["required"] ,
-            "id_registration_officer" => ["required"] , 
+            "medical_record_id" => ["required" , "unique:medical_records,medical_record_id"] , 
+            "id_pattient" => ["required" , 'numeric'] ,
+            "id_registration_officer" => ["required" , "numeric"] , 
         ];
     }
 }
