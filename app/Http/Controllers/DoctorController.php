@@ -43,9 +43,17 @@ class DoctorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DoctorRequest $request)
+    public function store(DoctorRequest $request) : bool
     {
-        //
+        $response = $this->service->add($request->validate($request->rules()));
+
+        if ($response) {
+            session()->flash("message", "berhasil menambah dokter");
+        } else {
+            session()->flash("message", "gagal menambah dokter");
+        }
+
+        return $response;
     }
 
     /**
@@ -79,9 +87,15 @@ class DoctorController extends Controller
      * @param  \App\Models\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function update(DoctorRequest $request, Doctor $doctor)
+    public function update(DoctorRequest $request, $id)
     {
-        //
+        $response = $this->service->change($request->validate($request->rules()), $id);
+        if ($response) {
+            session()->flash("message", "berhasil memperbarui dokter");
+        } else {
+            session()->flash("message", "gagal memperbarui dokter");
+        }
+        return $response;
     }
 
     /**
@@ -90,8 +104,15 @@ class DoctorController extends Controller
      * @param  \App\Models\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Doctor $doctor)
+    public function destroy($id)
     {
-        //
+        $response = $this->service->deleteById($id);
+        if ($response) {
+            session()->flash("message", "berhasil menghapus poliklinik");
+        } else {
+            session()->flash("message", "gagal menghapus poliklinik");
+        }
+
+        return $response;
     }
 }

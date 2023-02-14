@@ -60,7 +60,8 @@ class PolyclinicTest extends TestCase
 
         $request['name'] = fake()->words(2, true);
         $data = $this->controller->store($request);
-        $this->assertEquals(true, $data);
+        // $this->assertEquals(true, $data);
+        $this->assertTrue($data);
     }
 
     public function test_failed_store_data_polyclinic()
@@ -73,7 +74,7 @@ class PolyclinicTest extends TestCase
         $this->assertEquals(false, $data);
     }
 
-    public function test_update_data_polyclinic()
+    public function test_success_update_data_polyclinic()
     {
         $this->controller = new PolyclinicController();
         $request = new PolyclinicRequest();

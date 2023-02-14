@@ -24,7 +24,11 @@ class DoctorRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'gender' => ['required', 'in:W,M', 'string'],
+            'address' => ['required', 'min:8', 'string'],
+            'phone' => ['required', 'digits_between:12,13', 'numeric'],
+            'id_polyclinic' => ['required', 'numeric']
         ];
     }
 }
