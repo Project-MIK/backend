@@ -14,6 +14,7 @@
             <thead>
                 <tr>
                     <th>no</th>
+                    <th>no medrec</th>
                     <th>pasien</th>
                     <th>complain</th>
                     <th>officer</th>
@@ -23,6 +24,7 @@
             <tbody>
                 <tr>
                     <td>1</td>
+                    <td>xx-xx-xx</td>
                     <td>slamet</td>
                     <td>dada sakit</td>
                     <td>prily latuconsina</td>
@@ -35,6 +37,7 @@
                 </tr>
                 <tr>
                     <td>2</td>
+                    <td>xx-xx-xx</td>
                     <td>Dedi</td>
                     <td>pilek</td>
                     <td>Agus Salim</td>
@@ -49,6 +52,7 @@
             <tfoot>
                 <tr>
                     <th>no</th>
+                    <th>no medrec</th>
                     <th>pasien</th>
                     <th>complain</th>
                     <th>officer</th>
