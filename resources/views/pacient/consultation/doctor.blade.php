@@ -37,11 +37,11 @@
                                         <select id="inputDoctor" class="form-control" name="consultation_doctor" onchange="getDoctor(this)">
                                             @if (!isset($id))
                                                 @foreach ($doctors as $doctor)
-                                                    <option id="{{$doctor['id']}}" value="{{$doctor['name']}}">{{$doctor['name']}}</option>
+                                                    <option id="{{$doctor['id']}}" value="{{$doctor['id']}}-{{$doctor['name']}}">{{$doctor['name']}}</option>
                                                 @endforeach
                                             @else
                                                 @foreach ($doctors as $doctor)
-                                                    <option id="{{$doctor['id']}}" value="{{$doctor['name']}}" {{$doctor['id'] == $id ? "selected" : ""}}>{{$doctor['name']}}</option>
+                                                    <option id="{{$doctor['id']}}" value="{{$doctor['id']}}-{{$doctor['name']}}" {{$doctor['id'] == $id ? "selected" : ""}}>{{$doctor['name']}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -60,11 +60,11 @@
                                             <select id="inputScheduleDate" class="form-control" name="consultation_schedule_date" onchange="getDateSchedule(this)">
                                                 @if (!isset($date))
                                                     @foreach ($detail_doctor['date_schedule'] as $date)
-                                                        <option value="{{date('d-m-Y', $date)}}">{{date('d - M - Y', $date)}}</option>
+                                                        <option id="{{date('d-M-Y', $date)}}" value="{{$date}}">{{date('d - M - Y', $date)}}</option>
                                                     @endforeach
                                                 @else
                                                     @foreach ($detail_doctor['date_schedule'] as $dates)
-                                                        <option value="{{date('d-m-Y', $dates)}}" {{date('d-m-Y', $dates) == $date ? "selected" : ""}}>{{date('d - M - Y', $dates)}}</option>
+                                                        <option id="{{date('d-M-Y', $dates)}}" value="{{$dates}}" {{$date == date('d-M-Y', $dates) ? "selected" : ""}}>{{date('d - M - Y', $dates)}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -73,7 +73,7 @@
                                                 <label for="inputScheduleTime" class="text-trouth font-weight-normal">Waktu (Waktu Indonesia Barat)</label>
                                                 <select id="inputScheduleTime" class="form-control" name="consultation_schedule_time">
                                                     @foreach ($detail_doctor['time_schedule'] as $time)
-                                                        <option value="{{date("h:m:s", $time["start"])}} - {{date("h:m:s", $time["end"])}}">{{date("h : m : s", $time["start"])}} - {{date("h : m : s", $time["end"])}}</option>
+                                                        <option value="{{$time["start"]}}-{{$time["end"]}}">{{date("h : m : s", $time["start"])}} - {{date("h : m : s", $time["end"])}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -104,8 +104,11 @@
             }
         }
         function getDateSchedule(e) {
-            const doctor = document.getElementById("inputDoctor");
-            location.href = `${getDoctor(doctor, false)}/${e.value}`;
+            for (let i = 0; i < e.children.length; i++) {
+                if(e.value == e.children[i].value) {
+                    location.href = `${getDoctor(document.getElementById("inputDoctor"), false)}/${e.children[i].id}`;
+                }
+            }
         }
     </script>
     @endslot

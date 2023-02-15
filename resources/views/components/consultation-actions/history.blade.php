@@ -14,7 +14,11 @@
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td>{{$item["description"]}}</td>
                 <td class="text-center">
-                    <strong>{{$item["status"]}}</strong>
+                  @if ($item["status"] == "confirmed-consultation-payment")
+                      <strong>Konsultasi Telah Selesai</strong>
+                  @elseif($item["valid_status"] < time())
+                      <strong>Konsultasi Telah Kadaluarsa</strong>
+                  @endif
                 </td>
                 <td>
                     <a href="{{'/konsultasi/'.$item['id']}}" class="btn btn-bunting text-white font-weight-normal px-5">CEK</a>

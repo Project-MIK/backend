@@ -28,11 +28,11 @@ class History extends Component
             [
                 "id" => "KL6584690",
                 "description" => "Consectetur veniam excepteur est ea consequat adipisicing sunt mollit. Mollit in quis ipsum fugiat officia ea est nostrud id cupidatat voluptate adipisicing. Est veniam ullamco velit consequat cupidatat ea ad tempor sunt et do qui pariatur proident.",
-                "schedule" => "1 / Januari / 2023",
+                "schedule" => 1685571753,
                 "start_consultation" => 1685571753,
                 "end_consultation" => 1685572753,
-                "status" => "confirmed-consultation-payment",
-                "valid_status" => 1685571753
+                "status" => "waiting-consultation-payment",
+                "valid_status" => 1676441478
             ]
         ];
         return view('components.consultation-actions.history', compact("history_complaints"));

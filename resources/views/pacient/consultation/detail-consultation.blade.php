@@ -87,12 +87,6 @@
                                                 <x-slot:status_payment>
                                                     {{ $status_payment_consultation }}
                                                 </x-slot:status_payment>
-                                                <x-slot:valid_status>
-                                                    {{ $valid_status }}
-                                                </x-slot:valid_status>
-                                                <x-slot:proof_payment_consultation>
-                                                    {{ $proof_payment_consultation }}
-                                                </x-slot:proof_payment_consultation>
                                             </x-pacient-consultation.status-payment-consultation>
                                             @elseif($status == "confirmed-consultation-payment")
                                             <x-pacient-consultation.confirmed-consultation-payment>

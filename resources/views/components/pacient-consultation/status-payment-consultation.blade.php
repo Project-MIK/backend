@@ -22,7 +22,7 @@
     @csrf
     <div id="status-payment-consultation">
         <input type="text" class="d-none" name="state-payment" value="consultation">
-        <div class="form-group col-12">
+        <div id="payment" class="form-group col-12">
             <label for="price-consultation" class="text-trouth">Nominal Bayar Konsultasi</label>
             <input type="text" class="form-control py-4 text-bunting font-weight-bold" id="price-consultation" value="{{ $price }}" readonly>
         </div>

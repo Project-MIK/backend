@@ -71,37 +71,46 @@ Route::prefix('konsultasi')->group(function () {
         return view("pacient.consultation.complaint", [
             // Show categories type disease
             "categories" => [
-                "Penyakit Langka",
-                "Kelainan Bawaan",
-                "Gangguan Mental",
-                "Cedera",
-                "Penyakit Dalam",
-                "Tidak Tahu"
+                "K001" => "Penyakit Langka",
+                "K002" => "Kelainan Bawaan",
+                "K003" => "Gangguan Mental",
+                "K004" => "Cedera",
+                "K005" => "Penyakit Dalam",
+                "K000" => "Tidak Tahu"
             ]
         ]);
     });
     Route::post('/', function (Request $request) {
-        dd($request);
+        session(['consultation' => [
+            "description" => trim($request->input("consultation_complaint")),
+            "category" => explode("-", $request->input("consultation_category")),
+        ]]);
+        return redirect("/konsultasi/poliklinik");
     });
 
     // Create consultation #2 - set polyclinic
     Route::get('/poliklinik', function () {
+        if (!isset(session("consultation")["description"])) return redirect("/konsultasi");
         return view("pacient.consultation.polyclinic", [
             "polyclinics" => [
-                "POLIKLINIK OBGYN (OBSTETRI & GINEKOLOGI)",
-                "POLIKLINIK ANAK DAN TUMBUH KEMBANG",
-                "POLIKLINIK PENYAKIT DALAM (INTERNA)",
-                "POLIKLINIK BEDAH UMUM",
-                "POLIKLINIK BEDAH ONKOLOGI"
+                "PL0001" => "POLIKLINIK OBGYN (OBSTETRI & GINEKOLOGI)",
+                "PL0002" => "POLIKLINIK ANAK DAN TUMBUH KEMBANG",
+                "PL0003" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
+                "PL0004" => "POLIKLINIK BEDAH UMUM",
+                "PL0005" => "POLIKLINIK BEDAH ONKOLOGI"
             ]
         ]);
     });
     Route::post('/poliklinik', function (Request $request) {
-        dd($request);
+        session(['consultation' => array_merge(session('consultation'), [
+            "polyclinic" => explode("-", $request->input("consultation_polyclinic"))
+        ])]);
+        return redirect("/konsultasi/dokter");
     });
 
     // Create consultation #3 - set doctor & schedule consultation
     Route::get('/dokter', function () {
+        if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
         return view("pacient.consultation.doctor", [
             "doctors" => [
                 [
@@ -142,6 +151,7 @@ Route::prefix('konsultasi')->group(function () {
         ]);
     });
     Route::get('/dokter/{id}', function ($id) {
+        if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
         return view("pacient.consultation.doctor", [
             "id" => $id,
             "doctors" => [
@@ -183,6 +193,7 @@ Route::prefix('konsultasi')->group(function () {
         ]);
     });
     Route::get('/dokter/{id}/{date}', function ($id, $date) {
+        if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
         return view("pacient.consultation.doctor", [
             "id" => $id,
             "date" => $date,
@@ -225,19 +236,27 @@ Route::prefix('konsultasi')->group(function () {
         ]);
     });
     Route::post('/dokter', function (Request $request) {
-        dd($request);
+        session(['consultation' => array_merge(session('consultation'), [
+            "doctor" => explode("-", $request->input("consultation_doctor")),
+            "price" => $request->input("consultation_price"),
+            "schedule_date" => $request->input("consultation_schedule_date"),
+            "schedule_time" => explode("-", $request->input("consultation_schedule_time"))
+        ])]);
+        return redirect("/konsultasi/rincian");
     });
 
     // Create consultation #4 - showing confirmation desciption data
     Route::get('/rincian', function () {
+        if (!isset(session("consultation")["doctor"])) return redirect("/konsultasi/dokter");
         return view("pacient.consultation.detail-order");
     });
     Route::post('/rincian', function (Request $request) {
-        dd($request);
+        return redirect("/konsultasi/KL6584690#payment");
     });
 
     // Create consultation #5 - confirmation bank to payment consultation 
     Route::get('/pembayaran', function () {
+        if (!isset(session("consultation")["doctor"])) return redirect("/konsultasi/rincian");
         return view("pacient.consultation.payment", [
             "id" => "KL6584690",
             "price_consultation" => "RP. 90.000",
@@ -264,7 +283,6 @@ Route::prefix('konsultasi')->group(function () {
         dd($request);
     });
 
-    
     // Show pacient consultation based on ID
     Route::get('/{id}', function ($id) {
         return view("pacient.consultation.detail-consultation", [
@@ -278,10 +296,10 @@ Route::prefix('konsultasi')->group(function () {
             "start_consultation" => 1676184847,
             "end_consultation" => 1676185247,
             "live_consultation" => false,
-            "status" => "consultation-complete",
+            "status" => "waiting-consultation-payment",
 
             "price_consultation" => "Rp. 90.000",
-            "status_payment_consultation" => "TERKONFIRMASI",
+            "status_payment_consultation" => "BELUM TERKONFIRMASI",
             "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
 
             "price_medical_prescription" => "Rp. 100.000", // null
