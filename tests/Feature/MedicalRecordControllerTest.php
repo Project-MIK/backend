@@ -20,7 +20,6 @@ class MedicalRecordControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    
     public function test_store_success()
     {
         $data = [
@@ -47,6 +46,12 @@ class MedicalRecordControllerTest extends TestCase
         $this->post("rekam-medic" , $data);
         $res = $this->call('delete' , "rekam-medic/$id");
         $res->assertSessionHas("message" , "berhasil menghapus rekam medis");
+    }
+
+
+    public function test_send_email(){
+        $res = $this->get("/rekam-medic/test" );
+        dd($res);
     }
 
 }

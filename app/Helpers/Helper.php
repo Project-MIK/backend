@@ -31,7 +31,4 @@ class Helper
         }
     }
 
-    public static function sendEmail(){
-        
-    }
 }

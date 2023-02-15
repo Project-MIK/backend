@@ -4,9 +4,12 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MedicalRecordsController;
 use App\Http\Controllers\MedicinesController;
 use App\Http\Controllers\RegistrationOfficersController;
+use App\Mail\MailHelper;
 use App\Models\RegistrationOfficers;
 use App\Http\Controllers\PattientController;
+use App\Services\MedicalRecordService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +32,7 @@ Route::post("/masuk", function (Request $request) {
 
 // Authentication - Register
 Route::view("/daftar", "pacient.auth.register");
-Route::post("/daftar" , [PattientController::class , "store"]);
+Route::post("/daftar", [PattientController::class, "store"]);
 
 // Authentication - Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgotPassword");

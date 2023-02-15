@@ -138,4 +138,10 @@ class MedicalRecordServiceTest extends TestCase
             $this->assertTrue($resDelete);
         }
     }
+
+    public function test_send_email(){
+        $service = new MedicalRecordService();
+        $res = $service->sendEmailMedicalRecord("safiraput66@gmail.com" , "norekammedic");
+        dd($res);
+    }
 }
