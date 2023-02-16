@@ -91,23 +91,13 @@
                                                         proofPayment="{{$proof_payment_consultation}}"
                                                     />
                                                 @elseif($status == "waiting-medical-prescription-payment")
-                                                <x-pacient-consultation.status-payment-medical-prescription>
-                                                    <x-slot:id>
-                                                        {{ $id }}
-                                                    </x-slot:id>
-                                                    <x-slot:price>
-                                                        {{ $price_medical_prescription }}
-                                                    </x-slot:price>
-                                                    <x-slot:status_payment>
-                                                        {{ $status_payment_medical_prescription }}
-                                                    </x-slot:status_payment>
-                                                    <x-slot:valid_status>
-                                                        {{ $valid_status }}
-                                                    </x-slot:valid_status>
-                                                    <x-slot:proof_payment_medical_prescription>
-                                                        {{ $proof_payment_medical_prescription }}
-                                                    </x-slot:proof_payment_medical_prescription>
-                                                </x-pacient-consultation.status-payment-medical-prescription>
+                                                    <x-pacient-consultation.status-payment-medical-prescription
+                                                        id="{{$id}}"
+                                                        price="{{$price_medical_prescription}}"
+                                                        status="{{$status_payment_medical_prescription}}"
+                                                        proofPayment="{{$proof_payment_medical_prescription}}"
+                                                        validStatus="{{$valid_status}}"
+                                                    />
                                                 @elseif($status == "confirmed-medical-prescription-payment")
                                                 <x-pacient-consultation.set-delivery-medical-prescription>
                                                     <x-slot:id>{{ $id }}</x-slot:id>
