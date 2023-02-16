@@ -47,126 +47,120 @@
                                     <h1 class="font-weight-bold text-bunting text-xl">{{ $id }}</h1>
                                 </div>
                                 @if ($status == "confirmed-consultation-payment")
-                                <div class="alert alert-primary mt-3" role="alert">
-                                    <p class="font-weight-bold mt-3 text-center">KONSULTASI ANDA AKAN DIMULAI PADA <u>{{ $schedule }} WIB</u></p>
-                                </div>
+                                    <div class="alert alert-primary mt-3" role="alert">
+                                        <p class="font-weight-bold mt-3 text-center">KONSULTASI ANDA AKAN DIMULAI PADA <u>{{ date("d - M - Y", $schedule) }} , {{ date("h : m : s", $start_consultation) }} - {{ date("h : m : s", $end_consultation) }} WIB</u></p>
+                                    </div>
                                 @endif
-                                <div class="mt-4">
-                                    <div class="d-flex flex-column flex-lg-row">
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group col-12">
-                                                <label for="complaint" class="text-trouth">Keluhan</label>
-                                                <textarea class="form-control" id="complaint" cols="30" rows="5" readonly>{{ $description }}</textarea>
+                                    <div class="mt-4">
+                                        <div class="d-flex flex-column flex-lg-row">
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group col-12">
+                                                    <label for="complaint" class="text-trouth">Keluhan</label>
+                                                    <textarea class="form-control" id="complaint" cols="30" rows="5" readonly>{{ $description }}</textarea>
+                                                </div>
+                                                <div class="form-group col-12">
+                                                    <label for="polyclinic" class="text-trouth">Kategori</label>
+                                                    <input type="text" class="form-control py-4" id="polyclinic" value="{{ $category }}" readonly>
+                                                </div>
                                             </div>
-                                            <div class="form-group col-12">
-                                                <label for="polyclinic" class="text-trouth">Kategori</label>
-                                                <input type="text" class="form-control py-4" id="polyclinic" value="{{ $category }}" readonly>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group col-12">
+                                                    <label for="polyclinic" class="text-trouth">Poliklinik</label>
+                                                    <input type="text" class="form-control py-4" id="polyclinic" value="{{ $polyclinic }}" readonly>
+                                                </div>
+                                                <div class="form-group col-12">
+                                                    <label for="doctor" class="text-trouth">Dokter</label>
+                                                    <input type="text" class="form-control py-4" id="doctor" value="{{ $doctor }}" readonly>
+                                                </div>
+                                                <div class="form-group col-12">
+                                                    <label for="consultation-schedule" class="text-trouth">Jadwal Konsultasi</label>
+                                                    <input type="text" class="form-control py-4" id="consultation-schedule" value="{{ date("d - M - Y", $schedule) }} , {{ date("h : m : s", $start_consultation) }} - {{ date("h : m : s", $end_consultation) }} WIB" readonly>
+                                                </div>
+                                                @if ($status == "waiting-consultation-payment")
+                                                    <x-pacient-consultation.status-payment-consultation
+                                                        id="{{$id}}"
+                                                        price="{{$price_consultation}}"
+                                                        status="{{$status_payment_consultation}}"
+                                                        proofPayment="{{$proof_payment_consultation}}"
+                                                        validStatus="{{$valid_status}}"
+                                                    />
+                                                @elseif($status == "confirmed-consultation-payment") 
+                                                    <x-pacient-consultation.confirmed-consultation-payment
+                                                        price="{{$price_consultation}}"
+                                                        status="{{$status_payment_consultation}}"
+                                                        proofPayment="{{$proof_payment_consultation}}"
+                                                    />
+                                                @elseif($status == "waiting-medical-prescription-payment")
+                                                <x-pacient-consultation.status-payment-medical-prescription>
+                                                    <x-slot:id>
+                                                        {{ $id }}
+                                                    </x-slot:id>
+                                                    <x-slot:price>
+                                                        {{ $price_medical_prescription }}
+                                                    </x-slot:price>
+                                                    <x-slot:status_payment>
+                                                        {{ $status_payment_medical_prescription }}
+                                                    </x-slot:status_payment>
+                                                    <x-slot:valid_status>
+                                                        {{ $valid_status }}
+                                                    </x-slot:valid_status>
+                                                    <x-slot:proof_payment_medical_prescription>
+                                                        {{ $proof_payment_medical_prescription }}
+                                                    </x-slot:proof_payment_medical_prescription>
+                                                </x-pacient-consultation.status-payment-medical-prescription>
+                                                @elseif($status == "confirmed-medical-prescription-payment")
+                                                <x-pacient-consultation.set-delivery-medical-prescription>
+                                                    <x-slot:id>{{ $id }}</x-slot:id>
+                                                </x-pacient-consultation.set-delivery-medical-prescription>
+                                                @elseif($status == "consultation-complete")
+                                                <x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription>
+                                                    <x-slot:id>{{ $id }}</x-slot:id>
+                                                    <x-slot:price_consultation>
+                                                        {{ $price_consultation }}
+                                                    </x-slot:price_consultation>
+                                                    <x-slot:status_payment_consultation>
+                                                        {{ $status_payment_consultation }}
+                                                    </x-slot:status_payment_consultation>
+                                                    <x-slot:proof_payment_consultation>
+                                                        {{ $proof_payment_consultation }}
+                                                    </x-slot:proof_payment_consultation>
+        
+                                                    <x-slot:price_medical_prescription>
+                                                        {{ $price_medical_prescription }}
+                                                    </x-slot:price_medical_prescription>
+                                                    <x-slot:status_payment_medical_prescription>
+                                                        {{ $status_payment_medical_prescription }}
+                                                    </x-slot:status_payment_medical_prescription>
+                                                    <x-slot:proof_payment_medical_prescription>
+                                                        {{ $proof_payment_medical_prescription }}
+                                                    </x-slot:proof_payment_medical_prescription>
+        
+                                                    <x-slot:pickup_medical_prescription>
+                                                        {{ $pickup_medical_prescription }}
+                                                    </x-slot:pickup_medical_prescription>
+                                                    <x-slot:pickup_medical_status>
+                                                        {{ $pickup_medical_status }}
+                                                    </x-slot:pickup_medical_status>
+                                                    <x-slot:pickup_medical_description>
+                                                        {{ $pickup_medical_description }}
+                                                    </x-slot:pickup_medical_description>
+                                                    <x-slot:pickup_medical_no_telp_pacient>
+                                                        {{ $pickup_medical_no_telp_pacient }}
+                                                    </x-slot:pickup_medical_no_telp_pacient>
+                                                    <x-slot:pickup_medical_addreass_pacient>
+                                                        {{ $pickup_medical_addreass_pacient }}
+                                                    </x-slot:pickup_medical_addreass_pacient>
+                                                    <x-slot:pickup_by>
+                                                        {{ $pickup_by_pacient }}
+                                                    </x-slot:pickup_by>
+                                                    <x-slot:pickup_datetime>
+                                                        {{ $pickup_datetime }}
+                                                    </x-slot:pickup_datetime>
+                                                </x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription>
+                                                @endif
                                             </div>
-                                        </div>
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group col-12">
-                                                <label for="polyclinic" class="text-trouth">Poliklinik</label>
-                                                <input type="text" class="form-control py-4" id="polyclinic" value="{{ $polyclinic }}" readonly>
-                                            </div>
-                                            <div class="form-group col-12">
-                                                <label for="doctor" class="text-trouth">Dokter</label>
-                                                <input type="text" class="form-control py-4" id="doctor" value="{{ $doctor }}" readonly>
-                                            </div>
-                                            <div class="form-group col-12">
-                                                <label for="consultation-schedule" class="text-trouth">Jadwal Konsultasi</label>
-                                                <input type="text" class="form-control py-4" id="consultation-schedule" value="{{ date("d - M - Y", $schedule) }} , {{ date("h : m : s", $start_consultation) }} - {{ date("h : m : s", $end_consultation) }} WIB" readonly>
-                                            </div>
-                                            @if ($status == "waiting-consultation-payment")
-                                            <x-pacient-consultation.status-payment-consultation
-                                                id="{{$id}}"
-                                                price="{{$price_consultation}}"
-                                                status="{{$status_payment_consultation}}"
-                                                proofPayment="{{$proof_payment_consultation}}"
-                                                validStatus="{{$valid_status}}"
-                                            />
-                                            @elseif($status == "confirmed-consultation-payment")
-                                            <x-pacient-consultation.confirmed-consultation-payment>
-                                                <x-slot:price>
-                                                    {{ $price_consultation }}
-                                                </x-slot:price>
-                                                <x-slot:status_payment>
-                                                    {{ $status_payment_consultation }}
-                                                </x-slot:status_payment>
-                                                <x-slot:proof_payment_consultation>
-                                                    {{ $proof_payment_consultation }}
-                                                </x-slot:proof_payment_consultation>
-                                            </x-pacient-consultation.confirmed-consultation-payment>
-                                            @elseif($status == "waiting-medical-prescription-payment")
-                                            <x-pacient-consultation.status-payment-medical-prescription>
-                                                <x-slot:id>
-                                                    {{ $id }}
-                                                </x-slot:id>
-                                                <x-slot:price>
-                                                    {{ $price_medical_prescription }}
-                                                </x-slot:price>
-                                                <x-slot:status_payment>
-                                                    {{ $status_payment_medical_prescription }}
-                                                </x-slot:status_payment>
-                                                <x-slot:valid_status>
-                                                    {{ $valid_status }}
-                                                </x-slot:valid_status>
-                                                <x-slot:proof_payment_medical_prescription>
-                                                    {{ $proof_payment_medical_prescription }}
-                                                </x-slot:proof_payment_medical_prescription>
-                                            </x-pacient-consultation.status-payment-medical-prescription>
-                                            @elseif($status == "confirmed-medical-prescription-payment")
-                                            <x-pacient-consultation.set-delivery-medical-prescription>
-                                                <x-slot:id>{{ $id }}</x-slot:id>
-                                            </x-pacient-consultation.set-delivery-medical-prescription>
-                                            @elseif($status == "consultation-complete")
-                                            <x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription>
-                                                <x-slot:id>{{ $id }}</x-slot:id>
-                                                <x-slot:price_consultation>
-                                                    {{ $price_consultation }}
-                                                </x-slot:price_consultation>
-                                                <x-slot:status_payment_consultation>
-                                                    {{ $status_payment_consultation }}
-                                                </x-slot:status_payment_consultation>
-                                                <x-slot:proof_payment_consultation>
-                                                    {{ $proof_payment_consultation }}
-                                                </x-slot:proof_payment_consultation>
-    
-                                                <x-slot:price_medical_prescription>
-                                                    {{ $price_medical_prescription }}
-                                                </x-slot:price_medical_prescription>
-                                                <x-slot:status_payment_medical_prescription>
-                                                    {{ $status_payment_medical_prescription }}
-                                                </x-slot:status_payment_medical_prescription>
-                                                <x-slot:proof_payment_medical_prescription>
-                                                    {{ $proof_payment_medical_prescription }}
-                                                </x-slot:proof_payment_medical_prescription>
-    
-                                                <x-slot:pickup_medical_prescription>
-                                                    {{ $pickup_medical_prescription }}
-                                                </x-slot:pickup_medical_prescription>
-                                                <x-slot:pickup_medical_status>
-                                                    {{ $pickup_medical_status }}
-                                                </x-slot:pickup_medical_status>
-                                                <x-slot:pickup_medical_description>
-                                                    {{ $pickup_medical_description }}
-                                                </x-slot:pickup_medical_description>
-                                                <x-slot:pickup_medical_no_telp_pacient>
-                                                    {{ $pickup_medical_no_telp_pacient }}
-                                                </x-slot:pickup_medical_no_telp_pacient>
-                                                <x-slot:pickup_medical_addreass_pacient>
-                                                    {{ $pickup_medical_addreass_pacient }}
-                                                </x-slot:pickup_medical_addreass_pacient>
-                                                <x-slot:pickup_by>
-                                                    {{ $pickup_by_pacient }}
-                                                </x-slot:pickup_by>
-                                                <x-slot:pickup_datetime>
-                                                    {{ $pickup_datetime }}
-                                                </x-slot:pickup_datetime>
-                                            </x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription>
-                                            @endif
                                         </div>
                                     </div>
-                                </div>
                             </div>
                         @endif
                     </div>
