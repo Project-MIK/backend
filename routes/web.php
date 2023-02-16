@@ -254,35 +254,6 @@ Route::prefix('konsultasi')->group(function () {
         return redirect("/konsultasi/KL6584690#payment");
     });
 
-    // Create consultation #5 - confirmation bank to payment consultation 
-    Route::get('/pembayaran', function () {
-        if (!isset(session("consultation")["doctor"])) return redirect("/konsultasi/rincian");
-        return view("pacient.consultation.payment", [
-            "id" => "KL6584690",
-            "price_consultation" => "RP. 90.000",
-            "banks" => [
-                [
-                    "id" => "BCA",
-                    "name" => "BCA ( Bank Central Asia )",
-                    "image" => "bca-logo.png",
-                    "no_card" => "623724239",
-                    "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
-                ],
-                [
-                    "id" => "BRI",
-                    "name" => "BRI ( Bank Rakyat Indonesia )",
-                    "image" => "bri-logo.png",
-                    "no_card" => "689564234",
-                    "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
-                ]
-            ],
-            "valid_status" => 1676015722
-        ]);
-    });
-    Route::post('/pembayaran', function (Request $request) {
-        dd($request);
-    });
-
     // Show pacient consultation based on ID
     Route::get('/{id}', function ($id) {
         return view("pacient.consultation.detail-consultation", [
