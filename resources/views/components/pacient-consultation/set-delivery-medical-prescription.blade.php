@@ -30,7 +30,7 @@
         <div id="hostipal-pharmacy" class="d-block">
             <div class="d-flex flex-column mb-4">
                 <label class="text-trouth">Dokumen Pengambilan Obat</label>
-                <a href="" target="_blank" class="mb-2">CETAK DOKUMEN PENGAMBILAN OBAT</a>
+                <a href="/konsultasi/{{$id}}/export" target="_blank" class="mb-2">CETAK DOKUMEN PENGAMBILAN OBAT</a>
                 <small>( Dokumen ini berguna sebagai syarat pengambilan obat )</small>
             </div>
             <div>

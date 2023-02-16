@@ -99,54 +99,28 @@
                                                         validStatus="{{$valid_status}}"
                                                     />
                                                 @elseif($status == "confirmed-medical-prescription-payment")
-                                                <x-pacient-consultation.set-delivery-medical-prescription>
-                                                    <x-slot:id>{{ $id }}</x-slot:id>
-                                                </x-pacient-consultation.set-delivery-medical-prescription>
+                                                    <x-pacient-consultation.set-delivery-medical-prescription
+                                                      id="{{$id}}"  
+                                                    />
                                                 @elseif($status == "consultation-complete")
-                                                <x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription>
-                                                    <x-slot:id>{{ $id }}</x-slot:id>
-                                                    <x-slot:price_consultation>
-                                                        {{ $price_consultation }}
-                                                    </x-slot:price_consultation>
-                                                    <x-slot:status_payment_consultation>
-                                                        {{ $status_payment_consultation }}
-                                                    </x-slot:status_payment_consultation>
-                                                    <x-slot:proof_payment_consultation>
-                                                        {{ $proof_payment_consultation }}
-                                                    </x-slot:proof_payment_consultation>
-        
-                                                    <x-slot:price_medical_prescription>
-                                                        {{ $price_medical_prescription }}
-                                                    </x-slot:price_medical_prescription>
-                                                    <x-slot:status_payment_medical_prescription>
-                                                        {{ $status_payment_medical_prescription }}
-                                                    </x-slot:status_payment_medical_prescription>
-                                                    <x-slot:proof_payment_medical_prescription>
-                                                        {{ $proof_payment_medical_prescription }}
-                                                    </x-slot:proof_payment_medical_prescription>
-        
-                                                    <x-slot:pickup_medical_prescription>
-                                                        {{ $pickup_medical_prescription }}
-                                                    </x-slot:pickup_medical_prescription>
-                                                    <x-slot:pickup_medical_status>
-                                                        {{ $pickup_medical_status }}
-                                                    </x-slot:pickup_medical_status>
-                                                    <x-slot:pickup_medical_description>
-                                                        {{ $pickup_medical_description }}
-                                                    </x-slot:pickup_medical_description>
-                                                    <x-slot:pickup_medical_no_telp_pacient>
-                                                        {{ $pickup_medical_no_telp_pacient }}
-                                                    </x-slot:pickup_medical_no_telp_pacient>
-                                                    <x-slot:pickup_medical_addreass_pacient>
-                                                        {{ $pickup_medical_addreass_pacient }}
-                                                    </x-slot:pickup_medical_addreass_pacient>
-                                                    <x-slot:pickup_by>
-                                                        {{ $pickup_by_pacient }}
-                                                    </x-slot:pickup_by>
-                                                    <x-slot:pickup_datetime>
-                                                        {{ $pickup_datetime }}
-                                                    </x-slot:pickup_datetime>
-                                                </x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription>
+                                                    <x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription
+                                                        id="{{$id}}"
+                                                        priceConsultation="{{$price_consultation}}"
+                                                        statusPaymentConsultation="{{$status_payment_consultation}}"
+                                                        proofPaymentConsultation="{{$proof_payment_consultation}}"
+
+                                                        priceMedicalPrescription="{{$price_medical_prescription}}"
+                                                        statusPaymentMedicalPrescription="{{$status_payment_medical_prescription}}"
+                                                        proofPaymentMedicalPrescription="{{$proof_payment_medical_prescription}}"
+                                                        
+                                                        pickupMedicalPrescription="{{$pickup_medical_prescription}}"
+                                                        pickupMedicalStatus="{{$pickup_medical_status}}"
+                                                        pickupMedicalDescription="{{$pickup_medical_description}}"
+                                                        pickupMedicalPhoneNumberPacient="{{$pickup_medical_no_telp_pacient}}"
+                                                        pickupMedicalAddreassPacient="{{$pickup_medical_addreass_pacient}}"
+                                                        pickupByPacient="{{$pickup_by_pacient}}"
+                                                        pickupDatetime="{{$pickup_datetime}}"
+                                                    />
                                                 @endif
                                             </div>
                                         </div>
