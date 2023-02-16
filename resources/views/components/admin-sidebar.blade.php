@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/pasien/view" class="nav-link">
+                    <a href="/admin/pasien/" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-bed-pulse"></i></div>
                             <div class="col-10"><p>Pasien</p></div>

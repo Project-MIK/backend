@@ -199,8 +199,8 @@ Route::prefix('admin')->group(function () {
     Route::prefix('pasien')->group(function ()
     {
         Route::view('view','admin.pasien');
-        Route::get('/');
-        Route::post('store');
+        Route::get('/',[PattientController::class,'index']);
+        Route::post('store',[PattientController::class,'store']);
         Route::put('update');
         Route::delete('destroy');
     });

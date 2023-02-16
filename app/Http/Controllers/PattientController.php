@@ -34,7 +34,7 @@ class PattientController extends Controller
     }
     public function store(StorePattientRequest $request)
     {
-        dd("woi");
+        // dd("woi");
         $request->validate(['citizen' => ['required']]);
         // bool return
         if ($request['citizen'] == 'WNI') {

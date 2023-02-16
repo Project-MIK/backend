@@ -8,7 +8,7 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">DataTable with default features</h3>
-
+        {{-- {{dd($data)}} --}}
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -25,6 +25,27 @@
                 </tr>
             </thead>
             <tbody>
+                @php($no = 0)
+                @foreach($data as $record)
+                @php($no++)
+                <tr>
+                    <td>{{$no}}</td>
+                    <td>{{$record['name']}}</td>
+                    @if($record['status']>0)
+                    <td>code rekamedik</td>
+                    @else
+                    <td><button type="button" data-toggle='modal' data-target='#modal-rs' class="btn btn-block btn-success btn-xs">Tambahkan no rs</button></td>
+                    @endif
+                    <td>{{$record['gender']}}</td>
+                    <th>{{$record['address']}}</th>
+                    <th>
+                        <div class="row">
+                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
+                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Danger</button></div>
+                        </div>
+                    </th>
+                </tr>
+                @endforeach
                 <tr>
                     <td>1</td>
                     <td>Bachtiar Arya </td>
@@ -70,9 +91,149 @@
 <x-modal modalid="modal-tambah" judul="Tambah Data Pasien">
     <x-slot:modalid>modal-tambah</x-slot:modalid>
     <x-slot:judul>Tambah Data Pasien</x-slot:judul>
-    <form action="{{url('')}}admin/token" method="post">
-        <input type="email" name="" id="">
-        <button type="submit">simpan</button>
+    <form action="store" method="post">
+        @csrf
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-nama">Nama</label>
+                    <input type="text" class="form-control" id="tambah-nama" placeholder="Masukan Nama" name="fullname" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="">Gender</label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value="L" required>
+                                <label class="form-check-label">Laki Laki</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value="W" required>
+                                <label class="form-check-label">Perempuan</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-phone">No Telpon</label>
+                    <input type="tel" class="form-control" id="tambah-phone" placeholder="Masukan nomer telp" name="phone_number" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-email">Email address</label>
+                    <input type="email" class="form-control" id="tambah-email" placeholder="Masukan email" name="email" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-password">Password</label>
+                    <input type="password" class="form-control" id="tambah-password" name="password" required>
+                </div>
+            </div>
+        </div>
+        <h2>Alamat</h2>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-rt">RT</label>
+                    <input type="number" class="form-control" id="tambah-rt" name="address_RT" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="tambah-rw">RW</label>
+                        <input type="number" class="form-control" id="tambah-rw" name="address_RW" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-desa">Desa</label>
+                    <input type="text" class="form-control" id="tambah-desa" name="address_desa" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-dusun">Dusun</label>
+                    <input type="text" class="form-control" id="tambah-dusun" name="address_dusun" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-kecamatan">Kecamatan</label>
+                    <input type="text" class="form-control" id="tambah-kecamatan" name="address_kecamatan" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-kabupaten">Kabupaten</label>
+                    <input type="text" class="form-control" id="tambah-kabupaten" name="address_kabupaten" required>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-citizen">Kewarganegaraan</label>
+                    <input type="text" class="form-control" id="tambah-citizen" name="citizen" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-profession">Pekerjaan</label>
+                    <input type="text" class="form-control" id="tambah-profession" name="profession" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>Date Lahir</label>
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="date_birth">
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-bPlace">Tempat Lahit</label>
+                    <input type="text" class="form-control" id="tambah-bPlace" name="place_birth" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-darah">golongan darah</label>
+                    <input type="text" class="form-control" id="tambah-darah" name="blood_group" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="tambah-nik">NIK</label>
+                    <input type="text" class="form-control" id="tambah-nik" name="nik" required>
+                </div>
+            </div>
+        </div>
+        <button type="submit">Submit</button>
     </form>
 </x-modal>
 
@@ -257,5 +418,42 @@
     }
 
 </script>
+
+@if(session('message'))
+<script>
+    console.log('mesage recorded');
+    $(function() {
+        $(document).ready(function() {
+            $(document).Toasts('create', {
+                class: 'bg-success'
+                , title: 'success'
+                , autohide: true
+                , delay: 2000
+                , body: '{{ session()->get('
+                message.message ') }}'
+            })
+        });
+    });
+
+</script>
+@endif
+@if($errors->any())
+<script>
+    console.log('mesage recorded');
+    $(function() {
+        $(document).ready(function() {
+            $(document).Toasts('create', {
+                class: 'bg-danger'
+                , title: 'error'
+                , autohide: true
+                , delay: 2000
+                , body: '@foreach ($errors->all() as $error)<li>{{$error}}</li>@endforeach'
+            })
+        });
+    });
+
+</script>
+{{-- {{dd($errors)}} --}}
+@endif
 
 @endsection
