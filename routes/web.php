@@ -313,6 +313,8 @@ Route::prefix('konsultasi')->group(function () {
             "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
             "pickup_by_pacient" => "Aristo Caesar Pratama",
             "pickup_datetime" => 1676184847,
+
+            "valid_status" => 1676134847
         ]);
     });
 

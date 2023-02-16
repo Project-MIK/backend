@@ -73,21 +73,17 @@
                                                 <input type="text" class="form-control py-4" id="doctor" value="{{ $doctor }}" readonly>
                                             </div>
                                             <div class="form-group col-12">
-                                                <label for="consultation-schedule" class="text-trouth">Jadwal Konsultasi <span class="font-weight-light">( WIB )</span></label>
-                                                <input type="text" class="form-control py-4" id="consultation-schedule" value="{{ $schedule }}" readonly>
+                                                <label for="consultation-schedule" class="text-trouth">Jadwal Konsultasi</label>
+                                                <input type="text" class="form-control py-4" id="consultation-schedule" value="{{ date("d - M - Y", $schedule) }} , {{ date("h : m : s", $start_consultation) }} - {{ date("h : m : s", $end_consultation) }} WIB" readonly>
                                             </div>
                                             @if ($status == "waiting-consultation-payment")
-                                            <x-pacient-consultation.status-payment-consultation>
-                                                <x-slot:id>
-                                                    {{ $id }}
-                                                </x-slot:id>
-                                                <x-slot:price>
-                                                    {{ $price_consultation }}
-                                                </x-slot:price>
-                                                <x-slot:status_payment>
-                                                    {{ $status_payment_consultation }}
-                                                </x-slot:status_payment>
-                                            </x-pacient-consultation.status-payment-consultation>
+                                            <x-pacient-consultation.status-payment-consultation
+                                                id="{{$id}}"
+                                                price="{{$price_consultation}}"
+                                                status="{{$status_payment_consultation}}"
+                                                proofPayment="{{$proof_payment_consultation}}"
+                                                validStatus="{{$valid_status}}"
+                                            />
                                             @elseif($status == "confirmed-consultation-payment")
                                             <x-pacient-consultation.confirmed-consultation-payment>
                                                 <x-slot:price>
