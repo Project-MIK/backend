@@ -21,10 +21,17 @@
 </div>
 <form action="/konsultasi/{{ $id }}/pickup-delivery" method="POST" class="form-group col-12">
     @csrf
+    <div class="alert alert-info text-sm mt-4">
+        Harap mengkonfirmasi pengambilan obat sampai 
+            <span class="font-weight-bold">
+                {{  date("d-M-Y h:m:s", time()) }} WIB
+            </span>
+        . Jika melebihi batas waktu , maka pengambilan obat dianggap selesai.
+    </div>
     <label for="delivery-medical-prescription" class="text-trouth">Opsi Pengiriman Obat</label>
-    <select id="delivery-medical-prescription" class="form-control" name="pickup-medical-prescription" onchange="setDeliveryMedicalPrescription(this)">
-        <option selected value="hospital-pharmacy" selected>Ambil di Apotek RS. Citra Husada Jember</option>
-        <option selected value="delivery-gojek">Dikirim / Delivery menggunakan GOJEK</option>
+    <select id="delivery-medical-prescription" class="form-control" name="pickup-medical-prescription" onchange="setDeliveryMedicalPrescription(this)" autocomplete="off">
+        <option value="hospital-pharmacy" selected>Ambil di Apotek RS. Citra Husada Jember</option>
+        <option value="delivery-gojek">Dikirim / Delivery menggunakan GOJEK</option>
     </select>
     <div class="d-flex flex-column mt-4">
         <div id="hostipal-pharmacy" class="d-block">
