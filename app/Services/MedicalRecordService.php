@@ -25,7 +25,7 @@ class MedicalRecordService
 
     public function findAll()
     {
-        return $this->medicalRecords->all()->toArray();
+        return $this->medicalRecords->all();
     }
 
 
