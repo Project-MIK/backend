@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -267,7 +266,7 @@ Route::prefix('konsultasi')->group(function () {
             "start_consultation" => 1676184847,
             "end_consultation" => 1676185247,
             "live_consultation" => false,
-            "status" => "consultation-complete",
+            "status" => "confirmed-medical-prescription-payment",
 
             "price_consultation" => "Rp. 90.000",
             "status_payment_consultation" => "TERKONFIRMASI",
@@ -321,7 +320,23 @@ Route::prefix('konsultasi')->group(function () {
 
     // Pacient generate consultation pickup document based on id
     Route::get("/{id}/export", function ($id) {
-        dd($id);
+        $document = [
+            "fullname" => "Aristo Caesar Pratama",
+            "no_medical_record" => "00-89-43-78-34-56",
+            "id_consultation" => "KL6584691",
+            "valid_status" => 1676134847,
+            "consultation" => [
+                "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
+                "price" => "Rp. 90.000",
+                "status" => "TERKOFIRMASI",
+            ],
+            "medical" => [
+                "price" => "Rp. 90.000",
+                "status" => "TERKOFIRMASI",
+            ]
+        ];
+        $pdf = PDF::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
+        return $pdf->download("DOKUMEN PENGAMBILAN OBAT - {$id}.pdf");
     });
 
     // Set option pickup delivery medical prescription
