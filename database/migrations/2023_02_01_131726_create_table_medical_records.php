@@ -13,7 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-
         Schema::create('medical_records', function (Blueprint $table) {
             $table->string('medical_record_id', 6)->primary();
             $table->unsignedBigInteger('id_pattient');
@@ -23,7 +22,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
