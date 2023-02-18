@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -254,35 +253,6 @@ Route::prefix('konsultasi')->group(function () {
         return redirect("/konsultasi/KL6584690#payment");
     });
 
-    // Create consultation #5 - confirmation bank to payment consultation 
-    Route::get('/pembayaran', function () {
-        if (!isset(session("consultation")["doctor"])) return redirect("/konsultasi/rincian");
-        return view("pacient.consultation.payment", [
-            "id" => "KL6584690",
-            "price_consultation" => "RP. 90.000",
-            "banks" => [
-                [
-                    "id" => "BCA",
-                    "name" => "BCA ( Bank Central Asia )",
-                    "image" => "bca-logo.png",
-                    "no_card" => "623724239",
-                    "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
-                ],
-                [
-                    "id" => "BRI",
-                    "name" => "BRI ( Bank Rakyat Indonesia )",
-                    "image" => "bri-logo.png",
-                    "no_card" => "689564234",
-                    "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
-                ]
-            ],
-            "valid_status" => 1676015722
-        ]);
-    });
-    Route::post('/pembayaran', function (Request $request) {
-        dd($request);
-    });
-
     // Show pacient consultation based on ID
     Route::get('/{id}', function ($id) {
         return view("pacient.consultation.detail-consultation", [
@@ -296,10 +266,10 @@ Route::prefix('konsultasi')->group(function () {
             "start_consultation" => 1676184847,
             "end_consultation" => 1676185247,
             "live_consultation" => false,
-            "status" => "waiting-consultation-payment",
+            "status" => "confirmed-medical-prescription-payment",
 
             "price_consultation" => "Rp. 90.000",
-            "status_payment_consultation" => "BELUM TERKONFIRMASI",
+            "status_payment_consultation" => "TERKONFIRMASI",
             "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
 
             "price_medical_prescription" => "Rp. 100.000", // null
@@ -313,6 +283,8 @@ Route::prefix('konsultasi')->group(function () {
             "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
             "pickup_by_pacient" => "Aristo Caesar Pratama",
             "pickup_datetime" => 1676184847,
+
+            "valid_status" => 1676134847
         ]);
     });
 
@@ -344,6 +316,27 @@ Route::prefix('konsultasi')->group(function () {
             "bank-payment" => $request->input("bank-payment"),
             "upload-proof-payment" => $request->file('upload-proof-payment')
         ]);
+    });
+
+    // Pacient generate consultation pickup document based on id
+    Route::get("/{id}/export", function ($id) {
+        $document = [
+            "fullname" => "Aristo Caesar Pratama",
+            "no_medical_record" => "00-89-43-78-34-56",
+            "id_consultation" => "KL6584691",
+            "valid_status" => 1676134847,
+            "consultation" => [
+                "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
+                "price" => "Rp. 90.000",
+                "status" => "TERKOFIRMASI",
+            ],
+            "medical" => [
+                "price" => "Rp. 90.000",
+                "status" => "TERKOFIRMASI",
+            ]
+        ];
+        $pdf = PDF::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
+        return $pdf->download("DOKUMEN PENGAMBILAN OBAT - {$id}.pdf");
     });
 
     // Set option pickup delivery medical prescription

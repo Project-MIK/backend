@@ -12,55 +12,55 @@ class ConfirmedConsultationAndConfirmedMedicalPrescription extends Component
      * @return void
      */
     public $id;
-    public $price_consultation;
-    public $status_payment_consultation;
-    public $proof_payment_consultation;
+    public $priceConsultation;
+    public $statusPaymentConsultation;
+    public $proofPaymentConsultation;
 
-    public $price_medical_prescription;
-    public $status_payment_medical_prescription;
-    public $proof_payment_medical_prescription;
+    public $priceMedicalPrescription;
+    public $statusPaymentMedicalPrescription;
+    public $proofPaymentMedicalPrescription;
 
-    public $pickup_medical_prescription;
-    public $pickup_medical_status;
-    public $pickup_medical_description;
-    public $pickup_medical_no_telp_pacient;
-    public $pickup_medical_addreass_pacient;
-    public $pickup_by;
-    public $pickup_datetime;
+    public $pickupMedicalPrescription;
+    public $pickupMedicalStatus;
+    public $pickupMedicalDescription;
+    public $pickupMedicalNoTelpPacient;
+    public $pickupMedicalAddreassPacient;
+    public $pickupByPacient;
+    public $pickupDatetime;
     public function __construct(
-        $id = "",
-        $price_consultation = null,
-        $status_payment_consultation = null,
-        $proof_payment_consultation = null,
+        $id = null,
+        $priceConsultation = null,
+        $statusPaymentConsultation = null,
+        $proofPaymentConsultation = null,
 
-        $price_medical_prescription = null,
-        $status_payment_medical_prescription = null,
-        $proof_payment_medical_prescription = null,
+        $priceMedicalPrescription = null,
+        $statusPaymentMedicalPrescription = null,
+        $proofPaymentMedicalPrescription = null,
 
-        $pickup_medical_prescription = null,
-        $pickup_medical_status = null,
-        $pickup_medical_description = null,
-        $pickup_medical_no_telp_pacient = null,
-        $pickup_medical_addreass_pacient = null,
-        $pickup_by = null,
-        $pickup_datetime = null
+        $pickupMedicalPrescription = null,
+        $pickupMedicalStatus = null,
+        $pickupMedicalDescription = null,
+        $pickupMedicalNoTelpPacient = null,
+        $pickupMedicalAddreassPacient = null,
+        $pickupByPacient = null,
+        $pickupDatetime = null
     ) {
         $this->id = $id;
-        $this->price_consultation = $price_consultation;
-        $this->proof_payment_consultation = $proof_payment_consultation;
-        $this->price_medical_prescription = $price_medical_prescription;
+        $this->priceConsultation = $priceConsultation;
+        $this->statusPaymentConsultation = $statusPaymentConsultation;
+        $this->proofPaymentConsultation = $proofPaymentConsultation;
 
-        $this->status_payment_consultation = $status_payment_consultation;
-        $this->status_payment_medical_prescription = $status_payment_medical_prescription;
-        $this->proof_payment_medical_prescription = $proof_payment_medical_prescription;
+        $this->priceMedicalPrescription = $priceMedicalPrescription;
+        $this->statusPaymentMedicalPrescription = $statusPaymentMedicalPrescription;
+        $this->proofPaymentMedicalPrescription = $proofPaymentMedicalPrescription;
 
-        $this->pickup_medical_prescription = $pickup_medical_prescription;
-        $this->pickup_medical_status = $pickup_medical_status;
-        $this->pickup_medical_description = $pickup_medical_description;
-        $this->pickup_medical_no_telp_pacient = $pickup_medical_no_telp_pacient;
-        $this->pickup_medical_addreass_pacient = $pickup_medical_addreass_pacient;
-        $this->pickup_by = $pickup_by;
-        $this->pickup_datetime = $pickup_datetime;
+        $this->pickupMedicalPrescription = $pickupMedicalPrescription;
+        $this->pickupMedicalStatus = $pickupMedicalStatus;
+        $this->pickupMedicalDescription = $pickupMedicalDescription;
+        $this->pickupMedicalNoTelpPacient = $pickupMedicalNoTelpPacient;
+        $this->pickupMedicalAddreassPacient = $pickupMedicalAddreassPacient;
+        $this->pickupByPacient = $pickupByPacient;
+        $this->pickupDatetime = $pickupDatetime;
     }
 
     /**

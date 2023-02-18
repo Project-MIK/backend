@@ -13,24 +13,23 @@ class StatusPaymentConsultation extends Component
      */
     public $id;
     public $price;
-    public $status_payment;
+    public $status;
+    public $proofPayment;
+    public $validStatus;
     public $banks;
-    public $valid_status;
-    public $proof_payment_consultation;
     public function __construct(
         $id = null,
-        $price = "0",
-        $status_payment = "",
-        $banks = [],
-        $valid_status = "",
-        $proof_payment_consultation = ""
+        $price = "",
+        $status = "",
+        $proofPayment = "",
+        $validStatus = ""
     ) {
         $this->id = $id;
         $this->price = $price;
-        $this->status_payment = $status_payment;
-        $this->banks = $banks;
-        $this->valid_status = $valid_status;
-        $this->$proof_payment_consultation = $proof_payment_consultation;
+        $this->status = $status;
+        $this->proofPayment = $proofPayment;
+        $this->validStatus = $validStatus;
+        $this->banks;
     }
 
     /**
