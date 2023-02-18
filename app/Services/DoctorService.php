@@ -10,7 +10,7 @@ use function PHPUnit\Framework\isEmpty;
 class DoctorService {
     public function findAll() 
     {
-        $data = Doctor::with('polyclinic')->get();
+        $data = Doctor::with('polyclinic')->orderBy('name')->get();
 
         if ($data->isEmpty()) {
             return null;
@@ -54,13 +54,35 @@ class DoctorService {
 
     public function deleteById($id)
     {
-        $data = Doctor::find($id);
+        $data = Doctor::find($id)->polyclinic()->first();
 
         if ($data != null) {
             $data->delete();
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function findByName($name)
+    {
+        $data = Doctor::with('polyclinic')->where('name', 'like', '%' . $name . '%')->orderBy('name')->get();
+
+        if ($data->isEmpty()) {
+            return null;
+        } else {
+            return $data;
+        }
+    }
+
+    public function findByGender($gender)
+    {
+        $data = Doctor::with('polyclinic')->where('gender', $gender)->orderBy('name')->get();
+
+        if ($data->isEmpty()) {
+            return null;
+        } else {
+            return $data;
         }
     }
 }

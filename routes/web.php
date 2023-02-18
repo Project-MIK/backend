@@ -19,9 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/polyclinics', [PolyclinicController::class, 'index']);
 Route::get('/polyclinics/{id}', [PolyclinicController::class, 'show']);
 Route::get('/polyclinics/name/{name}', [PolyclinicController::class, 'searchByName']);
-Route::get('/polyclinics', [PolyclinicController::class, 'index']);
 
 Route::get('/doctors', [DoctorController::class, 'index']);
 Route::get('/doctors/{id}', [DoctorController::class, 'show']);
+Route::get('/doctors/name/{name}', [DoctorController::class, 'searchByName']);
+Route::get('/doctors/gender/{gender}', [DoctorController::class, 'searchByGender']);

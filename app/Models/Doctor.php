@@ -15,11 +15,11 @@ class Doctor extends Model
         'gender',
         'address',
         'phone',
-        'id_polyclinic',
+        'polyclinic_id',
     ];
 
     public function polyclinic()
     {
-        return $this->belongsTo(Polyclinic::class, 'id_polyclinic', 'id');
+        return $this->belongsTo(Polyclinic::class);
     }
 }

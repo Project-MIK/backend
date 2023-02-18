@@ -43,7 +43,7 @@ class PolyclinicController extends Controller
      */
     public function store(PolyclinicRequest $request) : bool
     {
-        $response = $this->service->store($request->validate($request->rules()));
+        $response = $this->service->add($request->validate($request->rules()));
 
         if ($response) {
             session()->flash("message", "berhasil menambah poliklinik");
@@ -86,7 +86,7 @@ class PolyclinicController extends Controller
      */
     public function update(PolyclinicRequest $request, $id)
     {
-        $response = $this->service->update($request->validate($request->rules()), $id);
+        $response = $this->service->change($request->validate($request->rules()), $id);
         if ($response) {
             session()->flash("message", "berhasil memperbarui poliklinik");
         } else {

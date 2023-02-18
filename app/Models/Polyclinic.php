@@ -15,10 +15,6 @@ class Polyclinic extends Model
 
     public function doctors()
     {
-        return $this->hasMany(Doctor::class, 'id_polyclinic', 'id');
+        return $this->hasMany(Doctor::class);
     }
-
-    // public function getRouteKeyName() {
-    //     return "id";
-    // }
 }

@@ -8,6 +8,7 @@ use App\Models\Polyclinic;
 use App\Services\PolyclinicService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
 class PolyclinicTest extends TestCase
@@ -60,7 +61,6 @@ class PolyclinicTest extends TestCase
 
         $request['name'] = fake()->words(2, true);
         $data = $this->controller->store($request);
-        // $this->assertEquals(true, $data);
         $this->assertTrue($data);
     }
 
@@ -69,9 +69,11 @@ class PolyclinicTest extends TestCase
         $this->controller = new PolyclinicController();
         $request = new PolyclinicRequest();
 
+        $this->expectException(ValidationException::class);
         $request['name'] = fake()->randomNumber(2);
         $data = $this->controller->store($request);
-        $this->assertEquals(false, $data);
+
+        $this->assertFalse($data);
     }
 
     public function test_success_update_data_polyclinic()
@@ -80,9 +82,9 @@ class PolyclinicTest extends TestCase
         $request = new PolyclinicRequest();
 
         $request['name'] = fake()->words(2, true);
-        $response = $this->controller->update($request, 11);
+        $response = $this->controller->update($request, 12);
 
-        $this->assertEquals(true, $response);
+        $this->assertTrue($response);
     }
 
     public function test_failed_update_data_polyclinic()
@@ -91,9 +93,19 @@ class PolyclinicTest extends TestCase
         $request = new PolyclinicRequest();
 
         $request['name'] = fake()->words(2, true);
-        $response = $this->controller->update($request, 99);
+        $response = $this->controller->update($request, 0);
+        $this->assertFalse($response);
+    }
 
-        $this->assertEquals(false, $response);
+    public function test_failed_update_data_polyclinic_validation()
+    {
+        $this->controller = new PolyclinicController();
+        $request = new PolyclinicRequest();
+        $this->expectException(ValidationException::class);
+
+        $request['name'] = 99;
+        $response = $this->controller->update($request, 12);
+        $this->assertFalse($response);
     }
 
     public function test_success_delete_data_polyclinic()
@@ -101,7 +113,7 @@ class PolyclinicTest extends TestCase
         $this->controller = new PolyclinicController();
         $response = $this->controller->destroy(7);
 
-        $this->assertEquals(true, $response);
+        $this->assertTrue($response);
     }
 
     public function test_failed_delete_data_polyclinic()
@@ -109,7 +121,7 @@ class PolyclinicTest extends TestCase
         $this->controller = new PolyclinicController();
         $response = $this->controller->destroy(99);
 
-        $this->assertEquals(false, $response);
+        $this->assertFalse($response);
     }
 
     public function test_success_searchByName_data_polyclinic() {

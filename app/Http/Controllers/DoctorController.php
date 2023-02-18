@@ -115,4 +115,16 @@ class DoctorController extends Controller
 
         return $response;
     }
+
+    public function searchByName(string $search)
+    {
+        $data = $this->service->findByName($search);
+        return $data;
+    }
+
+    public function searchByGender(string $gender)
+    {
+        $data = $this->service->findByGender($gender);
+        return $data;
+    }
 }

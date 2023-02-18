@@ -9,7 +9,7 @@ class PolyclinicService
 {
     public function findAll()
     {
-        $data = Polyclinic::all();
+        $data = Polyclinic::orderBy('name')->get();
 
         if ($data->isEmpty()) {
             return null;
@@ -18,7 +18,7 @@ class PolyclinicService
         }
     }
 
-    public function store(array $request)
+    public function add(array $request)
     {
         try {
             Polyclinic::create($request);
@@ -28,14 +28,18 @@ class PolyclinicService
         }
     }
 
-    public function update(array $request, $id)
+    public function change(array $request, $id)
     {
         $data = Polyclinic::where('id', $id);
-
-        if ($data->count() > 0) {
+        
+        if ($data->count() == 0) {
+            return false;
+        }
+        
+        try {
             $data->update($request);
             return true;
-        } else {
+        } catch (Exception $e) {
             return false;
         }
     }
@@ -53,7 +57,7 @@ class PolyclinicService
 
     public function findByName($name)
     {
-        $data = Polyclinic::where('name', 'like', '%' . $name . '%')->get();
+        $data = Polyclinic::where('name', 'like', '%' . $name . '%')->orderBy('name')->get();
 
         if ($data->isEmpty()) {
             return null;

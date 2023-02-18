@@ -28,7 +28,7 @@ class DoctorRequest extends FormRequest
             'gender' => ['required', 'in:W,M', 'string'],
             'address' => ['required', 'min:8', 'string'],
             'phone' => ['required', 'digits_between:12,13', 'numeric'],
-            'id_polyclinic' => ['required', 'numeric']
+            'polyclinic_id' => ['required', 'numeric']
         ];
     }
 }
