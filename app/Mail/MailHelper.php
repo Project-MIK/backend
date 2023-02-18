@@ -14,15 +14,15 @@ class MailHelper extends Mailable
     use Queueable, SerializesModels;
 
     public $rekamMedic;
+    public $name;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($rekamMedic)
+    public $email;
+
+    public function __construct($rekamMedic , $name , $email)
     {
         $this->rekamMedic = $rekamMedic;
+        $this->name = $name;
+        $this->email = $email;
     }
 
     /**
@@ -33,12 +33,11 @@ class MailHelper extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Mail Helper',
-            replyTo:[
-                "mohammadtajutzamzami07@gmail.com"
+            subject: 'Rekam-Medic Notification',
+            replyTo: [
+                $this->email
             ],
-            from:"telemedicine.dev12@gmail.com",
-
+            from: env("MAIL_USERNAME"),
         );
     }
 
@@ -50,10 +49,11 @@ class MailHelper extends Mailable
     public function content()
     {
         return new Content(
-            view: "test.mail", with : ["rekamMedic" => $this->rekamMedic]
+            view: "test.mail-medical-record",
+            with: ["rekamMedic" => $this->rekamMedic, "name" => $this->name]
         );
     }
-
+    
     /**
      * Get the attachments for the message.
      *

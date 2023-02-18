@@ -40,6 +40,28 @@ class PattientService
             return false;
         }
     }
+
+    public function storeWithAdmin(array $request)
+    {
+        $res = [];
+        try {
+            $request['password'] = bcrypt($request['password']);
+            $request['name'] = $request['fullname'];
+            $request['address'] = "RT/RW : " . $request['address_RT'] . "/" . $request['address_RW'] . " Dusun " . $request['address_dusun'] . " Desa " . $request['address_desa'] . " Kec. " . $request['address_kecamatan'] . " Kab." . $request['address_kabupaten'];
+            $response = $this->model->create($request);
+            if ($response) {
+                $res['status'] = true;
+                $res['payload'] = $response;
+                return $res;
+            }
+        } catch (ValidationException $ex) {
+            $res['status'] = false;
+            return $res;
+        }
+    }
+
+
+
     public function findById($id)
     {
         $res = $this->model->where('id', $id)->get()->toArray();

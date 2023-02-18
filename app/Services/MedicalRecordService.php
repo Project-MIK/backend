@@ -71,7 +71,6 @@ class MedicalRecordService
         }
         return $response;
     }
-
     public function findById($id)
     {
         $res =  $this->medicalRecords->where('medical_record_id', $id)->first();
@@ -91,11 +90,26 @@ class MedicalRecordService
     {
         $findPattientByID = $this->pattient->where('id', $id)->first();
         if ($findPattientByID != null) {
-            dd($findPattientByID->email);
-            Mail::to($findPattientByID->email)->send(new MailHelper($rekamMedic));
+            Mail::to($findPattientByID->email)->send(new MailHelper($rekamMedic , $findPattientByID->name , $findPattientByID->email));
             return true;
         } else {
             return false;
+        }
+    }
+    public function sendEmailWithRegisterByAdmin($id, array  $request)
+    {
+        $res =  $this->insert($request);
+        if ($res['status']) {
+            $findPattientByID = $this->pattient->where('id', $id)->first();
+            $rekamMedic = $res['payload']['rekamMedic'];
+            if ($findPattientByID != null) {
+                Mail::to($findPattientByID->email)->send(new MailHelper($rekamMedic , $findPattientByID->name , $findPattientByID->email));
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            
         }
     }
 }
