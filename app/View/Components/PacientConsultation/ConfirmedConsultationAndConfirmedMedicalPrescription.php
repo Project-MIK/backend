@@ -23,7 +23,7 @@ class ConfirmedConsultationAndConfirmedMedicalPrescription extends Component
     public $pickupMedicalPrescription;
     public $pickupMedicalStatus;
     public $pickupMedicalDescription;
-    public $pickupMedicalNoTelpPacient;
+    public $pickupMedicalPhoneNumberPacient;
     public $pickupMedicalAddreassPacient;
     public $pickupByPacient;
     public $pickupDatetime;
@@ -40,7 +40,7 @@ class ConfirmedConsultationAndConfirmedMedicalPrescription extends Component
         $pickupMedicalPrescription = null,
         $pickupMedicalStatus = null,
         $pickupMedicalDescription = null,
-        $pickupMedicalNoTelpPacient = null,
+        $pickupMedicalPhoneNumberPacient = null,
         $pickupMedicalAddreassPacient = null,
         $pickupByPacient = null,
         $pickupDatetime = null
@@ -57,7 +57,7 @@ class ConfirmedConsultationAndConfirmedMedicalPrescription extends Component
         $this->pickupMedicalPrescription = $pickupMedicalPrescription;
         $this->pickupMedicalStatus = $pickupMedicalStatus;
         $this->pickupMedicalDescription = $pickupMedicalDescription;
-        $this->pickupMedicalNoTelpPacient = $pickupMedicalNoTelpPacient;
+        $this->pickupMedicalPhoneNumberPacient = $pickupMedicalPhoneNumberPacient;
         $this->pickupMedicalAddreassPacient = $pickupMedicalAddreassPacient;
         $this->pickupByPacient = $pickupByPacient;
         $this->pickupDatetime = $pickupDatetime;

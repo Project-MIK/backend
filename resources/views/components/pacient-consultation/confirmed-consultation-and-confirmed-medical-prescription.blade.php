@@ -40,7 +40,7 @@
                 <div class="form-group mt-2">
                     <div class="col-12 d-flex flex-column mb-4">
                         <label class="text-trouth">Dokumen Pengambilan Obat</label>
-                        <a href="" target="_blank" class="mb-2">CETAK DOKUMEN PENGAMBILAN OBAT</a>
+                        <a href="/konsultasi/{{$id}}/export" target="_blank" class="mb-2">CETAK DOKUMEN PENGAMBILAN OBAT</a>
                         <small>( Dokumen ini berguna sebagai syarat pengambilan obat )</small>
                     </div>
                     <div class="col-12">
@@ -52,7 +52,7 @@
             @else
                 <div class="col-12">
                     <label for="pacient-notelp" class="text-trouth">Nomor Telepon</label>
-                    <input type="text" class="form-control py-4" id="pacient-notelp" name="pacient-notelp" value="{{ $pickupMedicalNoTelpPacient }}" readonly>
+                    <input type="text" class="form-control py-4" id="pacient-notelp" name="pacient-notelp" value="{{ $pickupMedicalPhoneNumberPacient }}" readonly>
                     
                     <label for="pacient-addreass" class="text-trouth mt-3">Alamat Anda</label>
                     <input type="text" class="form-control py-4" id="pacient-addreass" name="pacient-addreass" value="{{ $pickupMedicalAddreassPacient }}" readonly>
