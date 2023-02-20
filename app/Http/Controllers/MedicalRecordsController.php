@@ -23,7 +23,7 @@ class MedicalRecordsController extends Controller
     public function index()
     {
         $data =  $this->service->findAll();
-        return view("medical_recors.medical_record", ["data" => $data]);
+        return $data;
     }
 
     public function store(MedicalRecordsStoreRequest $request)
