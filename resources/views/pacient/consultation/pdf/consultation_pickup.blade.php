@@ -175,7 +175,7 @@
                 <td>{{$document["medical"]["status"]}}</td>
             </tr>
         </table>
-        <p>Saya Lathisa Anistya Maharani ingin mengambil obat yang telah diberikan oleh dokter di apotek Rumah Sakit Citra Husada Jember.</p>
+        <p>Saya {{ $document["fullname"] }} ingin mengambil obat yang telah diberikan oleh dokter di apotek Rumah Sakit Citra Husada Jember.</p>
         <div class="tanda_tangan">
             <div id="pasien">{{ $document["fullname"] }}</div>
             <div id="petugas">Petugas Apoteker</div>
