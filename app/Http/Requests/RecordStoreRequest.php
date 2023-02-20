@@ -26,7 +26,8 @@ class RecordStoreRequest extends FormRequest
         return [
             "description" => ["required"] , 
             "medical_record_id" => ["required"],
-            "complaint" => ["required"]
+            "complaint" => ["required"],
+            "id_doctor" => ["required"]
         ];
     }
 }

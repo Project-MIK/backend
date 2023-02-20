@@ -28,6 +28,15 @@ class RecordService
 
     public function insert(array $request)
     {
+        $res = [];
+        $exist = $this->medicalRecord->where('medical_record_id' , $request['medical_record_id'])->first();
+        if($exist == null){
+            $res['status'] = false;
+            $res['message'] = 'gagal menambahkan detail rekam medic , rekam medic tidak ditemukan';
+            return $res;
+        }else{
+            
+        }
         $res = $this->record->create($request);
         return $res;
     }

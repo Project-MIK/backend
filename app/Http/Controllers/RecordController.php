@@ -21,7 +21,9 @@ class RecordController extends Controller
     }
 
     public function store(RecordStoreRequest $request){
-
+        $data = $request->validate($request->rules());
+        $res = $this->service->insert($data);
+        dd($res);
     }
 
     public function upadate(){
