@@ -58,7 +58,8 @@ class PattientTest extends TestCase
         $request['date_birth'] = Carbon::now()->toDateTimeString();
         $request['blood_group'] = "B";
         $request['place_birth'] = "bwi";
-        $res =  $service->store($request->validate($request->rules()));
+        $request["nik"] = 123123;
+        $res =  $service->store($request->validate($request->rules()['nik']));
         $this->assertTrue($res);
     }
     public function test_store_error_validation()

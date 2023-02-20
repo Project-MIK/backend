@@ -7,6 +7,7 @@ use App\Http\Controllers\RegistrationOfficersController;
 use App\Mail\MailHelper;
 use App\Models\RegistrationOfficers;
 use App\Http\Controllers\PattientController;
+use App\Http\Controllers\RecordController;
 use App\Services\MedicalRecordService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -205,3 +206,6 @@ Route::post('/pattient/register' , [PattientController::class , "storewithRekamM
 Route::get("/pattient" , function(){
     return view("test.register");
 });
+
+
+Route::resource("detail" , RecordController::class);

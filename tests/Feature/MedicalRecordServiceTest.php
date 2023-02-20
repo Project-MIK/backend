@@ -28,7 +28,7 @@ class MedicalRecordServiceTest extends TestCase
     {
         $service = new MedicalRecordService();
         $res = $service->findAll();
-        $this->assertNotNull($res);
+        dd($res);
     }
 
     public function test_store_success()

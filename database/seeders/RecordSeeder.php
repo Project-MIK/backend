@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\MedicalRecords;
+use App\Models\Record;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class MedicalRecordsSeeder extends Seeder
+class RecordSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,10 +16,10 @@ class MedicalRecordsSeeder extends Seeder
     public function run()
     {
         //
-        MedicalRecords::Create([
-            "medical_record_id" => "123123",
-            "id_pattient" => 1 , 
-            "id_registration_officer" => 1
+        Record::create([
+            "medical_record_id" => 123123,
+            "description" => "mengalami ganguan sakit kepala" , 
+            "complaint" => "sakit kepala" , 
         ]);
     }
 }

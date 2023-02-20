@@ -7,6 +7,8 @@ use App\Helpers\Helper;
 use App\Mail\MailHelper;
 use App\Models\MedicalRecords;
 use App\Models\Pattient;
+use App\Models\Record;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 
 class MedicalRecordService
@@ -14,18 +16,42 @@ class MedicalRecordService
 
     private MedicalRecords $medicalRecords;
     private Pattient $pattient;
+    private Record $record;
 
 
     public function __construct()
     {
         $this->medicalRecords = new MedicalRecords();
         $this->pattient = new Pattient();
+        $this->record = new Record();
     }
 
 
     public function findAll()
     {
-        return $this->medicalRecords->all();
+        $res = $this->pattient
+        ->join("medical_records"  , "medical_records.id_pattient" , "=" , "pattient.id")
+        ->join("record" , "medical_records.medical_record_id" , "=" , "record.medical_record_id")
+        ->select("pattient.*" , "medical_records.medical_record_id" , "record.complaint" , "record.description" , "record.id")
+        ->get()->toArray();
+        $recordData['detailRecord'] = [];
+        foreach ($res as $key => $value) {
+            $item = [
+                "complaint" => $value['complaint'] , 
+                "description" => $value['description']
+            ];
+            array_push($recordData['detailRecord'] , $item);
+        }
+        foreach ($res as $key => $value) {
+            
+            Arr::forget($value , "complaint");
+            Arr::forget($value , "description");   
+            $res[$key] = $value;
+        }
+        foreach ($res as $key => $value) {
+            array_push($res[$key] , $recordData);
+        }
+        return $res;
     }
 
 
