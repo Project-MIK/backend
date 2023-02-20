@@ -209,3 +209,4 @@ Route::get("/pattient" , function(){
 
 
 Route::resource("detail" , RecordController::class);
+Route::resource("/rekam" , MedicalRecordsController::class);

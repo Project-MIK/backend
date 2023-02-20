@@ -33,6 +33,7 @@ class MedicalRecordService
         ->join("medical_records"  , "medical_records.id_pattient" , "=" , "pattient.id")
         ->join("record" , "medical_records.medical_record_id" , "=" , "record.medical_record_id")
         ->select("pattient.*" , "medical_records.medical_record_id" , "record.complaint" , "record.description" , "record.id")
+        ->groupBy('medical_records.medical_record_id')
         ->get()->toArray();
         $recordData['detailRecord'] = [];
         foreach ($res as $key => $value) {
@@ -42,8 +43,7 @@ class MedicalRecordService
             ];
             array_push($recordData['detailRecord'] , $item);
         }
-        foreach ($res as $key => $value) {
-            
+        foreach ($res as $key => $value) {    
             Arr::forget($value , "complaint");
             Arr::forget($value , "description");   
             $res[$key] = $value;
