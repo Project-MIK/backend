@@ -11,6 +11,7 @@ use App\Http\Controllers\RecordController;
 use App\Services\MedicalRecordService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\PolyclinicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -206,7 +207,3 @@ Route::post('/pattient/register' , [PattientController::class , "storewithRekamM
 Route::get("/pattient" , function(){
     return view("test.register");
 });
-
-
-Route::resource("detail" , RecordController::class);
-Route::resource("/rekam" , MedicalRecordsController::class);

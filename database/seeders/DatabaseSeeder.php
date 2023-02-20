@@ -21,10 +21,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(PattientSeeder::class);
-        $this->call([RegistrationOfficersSeeder::class]);
+        $this->call([RegistrationOfficersSeeder::class , PolyclinicSeeder::class , DoctorSeeder::class]);
             
         $this->call([
-            AdminSeeder::class , MedicinesSeeder::class , MedicalRecordsSeeder::class , RecordSeeder::class
+            AdminSeeder::class , MedicinesSeeder::class , MedicalRecordsSeeder::class , RecordSeeder::class 
         ]);
 
         // \App\Models\User::factory(10)->create();
