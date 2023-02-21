@@ -202,10 +202,3 @@ Route::prefix('konsultasi')->group(function () {
 // Logout
 
 Route::redirect("/keluar", "/masuk");
-Route::resource('rekam-medic', MedicalRecordsController::class);
-Route::post('/pattient/register' , [PattientController::class , "storewithRekamMedic"])->name("register");
-Route::get("/pattient" , function(){
-    return view("test.register");
-});
-
-Route::resource("detail" , RecordController::class);
