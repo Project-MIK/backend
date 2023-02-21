@@ -31,6 +31,7 @@ class RecordService
 
     public function insert(array $request)
     {
+        
         $res = [];
         $exist = $this->medicalRecord->where('medical_record_id' , $request['medical_record_id'])->first();
         if($exist == null){
