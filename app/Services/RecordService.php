@@ -46,7 +46,6 @@ class RecordService
                 return $res;
             }else{
                 $created = $this->record->create($request);
-                if($created->exists()){
                     $res['status'] = true;
                     $res['message'] = 'berhasil menambahkan detail rekam medic';
                     return $res;
