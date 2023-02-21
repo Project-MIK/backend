@@ -27,15 +27,18 @@ class MedicalRecordService
     public function findAll()
     {
 
-        $dataDetailRecord['detailRecord'] = $this->medicalRecords->join("record" , "record.medical_record_id" , "=" , "medical_records.medical_record_id")
-        ->select("record.complaint" , "record.description")
+        $dataDetailRecord['detailRecord'] = $this->medicalRecords
+        ->join("record" , "record.medical_record_id" , "=" , "medical_records.medical_record_id")
+        ->join('schedule_detail' , 'record.id_schedules' , '=' , "schedule_detail.id")
+        ->join('schedules' , 'schedule_detail.id_schedule' , '=' , 'schedules.id')
+        ->join('doctor' , 'schedules.id_doctor' , '=' , 'doctor.id')
+        ->select("record.complaint" , "record.description" , 'schedule_detail.consultation_date as tanggal_konsultasi' , 'schedule_detail.time_start as jam_mulai_konsultasi' , 'schedule_detail.time_end as jam_selesai_konsultasi' , 'schedule_detail.link as link_jitsi' , 'schedule_detail.status' , 'doctor.name as nama_doctor' )
         ->get()->toArray();
         $res = $this->pattient
             ->join("medical_records", "medical_records.id_pattient", "=", "pattient.id")
             ->leftjoin("record", "medical_records.medical_record_id", "=", "record.medical_record_id")
-            ->leftjoin('doctor', 'record.id_doctor', '=', 'doctor.id')
             ->join("registration_officers", "medical_records.id_registration_officer", "=", "registration_officers.id")
-            ->select("pattient.*", "medical_records.medical_record_id", 'doctor.name as doctor_name', "registration_officers.name as petugas_pendaftaran")
+            ->select("pattient.*", "medical_records.medical_record_id",  "registration_officers.name as petugas_pendaftaran")
             ->groupBy("medical_records.medical_record_id")
             ->get()->toArray();
         foreach ($res as $key => $value) {

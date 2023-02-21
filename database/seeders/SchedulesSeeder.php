@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class SchedulesSeeder extends Seeder
 {
@@ -14,6 +15,10 @@ class SchedulesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('schedules')->insert(
+            [
+                "id_doctor" => 1,
+            ]
+        );
     }
 }

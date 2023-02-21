@@ -23,10 +23,8 @@ return new class extends Migration
             $table->timestamp('time_start')->nullable();
             $table->timestamp('time_end')->nullable();
             $table->string('link');
-            $table->enum('status', ['']);
-            $table->unsignedBigInteger('id_patient');
+            $table->enum('status', ['selesai' , 'belum_selesai' , 'tidak_aktif']);
             $table->foreign('id_schedule')->references('id')->on('schedules')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_patient')->references('id')->on('pattient')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

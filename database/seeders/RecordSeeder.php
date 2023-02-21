@@ -20,7 +20,15 @@ class RecordSeeder extends Seeder
             "medical_record_id" => 123123,
             "description" => "mengalami ganguan sakit kepala" , 
             "complaint" => "sakit kepala" , 
-            "id_doctor" => 1
+            "id_doctor" => 1 , 
+            "id_schedules" => 1
+        ]);
+        Record::create([
+            "medical_record_id" => 123123,
+            "description" => "mengalami ganguan sakit kepala" , 
+            "complaint" => "sakit kepala" , 
+            "id_doctor" => 1 , 
+            "id_schedules" => 1
         ]);
     }
 }
