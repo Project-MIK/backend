@@ -13,10 +13,35 @@ class SetDeliveryMedicalPrescription extends Component
      */
     public $id;
     public $validStatus;
-    public function __construct($id = "", $validStatus = 0)
-    {
+    public $priceConsultation;
+    public $statusConsultation;
+    public $proofPaymentConsultation;
+    public $priceMedical;
+    public $statusMedical;
+    public $proofPaymentMedical;
+
+    public function __construct(
+        $id = "",
+        $validStatus = 0,
+
+        $priceConsultation = "",
+        $statusConsultation = "",
+        $proofPaymentConsultation = "",
+
+        $priceMedical = "",
+        $statusMedical = "",
+        $proofPaymentMedical = ""
+    ) {
         $this->id = $id;
         $this->validStatus = $validStatus;
+
+        $this->priceConsultation = $priceConsultation;
+        $this->statusConsultation = $statusConsultation;
+        $this->proofPaymentConsultation = $proofPaymentConsultation;
+
+        $this->priceMedical = $priceMedical;
+        $this->statusMedical = $statusMedical;
+        $this->proofPaymentMedical = $proofPaymentMedical;
     }
 
     /**
