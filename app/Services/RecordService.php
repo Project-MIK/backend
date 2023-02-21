@@ -4,6 +4,7 @@
 namespace App\Services;
 
 use App\Helpers\Helper;
+use App\Models\Doctor;
 use App\Models\MedicalRecords;
 use App\Models\Record;
 
@@ -13,12 +14,14 @@ class RecordService
 
     private Record $record;
     private MedicalRecords $medicalRecord;
+    private Doctor $doctor;
 
 
     public function __construct()
     {
         $this->record = new Record();
         $this->medicalRecord = new MedicalRecords();
+        $this->doctor = new Doctor();
     }
 
     public function index()
@@ -35,10 +38,20 @@ class RecordService
             $res['message'] = 'gagal menambahkan detail rekam medic , rekam medic tidak ditemukan';
             return $res;
         }else{
-            
+            $existDoctor = $this->doctor->where('id' , $request['id_doctor'])->first();
+            if($existDoctor == null){
+                $res['status'] = false;
+                $res['message'] = 'gagal menambahkan detail rekam medic , data doktor tidak ditemukan';
+                return $res;
+            }else{
+                $created = $this->record->create($request);
+                if($created->exists()){
+                    $res['status'] = true;
+                    $res['message'] = 'berhasil menambahkan detail rekam medic';
+                    return $res;
+                }
+            }
         }
-        $res = $this->record->create($request);
-        return $res;
     }
 
     public function findByMedicalRecord($rekamMedic)
