@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('doctor', function (Blueprint $table) {
+        Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
             $table->enum('gender', ['W', 'M']);
             $table->string('address')->nullable(false);
             $table->string('phone', 13);
-            // $table->unsignedBigInteger('polyclinc_id');
-            $table->foreignId('polyclinic_id')
-                    ->cascadeOnUpdate()
-                    ->nullOnDelete();
+            $table->foreignId('polyclinc_id')->nullable()->constrained('polyclinics')->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctor');
+        Schema::dropIfExists('doctors');
     }
 };
