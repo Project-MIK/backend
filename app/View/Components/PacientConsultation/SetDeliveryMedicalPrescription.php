@@ -12,9 +12,11 @@ class SetDeliveryMedicalPrescription extends Component
      * @return void
      */
     public $id;
-    public function __construct($id = "")
+    public $validStatus;
+    public function __construct($id = "", $validStatus = 0)
     {
         $this->id = $id;
+        $this->validStatus = $validStatus;
     }
 
     /**

@@ -19,15 +19,18 @@
         </div>
     </form>
 </div>
-<form action="/konsultasi/{{ $id }}/pickup-delivery" method="POST" class="form-group col-12">
-    @csrf
+@if ($validStatus > time())
+<div class="col-12">
     <div class="alert alert-info text-sm mt-4">
         Harap mengkonfirmasi pengambilan obat sampai 
             <span class="font-weight-bold">
-                {{  date("d-M-Y h:m:s", time()) }} WIB
+                {{  date("d-M-Y h:m:s", $validStatus) }} WIB
             </span>
         . Jika melebihi batas waktu , maka pengambilan obat dianggap selesai.
     </div>
+</div>
+<form action="/konsultasi/{{ $id }}/pickup-delivery" method="POST" class="form-group col-12">
+    @csrf
     <label for="delivery-medical-prescription" class="text-trouth">Opsi Pengiriman Obat</label>
     <select id="delivery-medical-prescription" class="form-control" name="pickup-medical-prescription" onchange="setDeliveryMedicalPrescription(this)" autocomplete="off">
         <option value="hospital-pharmacy" selected>Ambil di Apotek RS. Citra Husada Jember</option>
@@ -65,3 +68,14 @@
         <button type="button" class="btn btn-danger w-100 font-weight-bold" data-toggle="modal" data-target="#cancelPickup">Batal Menerima Obat</button>
     </div>
 </form>
+@else
+<div class="col-12">
+    <div class="alert alert-danger text-sm mt-4">
+        Konfirmasi obat sudah kadaluarsa sejak
+            <span class="font-weight-bold">
+                {{  date("d-M-Y h:m:s", $validStatus) }} WIB
+            </span>
+        . Obat tidak dapat diambil serta pembayaran tidak dapat dikembalikan dan penyerahan obat dianggap selesai.
+    </div>
+</div>
+@endif

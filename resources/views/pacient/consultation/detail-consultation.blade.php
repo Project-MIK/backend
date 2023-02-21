@@ -100,7 +100,8 @@
                                                     />
                                                 @elseif($status == "confirmed-medical-prescription-payment")
                                                     <x-pacient-consultation.set-delivery-medical-prescription
-                                                      id="{{$id}}"  
+                                                      id="{{$id}}"
+                                                      validStatus="{{$valid_status}}"
                                                     />
                                                 @elseif($status == "consultation-complete")
                                                     <x-pacient-consultation.confirmed-consultation-and-confirmed-medical-prescription
