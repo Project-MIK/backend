@@ -198,6 +198,7 @@ Route::prefix('konsultasi')->group(function () {
     });
 });
 
+
 //admin
 Route::prefix('admin')->group(function () {
     Route::view('/','admin.dashboard', );
@@ -215,7 +216,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/',[AdminController::class,'index']);
         Route::post('store',[AdminController::class,'store']);
         Route::put('update');
-        Route::delete('destroy');
+        Route::delete('destroy',[AdminController::class,'destroy']);
     });
     
     Route::prefix('petugas')->group(function(){

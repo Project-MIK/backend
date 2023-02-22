@@ -50,7 +50,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="admin/admin" class="nav-link">
+                    <a href="/admin/admin" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-user-tie"></i></div>
                             <div class="col-10">

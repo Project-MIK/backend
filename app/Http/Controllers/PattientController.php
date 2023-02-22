@@ -36,22 +36,24 @@ class PattientController extends Controller
     }
     public function store(StorePattientRequest $request)
     {
-        $request->validate(['citizen' => ['required']]);
-        if ($request['citizen'] == 'WNI') {
-            $res =  $this->service->store($request->validate($request->rules()['nik']));
-            if ($res) {
-                return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
-            } else {
-                return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
-            }
-        } else {
-            $res =  $this->service->store($request->validate($request->rules()['paspor']));
-            if ($res) {
-                return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
-            } else {
-                return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
-            }
-        }
+        $data = $request;
+        return redirect('dumb')->with($data,$request);
+        // $request->validate(['citizen' => ['required']]);
+        // if ($request['citizen'] == 'WNI') {
+        //     $res =  $this->service->store($request->validate($request->rules()['nik']));
+        //     if ($res) {
+        //         return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
+        //     } else {
+        //         return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
+        //     }
+        // } else {
+        //     $res =  $this->service->store($request->validate($request->rules()['paspor']));
+        //     if ($res) {
+        //         return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
+        //     } else {
+        //         return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
+        //     }
+        // }
     }
 
     public function storewithRekamMedic(StorePattientMedicalRequest $request)

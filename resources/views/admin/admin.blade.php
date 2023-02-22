@@ -17,6 +17,7 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
+        {{-- {{dd($data)}} --}}
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <button type='button' data-toggle='modal' data-target='#modal-tambah' class='ml-auto col-2 btn btn-block btn-default'>Tambah</button>
@@ -36,15 +37,17 @@
 
                 <tr>
                     <td>{{$no}}</td>
+                    <td hidden>{{$item['id']}}</td>
                     <td>{{$item['name']}}</td>
                     <td>{{$item['email']}}</td>
-                    <th>{{$item['address']}}</th>
-                    <th>
+                    <td>{{$item['address']}}</td>
+                    <td>
                         <div data-id="{{$item['id']}}" class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Danger</button></div>
+                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Delete</button></div>
                         </div>
-                    </th>
+                    </td>
+                    
                 </tr>
                 @php
                 $no++;
