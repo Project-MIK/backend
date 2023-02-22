@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Helpers\Helper;
+use App\Http\Requests\StorePattientMedicalRequest;
 use App\Http\Requests\StorePattientRequest;
 use App\Http\Requests\UpdatePattientRequest;
 use App\Models\Pattient;
@@ -57,7 +58,8 @@ class PattientTest extends TestCase
         $request['date_birth'] = Carbon::now()->toDateTimeString();
         $request['blood_group'] = "B";
         $request['place_birth'] = "bwi";
-        $res =  $service->store($request->validate($request->rules()));
+        $request["nik"] = 123123;
+        $res =  $service->store($request->validate($request->rules()['nik']));
         $this->assertTrue($res);
     }
     public function test_store_error_validation()
@@ -231,5 +233,29 @@ class PattientTest extends TestCase
         // if you need test this route you must have routing 
         $res = $this->post('pattient', $data);
         $res->assertSessionHas('message');
+    }
+
+    public function test_store_admin(){
+        $service = new PattientService();
+        $request = new StorePattientMedicalRequest();
+        $request['fullname'] = "zamz";
+        $request['email'] = "zam@gmaisl.com" ;
+        $request['gender'] = "M";
+        $request['password'] = "rahasia";
+        $request['phone_number'] = "0867532342";
+        $request['address_RT'] = 3;
+        $request['address_RW'] = 4;
+        $request['address_desa'] = 'bwi';
+        $request['address_dusun'] = "kamboja";
+        $request['address_kecamatan'] = "kkecas";
+        $request['address_kabupaten'] = "dasd";
+        $request['citizen'] = "wni";
+        $request['profession'] = "guru" ;
+        $request['date_birth'] = "0923423" ;
+        $request['blood_group'] = "A" ;
+        $request['place_birth'] = "bwi" ;
+        $request['rekamMedic'] = "1312321";
+        $res = $service->storeWithAdmin($request->validate($request->rules()));
+        dd($res);
     }
 }

@@ -25,4 +25,9 @@ class ExampleTest extends TestCase
         $res = Helper::compareToArrays(["name" => "pattint"], 1, "pattient");
         $this->assertTrue($res);
     }
+
+    public function test_send_email(){
+        $res = $this->get("rekam-medic/email");
+        dd($res);
+    }
 }

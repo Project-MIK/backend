@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
-class RegistrationOfficersRequest extends FormRequest
+class RecordStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +24,11 @@ class RegistrationOfficersRequest extends FormRequest
     public function rules()
     {
         return [
-            "email" => ["required" , "email" , "unique:registration_officers,email"] ,
-            "name" => ['required' , 'string'] ,
-            "password" => ['required' , 'min:6'],
-            "address" => ['required' , 'string'],
-            "gender" => ['required']
+            "description" => ["required"] , 
+            "medical_record_id" => ["required"],
+            "complaint" => ["required"],
+            "id_doctor" => ["required"],
+            "id_schedules" => ["required"]
         ];
     }
 }

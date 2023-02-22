@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class StorePattientRequest extends FormRequest
+class StorePattientMedicalRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,8 @@ class StorePattientRequest extends FormRequest
     public function rules()
     {
         return [
-            "nik" => [
+            "nik" =>
+            [
                 'fullname' => ['required', 'string', 'min:4'],
                 'email' => ['required', 'email', 'unique:pattient,email'],
                 'gender' => ['required'],
@@ -42,9 +43,10 @@ class StorePattientRequest extends FormRequest
                 'date_birth' => ['required'],
                 'blood_group' => ['required'],
                 'place_birth' => ['required'],
-                'nik' => ['required', 'numeric', 'min:16', 'unique:pattient,nik']
+                'nik' => ['required'],
+                'rekamMedic' => ['required']
             ],
-            "paspor" => [
+            'paspor' => [
                 'fullname' => ['required', 'string', 'min:4'],
                 'email' => ['required', 'email', 'unique:pattient,email'],
                 'gender' => ['required'],
@@ -61,7 +63,8 @@ class StorePattientRequest extends FormRequest
                 'date_birth' => ['required'],
                 'blood_group' => ['required'],
                 'place_birth' => ['required'],
-                'no_paspor' => ['required', 'numeric', 'min:16', 'unique:pattient,nik']
+                'no_paspor' => ['required'],
+                'rekamMedic' => ['required']
             ]
         ];
     }

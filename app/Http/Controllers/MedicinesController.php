@@ -36,7 +36,6 @@ class MedicinesController extends Controller
     public function create()
     {
     }
-
     public function store(MedicinesStoreRequest $request)
     {
         $data = $request->validate([

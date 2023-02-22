@@ -18,11 +18,17 @@ return new class extends Migration
             $table->string('medical_record_id', 6)->nullable(false);
             $table->string('description');
             $table->string('complaint');
-            $table->unsignedBigInteger('id_recipe')->nullable(false);
+            $table->unsignedBigInteger('id_schedules');
+            $table->unsignedBigInteger('id_recipe')->nullable(true);
+            $table->foreign('id_schedules')->references('id')->on('schedule_detail')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+            $table->unsignedBigInteger('id_doctor');
             $table->foreign('medical_record_id')->references('medical_record_id')->on('medical_records')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_recipe')->references('id')->on('recipes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_doctor')->references('id')->on('doctor')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
-class RegistrationOfficersRequest extends FormRequest
+class MedicalRecordsStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,17 +18,16 @@ class RegistrationOfficersRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
+     *s
      * @return array<string, mixed>
      */
     public function rules()
     {
         return [
-            "email" => ["required" , "email" , "unique:registration_officers,email"] ,
-            "name" => ['required' , 'string'] ,
-            "password" => ['required' , 'min:6'],
-            "address" => ['required' , 'string'],
-            "gender" => ['required']
+                //
+            "medical_record_id" => ["required" , "unique:medical_records,medical_record_id"] , 
+            "id_pattient" => ["required" , 'numeric'] ,
+            "id_registration_officer" => ["required" , "numeric"] , 
         ];
     }
 }
