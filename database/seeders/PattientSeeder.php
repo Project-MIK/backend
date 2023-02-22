@@ -30,7 +30,8 @@ class PattientSeeder extends Seeder
             "date_birth" => "2023-02-08 12:51:41",
             "place_birth" => "bwi" , 
             "blood_group" => "B", 
-            "nik" => 287639876267861
+            "nik" => 287639876267861,
+            'medical_record_id' => 123123
         ]);
     }
 }
