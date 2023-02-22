@@ -270,7 +270,7 @@ Route::prefix('konsultasi')->group(function () {
             "status" => "confirmed-medical-prescription-payment",
 
             "price_consultation" => "Rp. 90.000",
-            "status_payment_consultation" => "TERKONFIRMASI",
+            "status_payment_consultation" => "TERKONFIRMASI", // PROSES / BELUM TERKONFIRMASI / TERKONFIRMASI
             "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
 
             "price_medical_prescription" => "Rp. 100.000", // null
@@ -278,14 +278,14 @@ Route::prefix('konsultasi')->group(function () {
             "proof_payment_medical_prescription" => "https://tangerangonline.id/wp-content/uploads/2021/06/IMG-20210531-WA0027.jpg",
 
             "pickup_medical_prescription" => "hospital-pharmacy", // hospital-pharmacy, delivery-gojek
-            "pickup_medical_status" => "SUDAH DIAMBIL", // MENUNGGU DIAMBIL, SUDAH DIAMBIL, DIKIRIM DENGAN GOJEK, GAGAL DIKIRIM,
+            "pickup_medical_status" => "SUDAH DIAMBIL", // MENUNGGU DIAMBIL, SUDAH DIAMBIL, DIKIRIM DENGAN GOJEK, GAGAL DIKIRIM, TIDAK MENERIMA SEKRANG
             "pickup_medical_no_telp_pacient" => "085235119101",
             "pickup_medical_addreass_pacient" => "Enim ullamco reprehenderit nulla aliqua reprehenderit",
             "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
             "pickup_by_pacient" => "Aristo Caesar Pratama",
             "pickup_datetime" => 1676184847,
 
-            "valid_status" => 1676134847
+            "valid_status" => 1676995169
         ]);
     });
 

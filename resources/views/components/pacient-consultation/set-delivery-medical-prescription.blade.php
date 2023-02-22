@@ -1,3 +1,4 @@
+@if ($validStatus > time())
 <!-- Modal -->
 <div class="modal fade" id="cancelPickup" tabindex="-1" role="dialog" aria-labelledby="modalTitleCancelPickup" aria-hidden="true">
     <form method="POST" action="/konsultasi/{{ $id }}/cancel-pickup" class="modal-dialog modal-lg">
@@ -10,7 +11,7 @@
             </button>
         </div>
         <div class="modal-body text-trouth">
-            <p>Anda dapat membatalkan penerimaan obat, tetapi pembayaran obat tidak dapat dikembalikan namun obat masih dapat anda ambil pada Apotek Rumah Sakit Citra Husada Jember dengan menyertakan bukti pembayaran obat.</p>
+            <p>Anda dapat membatalkan penerimaan obat, tetapi pembayaran obat tidak dapat dikembalikan dan pengambilan obat dianggap selesai</p>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -19,15 +20,17 @@
         </div>
     </form>
 </div>
-<form action="/konsultasi/{{ $id }}/pickup-delivery" method="POST" class="form-group col-12">
-    @csrf
+<div class="col-12">
     <div class="alert alert-info text-sm mt-4">
         Harap mengkonfirmasi pengambilan obat sampai 
             <span class="font-weight-bold">
-                {{  date("d-M-Y h:m:s", time()) }} WIB
+                {{  date("d-M-Y h:m:s", $validStatus) }} WIB
             </span>
         . Jika melebihi batas waktu , maka pengambilan obat dianggap selesai.
     </div>
+</div>
+<form action="/konsultasi/{{ $id }}/pickup-delivery" method="POST" class="form-group col-12">
+    @csrf
     <label for="delivery-medical-prescription" class="text-trouth">Opsi Pengiriman Obat</label>
     <select id="delivery-medical-prescription" class="form-control" name="pickup-medical-prescription" onchange="setDeliveryMedicalPrescription(this)" autocomplete="off">
         <option value="hospital-pharmacy" selected>Ambil di Apotek RS. Citra Husada Jember</option>
@@ -65,3 +68,46 @@
         <button type="button" class="btn btn-danger w-100 font-weight-bold" data-toggle="modal" data-target="#cancelPickup">Batal Menerima Obat</button>
     </div>
 </form>
+@else
+<div class="form-row col-12">
+    <div class="form-group col-12">
+        <label for="status-payment" class="text-trouth">Biaya Konsultasi</label>
+    </div>
+    <div class="form-group col-12 col-lg-6">
+        <label for="price-consultation" class="text-trouth font-weight-normal">Nominal Pembayaran</label>
+        <input type="text" class="form-control py-4 font-weight-bold text-bunting" id="price-consultation" value="{{$priceConsultation}}" readonly>
+    </div>
+    <div class="form-group col-12 col-lg-6">
+        <label for="status-payment-consultation" class="text-trouth font-weight-normal">Status Pembayaran</label>
+        <input type="text" class="form-control py-4" id="status-payment-consultation" value="{{$statusConsultation}}" readonly>
+    </div>
+    <div class="form-group col-12 text-right">
+        <a href="{{$proofPaymentConsultation}}" target="_blank">CEK BUKTI PEMBAYARAN</a>
+    </div>
+</div>
+<div class="form-row col-12">
+    <div class="form-group col-12">
+        <label for="status-payment" class="text-trouth">Biaya Pembelian Obat</label>
+    </div>
+    <div class="form-group col-12 col-lg-6">
+        <label for="price-medical-prescription" class="text-trouth font-weight-normal">Nominal Pembayaran</label>
+        <input type="text" class="form-control py-4 font-weight-bold text-bunting" id="price-medical-prescription" value="{{$priceMedical}}" readonly>
+    </div>
+    <div class="form-group col-12 col-lg-6">
+        <label for="status-payment-medical-prescription" class="text-trouth font-weight-normal">Status Pembayaran</label>
+        <input type="text" class="form-control py-4" id="status-payment-medical-prescription" value="{{$statusMedical}}" readonly>
+    </div>
+    <div class="form-group col-12 text-right">
+        <a href="{{$proofPaymentMedical}}" target="_blank">CEK BUKTI PEMBAYARAN</a>
+    </div>
+</div>
+<div class="col-12">
+    <div class="alert alert-danger text-sm mt-4">
+        Konfirmasi obat sudah kadaluarsa sejak
+            <span class="font-weight-bold">
+                {{  date("d-M-Y h:m:s", $validStatus) }} WIB
+            </span>
+        . Obat tidak dapat diambil serta pembayaran tidak dapat dikembalikan dan penyerahan obat dianggap selesai.
+    </div>
+</div>
+@endif

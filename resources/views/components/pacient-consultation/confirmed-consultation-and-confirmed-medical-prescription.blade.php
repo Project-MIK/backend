@@ -1,7 +1,7 @@
 <div class="px-2">
     <div class="form-row">
         <div class="form-group col-12">
-            <label for="status-payment" class="text-trouth">Konsultasi</label>
+            <label for="status-payment" class="text-trouth">Biaya Konsultasi</label>
         </div>
         <div class="form-group col-12 col-lg-6">
             <label for="price-consultation" class="text-trouth font-weight-normal">Nominal Pembayaran</label>
