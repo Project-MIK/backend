@@ -34,7 +34,6 @@
                 $no = 1;
                 @endphp
                 @foreach($data as $item)
-
                 <tr>
                     <td>{{$no}}</td>
                     <td hidden>{{$item['id']}}</td>
@@ -47,7 +46,6 @@
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Delete</button></div>
                         </div>
                     </td>
-                    
                 </tr>
                 @php
                 $no++;
@@ -96,8 +94,20 @@
     <x-slot:modalid>modal-detail</x-slot:modalid>
     <x-slot:judul>Detail Admin</x-slot:judul>
     <form action="" method="post">
-        <input type="text" name="" id="detail-nama">
-        <button type="submit">simpan</button>
+        @csrf
+        <div class="form-group">
+            <label>Nama</label>
+            <input type="text"  class="form-control" name="name" required>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text"  class="form-control" name="email" readonly >
+        </div>
+        <div class="form-group">
+            <label for="detail-alamat">Alamat</label>
+            <textarea  id="detail-alamat" class="form-control" name="address" rows="3" placeholder="Alamat ......" required></textarea>
+        </div>
+        <button type="button" class="btn btn-block btn-primary">save</button>
     </form>
 </x-modal>
 
