@@ -51,11 +51,21 @@ class RecordService
                 return $res;
             } else {
                 $existSchedule = $this->schedule->where('id', $request['id_schedules'])->first();
-                dd($existSchedule);
-                $created = $this->record->create($request);
-                if ($created->exists()) {
-                    $res['status'] = true;
-                    $res['message'] = 'berhasil menambahkan detail rekam medic';
+                if($existSchedule!=null){
+                    if($existSchedule->status !="kosong"){
+                        $res['status'] =false;
+                        $res['message'] = 'gagal menambahkan record , jadwal yang anda pilih tidak sedang kosong';
+                        return $res;
+                    }
+                    $created = $this->record->create($request);
+                    if ($created->exists()) {
+                        $res['status'] = true;
+                        $res['message'] = 'berhasil menambahkan detail rekam medic';
+                        return $res;
+                    }
+                }else{
+                    $res['status'] = false;
+                    $res['message'] = 'gagal menambahkan data record , jadwal tidak ditemukan';
                     return $res;
                 }
             }
