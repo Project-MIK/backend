@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamp('time_start')->nullable();
             $table->timestamp('time_end')->nullable();
             $table->string('link');
-            $table->enum('status', ['selesai' , 'belum_selesai' , 'tidak_aktif']);
+            $table->enum('status', ['selesai' , 'belum_selesai' , 'kosong']);
             $table->foreign('id_schedule')->references('id')->on('schedules')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

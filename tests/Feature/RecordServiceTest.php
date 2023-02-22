@@ -33,16 +33,19 @@ class RecordServiceTest extends TestCase
         $this->assertIsArray($res);
     }
 
-    public function test_insert_data()
+    public function test_insert_data_sucess()
     {
         $data = [
             "medical_record_id" => 123123,
-            "description" => "ini desc",
-            "complaint" => "ini complaint"
+            "description" => $this->faker->name(),
+            "complaint" => "ini complaint",
+            "id_doctor" => 1 ,
+            "id_schedules" => 1
         ];
         $service = new RecordService();
         $res = $service->insert($data);
-        $this->assertDatabaseHas("record", $data);
+        $this->assertTrue($res['status']);
+        $this->assertDatabaseHas("record" , $data);
     }
 
     public function test_find_detail_record_by_rekam_medic()

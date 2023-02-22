@@ -17,7 +17,8 @@ class Record extends Model
         "description" , 
         "complaint" , 
         "id_recipe" , 
-        "id_doctor"
+        "id_doctor",
+        "id_schedules"
     ];
 
 
