@@ -208,4 +208,3 @@ Route::get("/pattient" , function(){
     return view("test.register");
 });
 
-Route::resource("detail" , RecordController::class);
