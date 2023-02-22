@@ -24,7 +24,7 @@
     <div class="alert alert-info text-sm mt-4">
         Harap mengkonfirmasi pengambilan obat sampai 
             <span class="font-weight-bold">
-                {{  date("d-M-Y h:m:s", $validStatus) }} WIB
+                {{  date("d-M-Y h:i:s", $validStatus) }} WIB
             </span>
         . Jika melebihi batas waktu , maka pengambilan obat dianggap selesai.
     </div>
@@ -105,7 +105,7 @@
     <div class="alert alert-danger text-sm mt-4">
         Konfirmasi obat sudah kadaluarsa sejak
             <span class="font-weight-bold">
-                {{  date("d-M-Y h:m:s", $validStatus) }} WIB
+                {{  date("d-M-Y h:i:s", $validStatus) }} WIB
             </span>
         . Obat tidak dapat diambil serta pembayaran tidak dapat dikembalikan dan penyerahan obat dianggap selesai.
     </div>

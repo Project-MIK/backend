@@ -67,7 +67,7 @@
                         <p>Harap melakukan pembayaran sesuai nominal yang tertera.</p>
                         <p>Pembayaran berlaku sampai 
                             <span class="font-weight-bold">
-                                {{  date("d-M-Y h:m:s", $valid_status) }} WIB
+                                {{  date("d-M-Y h:i:s", $valid_status) }} WIB
                             </span>
                         </p>
                     </div>
