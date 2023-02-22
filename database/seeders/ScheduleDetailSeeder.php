@@ -23,7 +23,11 @@ class ScheduleDetailSeeder extends Seeder
             "time_start" => Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now())->format('hh:mm'),
             "time_end" => Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now())->format('hh:mm'),
             "link" =>  "link jitsi" , 
+<<<<<<< HEAD
             "status" => "terisi" , 
+=======
+            "status" => "kosong" , 
+>>>>>>> backend_test
         ]);
     }
 }
