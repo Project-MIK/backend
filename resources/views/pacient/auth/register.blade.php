@@ -18,7 +18,7 @@
                             <a href="/masuk" class="btn btn-bunting px-5 text-white font-weight-bold">Masuk</a>
                         </div>
                     @else
-                        <form class="p-5 w-100" action="" method="POST">
+                        <form class="p-5 w-100" action="/daftar" method="POST">
                             @csrf
                             <h1 class="font-weight-bold text-bunting text-xl">Daftar</h1>
                             <p class="text-trouth font-weight-light text-sm">Belum punya akun ? Buat akun anda sekarang dengan melengkapi beberapa informasi data diri dibawah ini </p>
