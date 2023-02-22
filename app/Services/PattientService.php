@@ -132,9 +132,14 @@ class PattientService
 
     public function login(array $request)
     {
-        $res = Auth::guard('pattient')->check();
-        dd($res);
         $res = Auth::guard('pattient')->attempt(['medical_record_id' => $request['no_medical_records'], 'password' => $request['password']]);
+        
         return $res;
     }
+
+    public function showDataLogin($id){
+        
+    }
+
+    
 }

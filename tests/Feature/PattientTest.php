@@ -262,7 +262,7 @@ class PattientTest extends TestCase
     public function test_login(){
         $service = new PattientService();
         $service->login([
-            "ni_medical_records" => 123123 ,
+            "no_medical_records" => 123123 ,
             "password" => 'rahasia'
         ]);
 

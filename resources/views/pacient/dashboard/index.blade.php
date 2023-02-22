@@ -58,9 +58,7 @@
                     <div class="p-5 w-100">
                         <div id="pacient-name-tag" class="d-flex align-items-center justify-content-between">
                             <div>
-                                
-                                    {{ dd(Auth::guard('pattient')) }}
-                                
+                                {{-- {{ dd(Auth::guard('pattient')->user()->name) }} --}}
                                 <h1 class="font-weight-bold text-bunting text-xl">Halo, Lathisa Maharani</h1>
                                 <p class="text-trouth font-weight-light text-sm">Gunakan layanan telemedicine untuk mewujudkan akses kesehatan terjangkau secara online</p>
                             </div>
