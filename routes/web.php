@@ -36,7 +36,7 @@ Route::post("/masuk", function (Request $request) {
 
 // # Register
 Route::view("/daftar", "pacient.auth.register");
-Route::post("/daftar", [PattientController::class, "store"]);
+Route::post("/daftar", [PattientController::class, "store"])->middleware('guest');
 
 // # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgot-password");

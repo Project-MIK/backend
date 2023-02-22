@@ -36,8 +36,7 @@ class PattientController extends Controller
     }
     public function store(StorePattientRequest $request)
     {
-
-        if ($request['citizen'] == 'WNI') {
+        if ($request['citizen'] == 'indonesia') {
             $res = $this->service->store($request->validate([
                 'fullname' => ['required', 'string', 'min:4'],
                 'email' => ['required', 'email', 'unique:pattient,email'],
@@ -92,7 +91,6 @@ class PattientController extends Controller
             }
         }
     }
-
     public function storewithRekamMedic(StorePattientMedicalRequest $request)
     {
         $request->validate(["citizen" => "required"]);

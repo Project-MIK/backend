@@ -35,8 +35,8 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                                        <select id="inputCitizen" class="form-control" name="citizen" onchange="setCitizen(this)">
-                                            <option value="WNI" selected>Indonesia</option>
+                                        <select id="inputCitizen" class="form-control" name="citizen" onchange="setCitizen(this)" autocomplete="off">
+                                            <option value="indonesia" selected>Indonesia</option>
                                             <option value="WNA">Warga Negara Asing</option>
                                         </select>
                                     </div>
@@ -163,12 +163,16 @@
                 todayHighlight: true,
                 language: "id"
             });
+
+            const inputNIK = document.getElementById("inputNik");
+            const inputPaspor = document.getElementById("inputPaspor");
+
+            inputNIK.value = "";
+            inputPaspor.value = "-";
+            
             function setCitizen(e) {
                 const NIK = document.getElementById("nik");
                 const Paspor = document.getElementById("paspor");
-
-                const inputNIK = document.getElementById("inputNik");
-                const inputPaspor = document.getElementById("inputPaspor");
 
                 if(e.value == "indonesia"){
                     NIK.classList.remove("d-none");
