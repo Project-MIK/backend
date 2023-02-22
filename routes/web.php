@@ -285,7 +285,7 @@ Route::prefix('konsultasi')->group(function () {
             "pickup_by_pacient" => "Aristo Caesar Pratama",
             "pickup_datetime" => 1676184847,
 
-            "valid_status" => 1676995169
+            "valid_status" => 1677030619
         ]);
     });
 

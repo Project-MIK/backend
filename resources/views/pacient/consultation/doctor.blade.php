@@ -73,7 +73,7 @@
                                                 <label for="inputScheduleTime" class="text-trouth font-weight-normal">Waktu (Waktu Indonesia Barat)</label>
                                                 <select id="inputScheduleTime" class="form-control" name="consultation_schedule_time">
                                                     @foreach ($detail_doctor['time_schedule'] as $time)
-                                                        <option value="{{$time["start"]}}-{{$time["end"]}}">{{date("h : m : s", $time["start"])}} - {{date("h : m : s", $time["end"])}}</option>
+                                                        <option value="{{$time["start"]}}-{{$time["end"]}}">{{date("h : i : s", $time["start"])}} - {{date("h : i : s", $time["end"])}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

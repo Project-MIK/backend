@@ -25,7 +25,7 @@
                                     <strong>Konsultasi akan berlangsung pada</strong><br>{{date("d - M - Y", $complaint["schedule"])}}
                                 </div>
                                 <div>
-                                    {{date("h:m:s", $complaint["start_consultation"])}} - {{date("h:m:s", $complaint["end_consultation"])}} WIB
+                                    {{date("h:i:s", $complaint["start_consultation"])}} - {{date("h:i:s", $complaint["end_consultation"])}} WIB
                                 </div>
                             </div>
                         @elseif($complaint["status"] == "waiting-medical-prescription-payment")

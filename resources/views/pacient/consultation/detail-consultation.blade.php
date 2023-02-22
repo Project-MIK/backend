@@ -74,7 +74,7 @@
                                                 </div>
                                                 <div class="form-group col-12">
                                                     <label for="consultation-schedule" class="text-trouth">Jadwal Konsultasi</label>
-                                                    <input type="text" class="form-control py-4" id="consultation-schedule" value="{{ date("d - M - Y", $schedule) }} , {{ date("h : m : s", $start_consultation) }} - {{ date("h : m : s", $end_consultation) }} WIB" readonly>
+                                                    <input type="text" class="form-control py-4" id="consultation-schedule" value="{{ date("d - M - Y", $schedule) }} , {{ date("h : i : s", $start_consultation) }} - {{ date("h : i : s", $end_consultation) }} WIB" readonly>
                                                 </div>
                                                 @if ($status == "waiting-consultation-payment")
                                                     <x-pacient-consultation.status-payment-consultation
