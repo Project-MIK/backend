@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PattienLoginRequest;
 use App\Http\Requests\StorePattientMedicalRequest;
 use App\Http\Requests\StorePattientRequest;
 use App\Http\Requests\UpdatePattientRequest;
@@ -27,7 +28,7 @@ class PattientController extends Controller
     public function index()
     {
         $data = $this->service->findAll();
-        return view('admin.pasien'  , ["data" => $data]);
+        return view('admin.pasien', ["data" => $data]);
         // no data
     }
     public function create()
@@ -38,14 +39,14 @@ class PattientController extends Controller
     {
         $request->validate(['citizen' => ['required']]);
         if ($request['citizen'] == 'WNI') {
-            $res =  $this->service->store($request->validate($request->rules()['nik']));
+            $res = $this->service->store($request->validate($request->rules()['nik']));
             if ($res) {
                 return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
             } else {
                 return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
             }
         } else {
-            $res =  $this->service->store($request->validate($request->rules()['paspor']));
+            $res = $this->service->store($request->validate($request->rules()['paspor']));
             if ($res) {
                 return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
             } else {
@@ -58,9 +59,10 @@ class PattientController extends Controller
     {
         $request->validate(["citizen" => "required"]);
         if ($request['citizen'] == 'WNI') {
-            $res =  $this->service->storeWithAdmin($request->validate(
+            $res = $this->service->storeWithAdmin($request->validate(
                 $request->rules()['nik']
-            ));
+            )
+            );
             if ($res['status']) {
                 $id = $res['payload']->id;
                 $this->medicalRecordService->sendEmailMedicalRecord($id, $request['rekamMedic']);
@@ -70,7 +72,7 @@ class PattientController extends Controller
                 return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
             }
         } else {
-            $res =  $this->service->storeWithAdmin($request->validate([
+            $res = $this->service->storeWithAdmin($request->validate([
                 $request->rules()['paspor']
             ]));
             if ($res['status']) {
@@ -96,7 +98,7 @@ class PattientController extends Controller
     }
     public function update(UpdatePattientRequest $request, Pattient $pattient)
     {
-        $res =  $this->service->update($request->validate($request->rules()), $pattient->id);
+        $res = $this->service->update($request->validate($request->rules()), $pattient->id);
         if ($res['status']) {
             return view()->with("message", $res['message']);
         } else {
@@ -113,5 +115,15 @@ class PattientController extends Controller
     public function oke()
     {
         dd("ok");
+    }
+
+    public function login(PattienLoginRequest $pattienLoginRequest)
+    {
+
+        $data = $pattienLoginRequest->validate($pattienLoginRequest->rules());
+        $res = $this->service->login($data);
+        if($res){
+            return redirect('dashboard');
+        }
     }
 }

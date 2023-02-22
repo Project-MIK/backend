@@ -61,7 +61,7 @@ class StorePattientRequest extends FormRequest
                 'date_birth' => ['required'],
                 'blood_group' => ['required'],
                 'place_birth' => ['required'],
-                'no_paspor' => ['required', 'numeric', 'min:16', 'unique:pattient,nik']
+                'no_paspor' => ['required', 'numeric', 'min:16', 'unique:pattient,no_paspor']
             ]
         ];
     }
