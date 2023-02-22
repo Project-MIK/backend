@@ -9,10 +9,10 @@ use App\Models\MedicalRecords;
 use App\Models\Record;
 use App\Models\ScheduleDetail;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Str;
 
 class RecordService
 {
-
 
     private Record $record;
     private MedicalRecords $medicalRecord;
@@ -36,7 +36,15 @@ class RecordService
 
     public function insert(array $request)
     {
-
+        //KL6584690
+        $resultId = "";
+        do {
+            # code...
+            $prefix = "KL";
+            $randomString = random_int(1000000 , 9999999);
+            $resultId = $prefix.$randomString;
+            $uniqueid  = $this->record->where('id' , $resultId)->first();
+        } while ($uniqueid != null);
         $res = [];
         $exist = $this->medicalRecord->where('medical_record_id', $request['medical_record_id'])->first();
         if ($exist == null) {
@@ -57,7 +65,15 @@ class RecordService
                         $res['message'] = 'gagal menambahkan record , jadwal yang anda pilih tidak sedang kosong';
                         return $res;
                     }
-                    $created = $this->record->create($request);
+                    $request['id'] = $resultId;
+                    $created = $this->record->create([
+                        "id" => $resultId,
+                        "medical_record_id" => $request['medical_record_id'],
+                        "description"=> $request['description'],
+                        "complaint" => $request['complaint'],
+                        "id_doctor" => $request['id_doctor'],
+                        "id_schedules" => $request['id_schedules']
+                    ]);
                     if ($created->exists()) {
                         $res['status'] = true;
                         $res['message'] = 'berhasil menambahkan detail rekam medic';

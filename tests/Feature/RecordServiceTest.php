@@ -40,7 +40,7 @@ class RecordServiceTest extends TestCase
             "description" => $this->faker->name(),
             "complaint" => "ini complaint",
             "id_doctor" => 1 ,
-            "id_schedules" => 1
+            "id_schedules" => 1,
         ];
         $service = new RecordService();
         $res = $service->insert($data);

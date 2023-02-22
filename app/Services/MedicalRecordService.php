@@ -35,7 +35,7 @@ class MedicalRecordService
         ->select("record.complaint" , "record.description" , 'schedule_detail.consultation_date as tanggal_konsultasi' , 'schedule_detail.time_start as jam_mulai_konsultasi' , 'schedule_detail.time_end as jam_selesai_konsultasi' , 'schedule_detail.link as link_jitsi' , 'schedule_detail.status' , 'doctor.name as nama_doctor' )
         ->get()->toArray();
         $res = $this->pattient
-            ->join("medical_records", "medical_records.id_pattient", "=", "pattient.id")
+            ->join("medical_records", "medical_records.medical_record_id", "=", "pattient.medical_record_id")
             ->leftjoin("record", "medical_records.medical_record_id", "=", "record.medical_record_id")
             ->join("registration_officers", "medical_records.id_registration_officer", "=", "registration_officers.id")
             ->select("pattient.*", "medical_records.medical_record_id",  "registration_officers.name as petugas_pendaftaran")
@@ -89,32 +89,23 @@ class MedicalRecordService
     }
     public function findById($id)
     {
+        $dataDetailRecord['complaint'] = $this->medicalRecords
+        ->join("record" , "record.medical_record_id" , "=" , "medical_records.medical_record_id")
+        ->join('schedule_detail' , 'record.id_schedules' , '=' , "schedule_detail.id")
+        ->join('schedules' , 'schedule_detail.id_schedule' , '=' , 'schedules.id')
+        ->join('doctor' , 'schedules.id_doctor' , '=' , 'doctor.id')
+        ->select("record.complaint" , "record.description" , 'record.id as id_consultation' , 'schedule_detail.consultation_date as schedule' , 'schedule_detail.time_start as start_consultation' , 'schedule_detail.time_end as end_consultation' , 'schedule_detail.link as link_jitsi' , 'schedule_detail.status' , 'doctor.name as nama_doctor' )
+        ->get()->toArray();
         $res = $this->pattient
-            ->join("medical_records", "medical_records.id_pattient", "=", "pattient.id")
+            ->join("medical_records", "medical_records.medical_record_id", "=", "pattient.medical_record_id")
             ->leftjoin("record", "medical_records.medical_record_id", "=", "record.medical_record_id")
-            ->leftjoin('doctor', 'record.id_doctor', '=', 'doctor.id')
             ->join("registration_officers", "medical_records.id_registration_officer", "=", "registration_officers.id")
-            ->where('medical_records.medical_record_id', $id)
-            ->select("pattient.*", "medical_records.medical_record_id", "record.complaint", "record.description", 'doctor.name as doctor_name', "registration_officers.name as petugas_pendaftaran")
-            ->groupBy('medical_records.medical_record_id')
+            ->where('pattient.medical_record_id' , $id)
+            ->select("pattient.*", "medical_records.medical_record_id",  "registration_officers.name as petugas_pendaftaran")
+            ->groupBy("medical_records.medical_record_id")
             ->get()->toArray();
-        $recordData['detailRecord'] = [];
         foreach ($res as $key => $value) {
-            $item = [
-                "complaint" => $value['complaint'],
-                "description" => $value['description'],
-                "doctor_name" => $value['doctor_name']
-            ];
-            array_push($recordData['detailRecord'], $item);
-        }
-        foreach ($res as $key => $value) {
-            Arr::forget($value, "complaint");
-            Arr::forget($value, "description");
-            Arr::forget($value, "doctor_name");
-            $res[$key] = $value;
-        }
-        foreach ($res as $key => $value) {
-            array_push($res[$key], $recordData);
+            array_push($res[$key], $dataDetailRecord);
         }
         return $res;
     }
