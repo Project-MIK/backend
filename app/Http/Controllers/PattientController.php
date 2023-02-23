@@ -37,16 +37,52 @@ class PattientController extends Controller
     }
     public function store(StorePattientRequest $request)
     {
-        $request->validate(['citizen' => ['required']]);
+        
         if ($request['citizen'] == 'WNI') {
-            $res = $this->service->store($request->validate($request->rules()['nik']));
+            $res = $this->service->store($request->validate([
+                'fullname' => ['required', 'string', 'min:4'],
+                'email' => ['required', 'email', 'unique:pattient,email'],
+                'gender' => ['required'],
+                'password' => ['required'],
+                'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                'address_RT' => ['required', 'numeric'],
+                'address_RW' => ['required', 'numeric'],
+                'address_desa' => ['required', 'string'],
+                'address_dusun' => ['required', 'string'],
+                'address_kecamatan' => ['required', 'string'],
+                'address_kabupaten' => ['required', 'string'],
+                'citizen' => ['required'],
+                'profession' => ['required'],
+                'date_birth' => ['required'],
+                'blood_group' => ['required'],
+                'place_birth' => ['required'],
+                'nik' => ['required', 'numeric', 'digits:16', 'unique:pattient,nik']
+            ]));
             if ($res) {
                 return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
             } else {
                 return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
             }
         } else {
-            $res = $this->service->store($request->validate($request->rules()['paspor']));
+            $res = $this->service->store($request->validate([
+                'fullname' => ['required', 'string', 'min:4'],
+                'email' => ['required', 'email', 'unique:pattient,email'],
+                'gender' => ['required'],
+                'password' => ['required'],
+                'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                'address_RT' => ['required', 'numeric'],
+                'address_RW' => ['required', 'numeric'],
+                'address_desa' => ['required', 'string'],
+                'address_dusun' => ['required', 'string'],
+                'address_kecamatan' => ['required', 'string'],
+                'address_kabupaten' => ['required', 'string'],
+                'citizen' => ['required'],
+                'profession' => ['required'],
+                'date_birth' => ['required'],
+                'blood_group' => ['required'],
+                'place_birth' => ['required'],
+                'no_paspor' => ['required', 'numeric', 'digits:16', 'unique:pattient,no_paspor']
+            ]));
             if ($res) {
                 return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
             } else {
@@ -57,11 +93,30 @@ class PattientController extends Controller
 
     public function storewithRekamMedic(StorePattientMedicalRequest $request)
     {
-        $request->validate(["citizen" => "required"]);
+        
         if ($request['citizen'] == 'WNI') {
-            $res = $this->service->storeWithAdmin($request->validate(
-                $request->rules()['nik']
-            )
+            $res = $this->service->storeWithAdmin(
+                $request->validate(
+                    [
+                        'fullname' => ['required', 'string', 'min:4'],
+                        'email' => ['required', 'email', 'unique:pattient,email'],
+                        'gender' => ['required'],
+                        'password' => ['required'],
+                        'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                        'address_RT' => ['required', 'numeric'],
+                        'address_RW' => ['required', 'numeric'],
+                        'address_desa' => ['required', 'string'],
+                        'address_dusun' => ['required', 'string'],
+                        'address_kecamatan' => ['required', 'string'],
+                        'address_kabupaten' => ['required', 'string'],
+                        'citizen' => ['required'],
+                        'profession' => ['required'],
+                        'date_birth' => ['required'],
+                        'blood_group' => ['required'],
+                        'place_birth' => ['required'],
+                        'nik' => ['required', 'numeric', 'digits:16', 'unique:pattient,nik']
+                    ]
+                )
             );
             if ($res['status']) {
                 $id = $res['payload']->id;
@@ -73,7 +128,25 @@ class PattientController extends Controller
             }
         } else {
             $res = $this->service->storeWithAdmin($request->validate([
-                $request->rules()['paspor']
+                [
+                    'fullname' => ['required', 'string', 'min:4'],
+                    'email' => ['required', 'email', 'unique:pattient,email'],
+                    'gender' => ['required'],
+                    'password' => ['required'],
+                    'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                    'address_RT' => ['required', 'numeric'],
+                    'address_RW' => ['required', 'numeric'],
+                    'address_desa' => ['required', 'string'],
+                    'address_dusun' => ['required', 'string'],
+                    'address_kecamatan' => ['required', 'string'],
+                    'address_kabupaten' => ['required', 'string'],
+                    'citizen' => ['required'],
+                    'profession' => ['required'],
+                    'date_birth' => ['required'],
+                    'blood_group' => ['required'],
+                    'place_birth' => ['required'],
+                    'no_paspor' => ['required', 'numeric', 'digits:16', 'unique:pattient,no_paspor']
+                ]
             ]));
             if ($res['status']) {
                 $id = $res['payload']->id;
@@ -122,7 +195,7 @@ class PattientController extends Controller
 
         $data = $pattienLoginRequest->validate($pattienLoginRequest->rules());
         $res = $this->service->login($data);
-        if($res){
+        if ($res) {
             return redirect('dashboard');
         }
     }
