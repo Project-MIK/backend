@@ -48,6 +48,7 @@ class MedicalRecordService
     }
     public function insert(array $request)
     {
+      
         $response = [];
         try {
             $res = $this->medicalRecords->create($request);
@@ -63,7 +64,7 @@ class MedicalRecordService
             //throw $th;
             $response['status'] = false;
             $response['payload'] = null;
-            return $response;
+            dd($th);            return $response;
         }
     }
     public function update(array $request, $id)

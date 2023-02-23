@@ -12,11 +12,16 @@ class ConfirmedConsultationPayment extends Component
      * @return void
      */
     public $price;
-    public $status_payment;
-    public $consultation_proof_payment;
-    public function __construct($price = "0", $status_payment = "", $consultation_proof_payment = "")
-    {
-        //
+    public $status;
+    public $proof_payment;
+    public function __construct(
+        $price = "0",
+        $status = "",
+        $proofPayment = ""
+    ) {
+        $this->price = $price;
+        $this->status = $status;
+        $this->proof_payment = $proofPayment;
     }
 
     /**
