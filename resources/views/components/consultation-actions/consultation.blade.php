@@ -1,6 +1,6 @@
 <div id="consultation">
     <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-5">
-        <div class="text-trouth">Nomor Rekam Medis : <strong>{{session('no_medical_records') ? session('no_medical_records') : "Invalid Get Session Medical Record"}}</strong></div>
+        <div class="text-trouth">Nomor Rekam Medis : <strong>{{ Auth::guard('pattient')->user()->medical_record_id}}</strong></div>
         <a id="create_consulation" href="/konsultasi" class="btn btn-bunting text-white font-weight-normal px-5">Buat Konsultasi</a>
     </div>
     @if ($complaint)
