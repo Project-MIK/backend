@@ -71,6 +71,8 @@ class RecordService
             }
         }
     }
+    
+   
 
     public function findByMedicalRecord($rekamMedic)
     {
