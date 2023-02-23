@@ -5,6 +5,8 @@ namespace App\Services;
 
 use App\Helpers\Helper;
 use App\Models\Pattient;
+use Illuminate\Support\Facades\Auth;
+use Sarav\Multiauth\MultiauthServiceProvider;
 use Illuminate\Validation\ValidationException;
 
 use function PHPUnit\Framework\isEmpty;
@@ -86,7 +88,7 @@ class PattientService
                     $response['status'] = false;
                     $response['message'] = 'nik sudah digunakan silahkan coba nik yang valid';
                     return $response;
-                } else if (array_key_exists("no_paspor", $request) &&  $key->no_paspor == $request['no_paspor']) {
+                } else if (array_key_exists("no_paspor", $request) && $key->no_paspor == $request['no_paspor']) {
                     $response['status'] = false;
                     $response['message'] = 'no paspor sudah digunakan silahkan coba no paspor yang valid';
                     return $response;
@@ -126,5 +128,13 @@ class PattientService
             return true;
         }
         return false;
+    }
+
+    public function login(array $request)
+    {
+        $res = Auth::guard('pattient')->check();
+        dd($res);
+        $res = Auth::guard('pattient')->attempt(['medical_record_id' => $request['no_medical_records'], 'password' => $request['password']]);
+        return $res;
     }
 }

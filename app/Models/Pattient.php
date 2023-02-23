@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Pattient extends Model
+class Pattient extends Authenticatable
 {
     use HasFactory;
 
     protected $table = "pattient";
-
 
     protected $fillable = [
         'name',
@@ -35,4 +36,6 @@ class Pattient extends Model
         return "id";
     }
     public $timestamps = true;
+
+   
 }

@@ -29,10 +29,8 @@ use PHPUnit\TextUI\XmlConfiguration\Group;
 Route::view("/", "pacient.index");
 
 // Authentication - Login
-Route::view("/masuk", "pacient.auth.login");
-Route::post("/masuk", function (Request $request) {
-    dd($request);
-});
+Route::view("/masuk", "pacient.auth.login")->middleware('pattentNotAuthenticate');
+Route::post("/masuk", [PattientController::class , "login"])->name('login');
 
 // Authentication - Register
 Route::view("/daftar", "pacient.auth.register");

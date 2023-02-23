@@ -258,4 +258,13 @@ class PattientTest extends TestCase
         $res = $service->storeWithAdmin($request->validate($request->rules()));
         dd($res);
     }
+
+    public function test_login(){
+        $service = new PattientService();
+        $service->login([
+            "ni_medical_records" => 123123 ,
+            "password" => 'rahasia'
+        ]);
+
+    }
 }
