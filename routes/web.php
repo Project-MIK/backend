@@ -210,6 +210,9 @@ Route::prefix('admin')->group(function () {
         Route::post('store',[PattientController::class,'store']);
         Route::put('update');
         Route::delete('destroy');
+        Route::get('detail/{id}',function($id){
+            return view('admin.pasien-detail',[$id]);
+        });
     });
 
     Route::prefix('admin')->group(function(){
@@ -217,6 +220,7 @@ Route::prefix('admin')->group(function () {
         Route::post('store',[AdminController::class,'store']);
         Route::put('update');
         Route::delete('destroy',[AdminController::class,'destroy']);
+        
     });
     
     Route::prefix('petugas')->group(function(){
