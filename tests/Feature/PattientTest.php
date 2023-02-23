@@ -42,7 +42,7 @@ class PattientTest extends TestCase
     {
         $service = new PattientService();
         $request = new StorePattientRequest();
-        $request['fullname'] =  $this->faker->name();
+        $request['fullname'] = $this->faker->name();
         $request['email'] = $this->faker->email();
         $request['gender'] = "M";
         $request['password'] = "rahasia";
@@ -59,7 +59,7 @@ class PattientTest extends TestCase
         $request['blood_group'] = "B";
         $request['place_birth'] = "bwi";
         $request["nik"] = 123123;
-        $res =  $service->store($request->validate($request->rules()['nik']));
+        $res = $service->store($request->validate($request->rules()['nik']));
         $this->assertTrue($res);
     }
     public function test_store_error_validation()
@@ -67,7 +67,7 @@ class PattientTest extends TestCase
         $this->expectException(ValidationException::class);
         $service = new PattientService();
         $request = new StorePattientRequest();
-        $request['name'] =  $this->faker->name();
+        $request['name'] = $this->faker->name();
         $request['email'] = "email";
         $request['gender'] = "M";
         $request['password'] = "rahasia";
@@ -78,7 +78,7 @@ class PattientTest extends TestCase
         $request['date_birth'] = Carbon::now()->toDateTimeString();
         $request['blood_group'] = "B";
         $request['place_birth'] = "bwi";
-        $res =  $service->store($request->validate($request->rules()));
+        $res = $service->store($request->validate($request->rules()));
         $this->assertFalse($res);
     }
 
@@ -98,7 +98,7 @@ class PattientTest extends TestCase
     {
         $service = new PattientService();
         $request = new UpdatePattientRequest();
-        $request['name'] =  $this->faker->name();
+        $request['name'] = $this->faker->name();
         $request['email'] = $this->faker->email();
         $request['gender'] = "M";
         $request['phone_number'] = "05607185972";
@@ -109,17 +109,17 @@ class PattientTest extends TestCase
         $request['blood_group'] = "B";
         $request['place_birth'] = "bwi";
         $request['nik'] = 9283092938904203;
-        $res =  $service->update($request->validate($request->rules()[0]), 2);
+        $res = $service->update($request->validate($request->rules()[0]), 2);
         $this->assertTrue($res['status']);
         $this->assertArrayHasKey("message", $res);
         $this->assertEquals("berhasil memperbarui data pasien", $res['message']);
     }
-    
+
     public function test_update_in_service_failed_cause_email_duplicate()
     {
         $service = new PattientService();
         $request = new UpdatePattientRequest();
-        $request['name'] =  $this->faker->name();
+        $request['name'] = $this->faker->name();
         $request['email'] = "email@gmail.com";
         $request['gender'] = "M";
         $request['password'] = "rahasia";
@@ -131,7 +131,7 @@ class PattientTest extends TestCase
         $request['blood_group'] = "B";
         $request['place_birth'] = "bwi";
         $request['nik'] = 9283092938904203;
-        $res =  $service->update($request->validate($request->rules()[0]), 2);
+        $res = $service->update($request->validate($request->rules()[0]), 2);
         $this->assertfalse($res['status']);
         $this->assertArrayHasKey("message", $res);
     }
@@ -139,7 +139,7 @@ class PattientTest extends TestCase
     {
         $service = new PattientService();
         $request = new UpdatePattientRequest();
-        $request['name'] =  $this->faker->name();
+        $request['name'] = $this->faker->name();
         $request['email'] = "phane@hotmail.com";
         $request['gender'] = "M";
         $request['password'] = "rahasia";
@@ -151,7 +151,7 @@ class PattientTest extends TestCase
         $request['blood_group'] = "B";
         $request['place_birth'] = "bwi";
         $request['nik'] = "2030182387892092";
-        $res =  $service->update($request->validate($request->rules()[0]), 2);
+        $res = $service->update($request->validate($request->rules()[0]), 2);
         $this->assertTrue($res['status']);
         $this->assertArrayHasKey("message", $res);
     }
@@ -174,7 +174,7 @@ class PattientTest extends TestCase
     {
         // test
         $request = new UpdatePattientRequest();
-        $request['name'] =  "zamz";
+        $request['name'] = "zamz";
         $request['email'] = "email@gmail.com";
         $request['gender'] = "M";
         $request['phone_number'] = "05607185972";
@@ -193,7 +193,7 @@ class PattientTest extends TestCase
     {
         $request = new UpdatePattientRequest();
         $service = new PattientService();
-        $request['name'] =  "zamz";
+        $request['name'] = "zamz";
         $request['email'] = "email@gmail.com";
         $request['gender'] = "M";
         $request['phone_number'] = "085607185972";
@@ -208,11 +208,11 @@ class PattientTest extends TestCase
         $res = $service->update($newData, 1);
         $this->assertFalse($res['status']);
     }
-    
+
     public function test_store_Pin_controller()
     {
         $data = [
-            'fullname' =>  $this->faker->name(),
+            'fullname' => $this->faker->name(),
             'email' => $this->faker->email(),
             'gender' => "M",
             'password' => "rahasia",
@@ -235,11 +235,12 @@ class PattientTest extends TestCase
         $res->assertSessionHas('message');
     }
 
-    public function test_store_admin(){
+    public function test_store_admin()
+    {
         $service = new PattientService();
         $request = new StorePattientMedicalRequest();
         $request['fullname'] = "zamz";
-        $request['email'] = "zam@gmaisl.com" ;
+        $request['email'] = "zam@gmaisl.com";
         $request['gender'] = "M";
         $request['password'] = "rahasia";
         $request['phone_number'] = "0867532342";
@@ -250,12 +251,101 @@ class PattientTest extends TestCase
         $request['address_kecamatan'] = "kkecas";
         $request['address_kabupaten'] = "dasd";
         $request['citizen'] = "wni";
-        $request['profession'] = "guru" ;
-        $request['date_birth'] = "0923423" ;
-        $request['blood_group'] = "A" ;
-        $request['place_birth'] = "bwi" ;
+        $request['profession'] = "guru";
+        $request['date_birth'] = "0923423";
+        $request['blood_group'] = "A";
+        $request['place_birth'] = "bwi";
         $request['rekamMedic'] = "1312321";
         $res = $service->storeWithAdmin($request->validate($request->rules()));
         dd($res);
+    }
+
+    public function test_login()
+    {
+        $service = new PattientService();
+        $service->login([
+            "no_medical_records" => 123123,
+            "password" => 'rahasia'
+        ]);
+
+    }
+
+    public function test_insert_with_admin()
+    {
+        $service = new PattientService();
+        $res = $service->storeWithAdmin(
+            [
+                "fullname" => $this->faker->name(),
+                "email" => $this->faker->email(),
+                "gender" => "w",
+                "password" => "rahasia",
+                "phone_number" => "09723212312",
+                "address_RT" => 3,
+                "address_RW" => 2,
+                "address_desa" => "bwi",
+                "address_dusun" => "gambiran",
+                "address_kecamatan" => "kecamatan",
+                "address_kabupaten" => "banyuwangi",
+                "citizen" => "wni",
+                "proffession" => "guru",
+                "date_birth" => "asdas",
+                "blood_group" => "B",
+                "place_birth" => "banyuwani",
+                "medical_record_id" => $this->faker->name(),
+                "id_registration_officer" => 1,
+            ]
+        );
+      
+    }
+    public function test_store_controller(){
+        $data = [
+            "fullname" => $this->faker->name(),
+            "email" => $this->faker->email(),
+            "gender" => "w",
+            "password" => "rahasia",
+            "phone_number" => "09723212312",
+            "address_RT" => 3,
+            "address_RW" => 2,
+            "address_desa" => "bwi",
+            "address_dusun" => "gambiran",
+            "address_kecamatan" => "kecamatan",
+            "address_kabupaten" => "banyuwangi",
+            "citizen" => "WNI",
+            "profession" => "guru",
+            "date_birth" => "asdas",
+            "blood_group" => "B",
+            "place_birth" => "banyuwani",
+            "medical_record_id" => random_int(100000 , 999999),
+            "id_registration_officer" => 1,
+            "nik" => random_int(1000000000000000 , 9999999999999999)
+        ];
+        $response = $this->post("rekam" , $data);
+        $response->assertSessionHas('message' , "berhasil menambahkan patient , berhasil mengirimkan email");
+    }
+
+    public function test_store_controller_wna(){
+        $data = [
+            "fullname" => $this->faker->name(),
+            "email" => $this->faker->email(),
+            "gender" => "w",
+            "password" => "rahasia",
+            "phone_number" => "09723212312",
+            "address_RT" => 3,
+            "address_RW" => 2,
+            "address_desa" => "bwi",
+            "address_dusun" => "gambiran",
+            "address_kecamatan" => "kecamatan",
+            "address_kabupaten" => "banyuwangi",
+            "citizen" => "WNA",
+            "profession" => "guru",
+            "date_birth" => "asdas",
+            "blood_group" => "B",
+            "place_birth" => "banyuwani",
+            "medical_record_id" => random_int(100000 , 999999),
+            "id_registration_officer" => 1,
+            "no_paspor" => random_int(1000000000000000 , 9999999999999999)
+        ];
+        $response = $this->post("rekam" , $data);
+        $response->assertSessionHas('message' , "berhasil menambahkan patient , berhasil mengirimkan email");
     }
 }

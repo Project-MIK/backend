@@ -25,8 +25,10 @@ return new class extends Migration
             $table->string('profession');
             $table->string('date_birth');
             $table->string('place_birth');
+            $table->string('medical_record_id')->nullable(true);
             $table->enum('blood_group', ["A", "B", "O", "AB"])->nullable(true);
             $table->string('no_paspor', 16)->nullable(true);
+            $table->foreign('medical_record_id')->references('medical_record_id')->on('medical_records')->onDelete('cascade')->onUpdate('cascade');
             $table->string('nik', 16)->nullable(true);
             $table->enum('status', [1, 0])->default(0);
             $table->timestamps();

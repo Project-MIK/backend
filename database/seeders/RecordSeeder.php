@@ -17,6 +17,7 @@ class RecordSeeder extends Seeder
     {
         //
         Record::create([
+            "id" => "KL0923210",
             "medical_record_id" => 123123,
             "description" => "mengalami ganguan sakit kepala" , 
             "complaint" => "sakit kepala" , 
@@ -24,6 +25,7 @@ class RecordSeeder extends Seeder
             "id_schedules" => 1
         ]);
         Record::create([
+            "id" => "KL2039824",
             "medical_record_id" => 123123,
             "description" => "mengalami ganguan sakit kepala" , 
             "complaint" => "sakit kepala" , 

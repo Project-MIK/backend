@@ -4,7 +4,10 @@
 namespace App\Services;
 
 use App\Helpers\Helper;
+use App\Models\MedicalRecords;
 use App\Models\Pattient;
+use Illuminate\Support\Facades\Auth;
+use Sarav\Multiauth\MultiauthServiceProvider;
 use Illuminate\Validation\ValidationException;
 
 use function PHPUnit\Framework\isEmpty;
@@ -14,10 +17,14 @@ class PattientService
 
 
     private Pattient $model;
+    private MedicalRecords $medicalRecords;
+    private MedicalRecordService $medicalRecordService;
 
     public function __construct()
     {
+        $this->medicalRecordService = new MedicalRecordService();
         $this->model = new Pattient();
+        $this->medicalRecords = new MedicalRecords();
     }
 
     public function findAll()
@@ -25,7 +32,7 @@ class PattientService
         $data = $this->model->all()->toArray();
         return $data;
     }
-    public function store(array $request)
+    public function store(array $request):bool
     {
         try {
             $request['password'] = bcrypt($request['password']);
@@ -49,15 +56,55 @@ class PattientService
             $request['name'] = $request['fullname'];
             $request['address'] = "RT/RW : " . $request['address_RT'] . "/" . $request['address_RW'] . " Dusun " . $request['address_dusun'] . " Desa " . $request['address_desa'] . " Kec. " . $request['address_kecamatan'] . " Kab." . $request['address_kabupaten'];
             $response = $this->model->create($request);
+            $findRekamMedic = $this->medicalRecords->where('medical_record_id', $request['medical_record_id'])->first();
+            if($findRekamMedic !=null){
+                $res['status'] = false;
+                $res['message'] = 'gagal menambahkan rekam medic no rekam medic tidak boleh sama';
+                return $res;
+            }
             if ($response) {
-                $res['status'] = true;
-                $res['payload'] = $response;
+                $dataRekamMedic = [
+                    "medical_record_id" => $request['medical_record_id'],
+                    "id_registration_officer" => $request['id_registration_officer']
+                ];
+                $insertRekamMedic = $this->medicalRecordService->insert(
+                    $dataRekamMedic
+                );
+                if ($insertRekamMedic['status']) {
+                    $resUpdate = $this->model->where('id', $response->id)->update(
+                        [
+                            'medical_record_id' => $request['medical_record_id']
+                        ]
+                    );
+                    if ($resUpdate) {
+                        $this->medicalRecordService->sendEmailMedicalRecord(
+                            $response->id, $request['medical_record_id']
+                        );
+                        $res['status'] = true;
+                        $res['message'] = 'berhasil menambahkan patient , berhasil mengirimkan email';
+                        return $res;
+                    } else {
+                        $res['status'] = false;
+                        $res['message'] = 'gagal memberikan rekam medic , terjadi kesalahan';
+                        return $res;
+                    }
+                } else {
+                    $res['status'] = false;
+                    $res['message'] = 'gagal menambahkan rekam medic , terjadi kesalahan';
+                    return $res;
+                }
+            } else {
+                $this->medicalRecords->where('id', $request['medical_record_id'])->delete();
+                $res['status'] = false;
+                $res['message'] = "gagal menambahka passient";
                 return $res;
             }
         } catch (ValidationException $ex) {
             $res['status'] = false;
+            $res['message'] = 'terjadi kesalahan server';
             return $res;
         }
+
     }
 
 
@@ -86,7 +133,7 @@ class PattientService
                     $response['status'] = false;
                     $response['message'] = 'nik sudah digunakan silahkan coba nik yang valid';
                     return $response;
-                } else if (array_key_exists("no_paspor", $request) &&  $key->no_paspor == $request['no_paspor']) {
+                } else if (array_key_exists("no_paspor", $request) && $key->no_paspor == $request['no_paspor']) {
                     $response['status'] = false;
                     $response['message'] = 'no paspor sudah digunakan silahkan coba no paspor yang valid';
                     return $response;
@@ -127,4 +174,18 @@ class PattientService
         }
         return false;
     }
+
+    public function login(array $request)
+    {
+        $res = Auth::guard('pattient')->attempt(['medical_record_id' => $request['no_medical_records'], 'password' => $request['password']]);
+
+        return $res;
+    }
+
+    public function showDataLogin($id)
+    {
+
+    }
+
+
 }
