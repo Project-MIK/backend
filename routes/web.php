@@ -31,8 +31,8 @@ Route::view("/masuk", "pacient.auth.login")->middleware('pattentNotAuthenticate'
 Route::post("/masuk", [PattientController::class , "login"])->name('login');
 
 // # Register
-Route::view("/daftar", "pacient.auth.register");
-Route::post("/daftar", [PattientController::class, "store"])->middleware('guest');
+Route::view("/daftar", "pacient.auth.register")->middleware('pattentNotAuthenticate');
+Route::post("/daftar", [PattientController::class, "store"]);
 
 // # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgot-password");
@@ -383,3 +383,5 @@ Route::prefix('konsultasi')->group(function () {
 Route::get("/keluar", function () {
     return redirect('/masuk');
 });
+
+Route::post("rekam" , [PattientController::class , "storewithRekamMedic"]);

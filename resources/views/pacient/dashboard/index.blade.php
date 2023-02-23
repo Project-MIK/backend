@@ -68,12 +68,7 @@
                     <div class="p-5 w-100">
                         <div id="pacient-name-tag" class="d-flex align-items-center justify-content-between">
                             <div>
-<<<<<<< HEAD
-                                {{-- {{ dd(Auth::guard('pattient')->user()->name) }} --}}
-                                <h1 class="font-weight-bold text-bunting text-xl">Halo, Lathisa Maharani</h1>
-=======
-                                <h1 class="font-weight-bold text-bunting text-xl">Halo, {{session('fullname') ? session('fullname') : "Invalid Get Session Patien Fullname"}}</h1>
->>>>>>> backend_frontend_test
+                                <h1 class="font-weight-bold text-bunting text-xl">Halo, {{Auth::guard('pattient')->user()->name}} </h1>
                                 <p class="text-trouth font-weight-light text-sm">Gunakan layanan telemedicine untuk mewujudkan akses kesehatan terjangkau secara online</p>
                             </div>
                             <a href="/keluar">
