@@ -32,7 +32,7 @@ class PattientService
         $data = $this->model->all()->toArray();
         return $data;
     }
-    public function store(array $request)
+    public function store(array $request):bool
     {
         try {
             $request['password'] = bcrypt($request['password']);

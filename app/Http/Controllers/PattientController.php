@@ -37,7 +37,7 @@ class PattientController extends Controller
     }
     public function store(StorePattientRequest $request)
     {
-        if ($request['citizen'] == 'indonesia') {
+        if ($request['citizen'] == 'WNI') {
             $res = $this->service->store($request->validate([
                 'fullname' => ['required', 'string', 'min:4'],
                 'email' => ['required', 'email', 'unique:pattient,email'],
@@ -63,35 +63,33 @@ class PattientController extends Controller
                 return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
             }
         } else {
-            $res = $this->service->store(
-                $request->validate(
-                    [
-                        'fullname' => ['required', 'string', 'min:4'],
-                        'email' => ['required', 'email', 'unique:pattient,email'],
-                        'gender' => ['required'],
-                        'password' => ['required'],
-                        'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
-                        'address_RT' => ['required', 'numeric', 'digits:2'],
-                        'address_RW' => ['required', 'numeric', "digits:2"],
-                        'address_desa' => ['required', 'string'],
-                        'address_dusun' => ['required', 'string'],
-                        'address_kecamatan' => ['required', 'string'],
-                        'address_kabupaten' => ['required', 'string'],
-                        'citizen' => ['required'],
-                        'profession' => ['required'],
-                        'date_birth' => ['required'],
-                        'blood_group' => ['required'],
-                        'place_birth' => ['required'],
-                        'no_paspor' => ['required', 'digits:16', 'unique:pattient,no_paspor']
-                    ]
-                )
-            );
-            if ($res) {
-                return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
-            } else {
-                return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
-            }
+
+            $res = $this->service->store($request->validate([
+                'fullname' => ['required', 'string', 'min:4'],
+                'email' => ['required', 'email', 'unique:pattient,email'],
+                'gender' => ['required'],
+                'password' => ['required'],
+                'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                'address_RT' => ['required', 'numeric', 'digits:2'],
+                'address_RW' => ['required', 'numeric', 'digits:2'],
+                'address_desa' => ['required', 'string'],
+                'address_dusun' => ['required', 'string'],
+                'address_kecamatan' => ['required', 'string'],
+                'address_kabupaten' => ['required', 'string'],
+                'citizen' => ['required'],
+                'profession' => ['required'],
+                'date_birth' => ['required'],
+                'blood_group' => ['required'],
+                'place_birth' => ['required'],
+                'no_paspor' => ['required', 'digits:16', 'unique:pattient,nik']
+            ]));
         }
+        if ($res) {
+            return redirect()->back()->with('message', 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
+        } else {
+            return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
+        }
+
     }
     public function storewithRekamMedic(StorePattientMedicalRequest $request)
     {
