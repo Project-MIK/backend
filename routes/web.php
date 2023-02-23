@@ -383,5 +383,3 @@ Route::prefix('konsultasi')->group(function () {
 Route::get("/keluar", function () {
     return redirect('/masuk');
 });
-
-Route::post("rekam" , [PattientController::class , "storewithRekamMedic"]);
