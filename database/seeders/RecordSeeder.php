@@ -30,7 +30,7 @@ class RecordSeeder extends Seeder
             "description" => "mengalami ganguan sakit kepala" , 
             "complaint" => "sakit kepala" , 
             "id_doctor" => 1 , 
-            "id_schedules" => 1
+            "id_schedules" => 2,
         ]);
     }
 }

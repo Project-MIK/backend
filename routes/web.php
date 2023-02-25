@@ -383,3 +383,4 @@ Route::prefix('konsultasi')->group(function () {
 Route::get("/keluar", function () {
     return redirect('/masuk');
 });
+
