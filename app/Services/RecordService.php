@@ -7,6 +7,7 @@ use App\Helpers\Helper;
 use App\Models\Doctor;
 use App\Models\MedicalRecords;
 use App\Models\Record;
+use App\Models\RecordCategory;
 use App\Models\ScheduleDetail;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class RecordService
     private Record $record;
     private MedicalRecords $medicalRecord;
     private Doctor $doctor;
+    private RecordCategory $recordCategory;
 
     private ScheduleDetail $schedule;
 
@@ -29,6 +31,7 @@ class RecordService
         $this->medicalRecord = new MedicalRecords();
         $this->doctor = new Doctor();
         $this->schedule = new ScheduleDetail();
+        $this->recordCategory = new RecordCategory();
     }
 
     public function index()
@@ -60,7 +63,7 @@ class RecordService
                 $res['message'] = 'gagal menambahkan detail rekam medic , data doktor tidak ditemukan';
                 return $res;
             } else {
-                $existSchedule = $this->schedule->where('id', $request['id_schedules'])->first();
+            $existSchedule = $this->schedule->where('id', $request['id_schedules'])->first();
                 if($existSchedule!=null){
                     if($existSchedule->status !="kosong"){
                         $res['status'] =false;
@@ -74,7 +77,8 @@ class RecordService
                         "description"=> $request['description'],
                         "complaint" => $request['complaint'],
                         "id_doctor" => $request['id_doctor'],
-                        "id_schedules" => $request['id_schedules']
+                        "id_schedules" => $request['id_schedules'],
+                        "id_category" => $request['id_category']
                     ]);
                     if ($created->exists()) {
                         $res['status'] = true;
@@ -89,8 +93,6 @@ class RecordService
             }
         }
     }
-    
-   
 
     public function findByMedicalRecord($rekamMedic)
     {

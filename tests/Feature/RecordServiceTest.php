@@ -41,6 +41,7 @@ class RecordServiceTest extends TestCase
             "complaint" => "ini complaint",
             "id_doctor" => 1 ,
             "id_schedules" => 1,
+            "id_category"=>1
         ];
         $service = new RecordService();
         $res = $service->insert($data);
