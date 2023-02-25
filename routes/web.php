@@ -206,3 +206,5 @@ Route::get("/pattient" , function(){
     return view("test.register");
 });
 
+Route::post('record' , [RecordController::class , "updateBukti"])->name('record');
+Route::get("record" , [RecordController::class , "index"]);

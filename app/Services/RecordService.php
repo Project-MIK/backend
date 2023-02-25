@@ -9,6 +9,8 @@ use App\Models\MedicalRecords;
 use App\Models\Record;
 use App\Models\ScheduleDetail;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class RecordService
@@ -141,6 +143,28 @@ class RecordService
         }
     }
 
+    public function updateBukti($id , Request $request){     
+        $file = $request->file('avatar');
+       	        // nama file
+		$fileName = $file->getClientOriginalName();
+      	        // ekstensi file
+		$fileExtension = $file->getClientOriginalExtension();
+
+        $fullName = bcrypt($fileName.random_int(1000,9999)).".".$fileExtension;
+      	        // isi dengan nama folder tempat kemana file diupload
+		$tujuan_upload = 'bukti_pembayaran';
+        $res = $this->record->where('id' , $id)->update([
+            "bukti" => $fullName
+        ]);
+        if($res){
+            $file->move($tujuan_upload,$fullName);
+            echo $res;
+            return true;
+        }else{
+            echo $res;
+            return false;
+        }		
+    }
 }
 
 ?>
