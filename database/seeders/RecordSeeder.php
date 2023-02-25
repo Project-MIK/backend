@@ -22,7 +22,8 @@ class RecordSeeder extends Seeder
             "description" => "mengalami ganguan sakit kepala" , 
             "complaint" => "sakit kepala" , 
             "id_doctor" => 1 , 
-            "id_schedules" => 1
+            "id_schedules" => 1,
+            "id_category" => 1
         ]);
         Record::create([
             "id" => "KL2039824",
@@ -31,6 +32,7 @@ class RecordSeeder extends Seeder
             "complaint" => "sakit kepala" , 
             "id_doctor" => 1 , 
             "id_schedules" => 2,
+            "id_category" => 1
         ]);
     }
 }
