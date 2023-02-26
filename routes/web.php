@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PolyclinicController;
+use App\Http\Controllers\RecordCategoryController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -383,4 +384,3 @@ Route::prefix('konsultasi')->group(function () {
 Route::get("/keluar", function () {
     return redirect('/masuk');
 });
-

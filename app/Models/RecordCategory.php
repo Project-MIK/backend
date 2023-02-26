@@ -10,4 +10,8 @@ class RecordCategory extends Model
     use HasFactory;
 
     protected $table = "record_category";
+    protected $fillable = [
+        "category_name"
+    ];
+
 }
