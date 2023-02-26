@@ -15,8 +15,8 @@ class StatusPaymentMedicalPrescription extends Component
     public $price;
     public $status;
     public $banks;
-    public $valid_status;
-    public $proof_payment;
+    public $validStatus;
+    public $proofPayment;
     public function __construct(
         $id = "",
         $price = "",
@@ -27,8 +27,8 @@ class StatusPaymentMedicalPrescription extends Component
         $this->id = $id;
         $this->price = $price;
         $this->status = $status;
-        $this->valid_status = $validStatus;
-        $this->proof_payment = $proofPayment;
+        $this->validStatus = $validStatus;
+        $this->proofPayment = $proofPayment;
     }
 
     /**
