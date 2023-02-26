@@ -162,12 +162,20 @@ class RecordService
         ]);
         if($res){
             $file->move($tujuan_upload,$fullName);
-            echo $res;
             return true;
         }else{
-            echo $res;
             return false;
         }		
+    }
+
+    public function validBuktiPembayaran($id){
+        $res = $this->record->where('id' , $id)->update([
+            "status" => "confirmed-consultation-payment"
+        ]);
+        if($res){
+            return true;
+        }
+        return false;
     }
 }
 

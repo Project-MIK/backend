@@ -39,14 +39,14 @@ class RecordServiceTest extends TestCase
             "medical_record_id" => 123123,
             "description" => $this->faker->name(),
             "complaint" => "ini complaint",
-            "id_doctor" => 1 ,
+            "id_doctor" => 1,
             "id_schedules" => 1,
-            "id_category"=>1
+            "id_category" => 1
         ];
         $service = new RecordService();
         $res = $service->insert($data);
         $this->assertTrue($res['status']);
-        $this->assertDatabaseHas("record" , $data);
+        $this->assertDatabaseHas("record", $data);
     }
 
     public function test_find_detail_record_by_rekam_medic()
@@ -81,12 +81,19 @@ class RecordServiceTest extends TestCase
     public function test_delete_by_id_success()
     {
         $service = new RecordService();
-        $ok  = Record::create([
+        $ok = Record::create([
             "medical_record_id" => 123123,
             "description" => "mengalami ganguan sakit kepala",
             "complaint" => "sakit kepala",
         ]);
         $res = $service->delete($ok->id);
         $this->assertTrue($res['status']);
+    }
+
+    public function test_update_bukti_pembayaran()
+    {
+        $service = new RecordService();
+        $res = $service->validBuktiPembayaran("KL6901595");
+        $this->assertTrue($res);
     }
 }
