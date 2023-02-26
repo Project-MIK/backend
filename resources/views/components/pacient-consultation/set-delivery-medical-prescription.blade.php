@@ -102,8 +102,8 @@
     </div>
 </div>
 <div class="col-12">
-    <div class="alert alert-danger text-sm mt-4">
-        Konfirmasi obat sudah kadaluarsa sejak
+    <div class="alert alert-info text-sm mt-4">
+        Konfirmasi pengambilan obat telah melebihi batas waktu
             <span class="font-weight-bold">
                 {{  date("d-M-Y h:i:s", $validStatus) }} WIB
             </span>
