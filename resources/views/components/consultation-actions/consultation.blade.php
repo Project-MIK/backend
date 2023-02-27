@@ -18,7 +18,6 @@
           </tr>
         </thead>
         <tbody>
-            @if($complaint["status"] != "consultation-complete" && $complaint["valid_status"] > time())
             <tr class="text-trouth">
                 <td>{{$complaint["description"]}}</td>
                 <td class="text-center">
@@ -43,7 +42,6 @@
                     <a href="{{'/konsultasi/'.$complaint['id']}}" class="btn {{ $complaint['status'] == "confirmed-consultation-payment" ? "btn-bunting" : "btn-trouth" }} text-white font-weight-normal px-5">CEK</a>
                 </td>
             </tr>
-            @endif
         </tbody>
       </table>
     @else
