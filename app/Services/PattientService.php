@@ -60,7 +60,7 @@ class PattientService
             if($findRekamMedic !=null){
                 $res['status'] = false;
                 $res['message'] = 'gagal menambahkan rekam medic no rekam medic tidak boleh sama';
-                return redirect()->back()->with("message", $res['message']);
+                return $res;
             }
             if ($response) {
                 $dataRekamMedic = [
@@ -77,32 +77,29 @@ class PattientService
                         ]
                     );
                     if ($resUpdate) {
-                        $this->medicalRecordService->sendEmailMedicalRecord(
-                            $response->id, $request['medical_record_id']
-                        );
                         $res['status'] = true;
                         $res['message'] = 'berhasil menambahkan patient , berhasil mengirimkan email';
-                        return redirect()->back()->with("message", $res['message']);
+                        return $res;
                     } else {
                         $res['status'] = false;
                         $res['message'] = 'gagal memberikan rekam medic , terjadi kesalahan';
-                        return redirect()->back()->with("message", $res['message']);
+                        return $res;
                     }
                 } else {
                     $res['status'] = false;
                     $res['message'] = 'gagal menambahkan rekam medic , terjadi kesalahan';
-                    return redirect()->back()->with("message", $res['message']);
+                    return $res;
                 }
             } else {
                 $this->medicalRecords->where('id', $request['medical_record_id'])->delete();
                 $res['status'] = false;
                 $res['message'] = "gagal menambahka passient";
-                return redirect()->back()->with("message", $res['message']);
+                return $res;
             }
         } catch (ValidationException $ex) {
             $res['status'] = false;
             $res['message'] = 'terjadi kesalahan server';
-            return redirect()->back()->with("message", $res['message']);
+            return $res;
         }
 
     }

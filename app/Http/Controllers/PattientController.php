@@ -6,10 +6,12 @@ use App\Http\Requests\PattienLoginRequest;
 use App\Http\Requests\StorePattientMedicalRequest;
 use App\Http\Requests\StorePattientRequest;
 use App\Http\Requests\UpdatePattientRequest;
+use App\Mail\MailHelper;
 use App\Models\Pattient;
 use App\Services\MedicalRecordService;
 use App\Services\PattientService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -93,8 +95,6 @@ class PattientController extends Controller
     }
     public function storewithRekamMedic(StorePattientMedicalRequest $request)
     {
-
-
         $rules = [
             'medical_record_id' => ['required', 'digits:6'],
             'id_registration_officer' => 'required',
@@ -132,6 +132,16 @@ class PattientController extends Controller
                     ]
                 )
             );
+            if($res['status']){
+                Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'],$request['email']));
+                if(Mail::failures()){
+                    return redirect()->back()->with("message" , "gagal mengirim email");
+                }
+                return redirect()->back()->with("message" , "gagal mengirim email");
+
+            }else{
+                return redirect()->back()->with("message" , "gagal mengirim mendaftarkan passien");
+            }
           
         } else {
             $res = $this->service->storeWithAdmin(
