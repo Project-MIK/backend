@@ -278,7 +278,7 @@
     }
 
 </script>
-
+{{-- {{dd(session())}} --}}
 @if(session('message'))
 <script>
     console.log('mesage recorded');
@@ -289,8 +289,7 @@
                 , title: 'success'
                 , autohide: true
                 , delay: 2000
-                , body: '{{ session()->get('
-                message.message ') }}'
+                , body: '{{ session('message')}}'
             })
         });
     });

@@ -133,12 +133,13 @@ class PattientController extends Controller
                 )
             );
             if($res['status']){
-                Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'],$request['email']));
-                if(Mail::failures()){
+                try {
+                    Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'],$request['email']));
+                    return redirect()->back()->with("message" , "berhasil mengirim email");
+                } catch (\Throwable $th) {
+                    //throw $th;
                     return redirect()->back()->with("message" , "gagal mengirim email");
                 }
-                return redirect()->back()->with("message" , "gagal mengirim email");
-
             }else{
                 return redirect()->back()->with("message" , "gagal mengirim mendaftarkan passien");
             }
