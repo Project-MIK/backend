@@ -158,4 +158,8 @@ class MedicalRecordService
 
         }
     }
+    
+    public function findByMedicalRecordCheck($id){
+        return $this->medicalRecords->Where('medical_record_id' ,$id)->first();
+    }
 }
