@@ -274,10 +274,10 @@ Route::prefix('konsultasi')->group(function () {
             "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
             "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
             "schedule" => 1676897803,
-            "start_consultation" => 1676897803,
-            "end_consultation" => 1676897803,
-            "live_consultation" => false,
-            "status" => "confirmed-medical-prescription-payment",
+            "start_consultation" => 1677461097,
+            "end_consultation" => 1677561097,
+            "live_consultation" => TRUE,
+            "status" => "confirmed-consultation-payment",
 
             "price_consultation" => "Rp. 90.000",
             "status_payment_consultation" => "TERKONFIRMASI", // PROSES VERIFIKASI / BELUM TERKONFIRMASI / TERKONFIRMASI
@@ -295,7 +295,7 @@ Route::prefix('konsultasi')->group(function () {
             "pickup_by_pacient" => "Aristo Caesar Pratama",
             "pickup_datetime" => 1676184847,
 
-            "valid_status" => 1677379798
+            "valid_status" => 1677560836
         ]);
     });
 

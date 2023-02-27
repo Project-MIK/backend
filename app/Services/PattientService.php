@@ -60,7 +60,7 @@ class PattientService
             if($findRekamMedic !=null){
                 $res['status'] = false;
                 $res['message'] = 'gagal menambahkan rekam medic no rekam medic tidak boleh sama';
-                return $res;
+                return redirect()->back()->with("message", $res['message']);
             }
             if ($response) {
                 $dataRekamMedic = [
@@ -82,27 +82,27 @@ class PattientService
                         );
                         $res['status'] = true;
                         $res['message'] = 'berhasil menambahkan patient , berhasil mengirimkan email';
-                        return $res;
+                        return redirect()->back()->with("message", $res['message']);
                     } else {
                         $res['status'] = false;
                         $res['message'] = 'gagal memberikan rekam medic , terjadi kesalahan';
-                        return $res;
+                        return redirect()->back()->with("message", $res['message']);
                     }
                 } else {
                     $res['status'] = false;
                     $res['message'] = 'gagal menambahkan rekam medic , terjadi kesalahan';
-                    return $res;
+                    return redirect()->back()->with("message", $res['message']);
                 }
             } else {
                 $this->medicalRecords->where('id', $request['medical_record_id'])->delete();
                 $res['status'] = false;
                 $res['message'] = "gagal menambahka passient";
-                return $res;
+                return redirect()->back()->with("message", $res['message']);
             }
         } catch (ValidationException $ex) {
             $res['status'] = false;
             $res['message'] = 'terjadi kesalahan server';
-            return $res;
+            return redirect()->back()->with("message", $res['message']);
         }
 
     }
