@@ -130,7 +130,7 @@ class PattientController extends Controller
                     ]
                 )
             );
-            return redirect()->back()->with("message", $res['message']);
+          
         } else {
             $res = $this->service->storeWithAdmin(
                 $request->validate(

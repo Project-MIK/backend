@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->string('description')->nullable(true);
+            $table->integer("total_price");
             $table->timestamps();
         });
     }
