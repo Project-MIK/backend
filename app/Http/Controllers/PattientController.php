@@ -6,10 +6,12 @@ use App\Http\Requests\PattienLoginRequest;
 use App\Http\Requests\StorePattientMedicalRequest;
 use App\Http\Requests\StorePattientRequest;
 use App\Http\Requests\UpdatePattientRequest;
+use App\Mail\MailHelper;
 use App\Models\Pattient;
 use App\Services\MedicalRecordService;
 use App\Services\PattientService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -93,7 +95,6 @@ class PattientController extends Controller
     }
     public function storewithRekamMedic(StorePattientMedicalRequest $request)
     {
-
         $rules = [
             'medical_record_id' => ['required', 'digits:6'],
             'id_registration_officer' => 'required',
@@ -104,6 +105,10 @@ class PattientController extends Controller
             "digits:6" => "rekam medic hanya boleh sepanjang 6 digit"
         ];
         $this->validate($request, $rules, $customMessages);
+        $res = $this->medicalRecordService->findByMedicalRecordCheck($request['medical_record_id']);
+        if($res!=null){
+            return redirect()->back()->withErrors("message" , "no rekam medic sudah digunakan gunakan");
+        }
         if ($request['citizen'] == 'WNI') {
             $res = $this->service->storeWithAdmin(
                 $request->validate(
@@ -130,7 +135,18 @@ class PattientController extends Controller
                     ]
                 )
             );
-            return redirect()->back()->with("message", $res['message']);
+            if($res['status']){
+                try {
+                    //code...
+                    Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'],$request['email']));
+                    return redirect()->back()->with("message" , "gagal mengirim email");
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    return redirect()->back()->with("message" , "gagal mengirim email");
+                }
+            }else{
+                return redirect()->back()->with("message" , "gagal mengirim mendaftarkan passien");
+            }
         } else {
             $res = $this->service->storeWithAdmin(
                 $request->validate(
@@ -157,9 +173,18 @@ class PattientController extends Controller
                     ]
                 )
             );
-
-            return redirect()->back()->with("message", $res['message']);
-
+            if($res['status']){
+                try {
+                    //code...
+                    Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'],$request['email']));
+                    return redirect()->back()->with("message" , "gagal mengirim email");
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    return redirect()->back()->with("message" , "gagal mengirim email");
+                }
+            }else{
+                return redirect()->back()->with("message" , "gagal mengirim mendaftarkan passien");
+            }
         }
     }
     public function show(Pattient $pattient)

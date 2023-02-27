@@ -78,9 +78,6 @@ class PattientService
                         ]
                     );
                     if ($resUpdate) {
-                        $this->medicalRecordService->sendEmailMedicalRecord(
-                            $response->id, $request['medical_record_id']
-                        );
                         $res['status'] = true;
                         $res['message'] = 'berhasil menambahkan patient , berhasil mengirimkan email';
                         return $res;

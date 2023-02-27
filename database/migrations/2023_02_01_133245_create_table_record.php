@@ -25,7 +25,7 @@ return new class extends Migration
             ->onUpdate('cascade');
             $table->unsignedBigInteger('id_doctor');
             $table->unsignedBigInteger('id_category')->nullable(true);
-            $table->enum('status',['waiting-consultation-payment' , 'confirmed-consultation-payment'])->default('waiting-consultation-payment');
+            $table->enum('status',['waiting-consultation-payment' , 'confirmed-consultation-payment','consultation-complete'])->default('waiting-consultation-payment');
             $table->string('bukti')->nullable(true);
             $table->foreign('id_category')->references('id')->on('record_category')
             ->onDelete('cascade')
