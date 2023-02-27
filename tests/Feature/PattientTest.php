@@ -348,4 +348,10 @@ class PattientTest extends TestCase
         $response = $this->post("rekam" , $data);
         $response->assertSessionHas('message' , "berhasil menambahkan patient , berhasil mengirimkan email");
     }
+
+    public function test_show_record(){
+        $service = new PattientService();
+        $res = $service->showRecordDashboard(12);
+        dd($res);
+    }
 }

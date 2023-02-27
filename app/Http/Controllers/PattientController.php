@@ -202,4 +202,8 @@ class PattientController extends Controller
             return redirect('dashboard');
         }
     }
+
+    public function showRecordDashboard($idMedicalRecord){
+        return $this->service->showRecordDashboard($idMedicalRecord);
+    }
 }

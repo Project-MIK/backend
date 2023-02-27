@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Helpers\Helper;
 use App\Models\MedicalRecords;
 use App\Models\Pattient;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Sarav\Multiauth\MultiauthServiceProvider;
 use Illuminate\Validation\ValidationException;
@@ -107,8 +108,6 @@ class PattientService
 
     }
 
-
-
     public function findById($id)
     {
         $res = $this->model->where('id', $id)->get()->toArray();
@@ -186,6 +185,22 @@ class PattientService
     {
 
     }
-
-
+    public function showRecordDashboard($medicalRecords){
+        $res =  $this->model
+        ->join('medical_records' , 'medical_records.medical_record_id' , "pattient.medical_record_id")
+        ->join('record' , 'record.medical_record_id' , 'medical_records.medical_record_id')
+        ->join('schedule_detail' , 'record.id_schedules' , 'schedule_detail.id')
+        ->select('record.id as id', 'record.description' , 'schedule_detail.time_start as start_consultation' , 'schedule_detail.time_end as end_consultation' , 'record.status' , 'schedule_detail.consultation_date as schedule')
+        ->where('pattient.medical_record_id' , $medicalRecords)
+        ->first();
+        if($res!=null){
+            $res->toArray();
+            $res['start_consultation'] = strtotime($res['start_consultation']);
+            $res['end_consultation'] = strtotime($res['end_consultation']);
+            $res['valid_status'] =  strtotime(Carbon::now());  
+            return $res;
+        }else{
+            return [];
+        }       # code...
+    }
 }

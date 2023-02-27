@@ -2,10 +2,15 @@
 
 namespace App\View\Components\ConsultationActions;
 
+use App\Http\Controllers\PattientController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class Consultation extends Component
 {
+
+    private PattientController $controller;
+    
     /**
      * Create a new component instance.
      *
@@ -14,6 +19,7 @@ class Consultation extends Component
     public function __construct()
     {
         //
+        $this->controller = new PattientController();
     }
 
     /**
@@ -33,6 +39,7 @@ class Consultation extends Component
             "status" => "confirmed-consultation-payment",
             "valid_status" => 1685571753
         ];
+        $res = $this->controller->showRecordDashboard(Auth::guard('pattient')->user()->medical_record_id)->toArray();
         return view('components.consultation-actions.consultation', compact("complaint"));
     }
 }

@@ -85,7 +85,7 @@ Route::prefix('konsultasi')->group(function () {
                 "K000" => "Tidak Tahu"
             ]
         ]);
-    });
+    })->middleware('checkRecord');
     Route::post('/', function (Request $request) {
         session(['consultation' => [
             "description" => trim($request->input("consultation_complaint")),
