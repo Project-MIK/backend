@@ -196,7 +196,11 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputNoTelp" class="text-trouth">Nomor Telepon</label>
-                        <input type="text" class="form-control py-4" id="inputNoTelp" name="no_telp" oninput="" placeholder="Ketikkan nomor telepon" required>
+                        <input type="text" class="form-control py-4" id="inputNoTelp" name="phone_number" oninput="" placeholder="Ketikkan nomor telepon" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputNoTelp" class="text-trouth">Nomor Rekamedik</label>
+                        <input type="text" class="form-control py-4" id="inputNoTelp" name="medical_record_id" oninput="" placeholder="Ketikkan nomor telepon" required>
                     </div>
                 </div>
                 <div class="form-row">
@@ -210,6 +214,7 @@
                     </div>
                 </div>
             </div>
+            <input hidden value="1" name="id_registration_officer">
         <button type="submit">Submit</button>
     </form>
 </x-modal>

@@ -7,16 +7,20 @@ use App\Helpers\Helper;
 use App\Models\Doctor;
 use App\Models\MedicalRecords;
 use App\Models\Record;
+use App\Models\RecordCategory;
 use App\Models\ScheduleDetail;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class RecordService
 {
 
-
     private Record $record;
     private MedicalRecords $medicalRecord;
     private Doctor $doctor;
+    private RecordCategory $recordCategory;
 
     private ScheduleDetail $schedule;
 
@@ -27,6 +31,7 @@ class RecordService
         $this->medicalRecord = new MedicalRecords();
         $this->doctor = new Doctor();
         $this->schedule = new ScheduleDetail();
+        $this->recordCategory = new RecordCategory();
     }
 
     public function index()
@@ -36,7 +41,15 @@ class RecordService
 
     public function insert(array $request)
     {
-
+        //KL6584690
+        $resultId = "";
+        do {
+            # code...
+            $prefix = "KL";
+            $randomString = random_int(1000000 , 9999999);
+            $resultId = $prefix.$randomString;
+            $uniqueid  = $this->record->where('id' , $resultId)->first();
+        } while ($uniqueid != null);
         $res = [];
         $exist = $this->medicalRecord->where('medical_record_id', $request['medical_record_id'])->first();
         if ($exist == null) {
@@ -50,14 +63,23 @@ class RecordService
                 $res['message'] = 'gagal menambahkan detail rekam medic , data doktor tidak ditemukan';
                 return $res;
             } else {
-                $existSchedule = $this->schedule->where('id', $request['id_schedules'])->first();
+            $existSchedule = $this->schedule->where('id', $request['id_schedules'])->first();
                 if($existSchedule!=null){
                     if($existSchedule->status !="kosong"){
                         $res['status'] =false;
                         $res['message'] = 'gagal menambahkan record , jadwal yang anda pilih tidak sedang kosong';
                         return $res;
                     }
-                    $created = $this->record->create($request);
+                    $request['id'] = $resultId;
+                    $created = $this->record->create([
+                        "id" => $resultId,
+                        "medical_record_id" => $request['medical_record_id'],
+                        "description"=> $request['description'],
+                        "complaint" => $request['complaint'],
+                        "id_doctor" => $request['id_doctor'],
+                        "id_schedules" => $request['id_schedules'],
+                        "id_category" => $request['id_category']
+                    ]);
                     if ($created->exists()) {
                         $res['status'] = true;
                         $res['message'] = 'berhasil menambahkan detail rekam medic';
@@ -71,8 +93,6 @@ class RecordService
             }
         }
     }
-    
-   
 
     public function findByMedicalRecord($rekamMedic)
     {
@@ -127,6 +147,36 @@ class RecordService
         }
     }
 
+    public function updateBukti($id , Request $request){     
+        $file = $request->file('avatar');
+       	        // nama file
+		$fileName = $file->getClientOriginalName();
+      	        // ekstensi file
+		$fileExtension = $file->getClientOriginalExtension();
+
+        $fullName = bcrypt($fileName.random_int(1000,9999)).".".$fileExtension;
+      	        // isi dengan nama folder tempat kemana file diupload
+		$tujuan_upload = 'bukti_pembayaran';
+        $res = $this->record->where('id' , $id)->update([
+            "bukti" => $fullName
+        ]);
+        if($res){
+            $file->move($tujuan_upload,$fullName);
+            return true;
+        }else{
+            return false;
+        }		
+    }
+
+    public function validBuktiPembayaran($id){
+        $res = $this->record->where('id' , $id)->update([
+            "status" => "confirmed-consultation-payment"
+        ]);
+        if($res){
+            return true;
+        }
+        return false;
+    }
 }
 
 ?>

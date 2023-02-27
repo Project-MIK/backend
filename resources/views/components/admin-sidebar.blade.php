@@ -45,7 +45,7 @@
                     <a href="/admin/pasien/" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-bed-pulse"></i></div>
-                            <div class="col-10"><p>Pasien</p></div>
+                            <div class="col-10"><p>Patient</p></div>
                         </div>
                     </a>
                 </li>
@@ -67,7 +67,7 @@
                             <div class="col-2"><i class="fa-solid fa-id-card"></i></div>
                             <div class="col-10">
                                 <p>
-                                    Petugas
+                                    Registration Officer
                                 </p>
                             </div>
                         </div>
@@ -104,6 +104,30 @@
                             <div class="col-10">
                                 <p>
                                     Medicine
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/complain/view" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-bandage"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Patient Complain
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/payment/view" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Payment
                                 </p>
                             </div>
                         </div>

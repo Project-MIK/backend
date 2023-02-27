@@ -11,16 +11,24 @@ class StatusPaymentMedicalPrescription extends Component
      *
      * @return void
      */
+    public $id;
     public $price;
-    public $status_payment;
-    public $valid_status;
-    public $proof_payment_medical_prescription;
-    public function __construct($price = "0", $status_payment = "", $valid_status = "", $proof_payment_medical_prescription = "")
-    {
+    public $status;
+    public $banks;
+    public $validStatus;
+    public $proofPayment;
+    public function __construct(
+        $id = "",
+        $price = "",
+        $status = "",
+        $validStatus = "",
+        $proofPayment = ""
+    ) {
+        $this->id = $id;
         $this->price = $price;
-        $this->status_payment = $status_payment;
-        $this->valid_status = $valid_status;
-        $this->$proof_payment_medical_prescription = $proof_payment_medical_prescription;
+        $this->status = $status;
+        $this->validStatus = $validStatus;
+        $this->proofPayment = $proofPayment;
     }
 
     /**
@@ -30,6 +38,22 @@ class StatusPaymentMedicalPrescription extends Component
      */
     public function render()
     {
+        $this->banks = [
+            [
+                "id" => "BCA",
+                "name" => "BCA ( Bank Central Asia )",
+                "image" => "bca-logo.png",
+                "no_card" => "623724239",
+                "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
+            ],
+            [
+                "id" => "BRI",
+                "name" => "BRI ( Bank Rakyat Indonesia )",
+                "image" => "bri-logo.png",
+                "no_card" => "689564234",
+                "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
+            ]
+        ];
         return view('components.pacient-consultation.status-payment-medical-prescription');
     }
 }

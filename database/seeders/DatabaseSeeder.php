@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
       
+        $this->call(RecordCategorySeeder::class);
         $this->call([RegistrationOfficersSeeder::class , PolyclinicSeeder::class , DoctorSeeder::class , SchedulesSeeder::class , ScheduleDetailSeeder::class]);
             
         $this->call([

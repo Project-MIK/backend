@@ -54,7 +54,7 @@ class MedicalRecordsController extends Controller
 
     public function show($id)
     {
-        $res = $this->service->findById($id);
+        $res = $this->service->findByMedicalRecord($id);
         return $res;
     }
 }

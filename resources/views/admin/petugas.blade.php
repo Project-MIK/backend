@@ -65,6 +65,13 @@
     <!-- /.card-body -->
 </div>
 @endsection
+
+<x-modal>
+    <x-slot:modalid>modal-rs</x-slot:modalid>
+    <x-slot:judul>tambah no petugas</x-slot:judul>
+    
+</x-modal>
+
 @section('after-js')
     
 @endsection
