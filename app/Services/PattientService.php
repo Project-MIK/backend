@@ -33,7 +33,7 @@ class PattientService
         $data = $this->model->all()->toArray();
         return $data;
     }
-    public function store(array $request):bool
+    public function store(array $request): bool
     {
         try {
             $request['password'] = bcrypt($request['password']);
@@ -58,7 +58,7 @@ class PattientService
             $request['address'] = "RT/RW : " . $request['address_RT'] . "/" . $request['address_RW'] . " Dusun " . $request['address_dusun'] . " Desa " . $request['address_desa'] . " Kec. " . $request['address_kecamatan'] . " Kab." . $request['address_kabupaten'];
             $response = $this->model->create($request);
             $findRekamMedic = $this->medicalRecords->where('medical_record_id', $request['medical_record_id'])->first();
-            if($findRekamMedic !=null){
+            if ($findRekamMedic != null) {
                 $res['status'] = false;
                 $res['message'] = 'gagal menambahkan rekam medic no rekam medic tidak boleh sama';
                 return $res;
@@ -182,22 +182,54 @@ class PattientService
     {
 
     }
-    public function showRecordDashboard($medicalRecords){
-        $res =  $this->model
-        ->join('medical_records' , 'medical_records.medical_record_id' , "pattient.medical_record_id")
-        ->join('record' , 'record.medical_record_id' , 'medical_records.medical_record_id')
-        ->join('schedule_detail' , 'record.id_schedules' , 'schedule_detail.id')
-        ->select('record.id as id', 'record.description' , 'schedule_detail.time_start as start_consultation' , 'schedule_detail.time_end as end_consultation' , 'record.status' , 'schedule_detail.consultation_date as schedule')
-        ->where('pattient.medical_record_id' , $medicalRecords)
-        ->first();
-        if($res!=null){
-            $res->toArray();
-            $res['start_consultation'] = strtotime($res['start_consultation']);
-            $res['end_consultation'] = strtotime($res['end_consultation']);
-            $res['valid_status'] =  strtotime(Carbon::now());  
-            return $res;
-        }else{
+    public function showRecordDashboard($medicalRecords)
+    {
+        $res = $this->model
+            ->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
+            ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
+            ->join('schedule_detail', 'record.id_schedules', 'schedule_detail.id')
+            ->select('record.id as id_record', 'record.description', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status', 'schedule_detail.consultation_date as schedule')
+            ->where('pattient.medical_record_id', $medicalRecords)
+            ->where('record.status', '<>', 'consultation-complete')
+            ->first();
+        if ($res != null) {
+            $response = $res->toArray();
+            $response['start_consultation'] = strtotime($response['start_consultation']);
+            $response['end_consultation'] = strtotime($response['end_consultation']);
+            $response['schedule'] = strtotime($response['schedule']);
+            $response['valid_status'] = strtotime(Carbon::now());
+            $response['id'] = $response['id_record'];
+            unset($response['id_record']);
+            return $response;
+        } else {
             return [];
-        }       # code...
+        } # code...
+    }
+
+    public function showRecordHistory($medicalRecords)
+    {
+        $res = $this->model->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
+            ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
+            ->join('schedule_detail', 'record.id_schedules', 'schedule_detail.id')
+            ->select('record.id as id_record', 'record.description', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status', 'schedule_detail.consultation_date as schedule')
+            ->where('pattient.medical_record_id', $medicalRecords)
+            ->where('record.status', '=', 'consultation-complete')
+            ->get()->toArray();
+        foreach ($res as $key => $value) {
+            # code... $response = $res->toArray();
+            $res[$key]['start_consultation'] = strtotime($res[$key]['start_consultation']);
+            $res[$key]['end_consultation'] = strtotime($res[$key]['end_consultation']);
+            $res[$key]['valid_status'] = strtotime($res[$key]['end_consultation']);
+            $res[$key]['schedule'] =  strtotime($res[$key]['schedule']);
+            $res[$key]['id'] = $res[$key]['id_record'];
+            unset($res[$key]['id_record']);
+        }
+        return $res;
+
+    }
+
+    public function showDataSettings()
+    {
+
     }
 }

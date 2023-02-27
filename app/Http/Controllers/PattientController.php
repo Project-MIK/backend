@@ -106,8 +106,8 @@ class PattientController extends Controller
         ];
         $this->validate($request, $rules, $customMessages);
         $res = $this->medicalRecordService->findByMedicalRecordCheck($request['medical_record_id']);
-        if($res!=null){
-            return redirect()->back()->withErrors("message" , "no rekam medic sudah digunakan gunakan");
+        if ($res != null) {
+            return redirect()->back()->withErrors("message", "no rekam medic sudah digunakan gunakan");
         }
         if ($request['citizen'] == 'WNI') {
             $res = $this->service->storeWithAdmin(
@@ -135,17 +135,17 @@ class PattientController extends Controller
                     ]
                 )
             );
-            if($res['status']){
+            if ($res['status']) {
                 try {
                     //code...
-                    Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'],$request['email']));
-                    return redirect()->back()->with("message" , "gagal mengirim email");
+                    Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'], $request['email']));
+                    return redirect()->back()->with("message", "gagal mengirim email");
                 } catch (\Throwable $th) {
                     //throw $th;
-                    return redirect()->back()->with("message" , "gagal mengirim email");
+                    return redirect()->back()->with("message", "gagal mengirim email");
                 }
-            }else{
-                return redirect()->back()->with("message" , "gagal mengirim mendaftarkan passien");
+            } else {
+                return redirect()->back()->with("message", "gagal mengirim mendaftarkan passien");
             }
         } else {
             $res = $this->service->storeWithAdmin(
@@ -173,17 +173,17 @@ class PattientController extends Controller
                     ]
                 )
             );
-            if($res['status']){
+            if ($res['status']) {
                 try {
                     //code...
-                    Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'],$request['email']));
-                    return redirect()->back()->with("message" , "gagal mengirim email");
+                    Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'], $request['email']));
+                    return redirect()->back()->with("message", "gagal mengirim email");
                 } catch (\Throwable $th) {
                     //throw $th;
-                    return redirect()->back()->with("message" , "gagal mengirim email");
+                    return redirect()->back()->with("message", "gagal mengirim email");
                 }
-            }else{
-                return redirect()->back()->with("message" , "gagal mengirim mendaftarkan passien");
+            } else {
+                return redirect()->back()->with("message", "gagal mengirim mendaftarkan passien");
             }
         }
     }
@@ -228,7 +228,13 @@ class PattientController extends Controller
         }
     }
 
-    public function showRecordDashboard($idMedicalRecord){
-        return $this->service->showRecordDashboard($idMedicalRecord);
+    public function showRecordDashboard($idMedicalRecord)
+    {
+        $res = $this->service->showRecordDashboard($idMedicalRecord);
+        return $res;
+    }
+    public function showRecordHistory($idMedicalRecord){
+        $res = $this->service->showRecordHistory($idMedicalRecord);
+        return $res;
     }
 }

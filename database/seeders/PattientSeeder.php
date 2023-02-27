@@ -24,7 +24,7 @@ class PattientSeeder extends Seeder
             "email" => "email@gmail.com",
             "gender" => "M" , 
             "phone_number" => "085607185972",
-            "address" => "RT/RW : 1/2 Dusun sidoarjo Desa yosomulyo Kec. gambiaran Kab.banyuwangi",
+            "address" => "003/005/Blokagung/Karangdoro/Tegalsari/Banyuwangi",
             "citizen" => "WNI" , 
             "profession" => "GURU" , 
             "date_birth" => "2023-02-08 12:51:41",

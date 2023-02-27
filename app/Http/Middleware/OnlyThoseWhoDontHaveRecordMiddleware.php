@@ -20,12 +20,13 @@ class OnlyThoseWhoDontHaveRecordMiddleware
     {
         if(Auth::guard('pattient')->check()){
             $check = DB::table('record')->where('medical_record_id' , Auth::guard('pattient')->user()->medical_record_id)->first();
-            dd($check);
             if($check!=null){
-                if($check->status == "")
-                return redirect('/dashboard')->with('message' , "harap selesaikan konsultasi yang masih tersedia");
+                if($check->status == "consultation-complete"){
+                    return $next($request);
+                }else{
+                    return redirect('/dashboard')->with('message' , "harap selesaikan konsultasi yang masih tersedia");
+                }
             }
-            return $next($request);
         }else{
             return redirect()->back()->with('message' , "Silahkan login terlebih dahulu");
         }

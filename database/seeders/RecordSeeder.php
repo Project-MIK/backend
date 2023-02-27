@@ -23,7 +23,8 @@ class RecordSeeder extends Seeder
             "complaint" => "sakit kepala" , 
             "id_doctor" => 1 , 
             "id_schedules" => 1,
-            "id_category" => 1
+            "id_category" => 1,
+            'status' => "consultation-complete"
         ]);
         Record::create([
             "id" => "KL2039824",
