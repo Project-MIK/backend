@@ -122,12 +122,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/payment/view" class="nav-link">
+                    <a href="/admin/category/" class="nav-link">
                         <div class="row">
-                            <div class="col-2"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                            <div class="col-2"><i class="fa-solid fa-tags"></i></div>
                             <div class="col-10">
                                 <p>
-                                    Payment
+                                    Complaint Category 
                                 </p>
                             </div>
                         </div>

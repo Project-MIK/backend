@@ -31,7 +31,7 @@ Route::view("/", "pacient.index");
 
 // Authentication - Login
 Route::view("/masuk", "pacient.auth.login")->middleware('pattentNotAuthenticate');
-Route::post("/masuk", [PattientController::class , "login"])->name('login');
+Route::post("/masuk", [PattientController::class, "login"])->name('login');
 
 // # Register
 Route::view("/daftar", "pacient.auth.register")->middleware('pattentNotAuthenticate');
@@ -350,7 +350,7 @@ Route::prefix('konsultasi')->group(function () {
                 "status" => "TERKOFIRMASI",
             ]
         ];
-        
+
         $pdf = PDF::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
         return $pdf->download("DOKUMEN PENGAMBILAN OBAT - {$id}.pdf");
     });
@@ -378,70 +378,89 @@ Route::prefix('konsultasi')->group(function () {
 
 //admin
 Route::prefix('admin')->group(function () {
-    Route::view('/','admin.dashboard', );
-    
-    Route::prefix('pasien')->group(function ()
-    {
-        Route::view('view','admin.pasien');
-        Route::get('/',[PattientController::class,'index']);
-        Route::post('store',[PattientController::class,'storewithRekamMedic']);
+    Route::view('/', 'admin.dashboard',);
+
+    Route::prefix('pasien')->group(function () {
+        Route::view('view', 'admin.pasien');
+        Route::get('/', [PattientController::class, 'index']);
+        Route::post('store', [PattientController::class, 'storewithRekamMedic']);
         Route::put('update');
         Route::delete('destroy');
-        Route::get('detail/{id}',function($id){
-            return view('admin.pasien-detail',[$id]);
+        Route::get('detail/{id}', function ($id) {
+            return view('admin.pasien-detail', [$id]);
         });
     });
 
-    Route::prefix('admin')->group(function(){
-        Route::get('/',[AdminController::class,'index']);
-        Route::post('store',[AdminController::class,'store']);
+    Route::prefix('admin')->group(function () {
+        Route::get('/', [AdminController::class, 'index']);
+        Route::post('store', [AdminController::class, 'store']);
         Route::put('update');
-        Route::delete('destroy',[AdminController::class,'destroy']);
+        Route::delete('destroy', [AdminController::class, 'destroy']);
+    });
+
+    Route::prefix('petugas')->group(function () {
+        Route::view('view', 'admin.petugas');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
+
+    Route::prefix('doctor')->group(function () {
+        Route::view('view', 'admin.doctor');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
+
+    Route::prefix('medrec')->group(function () {
+        Route::view('view', 'admin.medrec');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
+
+    Route::prefix('medicine')->group(function () {
+        Route::view('view', 'admin.medicine');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
+
+    Route::prefix('category')->group(function () {
+
         
-    });
+
+
+        //category: nama kategori
+        //count: jumlah kategori digunakan pada komplain
+        Route::get('/',function(){
+            $poli = [
+                ['id_poly' => '1', 'poly' => 'anak'],
+                ['id_poly' => '2', 'poly' => 'dalam']
+            ];
     
-    Route::prefix('petugas')->group(function(){
-        Route::view('view','admin.petugas');
-        Route::get('/');
-        Route::post('store');
-        Route::put('update');
-        Route::delete('destroy');
-    });
-
-    Route::prefix('doctor')->group(function(){
-        Route::view('view','admin.doctor');
-        Route::get('/');
-        Route::post('store');
-        Route::put('update');
-        Route::delete('destroy');
-    });
-
-    Route::prefix('medrec')->group(function(){
-        Route::view('view','admin.medrec');
-        Route::get('/');
-        Route::post('store');
-        Route::put('update');
-        Route::delete('destroy');
-    });
-
-    Route::prefix('medicine')->group(function(){
-        Route::view('view','admin.medicine');
-        Route::get('/');
-        Route::post('store');
-        Route::put('update');
-        Route::delete('destroy');
-    });
-
-    Route::get('/token', function (Request $request) {
-        $token = $request->session()->token();
-
-        $token = csrf_token();
-
-        echo $token;
-
-        return $token;
-
-        // ...
+            $data = ['data' => [
+                            ['id_category' => '1', 'category' => 'kepala', 'count' => 12,'id_poly'=>'1', 'poly' => 'anak'],
+                            ['id_category' => '2', 'category' => 'perut','count' => 12,'id_poly'=>'2', 'count' => 5, 'poly' => 'dalam'],
+                            ['id_category' => '3', 'category' => 'tangan','count' => 12,'id_poly'=>'1', 'count' => 0, 'poly' => 'anak']
+                    ], 
+                    'poly' => $poli  
+            ];
+            return view('admin.category', $data);
+        });
+        Route::post('store',function(Request $request){
+            dd($request);
+        });
+        Route::put('update',function(Request $request){
+            dd($request);
+        });
+        Route::delete('destroy',function(Request $request){
+            dd([$request]);
+        });
     });
 });
 

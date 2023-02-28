@@ -92,7 +92,7 @@
 <x-modal modalid="modal-tambah" judul="Tambah Data Pasien">
     <x-slot:modalid>modal-tambah</x-slot:modalid>
     <x-slot:judul>Tambah Data Pasien</x-slot:judul>
-    <form action="store" method="post">
+    <form action="/admin/pasien/store" method="post">
         @csrf
         <form class="p-5 w-100" action="" method="POST">
             @csrf
@@ -278,8 +278,9 @@
     }
 
 </script>
-{{-- {{dd(session())}} --}}
+
 @if(session('message'))
+{{dd(session()->all())}}
 <script>
     console.log('mesage recorded');
     $(function() {
