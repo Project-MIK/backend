@@ -67,6 +67,7 @@
         <x-slot:judul>tambah Kategori</x-slot:judul>
         <form action="store" method="post">
             @csrf
+            @method('post')
             <div class="form-group">
                 <label for="store-category">Kategori</label>
                 <input type="text" class="form-control" id="store-category" placeholder="Masukan kategori" name="category">
@@ -79,6 +80,7 @@
                     @endforeach
                 </select>
             </div>
+            <button type="submit" class="btn btn-block btn-default btn-sm">Simpan</button>
         </form>
     </x-modal>
 
