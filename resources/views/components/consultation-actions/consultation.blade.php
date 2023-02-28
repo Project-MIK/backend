@@ -25,8 +25,7 @@
                         <strong>Menunggu pembayaran konsultasi</strong>
                         @elseif($complaint["status"] == "confirmed-consultation-payment")
                             <div>
-                                <div>
-                                  
+                                <div>                 
                                     <strong>Konsultasi akan berlangsung pada</strong><br>{{date("d - M - Y", $complaint["schedule"])}}
                                 </div>
                                 <div>

@@ -30,6 +30,8 @@ return new class extends Migration
             $table->foreign('id_category')->references('id')->on('record_category')
             ->onDelete('cascade')
             ->onUpdate('cascade');
+            $table->enum('status_payment_consultation' , ['PROSES VERIFIKASI' , 'BELUM TERKONFIRMASI' , 'PEMBAYARAN TIDAK VALID' , 'TERKONFIRMASI']);
+            $table->timestamp('valid_status')->nullable(true);
             $table->foreign('medical_record_id')->references('medical_record_id')->on('medical_records')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_recipe')->references('id')->on('recipes')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_doctor')->references('id')->on('doctor')->onUpdate('cascade')->onDelete('cascade');

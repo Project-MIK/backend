@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\PattientService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class OnlyThoseWhoDontHaveRecordMiddleware
 {
+
+
+
+
     /**
      * Handle an incoming request.
      *
@@ -18,19 +23,20 @@ class OnlyThoseWhoDontHaveRecordMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::guard('pattient')->check()){
-            $check = DB::table('record')->where('medical_record_id' , Auth::guard('pattient')->user()->medical_record_id)->first();
-            if($check!=null){
-                if($check->status == "consultation-complete"){
+        if (Auth::guard('pattient')->check()) {
+            $service = new PattientService();
+            $check = $service->showRecordDashboard(Auth::guard('pattient')->user()->medical_record_id);
+            if ($check != []) {
+                if ($check['status'] == "consultation-complete" && $check['valid_status'] > $check['end_consultation']) {
                     return $next($request);
-                }else{
-                    return redirect('/dashboard')->with('message' , "harap selesaikan konsultasi yang masih tersedia");
+                } else {
+                    return redirect('/dashboard')->with('message', "harap selesaikan konsultasi yang masih tersedia");
                 }
             }
-        }else{
-            return redirect()->back()->with('message' , "Silahkan login terlebih dahulu");
+        } else {
+            return redirect()->back()->with('message', "Silahkan login terlebih dahulu");
         }
-   
-       
+
+
     }
 }
