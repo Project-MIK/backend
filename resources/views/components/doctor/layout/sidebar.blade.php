@@ -54,7 +54,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/petugas/view" class="nav-link">
+                    <a href="/doctor/category" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-tags"></i></div>
                             <div class="col-10">

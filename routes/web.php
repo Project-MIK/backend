@@ -431,10 +431,6 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::prefix('category')->group(function () {
-
-
-
-
         //category: nama kategori
         //count: jumlah kategori digunakan pada komplain
         Route::get('/', function () {
@@ -494,6 +490,36 @@ Route::prefix('doctor')->group(function () {
         ];
 
         return view('doctor.pages.consul', ['data' => $data]);
+    });
+
+    Route::prefix('category')->group(function () {
+        //category: nama kategori
+        //count: jumlah kategori digunakan pada komplain
+        Route::get('/', function () {
+            $poli = [
+                ['id_poly' => '1', 'poly' => 'anak'],
+                ['id_poly' => '2', 'poly' => 'dalam']
+            ];
+
+            $data = [
+                'data' => [
+                    ['id_category' => '1', 'category' => 'kepala', 'count' => 12, 'id_poly' => '1', 'poly' => 'anak'],
+                    ['id_category' => '2', 'category' => 'perut', 'count' => 12, 'id_poly' => '2', 'count' => 5, 'poly' => 'dalam'],
+                    ['id_category' => '3', 'category' => 'tangan', 'count' => 12, 'id_poly' => '1', 'count' => 0, 'poly' => 'anak']
+                ],
+                'poly' => $poli
+            ];
+            return view('doctor.pages.category', $data);
+        });
+        Route::post('store', function (Request $request) {
+            dd($request);
+        });
+        Route::put('update', function (Request $request) {
+            dd($request);
+        });
+        Route::delete('destroy', function (Request $request) {
+            dd([$request]);
+        });
     });
 });
 
