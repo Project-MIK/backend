@@ -25,5 +25,7 @@
 <script src="{{ asset('/adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 <!-- Toastr -->
 <script src="{{asset('/adminlte/plugins/toastr/toastr.min.js')}}"></script>
+{{-- jitsi --}}
+<script src='https://meet.jit.si/external_api.js'></script>
 {{-- local css --}}
 <link rel="stylesheet" href="{{asset('css/appadmin.css')}}">

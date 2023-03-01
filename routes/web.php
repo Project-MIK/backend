@@ -432,35 +432,68 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('category')->group(function () {
 
-        
+
 
 
         //category: nama kategori
         //count: jumlah kategori digunakan pada komplain
-        Route::get('/',function(){
+        Route::get('/', function () {
             $poli = [
                 ['id_poly' => '1', 'poly' => 'anak'],
                 ['id_poly' => '2', 'poly' => 'dalam']
             ];
-    
-            $data = ['data' => [
-                            ['id_category' => '1', 'category' => 'kepala', 'count' => 12,'id_poly'=>'1', 'poly' => 'anak'],
-                            ['id_category' => '2', 'category' => 'perut','count' => 12,'id_poly'=>'2', 'count' => 5, 'poly' => 'dalam'],
-                            ['id_category' => '3', 'category' => 'tangan','count' => 12,'id_poly'=>'1', 'count' => 0, 'poly' => 'anak']
-                    ], 
-                    'poly' => $poli  
+
+            $data = [
+                'data' => [
+                    ['id_category' => '1', 'category' => 'kepala', 'count' => 12, 'id_poly' => '1', 'poly' => 'anak'],
+                    ['id_category' => '2', 'category' => 'perut', 'count' => 12, 'id_poly' => '2', 'count' => 5, 'poly' => 'dalam'],
+                    ['id_category' => '3', 'category' => 'tangan', 'count' => 12, 'id_poly' => '1', 'count' => 0, 'poly' => 'anak']
+                ],
+                'poly' => $poli
             ];
             return view('admin.category', $data);
         });
-        Route::post('store',function(Request $request){
+        Route::post('store', function (Request $request) {
             dd($request);
         });
-        Route::put('update',function(Request $request){
+        Route::put('update', function (Request $request) {
             dd($request);
         });
-        Route::delete('destroy',function(Request $request){
+        Route::delete('destroy', function (Request $request) {
             dd([$request]);
         });
+    });
+});
+
+//dokter
+Route::prefix('doctor')->group(function () {
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/', function () {
+            return view('doctor.pages.dashboard');
+        });
+    });
+
+    Route::get('/consul', function () {
+        $data = [
+            [
+                'patient_name' => 'tajut zamzami', // name of patient who need consultation
+                'medrec' => '123456', //medical record of patient
+                'duration' => '3.600.000', //the video duration of video conference in milisecond
+                'start' => '1677639600', //the jitsi meet start in timestamp
+                'end' => '1677643200', //the jitsi meet end in timestamp
+                'link' => 'https://meet.jit.si/flakjealkbdufb' //the jitsi meeting link 
+            ],
+            [
+                'patient_name' => 'Bachtiar Arya', // name of patient who need consultation
+                'medrec' => '654321', //medical record of patient
+                'duration' => '3.600.000', //the video duration of video conference in milisecond
+                'start' => '1677650400', //the jitsi meet start in timestamp
+                'end' => '1677654000', //the jitsi meet end in timestamp
+                'link' => 'https://meet.jit.si/flakjealkbdufb' //the jitsi meeting link 
+            ]
+        ];
+
+        return view('doctor.pages.consul', ['data' => $data]);
     });
 });
 

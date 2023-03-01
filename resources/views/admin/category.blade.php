@@ -1,9 +1,4 @@
-{{--
-    TODO: fitur tambah kategori
-    TODO: fitur hapus kategori
-    TODO: fitur edit kategori
-    TODO: membuat grafik dari jumlah kategori yang digunakan
-            --}}
+
 
 @extends('layouts.admin.app')
 @section('content-header')
@@ -60,6 +55,8 @@
             </tfoot>
         </table>
     </div>
+</div>
+
     <!-- /.card-body -->
 
     <x-modal>
