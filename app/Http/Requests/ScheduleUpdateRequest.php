@@ -24,7 +24,7 @@ class ScheduleUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'doctor_id' => ['sometimes', 'required', 'numeric']
         ];
     }
 }

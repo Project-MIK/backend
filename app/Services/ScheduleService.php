@@ -17,7 +17,7 @@ class ScheduleService {
     }
 
     public function findById($id) {
-        $data = Schedules::where('id', $id)->first();
+        $data = Schedules::where('id', $id)->get();
 
         if($data->isEmpty()) {
             return null;
@@ -38,7 +38,7 @@ class ScheduleService {
     public function change(array $request, $id) {
         $data = Schedules::find($id);
 
-        if($data->count() > 0) {
+        if($data != null) {
             $data->update($request);
             return true;
         } else {

@@ -24,7 +24,7 @@ class ScheduleStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "doctor_id" => ['required']
+            "doctor_id" => ['required', 'numeric']
         ];
     }
 }
