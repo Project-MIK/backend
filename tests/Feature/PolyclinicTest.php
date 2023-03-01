@@ -43,7 +43,7 @@ class PolyclinicTest extends TestCase
     public function test_success_findById_data_polyclinic()
     {
         $this->controller = new PolyclinicController();
-        $response = $this->controller->show(11);
+        $response = $this->controller->show(1);
         $this->assertNotNull($response);
     }
 
@@ -82,7 +82,7 @@ class PolyclinicTest extends TestCase
         $request = new PolyclinicRequest();
 
         $request['name'] = fake()->words(2, true);
-        $response = $this->controller->update($request, 12);
+        $response = $this->controller->update($request, 1);
 
         $this->assertTrue($response);
     }
@@ -111,7 +111,7 @@ class PolyclinicTest extends TestCase
     public function test_success_delete_data_polyclinic()
     {
         $this->controller = new PolyclinicController();
-        $response = $this->controller->destroy(7);
+        $response = $this->controller->destroy(1);
 
         $this->assertTrue($response);
     }
@@ -127,7 +127,7 @@ class PolyclinicTest extends TestCase
     public function test_success_searchByName_data_polyclinic() {
         $this->controller = new PolyclinicController();
 
-        $data = $this->controller->searchByName("atque iure");
+        $data = $this->controller->searchByName("facere quo");
 
         $this->assertNotNull($data);
     }
@@ -143,7 +143,7 @@ class PolyclinicTest extends TestCase
     public function test_success_service_findById() {
         $service = new PolyclinicService();
 
-        $data = $service->findById(1);
+        $data = $service->findById(2);
 
         $this->assertNotNull($data);
     }

@@ -16,8 +16,9 @@ class Record extends Model
         "medical_record_id" , 
         "description" , 
         "complaint" , 
-        "id_recipe" , 
-        "id_doctor"
+        "id_recipe" ,
+        "id_doctor",
+        "id_schedules"
     ];
 
 

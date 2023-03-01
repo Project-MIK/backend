@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('gender', ['W', 'M']);
             $table->string('address')->nullable(false);
             $table->string('phone', 13);
-            $table->foreignId('polyclinc_id')->nullable()->constrained('polyclinics')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('polyclinic_id')->nullable()->constrained('polyclinics')->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -54,7 +54,7 @@ class DoctorService {
 
     public function deleteById($id)
     {
-        $data = Doctor::find($id)->polyclinic()->first();
+        $data = Doctor::find($id);
 
         if ($data != null) {
             $data->delete();

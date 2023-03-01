@@ -31,6 +31,7 @@ class RecordService
 
     public function insert(array $request)
     {
+        
         $res = [];
         $exist = $this->medicalRecord->where('medical_record_id' , $request['medical_record_id'])->first();
         if($exist == null){
@@ -45,11 +46,9 @@ class RecordService
                 return $res;
             }else{
                 $created = $this->record->create($request);
-                if($created->exists()){
                     $res['status'] = true;
                     $res['message'] = 'berhasil menambahkan detail rekam medic';
                     return $res;
-                }
             }
         }
     }

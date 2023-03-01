@@ -9,7 +9,6 @@ class Doctor extends Model
 {
     use HasFactory;
 
-    protected $table = 'doctor';
     protected $fillable = [
         'name',
         'gender',
@@ -21,5 +20,9 @@ class Doctor extends Model
     public function polyclinic()
     {
         return $this->belongsTo(Polyclinic::class);
+    }
+
+    public function schedules() {
+        return $this->hasMany(Schedules::class);
     }
 }

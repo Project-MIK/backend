@@ -13,18 +13,6 @@ class DoctorTest extends TestCase
 {
     private DoctorController $controller;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     public function test_success_findAll_data_doctors() {
         $this->controller = new DoctorController();
         $response = $this->controller->index();
@@ -62,7 +50,7 @@ class DoctorTest extends TestCase
         $request['gender'] = "M";
         $request['address'] = fake()->address();
         $request['phone'] = 123412341234;
-        $request['polyclinic_id'] = 1;
+        $request['polyclinic_id'] = 2;
 
         $response = $this->controller->store($request);
         $this->assertTrue($response);
@@ -92,9 +80,10 @@ class DoctorTest extends TestCase
         $request['gender'] = "W";
         $request['address'] = fake()->address();
         $request['phone'] = 123412341234;
-        $request['polyclinic_id'] = fake()->numberBetween(11, 14);
+        // $request['polyclinic_id'] = fake()->numberBetween(11, 14);
+        $request['polyclinic_id'] = 2;
 
-        $response = $this->controller->update($request, 10);
+        $response = $this->controller->update($request, 1);
         $this->assertTrue($response);
     }
 
@@ -116,7 +105,7 @@ class DoctorTest extends TestCase
     public function test_success_delete_data_doctor()
     {
         $this->controller = new DoctorController();
-        $response = $this->controller->destroy(11);
+        $response = $this->controller->destroy(3);
 
         $this->assertTrue($response);
     }

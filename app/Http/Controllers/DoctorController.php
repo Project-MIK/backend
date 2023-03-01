@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DoctorRequest;
 use App\Models\Doctor;
 use App\Services\DoctorService;
-use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
@@ -108,9 +107,9 @@ class DoctorController extends Controller
     {
         $response = $this->service->deleteById($id);
         if ($response) {
-            session()->flash("message", "berhasil menghapus poliklinik");
+            session()->flash("message", "berhasil menghapus dokter");
         } else {
-            session()->flash("message", "gagal menghapus poliklinik");
+            session()->flash("message", "gagal menghapus dokter");
         }
 
         return $response;
