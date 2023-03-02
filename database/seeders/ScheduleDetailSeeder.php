@@ -20,8 +20,8 @@ class ScheduleDetailSeeder extends Seeder
         DB::table('schedule_detail')->insert([
             'id_schedule' => 1,
             "consultation_date" => Carbon::now()->toDateTimeString(),
-            "time_start" => Carbon::now(),
-            "time_end" => Carbon::now()->addHour(),
+            "time_start" => Carbon::now()->addHour(),
+            "time_end" => Carbon::now()->addHours(2),
             "link" =>  "link jitsi" , 
             "status" => "kosong" , 
         ]);

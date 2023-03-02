@@ -55,18 +55,13 @@ Route::prefix("/dashboard")->group(function () {
     // # Showing data consultation, history and setting
     Route::view("/", "pacient.dashboard.index");
     // # Action pacient save setting
-    Route::post("/save-setting", function (Request $request) {
-        dd($request);
-    });
+    Route::post("/save-setting", [PattientController::class , 'updateDataPattient']);
+    //changeEmail
     // # Action pacient change email
-    Route::post("/change-email", function (Request $request) {
-        dd($request);
-    });
+    Route::post("/change-email", [PattientController::class , 'changeEmail']);
 
     // # Action pacient change password
-    Route::post("/change-password", function (Request $request) {
-        dd($request);
-    });
+    Route::post("/change-password",[PattientController::class , 'changePassword']);
 });
 
 // Consultation
@@ -283,10 +278,9 @@ Route::prefix('konsultasi')->group(function () {
         //     "valid_status" => 1678766166
         // ]);
     });
-
     // Cancel sheduling consultation
     Route::get('/{id}/cancel-consultation', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/cancel-consultation', [RecordController::class , 'destroy']);
+    Route::post('/{id}/cancel-consultation', [RecordController::class , 'cancelConsultation']);
 
     // Send proof payment to confirmation consultation
     Route::get('/{id}/payment-consultation', fn ($id) => redirect("/konsultasi/{$id}"));
@@ -370,6 +364,4 @@ Route::prefix('konsultasi')->group(function () {
 // Route::resource("/admin", AdminController::class)->middleware('isAdmin');
 
 // Logout ( Clear all session pacient )
-Route::get("/keluar", function () {
-    return redirect('/masuk');
-});
+Route::get("/keluar", [PattientController::class , 'logout']);

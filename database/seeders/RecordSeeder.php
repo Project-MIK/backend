@@ -27,7 +27,8 @@ class RecordSeeder extends Seeder
             "id_category" => 1,
             'status_consultation' => "consultation-complete",
             'valid_status' => Carbon::now(),
-            'bukti' => 'crPpMrq4pf9w.UyqHeG5Jl3qwo.gvoZeNzgGV4T1V1396QYRW.png'
+            'bukti' => 'crPpMrq4pf9w.UyqHeG5Jl3qwo.gvoZeNzgGV4T1V1396QYRW.png',
+            'status_payment_consultation' => 'TERKONFIRMASI'
         ]);
     }
 }

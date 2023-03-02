@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Helpers\Helper;
 use App\Models\MedicalRecords;
 use App\Models\Pattient;
+use App\Models\Record;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Sarav\Multiauth\MultiauthServiceProvider;
@@ -21,13 +22,15 @@ class PattientService
     private MedicalRecords $medicalRecords;
     private MedicalRecordService $medicalRecordService;
 
+    private Record $record;
+
     public function __construct()
     {
+        $this->record = new Record();
         $this->medicalRecordService = new MedicalRecordService();
         $this->model = new Pattient();
         $this->medicalRecords = new MedicalRecords();
     }
-
     public function findAll()
     {
         $data = $this->model->all()->toArray();
@@ -48,7 +51,6 @@ class PattientService
             return false;
         }
     }
-
     public function storeWithAdmin(array $request)
     {
         $res = [];
@@ -102,9 +104,7 @@ class PattientService
             $res['message'] = 'terjadi kesalahan server';
             return $res;
         }
-
     }
-
     public function findById($id)
     {
         $res = $this->model->where('id', $id)->get()->toArray();
@@ -174,15 +174,9 @@ class PattientService
     public function login(array $request)
     {
         $res = Auth::guard('pattient')->attempt(['medical_record_id' => $request['no_medical_records'], 'password' => $request['password']]);
-
         return $res;
     }
-
-    public function showDataLogin($id)
-    {
-
-    }
-        public function showRecordDashboard($medicalRecords)
+    public function showRecordDashboard($medicalRecords)
     {
         $res = $this->model
             ->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
@@ -191,6 +185,7 @@ class PattientService
             ->select('record.status_consultation as status', 'record.id as id_record', 'record.description', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status_consultation as status', 'schedule_detail.consultation_date as schedule', 'record.valid_status')
             ->where('pattient.medical_record_id', $medicalRecords)
             ->where('record.status_consultation', '<>', 'consultation-complete')
+            ->where('record.status_payment_consultation', '<>', 'DIBATALKAN')
             ->where('record.valid_status', '>', Carbon::now())
             ->first();
         if ($res != null) {
@@ -210,60 +205,33 @@ class PattientService
 
     public function showRecordHistory($medicalRecords)
     {
-        $res = $this->model->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
+        $query = $this->model->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('schedule_detail', 'record.id_schedules', 'schedule_detail.id')
-            ->select('record.id as id_record', 'record.description', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status_consultation as status', 'schedule_detail.consultation_date as schedule')
-            ->where('pattient.medical_record_id', $medicalRecords)
-            ->where('record.status_consultation', '=', 'consultation-complete')
-            ->orwhere('record.valid_status', '<', Carbon::now())
-            ->get()->toArray();
-        foreach ($res as $key => $value) {
-            # code... $response = $res->toArray();
-            $res[$key]['start_consultation'] = strtotime($res[$key]['start_consultation']);
-            $res[$key]['end_consultation'] = strtotime($res[$key]['end_consultation']);
-            $res[$key]['valid_status'] = strtotime($res[$key]['end_consultation']);
-            $res[$key]['schedule'] = strtotime($res[$key]['schedule']);
-            $res[$key]['id'] = $res[$key]['id_record'];
-            unset($res[$key]['id_record']);
+            ->select('record.status_payment_consultation', 'record.id as id_record', 'record.description', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status_consultation as status', 'schedule_detail.consultation_date as schedule')
+            ->where('pattient.medical_record_id', $medicalRecords);
+        $check = $this->record->where('medical_record_id', $medicalRecords)->get()->toArray();
+        if (sizeof($check) > 0) {
+            $res = $query->where('record.status_consultation', '=', 'consultation-complete')
+                ->orwhere('record.status_payment_consultation', 'DIBATALKAN')
+                ->orwhere('record.valid_status', '<', Carbon::now())
+                ->get()->toArray();
+            foreach ($res as $key => $value) {
+                # code... $response = $res->toArray();
+                $res[$key]['start_consultation'] = strtotime($res[$key]['start_consultation']);
+                $res[$key]['end_consultation'] = strtotime($res[$key]['end_consultation']);
+                $res[$key]['valid_status'] = strtotime($res[$key]['end_consultation']);
+                $res[$key]['schedule'] = strtotime($res[$key]['schedule']);
+                $res[$key]['id'] = $res[$key]['id_record'];
+                unset($res[$key]['id_record']);
+            }
+            return $res;
+        }else{
+            return [];
         }
-        return $res;
-    }
-    public function showDataSettings()
-    {
-
     }
     public function showDataActionConsultation($idRecord)
     {
-        // "id" => $id,
-        //     "name_pacient" => "Aristo Caesar Pratama",
-        //     "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya dsdsdsdsds makanan mie......",
-        //     "category" => "Penyakit Dalam",
-        //     "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
-        //     "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
-        //     "schedule" => 1677517200,
-        //     "start_consultation" => 1677566329,
-        //     "end_consultation" => 1677586329,
-        //     "live_consultation" => false,
-        //     "status" => "waiting-consultation-payment",
-
-        //     "price_consultation" => "Rp. 90.000",
-        //     "status_payment_consultation" => "BELUM TERKONFIRMASI", // PROSES VERIFIKASI / BELUM TERKONFIRMASI / TERKONFIRMASI
-        //     "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
-
-        //     "price_medical_prescription" => "Rp. 100.000", // null
-        //     "status_payment_medical_prescription" => "TERKONFIRMASI",
-        //     "proof_payment_medical_prescription" => "https://tangerangonline.id/wp-content/uploads/2021/06/IMG-20210531-WA0027.jpg",
-
-        //     "pickup_medical_prescription" => "hospital-pharmacy", // hospital-pharmacy, delivery-gojek
-        //     "pickup_medical_status" => "MENUNGGU DIAMBIL", // MENUNGGU DIAMBIL, SUDAH DIAMBIL, DIKIRIM DENGAN GOJEK, GAGAL DIKIRIM, TIDAK MENERIMA SEKRANG
-        //     "pickup_medical_no_telp_pacient" => "085235119101",
-        //     "pickup_medical_addreass_pacient" => "Enim ullamco reprehenderit nulla aliqua reprehenderit",
-        //     "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
-        //     "pickup_by_pacient" => "Aristo Caesar Pratama",
-        //     "pickup_datetime" => 1676184847,
-
-        //     "valid_status" => 1677766166
         $res = $this->model
             ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
             ->join('record', 'medical_records.medical_record_id', 'record.medical_record_id')
@@ -272,7 +240,7 @@ class PattientService
             ->join('doctor', 'doctor.id', 'record.id_doctor')
             ->join('polyclinics', 'polyclinics.id', 'doctor.id_polyclinic')
             ->join('record_category', 'record_category.id', 'record.id_category')
-            ->select('record.bukti' ,'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctor.name as doctor', 'schedule_detail.consultation_date', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime')->where('record.id', $idRecord)
+            ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctor.name as doctor', 'schedule_detail.consultation_date', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime')->where('record.id', $idRecord)
             ->first();
         $response = [];
         if ($res != null) {
@@ -289,8 +257,7 @@ class PattientService
             $response['status_payment_consultation'] = $res->status_payment_consultation;
             $response['pickup_medical_no_telp_pacient'] = $res->phone_number;
             $response['valid_status'] = strtotime($res->valid_status);
-            $response['proof_payment_consultation'] = url('/').('/bukti_pembayaran/'.$res->bukti);
-            $response['live_consultation'] = true;
+            $response['proof_payment_consultation'] = url('/') . ('/bukti_pembayaran/' . $res->bukti);
             if ($res->id_recipe == null) {
                 $response['pickup_medical_prescription'] = null;
                 $response['pickup_medical_status'] = null;
@@ -312,9 +279,76 @@ class PattientService
                 $response['status_payment_medical_prescription'] = "TERKONFIRMASI";
                 $response['proof_payment_medical_prescription'] = $res->bukti;
             }
-            $response['live_consultation'] = $response['status'] != "confirmed-consultation-payment" || $response['status'] != "consultation-complete" || time() > $response['valid_status'] ? false : true;
+            if ($response['status'] == 'confirmed-consultation-payment' && Carbon::now() >= $res->start_consultation && Carbon::now() <= $res->end_consultation) {
+                $response['live_consultation'] = true;
+            } else {
+                $response['live_consultation'] = false;
+            }
             $response['price_consultation'] = "90000";
         }
         return $response;
     }
+    public function changeEmail($id, $email)
+    {
+        $res = $this->model->where('id', $id)->update(
+            [
+                'email' => $email
+            ]
+        );
+        if ($res) {
+            return true;
+        }
+        return false;
+    }
+
+    public function changePassword($id, $password)
+    {
+        $res = $this->model->where('id', $id)->update(
+            [
+                'password' => bcrypt($password)
+            ]
+        );
+        if ($res) {
+            return true;
+        }
+        return false;
+    }
+
+    public function updateDataPattient(array $request, $id)
+    {
+        $res = Helper::compareToArrays($request, $id, 'pattient');
+        if (!$res) {
+            return false;
+        } else {
+            $isUpdate = $this->model->where('id', $id)->update($request);
+            if ($isUpdate) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public function checkNik($id, $nik)
+    {
+        $data = $this->model->where('id', '<>', $id)->get();
+        foreach ($data as $key => $value) {
+            # code...
+            if ($value['nik'] == $nik) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public function checkNoPaspor($id, $no_paspor)
+    {
+        $data = $this->model->where('id', '<>', $id)->get();
+        foreach ($data as $key => $value) {
+            # code...
+            if ($value['no_paspor'] == $no_paspor) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

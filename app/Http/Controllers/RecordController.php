@@ -81,7 +81,6 @@ public function upadate()
         // $this->validate($request, $rules, $customMessages);
         // menyimpan data file yang diupload ke variabel $file
         $response = $this->service->updateBukti($id, $request);
-        dd($response);
         if ($response) {
             return redirect()->back()->with('message', "berhasil mengupload bukti pembayaran , harap menunggu hasil validasi");
         } else {
@@ -97,6 +96,15 @@ public function upadate()
             return redirect()->back()->with("message" , "berhasil menyetujui pembayaran");
         }else{
             return redirect()->back()->with("message" , "gagal   menyetujui pembayaran");
+        }
+    }
+
+    public function cancelConsultation($id){
+        $res = $this->service->cancelConsultation($id);
+        if($res){
+            return redirect('/dashboard');
+        }else{
+            return redirect()->back()->withErrors(['message' => "gagal membatalkan konsultasi"]);
         }
     }
 }

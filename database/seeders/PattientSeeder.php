@@ -33,5 +33,20 @@ class PattientSeeder extends Seeder
             "nik" => 287639876267861,
             'medical_record_id' => 123123
         ]);
+        Pattient::create([
+            "name" => "zamz", 
+            "password" =>  bcrypt("rahasia"),
+            "email" => "moh@gmail.com",
+            "gender" => "M" , 
+            "phone_number" => "085607185972",
+            "address" => "003/005/Blokagung/Karangdoro/Tegalsari/Banyuwangi",
+            "citizen" => "WNA" , 
+            "profession" => "GURU" , 
+            "date_birth" => "2023-02-08 12:51:41",
+            "place_birth" => "bwi" , 
+            "blood_group" => "B", 
+            "no_paspor" => 9287328120321234,
+            'medical_record_id' => 321321
+        ]);
     }
 }

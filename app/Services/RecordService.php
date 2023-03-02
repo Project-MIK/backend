@@ -53,11 +53,9 @@ class RecordService
             $uniqueid = $this->record->where('id', $resultId)->first();
         } while ($uniqueid != null);
         $scheduleTime = $this->schedule->where('id', $request['id_schedules'])->first();
-        $nowDate = new \DateTime(Carbon::now());
-        $timeStart = new \DateTime($scheduleTime->time_start);
-        $result = $timeStart->diff($nowDate);
-        $valid_status = Carbon::now()->add($result)->toDateTimeString();
+        $validStatus = new \DateTime(Carbon::parse($scheduleTime->time_start));
         $res = [];
+
         $exist = $this->medicalRecord->where('medical_record_id', $request['medical_record_id'])->first();
         if ($exist == null) {
             $res['status'] = false;
@@ -86,7 +84,7 @@ class RecordService
                         "id_doctor" => $request['id_doctor'],
                         "id_schedules" => $request['id_schedules'],
                         "id_category" => $request['id_category'],
-                        "valid_status" => $valid_status
+                        "valid_status" => $validStatus
                     ]);
                     if ($created->exists()) {
                         $res['status'] = true;
@@ -189,6 +187,18 @@ class RecordService
             "status" => "confirmed-consultation-payment"
         ]);
         if ($res) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public function cancelConsultation($id){
+        $res = $this->record->where('id' , $id)->update([
+            "status_payment_consultation" => "DIBATALKAN",
+            'status_consultation' => 'consultation-complete'
+        ]);
+        if($res){
             return true;
         }
         return false;
