@@ -231,7 +231,7 @@ class PattientController extends Controller
     public function showRecordDashboard($idMedicalRecord)
     {
         $res = $this->service->showRecordDashboard($idMedicalRecord);
-        $res['live_concultation']  = false;
+        
         return $res;
     }
     public function showRecordHistory($idMedicalRecord){

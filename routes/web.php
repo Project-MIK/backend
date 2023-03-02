@@ -9,6 +9,7 @@ use App\Models\RegistrationOfficers;
 use App\Http\Controllers\PattientController;
 use App\Http\Controllers\RecordController;
 use App\Services\MedicalRecordService;
+use App\Services\PattientService;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -53,12 +54,10 @@ Route::post("/recovery/{token}", function (Request $request) {
 Route::prefix("/dashboard")->group(function () {
     // # Showing data consultation, history and setting
     Route::view("/", "pacient.dashboard.index");
-
     // # Action pacient save setting
     Route::post("/save-setting", function (Request $request) {
         dd($request);
     });
-
     // # Action pacient change email
     Route::post("/change-email", function (Request $request) {
         dd($request);
@@ -72,20 +71,9 @@ Route::prefix("/dashboard")->group(function () {
 
 // Consultation
 Route::prefix('konsultasi')->group(function () {
+    
     // Create consultation #1 - description complaint & set category
-    Route::get('/', function () {
-        return view("pacient.consultation.complaint", [
-            // Show categories type disease
-            "categories" => [
-                "K001" => "Penyakit Langka",
-                "K002" => "Kelainan Bawaan",
-                "K003" => "Gangguan Mental",
-                "K004" => "Cedera",
-                "K005" => "Penyakit Dalam",
-                "K000" => "Tidak Tahu"
-            ]
-        ]);
-    });
+    Route::get('/', [RecordCategoryController::class , 'index'] )->middleware('checkRecord');
     Route::post('/', function (Request $request) {
         session(['consultation' => [
             "description" => trim($request->input("consultation_complaint")),
@@ -256,62 +244,63 @@ Route::prefix('konsultasi')->group(function () {
         if (!isset(session("consultation")["doctor"])) return redirect("/konsultasi/dokter");
         return view("pacient.consultation.detail-order");
     });
-    Route::post('/rincian', function (Request $request) {
-        // set data into database and remove session
-        return redirect("/konsultasi/KL6584690#payment");
-    });
+    Route::post('/rincian',[RecordController::class , "store"]);
 
     // Show pacient consultation based on ID
     Route::get('/{id}', function ($id) {
-        return view("pacient.consultation.detail-consultation", [
-            "id" => $id,
-            "name_pacient" => "Aristo Caesar Pratama",
-            "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya dsdsdsdsds makanan mie......",
-            "category" => "Penyakit Dalam",
-            "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
-            "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
-            "schedule" => 1677517200,
-            "start_consultation" => 1677566329,
-            "end_consultation" => 1677586329,
-            "live_consultation" => false,
-            "status" => "consultation-complete",
+        $service = new PattientService();
+        $res = $service->showDataActionConsultation($id);
+        return view("pacient.consultation.detail-consultation", $res);
+        // return view("pacient.consultation.detail-consultation", [
+        //     "id" => $id,
+        //     "name_pacient" => "Aristo Caesar Pratama",
+        //     "description" => "Saya mengalami mual mual dan merasa selalu lemas setelah beberapa minggu ini hanya dsdsdsdsds makanan mie......",
+        //     "category" => "Penyakit Dalam",
+        //     "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
+        //     "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
+        //     "schedule" => 1677517200,
+        //     "start_consultation" => 1677566329,
+        //     "end_consultation" => 1677586329,
+        //     "live_consultation" => false,
+        //     "status" => "consultation-complete",
 
-            "price_consultation" => "Rp. 90.000",
-            "status_payment_consultation" => "TERKONFIRMASI", // PROSES VERIFIKASI / BELUM TERKONFIRMASI / / PEMBAYARAN TIDAK VALID / TERKONFIRMASI
-            "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
+        //     "price_consultation" => "Rp. 90.000",
+        //     "status_payment_consultation" => "TERKONFIRMASI", // PROSES VERIFIKASI / BELUM TERKONFIRMASI / / PEMBAYARAN TIDAK VALID / TERKONFIRMASI
+        //     "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
 
-            "price_medical_prescription" => "Rp. 100.000", // null
-            "status_payment_medical_prescription" => "TERKONFIRMASI",
-            "proof_payment_medical_prescription" => "https://tangerangonline.id/wp-content/uploads/2021/06/IMG-20210531-WA0027.jpg",
+        //     "price_medical_prescription" => "Rp. 100.000", // null
+        //     "status_payment_medical_prescription" => "TERKONFIRMASI",
+        //     "proof_payment_medical_prescription" => "https://tangerangonline.id/wp-content/uploads/2021/06/IMG-20210531-WA0027.jpg",
 
-            "pickup_medical_prescription" => "delivery-gojek", // hospital-pharmacy, delivery-gojek
-            "pickup_medical_status" => "GAGAL DIKIRIM", // MENUNGGU DIAMBIL, SUDAH DIAMBIL, DIKIRIM DENGAN GOJEK, GAGAL DIKIRIM, TIDAK MENERIMA SEKRANG
-            "pickup_medical_no_telp_pacient" => "085235119101",
-            "pickup_medical_addreass_pacient" => "Enim ullamco reprehenderit nulla aliqua reprehenderit",
-            "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
-            "pickup_by_pacient" => "Aristo Caesar Pratama",
-            "pickup_datetime" => 1676184847,
+        //     "pickup_medical_prescription" => "delivery-gojek", // hospital-pharmacy, delivery-gojek
+        //     "pickup_medical_status" => "GAGAL DIKIRIM", // MENUNGGU DIAMBIL, SUDAH DIAMBIL, DIKIRIM DENGAN GOJEK, GAGAL DIKIRIM, TIDAK MENERIMA SEKRANG
+        //     "pickup_medical_no_telp_pacient" => "085235119101",
+        //     "pickup_medical_addreass_pacient" => "Enim ullamco reprehenderit nulla aliqua reprehenderit",
+        //     "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
+        //     "pickup_by_pacient" => "Aristo Caesar Pratama",
+        //     "pickup_datetime" => 1676184847,
 
-            "valid_status" => 1678766166
-        ]);
+        //     "valid_status" => 1678766166
+        // ]);
     });
 
     // Cancel sheduling consultation
     Route::get('/{id}/cancel-consultation', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/cancel-consultation', function ($id) {
-        dd($id);
-    });
+    Route::post('/{id}/cancel-consultation', [RecordController::class , 'destroy']);
 
     // Send proof payment to confirmation consultation
     Route::get('/{id}/payment-consultation', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/payment-consultation', function (Request $request, $id) {
-        dd([
-            "id" => $id,
-            "state-payment" => $request->input("state-payment"),
-            "bank-payment" => $request->input("bank-payment"),
-            "upload-proof-payment" => $request->file('upload-proof-payment')
-        ]);
-    });
+    Route::post('/{id}/payment-consultation', [RecordController::class , 'updateBukti'] );
+    
+    
+    // function (Request $request, $id) {
+    //     // dd([
+    //     //     "id" => $id,
+    //     //     "state-payment" => $request->input("state-payment"),
+    //     //     "bank-payment" => $request->input("bank-payment"),
+    //     //     "upload-proof-payment" => $request->file('upload-proof-payment')
+    //     // ]);
+    // });
 
     // Cancel scheduling medical prescription
     Route::get('/{id}/cancel-medical-prescription', fn ($id) => redirect("/konsultasi/{$id}"));

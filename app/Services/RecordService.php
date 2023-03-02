@@ -9,8 +9,10 @@ use App\Models\MedicalRecords;
 use App\Models\Record;
 use App\Models\RecordCategory;
 use App\Models\ScheduleDetail;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -46,10 +48,15 @@ class RecordService
         do {
             # code...
             $prefix = "KL";
-            $randomString = random_int(1000000 , 9999999);
-            $resultId = $prefix.$randomString;
-            $uniqueid  = $this->record->where('id' , $resultId)->first();
+            $randomString = random_int(1000000, 9999999);
+            $resultId = $prefix . $randomString;
+            $uniqueid = $this->record->where('id', $resultId)->first();
         } while ($uniqueid != null);
+        $scheduleTime = $this->schedule->where('id', $request['id_schedules'])->first();
+        $nowDate = new \DateTime(Carbon::now());
+        $timeStart = new \DateTime($scheduleTime->time_start);
+        $result = $timeStart->diff($nowDate);
+        $valid_status = Carbon::now()->add($result)->toDateTimeString();
         $res = [];
         $exist = $this->medicalRecord->where('medical_record_id', $request['medical_record_id'])->first();
         if ($exist == null) {
@@ -63,10 +70,10 @@ class RecordService
                 $res['message'] = 'gagal menambahkan detail rekam medic , data doktor tidak ditemukan';
                 return $res;
             } else {
-            $existSchedule = $this->schedule->where('id', $request['id_schedules'])->first();
-                if($existSchedule!=null){
-                    if($existSchedule->status !="kosong"){
-                        $res['status'] =false;
+                $existSchedule = $this->schedule->where('id', $request['id_schedules'])->first();
+                if ($existSchedule != null) {
+                    if ($existSchedule->status != "kosong") {
+                        $res['status'] = false;
                         $res['message'] = 'gagal menambahkan record , jadwal yang anda pilih tidak sedang kosong';
                         return $res;
                     }
@@ -74,18 +81,20 @@ class RecordService
                     $created = $this->record->create([
                         "id" => $resultId,
                         "medical_record_id" => $request['medical_record_id'],
-                        "description"=> $request['description'],
+                        "description" => $request['description'],
                         "complaint" => $request['complaint'],
                         "id_doctor" => $request['id_doctor'],
                         "id_schedules" => $request['id_schedules'],
-                        "id_category" => $request['id_category']
+                        "id_category" => $request['id_category'],
+                        "valid_status" => $valid_status
                     ]);
                     if ($created->exists()) {
                         $res['status'] = true;
                         $res['message'] = 'berhasil menambahkan detail rekam medic';
+                        $res['id'] = $resultId;
                         return $res;
                     }
-                }else{
+                } else {
                     $res['status'] = false;
                     $res['message'] = 'gagal menambahkan data record , jadwal tidak ditemukan';
                     return $res;
@@ -147,32 +156,39 @@ class RecordService
         }
     }
 
-    public function updateBukti($id , Request $request){     
-        $file = $request->file('avatar');
-       	        // nama file
-		$fileName = $file->getClientOriginalName();
-      	        // ekstensi file
-		$fileExtension = $file->getClientOriginalExtension();
+    public function updateBukti($id, Request $request)
+    {
+        $file = $request->file('upload-proof-payment');
+        // nama file
+        $fileName = $file->getClientOriginalName();
+        // ekstensi file
+        $fileExtension = $file->getClientOriginalExtension();
 
-        $fullName = bcrypt($fileName.random_int(1000,9999)).".".$fileExtension;
-      	        // isi dengan nama folder tempat kemana file diupload
-		$tujuan_upload = 'bukti_pembayaran';
-        $res = $this->record->where('id' , $id)->update([
-            "bukti" => $fullName
-        ]);
-        if($res){
-            $file->move($tujuan_upload,$fullName);
+        $fullName = md5($fileName . random_int(1000, 9999)) . "." . $fileExtension;
+        // isi dengan nama folder tempat kemana file diupload
+        $tujuan_upload = 'bukti_pembayaran';
+
+        $res = Db::table('record')->where('id' , $id)->update(
+            [
+                "bukti" => $fullName,
+                'status_payment_consultation' => 'PROSES VERIFIKASI',
+                'status_consultation' => "waiting-consultation-payment"
+            ]
+        );
+        if ($res) {
+            $file->move($tujuan_upload, $fullName);
             return true;
-        }else{
+        } else {
             return false;
-        }		
+        }
     }
 
-    public function validBuktiPembayaran($id){
-        $res = $this->record->where('id' , $id)->update([
+    public function validBuktiPembayaran($id)
+    {
+        $res = $this->record->where('id', $id)->update([
             "status" => "confirmed-consultation-payment"
         ]);
-        if($res){
+        if ($res) {
             return true;
         }
         return false;

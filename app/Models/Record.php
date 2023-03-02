@@ -19,9 +19,10 @@ class Record extends Model
         "id_recipe" , 
         "id_doctor",
         "id_schedules",
-        "id_category"
+        "id_category",
+        'valid_status',
+        'status_consultation', 
+        'status_payment_consultation'
     ];
-
-
     
 }

@@ -354,4 +354,9 @@ class PattientTest extends TestCase
         $res = $service->showRecordDashboard(12);
         dd($res);
     }
+
+    public function test_show_record_action(){
+        $service = new PattientService();
+        $service->showDataActionConsultation("KL2039824");
+    }
 }

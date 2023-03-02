@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
 class OnlyThoseWhoDontHaveRecordMiddleware
 {
-
-
 
 
     /**
@@ -23,20 +22,21 @@ class OnlyThoseWhoDontHaveRecordMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+       
         if (Auth::guard('pattient')->check()) {
             $service = new PattientService();
             $check = $service->showRecordDashboard(Auth::guard('pattient')->user()->medical_record_id);
             if ($check != []) {
-                if ($check['status'] == "consultation-complete" && $check['valid_status'] > $check['end_consultation']) {
+                if ($check['status'] == "consultation-complete" ||  time() > $check['valid_status'] ) {
                     return $next($request);
                 } else {
                     return redirect('/dashboard')->with('message', "harap selesaikan konsultasi yang masih tersedia");
                 }
+            }else{
+                return $next($request);
             }
         } else {
             return redirect()->back()->with('message', "Silahkan login terlebih dahulu");
         }
-
-
     }
 }

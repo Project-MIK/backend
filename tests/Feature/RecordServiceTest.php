@@ -6,6 +6,7 @@ use App\Models\Record;
 use App\Services\RecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class RecordServiceTest extends TestCase
@@ -95,5 +96,10 @@ class RecordServiceTest extends TestCase
         $service = new RecordService();
         $res = $service->validBuktiPembayaran("KL6901595");
         $this->assertTrue($res);
+    }
+
+    public function test_update_status(){
+       
+        
     }
 }

@@ -30,6 +30,7 @@ class Consultation extends Component
     public function render()
     {
         $complaint = $this->controller->showRecordDashboard(Auth::guard('pattient')->user()->medical_record_id);
+       
         return view('components.consultation-actions.consultation', compact("complaint"));
     }
 }

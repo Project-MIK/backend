@@ -20,8 +20,13 @@ class RecordCategoryController extends Controller
 
     public function index()
     {
+        $categories = [];
         $data = $this->service->findAll();
-        return $data;
+        foreach ($data as $key => $value) {
+            # code...
+            $categories[$value['id']] = $value['category_name'];
+        };
+        return view("pacient.consultation.complaint",compact('categories'));
     }
 
     public function store(RecordCategoryStoreRequest $request)
