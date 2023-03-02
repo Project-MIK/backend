@@ -4,6 +4,7 @@
         <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.id.min.js') }}"></script>
         <style>
+<<<<<<< HEAD
             table{
                 display: block;
                 max-width: -moz-fit-content;
@@ -51,6 +52,65 @@
             }
         </style>
     @endslot
+=======
+            table{display:block;max-width:-moz-fit-content;margin:0 auto;overflow-x:auto}button[id=btn-change-password],select{height:50px!important}#pacient-actions,#pacient-name-tag{column-gap:20px}.text_action{display:none}.icon_action{display:block}#create_consulation{margin-top:20px}#btn-change-profile{width:100%;height:50px}@media (min-width:991.98px){.text_action{display:block}.icon_action{display:none}#pacient-name-tag{column-gap:0}#create_consulation{margin-top:0}#btn-change-profile{width:50%}}
+        </style>
+    @endslot
+    {{-- Modal Change Email --}}
+        <div class="modal fade" id="modalChangeEmail" tabindex="-1" aria-labelledby="modalChangeEmailTitle" aria-hidden="true">
+            <form action="/dashboard/change-email" method="POST" class="modal-dialog">
+                @csrf
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold text-trouth" id="modalChangeEmailTitle">Ganti Email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group col-md-12">
+                        <label for="inputEmail" class="text-trouth">Email</label>
+                        <input type="email" class="form-control py-4" id="inputEmail" name="email" placeholder="Ketikkan email" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-bunting text-white">Ya, Ganti Email</button>
+                </div>
+                </div>
+            </form>
+        </div>  
+    {{-- ### --}}
+    {{-- Modal Change Password --}}
+        <div class="modal fade" id="modalChangePassword" tabindex="-1" aria-labelledby="modalChangePasswordTitle" aria-hidden="true">
+            <form action="/dashboard/change-password" method="POST" class="modal-dialog">
+                @csrf
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold text-trouth" id="modalChangePasswordTitle">Ganti Kata Sandi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group col-md-12">
+                        <label for="inputPassword1" class="text-trouth">Kata Sandi Baru</label>
+                        <input type="text" class="form-control py-4" id="inputPassword1" name="password1" placeholder="Ketikkan kata sandi baru" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="inputPassword2" class="text-trouth">Konfirmasi Kata Sandi Baru</label>
+                        <input type="text" class="form-control py-4" id="inputPassword2" name="password2" placeholder="Ketikkan kata sandi baru" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-bunting text-white">Ya, Ganti Kata Sandi</button>
+                </div>
+                </div>
+            </form>
+        </div>  
+    {{-- ### --}}
+>>>>>>> origin/backend
     <div class="container wrapper-pacient my-5">
         <div class="card shadow-lg rounded-lg w-100 mx-auto">
             <div class="card-body">
@@ -58,7 +118,11 @@
                     <div class="p-5 w-100">
                         <div id="pacient-name-tag" class="d-flex align-items-center justify-content-between">
                             <div>
+<<<<<<< HEAD
                                 <h1 class="font-weight-bold text-bunting text-xl">Halo, Lathisa Maharani</h1>
+=======
+                                <h1 class="font-weight-bold text-bunting text-xl">Halo, {{Auth::guard('pattient')->user()->name}} </h1>
+>>>>>>> origin/backend
                                 <p class="text-trouth font-weight-light text-sm">Gunakan layanan telemedicine untuk mewujudkan akses kesehatan terjangkau secara online</p>
                             </div>
                             <a href="/keluar">
@@ -84,6 +148,7 @@
                             </button>
                         </div>
                         <div id="pacient-contents" class="my-5">
+<<<<<<< HEAD
                             <div id="consultation">
                                 <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-5">
                                     <div class="text-trouth">Nomor Rekam Medis : <strong>00-00-63-04-18</strong></div>
@@ -289,11 +354,17 @@
                                     </div>
                                 </form>
                             </div>
+=======
+                            <x-consultation-actions.consultation/>
+                            <x-consultation-actions.history/>
+                            <x-consultation-actions.setting/>
+>>>>>>> origin/backend
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </div>
     @slot('scripts')
         <script>
@@ -326,6 +397,12 @@
                     }
                 }
             }
+=======
+    </div>  
+    @slot('scripts')
+        <script>
+            function actionSelected(e){sessionStorage.setItem("dashboard_action",e)}function pacientSelected(e){actionSelected(e.id);let t=document.getElementById("pacient-actions"),d=document.getElementById("pacient-contents");for(let i=0;i<t.children.length;i++)t.children[i].id==e.id?(t.children[i].classList.add("btn-bunting","text-white"),t.children[i].classList.remove("border","text-trouth")):(t.children[i].classList.remove("btn-bunting","text-white"),t.children[i].classList.add("border","text-trouth")),d.children[i].id==e.id?(d.children[i].classList.add("d-block"),d.children[i].classList.remove("d-none")):(d.children[i].classList.remove("d-block"),d.children[i].classList.add("d-none"))}$(".datepicker").datepicker({format:"dd-mm-yyyy",autoclose:!0,todayHighlight:!0,language:"id"});const dashboardAction=sessionStorage.getItem("dashboard_action");pacientSelected(dashboardAction?document.getElementById(dashboardAction):document.getElementById("consultation"));
+>>>>>>> origin/backend
         </script>
     @endslot
 </x-app-pacient>

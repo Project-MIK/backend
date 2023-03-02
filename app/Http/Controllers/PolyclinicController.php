@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PolyclinicRequest;
+use App\Http\Requests\PolyclinicStoreRequest;
+use App\Http\Requests\PolyclinicUpdateRequest;
 use App\Services\PolyclinicService;
-use Illuminate\Http\Request;
 
 class PolyclinicController extends Controller
 {
@@ -41,7 +41,7 @@ class PolyclinicController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PolyclinicRequest $request) : bool
+    public function store(PolyclinicStoreRequest $request) : bool
     {
         $response = $this->service->add($request->validate($request->rules()));
 
@@ -84,7 +84,7 @@ class PolyclinicController extends Controller
      * @param  \App\Models\Polyclinic  $polyclinic
      * @return \Illuminate\Http\Response
      */
-    public function update(PolyclinicRequest $request, $id)
+    public function update(PolyclinicUpdateRequest $request, $id)
     {
         $response = $this->service->change($request->validate($request->rules()), $id);
         if ($response) {

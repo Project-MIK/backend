@@ -1,6 +1,7 @@
 <x-app-pacient title="Keluhan">
     @slot('styles')
         <style>
+<<<<<<< HEAD
             select, button {
                 height: 50px !important;
             }
@@ -24,6 +25,9 @@
                     width: 25%;
                 }
             }
+=======
+            button,select{height:50px!important}#back-page-1{display:none}#back-page-2{display:block}#next-step{width:100%}@media (min-width:991.98px){#back-page-1{display:block}#back-page-2{display:none}#next-step{width:25%}}
+>>>>>>> origin/backend
         </style>
     @endslot
     <div class="container wrapper-pacient my-5">
@@ -50,12 +54,22 @@
                         <div class="mt-4">
                             <div class="form-group">
                                 <label for="complaint" class="text-trouth">Jelaskan mengenai keluhan anda</label>
+<<<<<<< HEAD
                                 <textarea class="form-control" id="complaint" rows="3" name="consultation_complaint" placeholder="Jelaskan keluhan anda" autofocus></textarea>
+=======
+                                <textarea class="form-control" id="complaint" rows="3" name="consultation_complaint" placeholder="Jelaskan keluhan anda" autofocus maxlength="1024" required></textarea>
+>>>>>>> origin/backend
                             </div>                            
                             <div class="form-group">
                                 <label for="category" class="text-trouth">Kategori Keluhan</label>
                                 <select id="category" class="form-control" name="consultation_category">
+<<<<<<< HEAD
                                     <option value="-">Tidak Tahu</option>
+=======
+                                    @foreach ($categories as $id => $category)
+                                        <option value="{{$id}}-{{$category}}">{{$category}}</option>
+                                    @endforeach
+>>>>>>> origin/backend
                                 </select>                                  
                             </div>                            
                         </div>

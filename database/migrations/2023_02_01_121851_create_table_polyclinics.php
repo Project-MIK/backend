@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('polyclinics', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
+            $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

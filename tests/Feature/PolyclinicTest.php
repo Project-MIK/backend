@@ -3,11 +3,9 @@
 namespace Tests\Feature;
 
 use App\Http\Controllers\PolyclinicController;
-use App\Http\Requests\PolyclinicRequest;
-use App\Models\Polyclinic;
+use App\Http\Requests\PolyclinicStoreRequest;
+use App\Http\Requests\PolyclinicUpdateRequest;
 use App\Services\PolyclinicService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
@@ -20,11 +18,6 @@ class PolyclinicTest extends TestCase
      */
 
     private PolyclinicController $controller;
-
-    // public function __construct()
-    // {
-    //     $this->controller = new PolyclinicController();
-    // }
 
     public function test_findAll_data_polyclinics()
     {
@@ -57,9 +50,10 @@ class PolyclinicTest extends TestCase
     public function test_success_store_data_polyclinic()
     {
         $this->controller = new PolyclinicController();
-        $request = new PolyclinicRequest();
+        $request = new PolyclinicStoreRequest();
 
         $request['name'] = fake()->words(2, true);
+        $request['category_id'] = fake()->numberBetween(1, 3);
         $data = $this->controller->store($request);
         $this->assertTrue($data);
     }
@@ -67,10 +61,11 @@ class PolyclinicTest extends TestCase
     public function test_failed_store_data_polyclinic()
     {
         $this->controller = new PolyclinicController();
-        $request = new PolyclinicRequest();
+        $request = new PolyclinicStoreRequest();
 
         $this->expectException(ValidationException::class);
         $request['name'] = fake()->randomNumber(2);
+        $request['category_id'] = fake()->numberBetween(1, 3);
         $data = $this->controller->store($request);
 
         $this->assertFalse($data);
@@ -79,9 +74,10 @@ class PolyclinicTest extends TestCase
     public function test_success_update_data_polyclinic()
     {
         $this->controller = new PolyclinicController();
-        $request = new PolyclinicRequest();
+        $request = new PolyclinicUpdateRequest();
 
         $request['name'] = fake()->words(2, true);
+        $request['category_id'] = fake()->numberBetween(1, 3);
         $response = $this->controller->update($request, 1);
 
         $this->assertTrue($response);
@@ -90,9 +86,10 @@ class PolyclinicTest extends TestCase
     public function test_failed_update_data_polyclinic()
     {
         $this->controller = new PolyclinicController();
-        $request = new PolyclinicRequest();
+        $request = new PolyclinicUpdateRequest();
 
         $request['name'] = fake()->words(2, true);
+        $request['category_id'] = fake()->numberBetween(1, 3);
         $response = $this->controller->update($request, 0);
         $this->assertFalse($response);
     }
@@ -100,10 +97,11 @@ class PolyclinicTest extends TestCase
     public function test_failed_update_data_polyclinic_validation()
     {
         $this->controller = new PolyclinicController();
-        $request = new PolyclinicRequest();
+        $request = new PolyclinicUpdateRequest();
         $this->expectException(ValidationException::class);
 
         $request['name'] = 99;
+        $request['category_id'] = fake()->numberBetween(1, 3);
         $response = $this->controller->update($request, 12);
         $this->assertFalse($response);
     }

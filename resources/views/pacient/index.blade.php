@@ -11,7 +11,11 @@
                         <p class="font-weight-light mb-4">Layanan medis terpercaya yang dapat mewujudkan akses kesehatan terjangkau secara online</p>
                         <a href="/masuk" class="btn-dogger text-white py-2 px-5 rounded-pill text-center font-weight-bold">MULAI</a>
                     </div>
+<<<<<<< HEAD
                     <p class="font-weight-light text-right text-white">Copyright &copy; <?= date("Y") ?> RS Citra Husada Jember</p>
+=======
+                    <p class="font-weight-light text-right text-white">Copyright &copy; {{ date("Y") }} RS Citra Husada Jember</p>
+>>>>>>> origin/backend
                 </div>
             </div>
         </div>

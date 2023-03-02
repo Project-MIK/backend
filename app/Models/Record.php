@@ -16,11 +16,13 @@ class Record extends Model
         "medical_record_id" , 
         "description" , 
         "complaint" , 
-        "id_recipe" ,
+        "id_recipe" , 
         "id_doctor",
-        "id_schedules"
+        "id_schedules",
+        "id_category",
+        'valid_status',
+        'status_consultation', 
+        'status_payment_consultation'
     ];
-
-
     
 }

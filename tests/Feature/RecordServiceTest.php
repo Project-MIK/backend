@@ -6,6 +6,7 @@ use App\Models\Record;
 use App\Services\RecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class RecordServiceTest extends TestCase
@@ -33,15 +34,19 @@ class RecordServiceTest extends TestCase
         $this->assertIsArray($res);
     }
 
-    public function test_insert_data()
+    public function test_insert_data_sucess()
     {
         $data = [
             "medical_record_id" => 123123,
-            "description" => "ini desc",
-            "complaint" => "ini complaint"
+            "description" => $this->faker->name(),
+            "complaint" => "ini complaint",
+            "id_doctor" => 1,
+            "id_schedules" => 1,
+            "id_category" => 1
         ];
         $service = new RecordService();
         $res = $service->insert($data);
+        $this->assertTrue($res['status']);
         $this->assertDatabaseHas("record", $data);
     }
 
@@ -77,12 +82,24 @@ class RecordServiceTest extends TestCase
     public function test_delete_by_id_success()
     {
         $service = new RecordService();
-        $ok  = Record::create([
+        $ok = Record::create([
             "medical_record_id" => 123123,
             "description" => "mengalami ganguan sakit kepala",
             "complaint" => "sakit kepala",
         ]);
         $res = $service->delete($ok->id);
         $this->assertTrue($res['status']);
+    }
+
+    public function test_update_bukti_pembayaran()
+    {
+        $service = new RecordService();
+        $res = $service->validBuktiPembayaran("KL6901595");
+        $this->assertTrue($res);
+    }
+
+    public function test_update_status(){
+       
+        
     }
 }

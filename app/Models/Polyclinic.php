@@ -11,10 +11,16 @@ class Polyclinic extends Model
 
     protected $fillable = [
         'name',
+        'category_id'
     ];
 
     public function doctors()
     {
         return $this->hasMany(Doctor::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

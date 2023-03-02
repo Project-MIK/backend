@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
-            $table->enum('gender', ['W', 'M']);
+            $table->enum('gender', ['W', 'M'])->nullable(false);
             $table->string('address')->nullable(false);
-            $table->string('phone', 13);
+            $table->string('phone', 13)->nullable(false);
             $table->foreignId('polyclinic_id')->nullable()->constrained('polyclinics')->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
