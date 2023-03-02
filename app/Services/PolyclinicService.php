@@ -9,7 +9,7 @@ class PolyclinicService
 {
     public function findAll()
     {
-        $data = Polyclinic::with('categories')->orderBy('name')->get();
+        $data = Polyclinic::with('category')->orderBy('name')->get();
 
         if ($data->isEmpty()) {
             return null;
