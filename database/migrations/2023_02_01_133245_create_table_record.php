@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('complaint');
             $table->unsignedBigInteger('schedule_detail_id');
             $table->unsignedBigInteger('id_recipe')->nullable(true);
-            $table->foreign('schedule_detail_id')->references('id')->on('schedule_detail')
+            $table->foreign('schedule_detail_id')->references('id')->on('schedule_details')
             ->onDelete('cascade')
             ->onUpdate('cascade');
             $table->unsignedBigInteger('doctor_id');

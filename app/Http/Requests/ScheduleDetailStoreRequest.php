@@ -24,9 +24,9 @@ class ScheduleDetailStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "consultation_data" => ['required', 'date'],
-            "time_start" => ['required', 'date_format:H:i'],
-            "time_end" => ['required', 'date_format:H:i'],
+            "consultation_date" => ['required', 'date'],
+            "time_start" => ['required', 'date_format:H:i:s'],
+            "time_end" => ['required', 'date_format:H:i:s'],
             "link" => ['required', 'string'],
             "status" => ['required', 'in:kosong,terisi'],
             "schedule_id" => ['required', 'numeric']

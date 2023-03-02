@@ -50,7 +50,7 @@ class DoctorTest extends TestCase
         $request['gender'] = "M";
         $request['address'] = fake()->address();
         $request['phone'] = 123412341234;
-        $request['polyclinic_id'] = 2;
+        $request['polyclinic_id'] = fake()->numberBetween(1, 3);
 
         $response = $this->controller->store($request);
         $this->assertTrue($response);

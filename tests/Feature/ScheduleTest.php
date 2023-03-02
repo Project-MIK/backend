@@ -17,30 +17,30 @@ class ScheduleTest extends TestCase
     public function test_success_findAll_data_schedules()
     {
         $this->controller = new SchedulesController();
-        $response = $this->controller->index();
+        $data = $this->controller->index();
 
-        $this->assertNotNull($response);
+        $this->assertNotNull($data);
     }
 
     public function test_failed_findAll_data_schedules() {
         $this->controller = new SchedulesController();
-        $response = $this->controller->index();
+        $data = $this->controller->index();
 
-        $this->assertNull($response);
+        $this->assertNull($data);
     }
 
     public function test_success_findById_data_schedule() {
         $this->controller = new SchedulesController();
-        $response = $this->controller->show(1);
+        $data = $this->controller->show(1);
 
-        $this->assertNotNull($response);
+        $this->assertNotNull($data);
     }
 
     public function test_failed_findById_data_schedule() {
         $this->controller = new SchedulesController();
-        $response = $this->controller->show(0);
+        $data = $this->controller->show(0);
 
-        $this->assertNull($response);
+        $this->assertNull($data);
     }
 
     public function test_success_store_data_schedule() {
