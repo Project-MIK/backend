@@ -18,9 +18,9 @@ return new class extends Migration
 
         Schema::create('schedule_detail', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('consultation_date');
-            $table->timestamp('time_start')->nullable();
-            $table->timestamp('time_end')->nullable();
+            $table->date('consultation_date');
+            $table->time('time_start')->nullable();
+            $table->time('time_end')->nullable();
             $table->string('link');
             $table->enum('status', ['kosong' , 'terisi']);
             $table->foreignId('schedule_id')->nullable()->constrained('schedules')->cascadeOnUpdate()->nullOnDelete();

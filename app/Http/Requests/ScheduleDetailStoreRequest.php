@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ScheduleStoreRequest extends FormRequest
+class ScheduleDetailStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,12 @@ class ScheduleStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "doctor_id" => ['required', 'numeric']
+            "consultation_data" => ['required', 'date'],
+            "time_start" => ['required', 'date_format:H:i'],
+            "time_end" => ['required', 'date_format:H:i'],
+            "link" => ['required', 'string'],
+            "status" => ['required', 'in:kosong,terisi'],
+            "schedule_id" => ['required', 'numeric']
         ];
     }
 }
