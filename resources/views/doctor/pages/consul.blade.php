@@ -28,7 +28,7 @@
                 @foreach($data as $item)
                 @php
                 $start = \Carbon\Carbon::createFromTimestamp($item['start'])->format('Y-m-d H:i:s');
-                $end = $date = \Carbon\Carbon::createFromTimestamp($item['end'])->format('Y-m-d H:i:s');
+                $end =\Carbon\Carbon::createFromTimestamp($item['end'])->format('Y-m-d H:i:s');
                 @endphp
                 <tr>
                     <td>{{$no}}</td>

@@ -18,6 +18,8 @@
 <link rel="stylesheet" href="{{ asset('/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
 <!-- Daterange picker -->
 <link rel="stylesheet" href="{{ asset('/adminlte/plugins/daterangepicker/daterangepicker.css')}}">
+<!-- dropzonejs -->
+<script src="{{ asset('/adminlte/plugins/dropzone/min/dropzone.min.js')}}"></script>
 <!-- summernote -->
 <link rel="stylesheet" href="{{ asset('/adminlte/plugins/summernote/summernote-bs4.min.css')}}">
 <script src="https://kit.fontawesome.com/5c43977293.js" crossorigin="anonymous"></script>

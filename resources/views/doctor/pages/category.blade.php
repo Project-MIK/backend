@@ -74,7 +74,7 @@
                 <select class="form-control" name="id_poly" id="edit-poly">
                     @foreach($poly as $option)
                     <option value="{{$option['id_poly']}}">{{$option['poly']}}</option>
-                    @endforeach
+                        @endforeach
                 </select>
             </div>
             <button type="submit" class="btn btn-block btn-default btn-sm">Simpan</button>
@@ -85,7 +85,7 @@
         <x-slot:id>modal-delete</x-slot:id>
         <x-slot:title>Warning</x-slot:title>
         <h3>Apakah Anda Yakin Ingin menghapus data ini?</h3>
-        <form action="destroy" method="POST">
+        <form action="/doctor/category/destroy" method="POST">
             @csrf
             @method('delete')
             <input hidden name="id_category" value="1">

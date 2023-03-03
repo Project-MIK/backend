@@ -66,7 +66,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/doctor/view" class="nav-link">
+                    <a href="/doctor/schedule/" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-calendar-days"></i></div>
                             <div class="col-10">

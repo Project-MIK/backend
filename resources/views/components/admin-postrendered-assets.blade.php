@@ -10,6 +10,13 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- Select2 -->
+<script src="{{asset('/adminlte/plugins/select2/js/select2.full.min.js')}}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="{{asset('/adminlte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
+<!-- InputMask -->
+<script src="{{asset('/adminlte/plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('/adminlte/plugins/inputmask/jquery.inputmask.min.js')}}"></script>
 <!-- ChartJS -->
 <script src="{{ asset('/adminlte/plugins/chart.js/Chart.min.js')}}"></script>
 <!-- Sparkline -->
