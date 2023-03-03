@@ -25,7 +25,7 @@ class PolyclinicUpdateRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'string'],
-            'category_id' => ['sometimes', 'numeric']
+            'record_category_id' => ['sometimes', 'numeric']
         ];
     }
 }

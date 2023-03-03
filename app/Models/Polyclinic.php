@@ -11,7 +11,7 @@ class Polyclinic extends Model
 
     protected $fillable = [
         'name',
-        'category_id'
+        'record_category_id'
     ];
 
     public function doctors()
@@ -19,8 +19,8 @@ class Polyclinic extends Model
         return $this->hasMany(Doctor::class);
     }
 
-    public function category()
+    public function record_category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(RecordCategory::class);
     }
 }

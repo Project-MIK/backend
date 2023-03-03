@@ -25,7 +25,7 @@ class PolyclinicStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'category_id' => ['required', 'numeric']
+            'record_category_id' => ['required', 'numeric']
         ];
     }
 }

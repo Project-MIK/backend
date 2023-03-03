@@ -11,12 +11,6 @@ use Tests\TestCase;
 
 class PolyclinicTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-
     private PolyclinicController $controller;
 
     public function test_findAll_data_polyclinics()
@@ -53,7 +47,7 @@ class PolyclinicTest extends TestCase
         $request = new PolyclinicStoreRequest();
 
         $request['name'] = fake()->words(2, true);
-        $request['category_id'] = fake()->numberBetween(1, 3);
+        $request['record_category_id'] = fake()->numberBetween(1, 3);
         $data = $this->controller->store($request);
         $this->assertTrue($data);
     }
@@ -65,7 +59,7 @@ class PolyclinicTest extends TestCase
 
         $this->expectException(ValidationException::class);
         $request['name'] = fake()->randomNumber(2);
-        $request['category_id'] = fake()->numberBetween(1, 3);
+        $request['record_category_id'] = fake()->numberBetween(1, 3);
         $data = $this->controller->store($request);
 
         $this->assertFalse($data);
@@ -77,7 +71,7 @@ class PolyclinicTest extends TestCase
         $request = new PolyclinicUpdateRequest();
 
         $request['name'] = fake()->words(2, true);
-        $request['category_id'] = fake()->numberBetween(1, 3);
+        $request['record_category_id'] = fake()->numberBetween(1, 3);
         $response = $this->controller->update($request, 1);
 
         $this->assertTrue($response);
@@ -89,7 +83,7 @@ class PolyclinicTest extends TestCase
         $request = new PolyclinicUpdateRequest();
 
         $request['name'] = fake()->words(2, true);
-        $request['category_id'] = fake()->numberBetween(1, 3);
+        $request['record_category_id'] = fake()->numberBetween(1, 3);
         $response = $this->controller->update($request, 0);
         $this->assertFalse($response);
     }
@@ -101,7 +95,7 @@ class PolyclinicTest extends TestCase
         $this->expectException(ValidationException::class);
 
         $request['name'] = 99;
-        $request['category_id'] = fake()->numberBetween(1, 3);
+        $request['record_category_id'] = fake()->numberBetween(1, 3);
         $response = $this->controller->update($request, 12);
         $this->assertFalse($response);
     }
