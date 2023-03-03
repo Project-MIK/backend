@@ -472,20 +472,22 @@ Route::prefix('doctor')->group(function () {
     Route::get('/consul', function () {
         $data = [
             [
+                'consul_id'=>'KL4567',
                 'patient_name' => 'tajut zamzami', // name of patient who need consultation
                 'medrec' => '123456', //medical record of patient
-                'duration' => '3.600.000', //the video duration of video conference in milisecond
+                'duration' => 3600, //the video duration of video conference in milisecond
                 'start' => '1677639600', //the jitsi meet start in timestamp
                 'end' => '1677643200', //the jitsi meet end in timestamp
-                'link' => 'https://meet.jit.si/flakjealkbdufb' //the jitsi meeting link 
+                'link' => 'https://meet.jit.si/KL4567' //the jitsi meeting link 
             ],
             [
+                'consul_id'=>'KL123',
                 'patient_name' => 'Bachtiar Arya', // name of patient who need consultation
                 'medrec' => '654321', //medical record of patient
-                'duration' => '3.600.000', //the video duration of video conference in milisecond
+                'duration' => 3600, //the video duration of video conference in milisecond
                 'start' => '1677650400', //the jitsi meet start in timestamp
                 'end' => '1677654000', //the jitsi meet end in timestamp
-                'link' => 'https://meet.jit.si/flakjealkbdufb' //the jitsi meeting link 
+                'link' => 'https://meet.jit.si/KL123' //the jitsi meeting link 
             ]
         ];
 
@@ -530,11 +532,13 @@ Route::prefix('doctor')->group(function () {
             $data = [
                 [
                     'id'=>'1',
+                    'date'=>'1677373423',
                     'start'=>'1677373423',
                     'end'=>'1675386223'
                 ],
                 [
                     'id'=>'2',
+                    'date'=>'1677373423',
                     'start'=>'1677373423',
                     'end'=>'1675386223'
                 ],
@@ -542,6 +546,7 @@ Route::prefix('doctor')->group(function () {
             return view('doctor.pages.schedule', ['data'=>$data]);
         });
         Route::post('store', function (Request $request) {
+
             dd($request);
         });
         Route::put('update', function (Request $request) {

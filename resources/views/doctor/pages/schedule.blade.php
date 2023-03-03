@@ -18,6 +18,7 @@
                 <button type='button' data-toggle='modal' data-target='#modal-tambah' class='ml-auto col-3 btn btn-block btn-default btn-sm'>Tambah</button>
                 <tr>
                     <th>no</th>
+                    <th>tanggal</th>
                     <th>mulai</th>
                     <th>akhir</th>
                     <th></th>
@@ -29,12 +30,14 @@
                 @endphp
                 @foreach($data as $item)
                 @php
-                $start = \Carbon\Carbon::createFromTimestamp($item['start'])->format('Y-m-d H:i:s');
-                $end =\Carbon\Carbon::createFromTimestamp($item['end'])->format('Y-m-d H:i:s');
+                $date =  \Carbon\Carbon::createFromTimestamp($item['start'])->format('d-m-Y');
+                $start = \Carbon\Carbon::createFromTimestamp($item['start'])->format('H:i:s');
+                $end =\Carbon\Carbon::createFromTimestamp($item['end'])->format('H:i:s');
                 @endphp
                 <tr>
                     <td>{{$no}}</td>
                     <td hidden>{{$item['id']}}</td>
+                    <td>{{$date}}</td>
                     <td>{{$start}}</td>
                     <td>{{$end}}</td>
                     <td>
@@ -50,6 +53,7 @@
             <tfoot>
                 <tr>
                     <th>no</th>
+                    <th>tanggal</th>
                     <th>mulai</th>
                     <th>akhir</th>
                     <th></th>
@@ -66,15 +70,14 @@
         <h2>Tambah Jadwal</h2>
     </x-slot:header>
 
-    <form action="/doctor/schedule/store">
+    <form action="/doctor/schedule/store" method="POST">
         @csrf
-        @method('post')
         <div class="row">
             <div class="col">
                 <div class="form-group">
                     <label>Start</label>
                     <div class="input-group date" id="reservationdatetimestart" data-target-input="nearest">
-                        <input type="text" name="start" class="form-control datetimepicker-input" data-target="#reservationdatetimestart">
+                        <input type="text" name="start" data-format="YYYY-MM-DD HH:mm" data-date="1990-01-01" data-date-format="YYYY-MM-DD" class="form-control datetimepicker-input" data-target="#reservationdatetimestart">
                         <div class="input-group-append" data-target="#reservationdatetimestart" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -93,10 +96,12 @@
                 </div>
             </div>
         </div>
-        <x-slot:footer>
-            <button type="submit" class="btn btn-block btn-default">simpan</button>
-        </x-slot:footer>
+        <button type="submit" class="btn btn-block btn-default">simpan</button>
     </form>
+    <x-slot:footer>
+
+    </x-slot:footer>
+
 
 
 </x-modals.modal>
@@ -193,12 +198,17 @@
             icons: {
                 time: 'far fa-clock'
             }
+            , format: 'DD-MM-YYYY HH:mm', // format waktu yang diinginkan
+            use24hours: true
+
         });
 
         $('#reservationdatetimeend').datetimepicker({
             icons: {
                 time: 'far fa-clock'
             }
+            , format: 'DD-MM-YYYY HH:mm', // format waktu yang diinginkan
+            use24hours: true
         });
 
         //Date range picker
@@ -253,7 +263,6 @@
             $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
         })
     })
-    
 
 </script>
 

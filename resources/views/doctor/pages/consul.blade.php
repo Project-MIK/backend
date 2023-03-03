@@ -13,12 +13,13 @@
             <thead>
                 <tr>
                     <td>no</td>
+                    <td>id konsultasi</td>
                     <td>pasien</td>
                     <td>rekam medik</td>
                     <td>durasi</td>
                     <td>mulai</td>
                     <td>akhir</td>
-                    <td>video convern</td>
+                    <td>video conferece</td>
                 </tr>
             </thead>
             <tbody>
@@ -32,9 +33,10 @@
                 @endphp
                 <tr>
                     <td>{{$no}}</td>
+                    <td>{{$item['consul_id']}}</td>
                     <td>{{$item['patient_name']}}</td>
                     <td>{{$item['medrec']}}</td>
-                    <td>{{$item['duration']}}</td>
+                    <td>{{$item['duration']/60}} menit</td>
                     <td>{{$start}}</td>
                     <td>{{$end}}</td>
                     <td><a href="{{$item['link']}}" target="blank"><button class="col detail btn btn-block btn-primary btn-sm">Mulai Konsultasi</button></a></td>
@@ -45,12 +47,13 @@
             <tfoot>
                 <tr>
                     <td>no</td>
+                    <td>id konsultasi</td>
                     <td>pasien</td>
                     <td>rekam medik</td>
                     <td>durasi</td>
                     <td>mulai</td>
                     <td>akhir</td>
-                    <td>video convern</td>
+                    <td>video conferece</td>
                 </tr>
             </tfoot>
         </table>
