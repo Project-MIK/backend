@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ScheduleDetail;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,22 +17,6 @@ class ScheduleDetailSeeder extends Seeder
      */
     public function run()
     {
-        //
-        DB::table('schedule_details')->insert([
-            'schedule_id' => 1,
-            "consultation_date" => Carbon::now()->toDateTimeString(),
-            "time_start" => Carbon::now()->addHour(),
-            "time_end" => Carbon::now()->addHours(2),
-            "link" =>  "link jitsi" , 
-            "status" => "kosong" , 
-        ]);
-        DB::table('schedule_details')->insert([
-            'schedule_id' => 1,
-            "consultation_date" => Carbon::now()->toDateTimeString(),
-            "time_start" => Carbon::now(),
-            "time_end" => Carbon::now(),
-            "link" =>  "link jitsi" , 
-            "status" => "kosong" , 
-        ]);
+        ScheduleDetail::factory(3)->create();
     }
 }

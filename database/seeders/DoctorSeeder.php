@@ -15,12 +15,6 @@ class DoctorSeeder extends Seeder
      */
     public function run()
     {
-        Doctor::create([
-            "name" => "doktor kons", 
-            "gender" => "M" , 
-            "address" => "jember" , 
-            "phone" => 123 , 
-            "id_polyclinic" => 1
-        ]);
+        Doctor::factory(4)->create();
     }
 }

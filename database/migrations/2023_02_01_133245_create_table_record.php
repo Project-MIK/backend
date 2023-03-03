@@ -16,13 +16,9 @@ return new class extends Migration {
             $table->string('id')->primary();
             $table->string('medical_record_id', 6)->nullable(false);
             $table->string('description');
-            $table->string('complaint');
-            $table->unsignedBigInteger('schedule_id');
+            $table->string('complaint');$table->foreignId('schedule_id')->nullable()->constrained('schedules')->cascadeOnUpdate()->nullOnDelete();
             $table->unsignedBigInteger('id_recipe')->nullable(true);
-            $table->foreign('schedule_id')->references('id')->on('schedule_details')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->unsignedBigInteger('doctor_id');
+            $table->foreignId('doctor_id')->nullable()->constrained('doctors')->cascadeOnUpdate()->nullOnDelete();
             $table->unsignedBigInteger('id_category')->nullable(true);
             $table->enum('status_consultation', ['waiting-consultation-payment', 'confirmed-consultation-payment', 'consultation-complete'])->default('waiting-consultation-payment')->nullable(false);
             $table->string('bukti')->nullable(true);
@@ -33,7 +29,6 @@ return new class extends Migration {
             $table->timestamp('valid_status')->nullable(true);
             $table->foreign('medical_record_id')->references('medical_record_id')->on('medical_records')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_recipe')->references('id')->on('recipes')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('doctor_id')->references('id')->on('doctors')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

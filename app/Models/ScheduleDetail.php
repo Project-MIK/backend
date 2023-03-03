@@ -10,5 +10,16 @@ class ScheduleDetail extends Model
     use HasFactory;
 
 
-    protected $table = "schedule_detail";
+    protected $fillable = [
+        'consultation_date', 
+        'time_start', 
+        'time_end', 
+        'link', 
+        'status', 
+        'schedule_id'
+    ];
+
+    public function schedules() {
+        return $this->belongsTo(Schedules::class);
+    }
 }

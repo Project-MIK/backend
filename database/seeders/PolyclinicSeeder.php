@@ -15,8 +15,6 @@ class PolyclinicSeeder extends Seeder
      */
     public function run()
     {
-        Polyclinic::create([
-            "name" => "gizi klinik" , 
-        ]);
+        Polyclinic::factory(4)->create();
     }
 }
