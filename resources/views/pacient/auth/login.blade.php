@@ -1,14 +1,9 @@
 <x-app-pacient title="Masuk">
-<<<<<<< HEAD
-    <div class="container wrapper-pacient my-5">
-        <div class="card shadow-lg rounded-lg w-75 mx-auto">
-=======
     <style>
     .card{width:100%}@media (min-width:991.98px){.card{width:75%}}
     </style>
     <div class="container wrapper-pacient my-5">
         <div class="card shadow-lg rounded-lg mx-auto">
->>>>>>> origin/backend
             <div class="card-body">
                 <div class="d-flex">
                     <div class="img-card-login w-50 d-none d-lg-block"></div>
@@ -17,11 +12,6 @@
                         <h1 class="font-weight-bold text-bunting text-xl">Masuk</h1>
                         <p class="text-trouth font-weight-light text-sm">Masuk dengan akun anda untuk menggunakan layanan medis</p>
                         <div class="my-5">
-<<<<<<< HEAD
-                            <div class="form-group mb-4">
-                                <label for="noredis" class="text-trouth">Nomor Rekam Medis</label>
-                                <input type="text" class="form-control py-4" id="noredis" name="no_medical_records" aria-describedby="noredis" placeholder="Ketikkan nomor rekam medis" autofocus required>
-=======
                             @if($errors->any())               
                                 <div class="alert alert-danger" role="alert">
                                     {{$errors->first()}}
@@ -30,7 +20,6 @@
                             <div class="form-group mb-4">
                                 <label for="noredis" class="text-trouth">Nomor Rekam Medis</label>
                                 <input type="text" class="form-control py-4" id="noredis" name="no_medical_records" aria-describedby="noredis" placeholder="Ketikkan nomor rekam medis" value="{{ old('no_medical_records') }}" autofocus required>
->>>>>>> origin/backend
                             </div>
                             <div class="form-group">
                                 <div class="d-flex justify-content-between">

@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<form action="" enctype="multipart/form-data" method="post">
-=======
 <div class="modal fade" id="modalCancelMedicalPrescription" tabindex="-1" aria-labelledby="modalCancelMedicalPrescriptionTitle" aria-hidden="true">
     <form action="/konsultasi/{{$id}}/cancel-medical-prescription" method="POST" class="modal-dialog">
         @csrf
@@ -22,7 +19,6 @@
     </form>
 </div>  
 <form action="/konsultasi/{{$id}}/payment-medical-prescription" enctype="multipart/form-data" method="post">
->>>>>>> origin/backend
     @csrf
     <div id="status-payment-consultation">
         <input type="text" class="d-none" name="state-payment" value="medical-prescription">
