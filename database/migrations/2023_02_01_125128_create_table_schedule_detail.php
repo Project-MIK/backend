@@ -15,7 +15,6 @@ return new class extends Migration
     {
 
 
-
         Schema::create('schedule_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('schedule_id');

@@ -181,8 +181,8 @@ class PattientService
         $res = $this->model
             ->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
-            ->join('schedule_detail', 'record.id_schedules', 'schedule_detail.id')
-            ->select('record.status_consultation as status', 'record.id as id_record', 'record.description', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status_consultation as status', 'schedule_detail.consultation_date as schedule', 'record.valid_status')
+            ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
+            ->select('record.status_consultation as status', 'record.id as id_record', 'record.description', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'schedule_details.consultation_date as schedule', 'record.valid_status')
             ->where('pattient.medical_record_id', $medicalRecords)
             ->where('record.status_consultation', '<>', 'consultation-complete')
             ->where('record.status_payment_consultation', '<>', 'DIBATALKAN')
@@ -207,8 +207,8 @@ class PattientService
     {
         $query = $this->model->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
-            ->join('schedule_detail', 'record.id_schedules', 'schedule_detail.id')
-            ->select('record.status_payment_consultation', 'record.id as id_record', 'record.description', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status_consultation as status', 'schedule_detail.consultation_date as schedule')
+            ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
+            ->select('record.status_payment_consultation', 'record.id as id_record', 'record.description', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'schedule_details.consultation_date as schedule')
             ->where('pattient.medical_record_id', $medicalRecords);
         $check = $this->record->where('medical_record_id', $medicalRecords)->get()->toArray();
         if (sizeof($check) > 0) {
@@ -235,12 +235,12 @@ class PattientService
         $res = $this->model
             ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
             ->join('record', 'medical_records.medical_record_id', 'record.medical_record_id')
-            ->join('schedule_detail', 'schedule_detail.id', 'record.id_schedules')
+            ->join('schedule_details', 'schedule_details.id', 'record.schedule_id')
             ->leftjoin('recipes', 'recipes.id', 'record.id_recipe')
-            ->join('doctor', 'doctor.id', 'record.id_doctor')
-            ->join('polyclinics', 'polyclinics.id', 'doctor.id_polyclinic')
+            ->join('doctors', 'doctors.id', 'record.doctor_id')
+            ->join('polyclinics', 'polyclinics.id', 'doctors.polyclinic_id')
             ->join('record_category', 'record_category.id', 'record.id_category')
-            ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctor.name as doctor', 'schedule_detail.consultation_date', 'schedule_detail.time_start as start_consultation', 'schedule_detail.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime')->where('record.id', $idRecord)
+        ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctors.name as doctor', 'schedule_details.consultation_date', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime')->where('record.id', $idRecord)
             ->first();
         $response = [];
         if ($res != null) {

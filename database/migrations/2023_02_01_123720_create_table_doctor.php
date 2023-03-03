@@ -19,8 +19,8 @@ return new class extends Migration
             $table->enum('gender', ['W', 'M']);
             $table->string('address')->nullable(false);
             $table->integer('phone');
-            $table->unsignedBigInteger('id_polyclinic');
-            $table->foreign('id_polyclinic')->references('id')->on('polyclinics')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('polyclinic_id');
+            $table->foreign('polyclinic_id')->references('id')->on('polyclinics')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

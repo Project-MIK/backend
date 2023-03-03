@@ -10,5 +10,5 @@ class ScheduleDetail extends Model
     use HasFactory;
 
 
-    protected $table = "schedule_detail";
+    protected $table = "schedule_details";
 }

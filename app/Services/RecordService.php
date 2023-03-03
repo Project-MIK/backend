@@ -81,8 +81,8 @@ class RecordService
                         "medical_record_id" => $request['medical_record_id'],
                         "description" => $request['description'],
                         "complaint" => $request['complaint'],
-                        "id_doctor" => $request['id_doctor'],
-                        "id_schedules" => $request['id_schedules'],
+                        "doctor_id" => $request['id_doctor'],
+                        "schedule_id" => 1,
                         "id_category" => $request['id_category'],
                         "valid_status" => $validStatus
                     ]);
