@@ -28,22 +28,14 @@
                         <div class="mt-4">
                             <div class="form-group">
                                 <label for="complaint" class="text-trouth">Jelaskan mengenai keluhan anda</label>
-<<<<<<< HEAD
-                                <textarea class="form-control" id="complaint" rows="3" name="consultation_complaint" placeholder="Jelaskan keluhan anda" autofocus></textarea>
-=======
                                 <textarea class="form-control" id="complaint" rows="3" name="consultation_complaint" placeholder="Jelaskan keluhan anda" autofocus maxlength="1024" required></textarea>
->>>>>>> origin/backend
                             </div>                            
                             <div class="form-group">
                                 <label for="category" class="text-trouth">Kategori Keluhan</label>
                                 <select id="category" class="form-control" name="consultation_category">
-<<<<<<< HEAD
-                                    <option value="-">Tidak Tahu</option>
-=======
                                     @foreach ($categories as $id => $category)
                                         <option value="{{$id}}-{{$category}}">{{$category}}</option>
                                     @endforeach
->>>>>>> origin/backend
                                 </select>                                  
                             </div>                            
                         </div>
