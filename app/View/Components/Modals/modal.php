@@ -6,13 +6,15 @@ use Illuminate\View\Component;
 
 class modal extends Component
 {
-    public $idModal,$modalSize,$modalBg;
+    public $idModal,$modalSize,$modalBg,$footer,$header;
     
-    public function __construct($idModal,$modalSize = "",$modalBg="")
+    public function __construct($idModal,$modalSize = "",$modalBg="",$footer="",$header="")
     {
         $this->idModal = $idModal;
         $this->modalSize = $modalSize;
         $this->modalBg=$modalBg;
+        $this->footer=$footer;
+        $this->header=$header;
     }
 
     

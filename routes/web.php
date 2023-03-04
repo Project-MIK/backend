@@ -459,6 +459,39 @@ Route::prefix('admin')->group(function () {
             dd([$request]);
         });
     });
+
+    Route::prefix('schedule')->group(function () {
+        //category: nama kategori
+        //count: jumlah kategori digunakan pada komplain
+        Route::get('/', function () {
+
+            $data = [
+                [
+                    'id'=>'10',
+                    'date'=>'1677373423',
+                    'start'=>'1677373423',
+                    'end'=>'1675386223'
+                ],
+                [
+                    'id'=>'2',
+                    'date'=>'1677373423',
+                    'start'=>'1677373423',
+                    'end'=>'1675386223'
+                ],
+            ];
+            return view('admin.schedule', ['data'=>$data]);
+        });
+        Route::post('store', function (Request $request) {
+
+            dd($request);
+        });
+        Route::put('update', function (Request $request) {
+            dd($request);
+        });
+        Route::delete('destroy', function (Request $request) {
+            dd([$request]);
+        });
+    });
 });
 
 //dokter
@@ -545,16 +578,7 @@ Route::prefix('doctor')->group(function () {
             ];
             return view('doctor.pages.schedule', ['data'=>$data]);
         });
-        Route::post('store', function (Request $request) {
-
-            dd($request);
-        });
-        Route::put('update', function (Request $request) {
-            dd($request);
-        });
-        Route::delete('destroy', function (Request $request) {
-            dd([$request]);
-        });
+        
     });
 });
 
