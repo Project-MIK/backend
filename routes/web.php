@@ -261,6 +261,7 @@ Route::prefix('konsultasi')->group(function () {
     });
     Route::post('/rincian', function (Request $request) {
         // set data into database and remove session
+        // dd($request);
         return redirect("/konsultasi/KL6584690#payment");
     });
 
@@ -273,14 +274,14 @@ Route::prefix('konsultasi')->group(function () {
             "category" => "Penyakit Dalam",
             "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
             "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
-            "schedule" => 1676897803,
-            "start_consultation" => 1677461097,
-            "end_consultation" => 1677561097,
-            "live_consultation" => TRUE,
-            "status" => "confirmed-consultation-payment",
+            "schedule" => 1677603600,
+            "start_consultation" => 1677632400,
+            "end_consultation" => 1677636000,
+            "live_consultation" => false,
+            "status" => "confirmed-medical-prescription-payment",
 
             "price_consultation" => "Rp. 90.000",
-            "status_payment_consultation" => "TERKONFIRMASI", // PROSES VERIFIKASI / BELUM TERKONFIRMASI / TERKONFIRMASI
+            "status_payment_consultation" => "TERKONFIRMASI", // PROSES VERIFIKASI / BELUM TERKONFIRMASI / TERKONFIRMASI / DIBATALKAN
             "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
 
             "price_medical_prescription" => "Rp. 100.000", // null
@@ -295,7 +296,7 @@ Route::prefix('konsultasi')->group(function () {
             "pickup_by_pacient" => "Aristo Caesar Pratama",
             "pickup_datetime" => 1676184847,
 
-            "valid_status" => 1677560836
+            "valid_status" => 1677653043
         ]);
     });
 
