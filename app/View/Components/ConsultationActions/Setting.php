@@ -31,7 +31,7 @@ class Setting extends Component
     {
         $pacient = [
             "id" => "PCT4234728342",
-            "citizen" => "indonesia",
+            "citizen" => "Warga Negara Indonesia",
             "nik" => "6386497275804764",
             "no_paspor" => "-",
             "fullname" => "Aristo Caesar Pratama",
