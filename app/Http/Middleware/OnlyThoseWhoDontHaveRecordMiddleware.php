@@ -22,7 +22,6 @@ class OnlyThoseWhoDontHaveRecordMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-       
         if (Auth::guard('pattient')->check()) {
             $service = new PattientService();
             $check = $service->showRecordDashboard(Auth::guard('pattient')->user()->medical_record_id);

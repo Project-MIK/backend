@@ -31,22 +31,6 @@ class Setting extends Component
     public function render()
     {
         $user = Auth::guard('pattient')->user();
-        // $pacient = [
-        //     "id" => "PCT4234728342",
-        //     "citizen" => "indonesia",
-        //     "nik" => "6386497275804764",
-        //     "no_paspor" => "-",
-        //     "fullname" => "Aristo Caesar Pratama",
-        //     "place_birth" => "Banyuwangi",
-        //     "date_birth" => "04-07-2002",
-        //     "gender" => "M",
-        //     "blood_group" => "O",
-        //     "profession" => "Software Enginer",
-        //     "addreass" => "003/005/Blokagung/Karangdoro/Tegalsari/Banyuwangi",
-        //     "number_phone" => "085235119101",
-        //     "email" => "aristo.belakang@gmail.com",
-        //     "created_at" => now()
-        // ];
         $pacient = [
             "id" => $user->id,
             "citizen" => $user->citizen,
