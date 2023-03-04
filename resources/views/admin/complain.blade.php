@@ -134,7 +134,7 @@
                 <form action="/admin/complain/agreement" method="POST">
                     @csrf
                     @method('put')
-                    <input name="id" id="detail-id+" hidden>
+                    <input name="id" id="detail-id-setuju" hidden>
                     <input name="status" value="disetujui" hidden>
                     <button type="submit" class="btn btn-block btn-success btn-sm">accept</button>
                 </form>
@@ -143,7 +143,7 @@
                 <form action="/admin/complain/agreement" method="POST">
                     @csrf
                     @method('put')
-                    <input name="id" id="detail-id-" hidden>
+                    <input name="id" id="detail-id-tidak" hidden>
                     <input name="status" value="tidak disetujuti" hidden>
                     <button type="submit" class="btn btn-block btn-danger btn-sm">decline</button>
                 </form>
@@ -188,9 +188,10 @@
         var payment_method = document.getElementById('detail-payment-method');
         var payment_amount = document.getElementById('detail-payment-amount');
         var status = document.getElementById('detail-status');
-        var id1 = document.getElementById('detail-id+');
-        var id2 = document.getElementById('detail-id-');
+        var id1 = document.getElementById('detail-id-setuju');
+        var id2 = document.getElementById('detail-id-tidak');
 
+ 
         img.setAttribute('src', data.link_photo);
         description.innerHTML = data.description;
         name.innerHTML = data.name;
@@ -200,8 +201,8 @@
         payment_method = data.payment_method;
         payment_amount = data.payment_amount;
         status = data.status;
-        id1 = data.id;
-        id2 = data.id;
+        id1.value = data.id;
+        id2.value = data.id;
     }
 
 </script>
