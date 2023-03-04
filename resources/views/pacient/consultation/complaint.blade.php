@@ -1,4 +1,5 @@
 <x-app-pacient title="Keluhan">
+
     @slot('styles')
         <style>
             button,select{height:50px!important}#back-page-1{display:none}#back-page-2{display:block}#next-step{width:100%}@media (min-width:991.98px){#back-page-1{display:block}#back-page-2{display:none}#next-step{width:25%}}
@@ -16,6 +17,11 @@
                     </a>
                     <form class="w-100" action="" method="POST">
                         @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-info">
+                                {{$errors->first()}}
+                            </div>
+                        @endif
                         <div class="d-flex align-items-center">
                             <a id="back-page-2" class="mr-3" href="/dashboard">
                                 <svg role="button" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
