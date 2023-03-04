@@ -1,4 +1,4 @@
-@extends('layouts.doctor.app')
+@extends('layouts.admin.app')
 @section('content-header')
 <h1>Category Complaint</h1>
 @endsection

@@ -383,11 +383,14 @@ Route::prefix('admin')->group(function () {
     Route::prefix('pasien')->group(function () {
         Route::view('view', 'admin.pasien');
         Route::get('/', [PattientController::class, 'index']);
-        Route::post('store', [PattientController::class, 'storewithRekamMedic']);
+        Route::post('store', [PattientController::class, 'storewithRekamMedic']);//redirect to /admin/pasien
         Route::put('update');
         Route::delete('destroy');
         Route::get('detail/{id}', function ($id) {
             return view('admin.pasien-detail', [$id]);
+        });
+        Route::get('store',function (){
+            return view('admin.pasien-store');
         });
     });
 
