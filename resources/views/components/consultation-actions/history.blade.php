@@ -14,8 +14,14 @@
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td>{{$item["description"]}}</td>
                 <td class="text-center">
-                  @if ($item["status"] == "confirmed-consultation-payment")
-                      <strong>Konsultasi Telah Selesai</strong>
+                  @if ($item["status"] == "consultation-complete")
+                      @if ($item["status_payment_consultation"] == "DIBATALKAN")
+                        <strong>Konsultasi Dibatalkan</strong>
+                      @elseif($item["status_payment_medical_prescription"] == "DIBATALKAN")
+                        <strong>Pembelian obat dibatalkan</strong>
+                      @else
+                        <strong>Konsultasi Telah Selesai</strong>
+                      @endif
                   @elseif($item["valid_status"] < time())
                       <strong>Konsultasi Telah Kadaluarsa</strong>
                   @endif
