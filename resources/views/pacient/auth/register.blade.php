@@ -36,7 +36,7 @@
                                     <div class="form-group col-md-6">
                                         <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
                                         <select id="inputCitizen" class="form-control" name="citizen" onchange="setCitizen(this)" autocomplete="off">
-                                            <option value="indonesia" selected>Indonesia</option>
+                                            <option value="WNI" selected>Warga Negara Indonesia</option>
                                             <option value="WNA">Warga Negara Asing</option>
                                         </select>
                                     </div>
@@ -174,7 +174,7 @@
                 const NIK = document.getElementById("nik");
                 const Paspor = document.getElementById("paspor");
 
-                if(e.value == "indonesia"){
+                if(e.value == "WNI"){
                     NIK.classList.remove("d-none");
                     NIK.classList.add("d-block");
 

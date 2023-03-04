@@ -32,6 +32,8 @@ class History extends Component
                 "start_consultation" => 1685571753,
                 "end_consultation" => 1685572753,
                 "status" => "waiting-consultation-payment",
+                "status_payment_consultation" => "TERKONFIRMASI",
+                "status_payment_medical_prescription" => "DIBATALKAN",
                 "valid_status" => 1676441478
             ]
         ];
