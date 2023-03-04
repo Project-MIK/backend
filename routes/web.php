@@ -384,18 +384,41 @@ Route::prefix('admin')->group(function () {
     Route::prefix('pasien')->group(function () {
         Route::view('view', 'admin.pasien');
         Route::get('/', [PattientController::class, 'index']);
-        Route::post('store', [PattientController::class, 'storewithRekamMedic']);//redirect to /admin/pasien
-        Route::put('update', function(Request $request){
+        Route::post('store', [PattientController::class, 'storewithRekamMedic']); //redirect to /admin/pasien
+        Route::put('update', function (Request $request) {
+            
             dd($request);
         });
-        Route::delete('destroy',function(Request $request){
-            dd($request);
+        Route::get('detail/{medical_record_id}', function ($medical_record_id) {
+            //butuh fungsi getbyId
+            $data = [
+                'fullname' => "Bachtiar",//
+                'email' => "bachtiarah@gmail.com",//
+                'gender' => "L",//
+                'password' => "Asa",//
+                'phone_number' => "082234439795",//
+                'address_RT' => "01",//
+                'address_RW' => "01",//
+                'address_desa' => "Banjarejo",//
+                'address_dusun' => "Banjarejo",//
+                'address_kecamatan' => "Dagangan",//
+                'address_kabupaten' => "Madiun",//
+                'citizen' => "WNA",//
+                'profession' => "Mahasiswa",//
+                'date_birth' => "18 Januari 2003",//
+                'blood_group' => "-",//
+                'place_birth' => "Madiun",//
+                'no_paspor' => "1234567890123456",//
+                "medical_record_id" => "123456",
+                "id_registration_officer" => "1",
+            ];
+            return view('admin.pasien-detail', ["data"=>$data]);
         });
-        Route::get('detail/{id}', function ($id) {
-            return view('admin.pasien-detail', [$id]);
-        });
-        Route::get('store',function (){
+        Route::get('store', function () {
             return view('admin.pasien-store');
+        });
+        Route::put('rs',function(Request $request){
+            dd($request);
         });
     });
 
@@ -475,19 +498,19 @@ Route::prefix('admin')->group(function () {
 
             $data = [
                 [
-                    'id'=>'10',
-                    'date'=>'1677373423',
-                    'start'=>'1677373423',
-                    'end'=>'1675386223'
+                    'id' => '10',
+                    'date' => '1677373423',
+                    'start' => '1677373423',
+                    'end' => '1675386223'
                 ],
                 [
-                    'id'=>'2',
-                    'date'=>'1677373423',
-                    'start'=>'1677373423',
-                    'end'=>'1675386223'
+                    'id' => '2',
+                    'date' => '1677373423',
+                    'start' => '1677373423',
+                    'end' => '1675386223'
                 ],
             ];
-            return view('admin.schedule', ['data'=>$data]);
+            return view('admin.schedule', ['data' => $data]);
         });
         Route::post('store', function (Request $request) {
 
@@ -513,7 +536,7 @@ Route::prefix('doctor')->group(function () {
     Route::get('/consul', function () {
         $data = [
             [
-                'consul_id'=>'KL4567',
+                'consul_id' => 'KL4567',
                 'patient_name' => 'tajut zamzami', // name of patient who need consultation
                 'medrec' => '123456', //medical record of patient
                 'duration' => 3600, //the video duration of video conference in milisecond
@@ -522,7 +545,7 @@ Route::prefix('doctor')->group(function () {
                 'link' => 'https://meet.jit.si/KL4567' //the jitsi meeting link 
             ],
             [
-                'consul_id'=>'KL123',
+                'consul_id' => 'KL123',
                 'patient_name' => 'Bachtiar Arya', // name of patient who need consultation
                 'medrec' => '654321', //medical record of patient
                 'duration' => 3600, //the video duration of video conference in milisecond
@@ -560,7 +583,7 @@ Route::prefix('doctor')->group(function () {
         Route::put('/update', function (Request $request) {
             dd($request);
         });
-        Route::delete('/destroy', function (Request $request) { 
+        Route::delete('/destroy', function (Request $request) {
             dd([$request]);
         });
     });
@@ -572,21 +595,20 @@ Route::prefix('doctor')->group(function () {
 
             $data = [
                 [
-                    'id'=>'1',
-                    'date'=>'1677373423',
-                    'start'=>'1677373423',
-                    'end'=>'1675386223'
+                    'id' => '1',
+                    'date' => '1677373423',
+                    'start' => '1677373423',
+                    'end' => '1675386223'
                 ],
                 [
-                    'id'=>'2',
-                    'date'=>'1677373423',
-                    'start'=>'1677373423',
-                    'end'=>'1675386223'
+                    'id' => '2',
+                    'date' => '1677373423',
+                    'start' => '1677373423',
+                    'end' => '1675386223'
                 ],
             ];
-            return view('doctor.pages.schedule', ['data'=>$data]);
+            return view('doctor.pages.schedule', ['data' => $data]);
         });
-        
     });
 });
 

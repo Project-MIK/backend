@@ -21,6 +21,8 @@
                     <th>no rekamedik</th>
                     <th>gender</th>
                     <th>kewarganegaraan</th>
+                    <th>email</th>
+                    <th>nomer hp</th>
                     <th>aksi</th>
                 </tr>
             </thead>
@@ -31,17 +33,18 @@
                 <tr>
                     <td>{{$no}}</td>
                     <td>{{$record['name']}}</td>
-                    @if(is_null($record['medical_record_id']))
-                    <td><button type="button" data-toggle='modal' data-target='#modal-rs' class="btn btn-block btn-success btn-xs">Tambahkan no rs</button></td>
+                    @if(!is_null($record['medical_record_id']))
+                    <td><button type="button" onclick="setRs(this)" data-toggle='modal' data-target='#modal-rs' class="btn btn-block btn-success btn-xs">Tambahkan no rs</button></td>
                     @else
                     <td>{{$record['medical_record_id']}}</td>
                     @endif
                     <td>{{$record['gender']}}</td>
-                    <th>{{$record['citizen']}}</th>
+                    <td>{{$record['citizen']}}</td>
+                    <td>{{$record['email']}}</td>
+                    <td>{{$record['phone_number']}}</td>
                     <th>
                         <div class="row">
                             <div class="col"><a href="/admin/pasien/detail/{{$record['id']}}"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></a></div>
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Danger</button></div>
                         </div>
                     </th>
                 </tr>
@@ -55,6 +58,8 @@
                     <th>no rekamedik</th>
                     <th>gender</th>
                     <th>kewarganegaraan</th>
+                    <th>email</th>
+                    <th>nomer hp</th>
                     <th>aksi</th>
                 </tr>
             </tfoot>
@@ -65,23 +70,23 @@
 
 
 
-<x-modal>
-    <x-slot:modalid>modal-rs</x-slot:modalid>
-    <x-slot:judul>tambah no rekamedis</x-slot:judul>
-    <form action="" method="post">
-        <input type="text" name="" id="">
-        <button type="submit">simpan</button>
+<x-modals.modal id-modal="modal-rs" >
+    <x-slot:header>
+        Menambahkan nomer rekamedik
+    </x-slot:header>
+    <form action="/admin/pasien/rs" method="POST">
+    @csrf
+    @method('put')
+    <div class="form-group">
+        <label for="inputNama" class="text-trouth">No rekamedik</label>
+        <input type="number" class="form-control py-4" id="inputNama" name="medical_record_id" required>
+    </div>
+    <input type="email" id="email-for-rs" name="email" hidden>
+    <button type='submit' class='ml-auto col-2 btn btn-block btn-default'>Update</button>
     </form>
-</x-modal>
+</x-modals.modal>
 
-<x-sm-modal>
-    <x-slot:id>modal-delete</x-slot:id>
-    <x-slot:title>Warning</x-slot:title>
-    <h5>apakah anda yakin ingin menghapus data ini?</h5>
-    <form action="" method="post">
-        <button type="submit">ya</button>
-    </form>
-</x-sm-modal>
+
 
 @endsection
 
@@ -94,16 +99,20 @@
 
         var obj = {
             name: rawData[1].innerText
-            , noRek: rawData[2].innerText
+            , noRek: rawData[2].innerHTML
             , gender: rawData[3].innerText
             , citizen: rawData[4].innerText
+            , email: rawData[5].innerHTML
+            , phone: rawData[6].innerHTML
         };
 
         return obj;
     }
 
-    function setDelete(params) {
-        
+    function setRs(params) {
+        var data = getData(params);
+        var email = document.getElementById('email-for-rs');
+        email.value = data.email;
     }
 
 
