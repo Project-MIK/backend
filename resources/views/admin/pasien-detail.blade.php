@@ -195,7 +195,7 @@
             </div>
         </div>
     </div>
-    <input type="text" value="{{$data['medical_record_id']}}">
+    <input type="text" value="{{$data['medical_record_id']}}" hidden>
     <button type='submit' class='ml-auto col-2 btn btn-block btn-primary'>Update</button>
 </form>
 @endsection

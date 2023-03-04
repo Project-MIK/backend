@@ -44,7 +44,7 @@
                     <td>{{$record['phone_number']}}</td>
                     <th>
                         <div class="row">
-                            <div class="col"><a href="/admin/pasien/detail/{{$record['id']}}"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></a></div>
+                            <div class="col"><a href="/admin/pasien/detail/{{$record['medical_record_id']}}"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></a></div>
                         </div>
                     </th>
                 </tr>
