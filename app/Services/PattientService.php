@@ -205,10 +205,20 @@ class PattientService
 
     public function showRecordHistory($medicalRecords)
     {
+        // "id" => "KL6584690",
+        // "description" => "Consectetur veniam excepteur est ea consequat adipisicing sunt mollit. Mollit in quis ipsum fugiat officia ea est nostrud id cupidatat voluptate adipisicing. Est veniam ullamco velit consequat cupidatat ea ad tempor sunt et do qui pariatur proident.",
+        // "schedule" => 1685571753,
+        // "start_consultation" => 1685571753,
+        // "end_consultation" => 1685572753,
+        // "status" => "waiting-consultation-payment",
+        // "status_payment_consultation" => "TERKONFIRMASI",
+        // "status_payment_medical_prescription" => "DIBATALKAN",
+        // "valid_status" => 1676441478
         $query = $this->model->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
-            ->select('record.status_payment_consultation', 'record.id as id_record', 'record.description', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'schedule_details.consultation_date as schedule')
+            ->leftJoin('recipes' , 'record.id_recipe' , 'recipes.id')
+            ->select('record.status_payment_consultation','recipes.pickup_medical_description as status_payment_medical_prescription' ,'record.id as id_record', 'record.description', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'schedule_details.consultation_date as schedule')
             ->where('pattient.medical_record_id', $medicalRecords);
         $check = $this->record->where('medical_record_id', $medicalRecords)->get()->toArray();
         if (sizeof($check) > 0) {
