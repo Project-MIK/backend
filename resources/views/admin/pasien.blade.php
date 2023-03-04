@@ -33,7 +33,7 @@
                 <tr>
                     <td>{{$no}}</td>
                     <td>{{$record['name']}}</td>
-                    @if(!is_null($record['medical_record_id']))
+                    @if(is_null($record['medical_record_id']))
                     <td><button type="button" onclick="setRs(this)" data-toggle='modal' data-target='#modal-rs' class="btn btn-block btn-success btn-xs">Tambahkan no rs</button></td>
                     @else
                     <td>{{$record['medical_record_id']}}</td>
