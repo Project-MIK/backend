@@ -36,11 +36,13 @@ class History extends Component
         //         "start_consultation" => 1685571753,
         //         "end_consultation" => 1685572753,
         //         "status" => "waiting-consultation-payment",
+        //         "status_payment_consultation" => "TERKONFIRMASI",
+        //         "status_payment_medical_prescription" => "DIBATALKAN",
         //         "valid_status" => 1676441478
-        //     ],
+        //     ]
         // ];
-        $res = $this->controller->showRecordHistory(Auth::guard('pattient')->user()->medical_record_id);
-        $history_complaints = $res;
+        $history_complaints = $this->controller->showRecordHistory(Auth::guard('pattient')->user()->medical_record_id);
+
         return view('components.consultation-actions.history', compact("history_complaints"));
     }
 }

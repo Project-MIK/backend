@@ -19,7 +19,7 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                <input type="text" class="form-control py-4" id="inputCitizen" name="citizen" placeholder="Ketikkan kewarganegaraan" value="{{ strtoupper($pacient['citizen']) }}" readonly required>
+                <input type="text" class="form-control py-4" id="inputCitizen" name="citizen" placeholder="Ketikkan kewarganegaraan" value="{{ $pacient['citizen'] }}" readonly required>
             </div>
             <div class="form-group col-md-6">
                 @if ($pacient['nik'] != "-")
