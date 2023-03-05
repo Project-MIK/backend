@@ -24,7 +24,7 @@ class AdminController extends Controller
     public function index()
     {
         $data = $this->service->findAll();
-        return view("admin.admin", ['data', $data]);
+        return view("admin.admin", ['data'=> $data]);
     }
     public function create()
     {
@@ -36,9 +36,11 @@ class AdminController extends Controller
         // bool return
         $response = $this->service->store($request->validate($request->rules()));
         if ($response) {
+            // return redirect('admin/admin')->with('message', 'berhasil menambahkan data admin');
             $message = ['status' => true, "message" => "berhasil menambahkan data admin"];
             return redirect()->back()->with('message', $message);
         } else {
+            // return redirect('admin/admin')->with('message', 'gagal menambahkan data admin , terjadi kesalahan server');
             $message = ['status' => false, "message" => "gagal menambahkan data admin"];
             return redirect()->back()->with('message', $message);
         }
