@@ -217,8 +217,8 @@ class PattientService
         $query = $this->model->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
-            ->leftJoin('recipes' , 'record.id_recipe' , 'recipes.id')
-            ->select('record.status_payment_consultation','recipes.pickup_medical_description as status_payment_medical_prescription' ,'record.id as id_record', 'record.description', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'schedule_details.consultation_date as schedule')
+            ->leftJoin('recipes', 'record.id_recipe', 'recipes.id')
+            ->select('record.status_payment_consultation', 'recipes.pickup_medical_description as status_payment_medical_prescription', 'record.id as id_record', 'record.description', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'schedule_details.consultation_date as schedule')
             ->where('pattient.medical_record_id', $medicalRecords);
         $check = $this->record->where('medical_record_id', $medicalRecords)->get()->toArray();
         if (sizeof($check) > 0) {
@@ -236,7 +236,7 @@ class PattientService
                 unset($res[$key]['id_record']);
             }
             return $res;
-        }else{
+        } else {
             return [];
         }
     }
@@ -250,7 +250,7 @@ class PattientService
             ->join('doctors', 'doctors.id', 'record.doctor_id')
             ->join('polyclinics', 'polyclinics.id', 'doctors.polyclinic_id')
             ->join('record_category', 'record_category.id', 'record.id_category')
-        ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctors.name as doctor', 'schedule_details.consultation_date', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime')->where('record.id', $idRecord)
+            ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctors.name as doctor', 'schedule_details.consultation_date', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime')->where('record.id', $idRecord)
             ->first();
         $response = [];
         if ($res != null) {
@@ -340,7 +340,7 @@ class PattientService
 
     public function checkNik($id, $nik)
     {
-        $data = $this->model->where('id', '<>', $id)->get();
+        $data = $this->model->all()->except($id);
         foreach ($data as $key => $value) {
             # code...
             if ($value['nik'] == $nik) {
@@ -359,6 +359,30 @@ class PattientService
             }
         }
         return false;
+    }
+
+    public function findByIdInAdmin($id)
+    {
+        $res = $this->model->where('id', $id)->first();
+        if ($res != null) {
+            $res = $res->toArray();
+            if (sizeof($res) > 0) {
+                $address = explode("/", $res['address']);
+                $res['address_RT'] = $address[0];
+                $res['address_RW'] = $address[1];
+                $res['address_desa'] = $address[2];
+                $res['address_dusun'] = $address[3];
+                $res['address_kecamatan'] = $address[4];
+                $res['address_kabupaten'] = $address[5];
+                $res['fullname'] = $res['name'];
+                unset($res['adress'], $res['name']);
+                $res['password'] = 'rahasia';
+            }
+            return $res;
+        } else {
+            return [];
+        }
+
     }
 
 }

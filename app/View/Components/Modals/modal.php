@@ -17,7 +17,6 @@ class modal extends Component
         $this->header=$header;
     }
 
-    
 
     /**
      * Get the view / contents that represent the component.

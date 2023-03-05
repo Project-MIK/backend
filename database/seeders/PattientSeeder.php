@@ -30,7 +30,7 @@ class PattientSeeder extends Seeder
             "date_birth" => "2023-02-08 12:51:41",
             "place_birth" => "bwi" , 
             "blood_group" => "B", 
-            "nik" => 287639876267861,
+            "nik" => 2876398762678612,
             'medical_record_id' => 123123
         ]);
         Pattient::create([
@@ -45,7 +45,7 @@ class PattientSeeder extends Seeder
             "date_birth" => "2023-02-08 12:51:41",
             "place_birth" => "bwi" , 
             "blood_group" => "B", 
-            "no_paspor" => 9287328120321234,
+            "no_paspor" => 9872653416527356,
             'medical_record_id' => 321321
         ]);
     }

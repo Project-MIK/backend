@@ -367,35 +367,8 @@ Route::prefix('admin')->group(function () {
         Route::view('view', 'admin.pasien');
         Route::get('/', [PattientController::class, 'index']);
         Route::post('store', [PattientController::class, 'storewithRekamMedic']); //redirect to /admin/pasien
-        Route::put('update', function (Request $request) {
-            
-            dd($request);
-        });
-        Route::get('detail/{medical_record_id}', function ($medical_record_id) {
-            //butuh fungsi getbyId
-            $data = [
-                'fullname' => "Bachtiar",//
-                'email' => "bachtiarah@gmail.com",//
-                'gender' => "L",//
-                'password' => "Asa",//
-                'phone_number' => "082234439795",//
-                'address_RT' => "01",//
-                'address_RW' => "01",//
-                'address_desa' => "Banjarejo",//
-                'address_dusun' => "Banjarejo",//
-                'address_kecamatan' => "Dagangan",//
-                'address_kabupaten' => "Madiun",//
-                'citizen' => "WNA",//
-                'profession' => "Mahasiswa",//
-                'date_birth' => "18 Januari 2003",//
-                'blood_group' => "-",//
-                'place_birth' => "Madiun",//
-                'no_paspor' => "1234567890123456",//
-                "medical_record_id" => "123456",
-                "id_registration_officer" => "1",
-            ];
-            return view('admin.pasien-detail', ["data"=>$data]);
-        });
+        Route::put('update' , [PattientController::class , 'updatePatientInAdmin']);
+        Route::get('detail/{medical_record_id}' , [PattientController::class , 'findByIdInaAdmin']);
         Route::get('store', function () {
             return view('admin.pasien-store');
         });
