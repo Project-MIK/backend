@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class admin-content extends Component
+class SmModal extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class admin-content extends Component
      */
     public function render()
     {
-        return view('components.admin-content');
+        return view('components.sm-modal');
     }
 }

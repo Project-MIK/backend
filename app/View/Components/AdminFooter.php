@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class admin-postrendered-assets extends Component
+class AdminFooter extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class admin-postrendered-assets extends Component
      */
     public function render()
     {
-        return view('components.admin-postrendered-assets');
+        return view('components.admin-footer');
     }
 }

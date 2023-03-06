@@ -4,7 +4,7 @@ namespace App\View\Components\modals;
 
 use Illuminate\View\Component;
 
-class modal extends Component
+class Modal extends Component
 {
     public $idModal,$modalSize,$modalBg,$footer,$header;
     

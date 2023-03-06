@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class admin-sidebar extends Component
+class AdminNavbar extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class admin-sidebar extends Component
      */
     public function render()
     {
-        return view('components.admin-sidebar');
+        return view('components.admin-navbar');
     }
 }

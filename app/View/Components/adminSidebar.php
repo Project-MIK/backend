@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components\Modals;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class modal-danger extends Component
+class adminSidebar extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class modal-danger extends Component
      */
     public function render()
     {
-        return view('components.modals.modal-danger');
+        return view('components.admin-sidebar');
     }
 }

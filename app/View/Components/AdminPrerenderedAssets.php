@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class sm-modal extends Component
+class adminPrerenderedAssets extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class sm-modal extends Component
      */
     public function render()
     {
-        return view('components.sm-modal');
+        return view('components.admin-prerendered-assets');
     }
 }
