@@ -69,7 +69,7 @@
     <!-- /.card-body -->
 </div>
 
-<x-modals.modal id-modal="detail-modal" modal-size="modal-lg">
+<x-modals.modal id-modal="detail-modal" modal-size="modal-lg" modal-bg="">
     <x-slot:header>
         <h2>Detail</h2>
     </x-slot:header>
@@ -192,6 +192,8 @@
         var id2 = document.getElementById('detail-id-tidak');
 
  
+        console.table(data);
+
         img.setAttribute('src', data.link_photo);
         description.innerHTML = data.description;
         name.innerHTML = data.name;
@@ -200,7 +202,7 @@
         doctor.innerHTML = data.doctor;
         payment_method = data.payment_method;
         payment_amount = data.payment_amount;
-        status = data.status;
+        status.innerHTML = data.status;
         id1.value = data.id;
         id2.value = data.id;
     }

@@ -550,7 +550,7 @@ Route::prefix('admin')->group(function () {
                     'description'=>'Saya merasakan sesak napas yang cukup parah dan sulit untuk bernafas dengan normal. Saya juga merasakan adanya rasa nyeri atau ketidaknyamanan pada dada saya saat bernapas atau batuk. Terkadang, saya juga merasa sangat lelah dan tidak bertenaga akibat kekurangan oksigen dalam tubuh. Rasanya sangat tidak nyaman dan membuat saya sulit untuk melakukan aktivitas sehari-hari dengan baik. Saya berharap agar cepat pulih dari kondisi ini dan kembali dapat menjalani hidup dengan normal kembali.',
                     'payment_method'=>'BRI',
                     'payment_amount'=>90000,
-                    'status'=>'belum terkonfirmasi'
+                    'status'=>'sudah disetujui'
                 ],
             ];
             return view('admin.complain',['data'=>$data]);

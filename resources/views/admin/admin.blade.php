@@ -65,9 +65,9 @@
     </div>
     <!-- /.card-body -->
 </div>
-<x-modal modalid="modal-tambah" judul="Tambah Data Pasien">
-    <x-slot:modalid>modal-tambah</x-slot:modalid>
-    <x-slot:judul>Tambah Admin</x-slot:judul>
+<x-modals.modal id-modal="modal-tambah" modal-size="" modal-bg="">
+    <x-slot:header><h3>Tambah Admin</h3></x-slot:Header>
+    <x-slot:footer></x-slot:footer>
     <form action="admin/store" method="post">
         @csrf
         <div class="form-group">
@@ -88,11 +88,11 @@
         </div>
         <button type="submit">simpan</button>
     </form>
-</x-modal>
+</x-modals.modal>
 
-<x-modal>
-    <x-slot:modalid>modal-detail</x-slot:modalid>
-    <x-slot:judul>Detail Admin</x-slot:judul>
+<x-modals.modal id-modal="modal-detail" modal-size="" modal-bg="">
+    <x-slot:header><h3>Detail Admin</h3></x-slot:Header>
+    <x-slot:footer></x-slot:footer>
     <form action="" method="post">
         @csrf
         <div class="form-group">
@@ -109,18 +109,18 @@
         </div>
         <button type="button" class="btn btn-block btn-primary">save</button>
     </form>
-</x-modal>
+</x-modals.modal>
 
 
 
-<x-sm-modal>
-    <x-slot:id>modal-delete</x-slot:id>
-    <x-slot:title>Warning</x-slot:title>
+<x-modals.modal id-modal="modal-delete" modal-size="modal-sm" modal-bg="bg-danger">
+    <x-slot:header><h3>Warning</h3></x-slot:Header>
+    <x-slot:footer></x-slot:footer>
     <h5>apakah anda yakin ingin menghapus data ini?</h5>
     <form action="" method="post">
-        <button type="submit">ya</button>
+        <button type="submit" class="btn btn-block btn-danger btn-sm">YA!</button>
     </form>
-</x-sm-modal>
+</x-modals.modal>
 @endsection
 
 @section('after-js')

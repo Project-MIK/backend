@@ -61,9 +61,9 @@
     <!-- /.card-body -->
 </div>
 
-<x-modal modalid="modal-tambah" judul="Tambah Data Pasien">
-    <x-slot:modalid>modal-tambah</x-slot:modalid>
-    <x-slot:judul>Tambah Admin</x-slot:judul>
+<x-modals.modal id-modal="modal-tambah" modal-size="" modal-bg="">
+    <x-slot:header><h3>Tambah Obat</h3></x-slot:Header>
+    <x-slot:footer></x-slot:footer>
     <form action="" method="post">
         @csrf
         <div class="form-group">
@@ -79,13 +79,13 @@
             <label for="form-stok">stok</label>
             <input id="form-stok" type="number" class="form-control" name="poliklinik" placeholder="poli" required>
         </div>
-        <button type="submit" class="col-1 btn btn-block btn-success float-right">Simpan</button>
+        <button type="submit" class="col-5 btn btn-block btn-success ml-auto">Simpan</button>
     </form>
-</x-modal>
+</x-modals.modal>
 
-<x-modal>
-    <x-slot:modalid>modal-detail</x-slot:modalid>
-    <x-slot:judul>Detail Admin</x-slot:judul>
+<x-modals.modal id-modal="modal-detail" modal-size="" modal-bg="">
+    <x-slot:header><h3>Detail Obat</h3></x-slot:Header>
+    <x-slot:footer></x-slot:footer>
     <form action="" method="post">
         @csrf
         <div class="form-group">
@@ -101,15 +101,14 @@
             <label for="datail-stok">stok</label>
             <input id="detail-stok" type="number" class="form-control" name="poliklinik" placeholder="poli" required>
         </div>
-        <button type="submit" class="col-1 btn btn-block btn-success float-right">Simpan</button>
+        <button type="submit" class="col-5 btn btn-block btn-success ml-auto">Simpan</button>
     </form>
-</x-modal>
+</x-modals.modal>
 
 
-
-<x-modals.modal-danger-sm>
-    <x-slot:id>modal-delete</x-slot:id>
-    <x-slot:title>Warning</x-slot:title>
+<x-modals.modal id-modal="modal-delete" modal-size="modal-sm" modal-bg="bg-danger">
+    <x-slot:header><h3>Warning</h3></x-slot:Header>
+    <x-slot:footer></x-slot:footer>
     <h5>apakah anda yakin ingin menghapus data ini?</h5>
     <form action="" method="post">
         <div class="row">
@@ -122,7 +121,7 @@
         </div>
     </form>
 
-    </x-modals.modal-danger>
+</x-modals.modal>
     @endsection
     @section('after-js')
     <script>
