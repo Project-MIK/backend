@@ -57,7 +57,7 @@ class PattientService
         try {
             $request['password'] = bcrypt($request['password']);
             $request['name'] = $request['fullname'];
-            $request['address'] = "RT/RW : " . $request['address_RT'] . "/" . $request['address_RW'] . " Dusun " . $request['address_dusun'] . " Desa " . $request['address_desa'] . " Kec. " . $request['address_kecamatan'] . " Kab." . $request['address_kabupaten'];
+            $request['address'] = $request['address_RT'] . "/" . $request['address_RW']."/". $request['address_desa'] . "/" . $request['address_dusun'] . "/" . $request['address_kecamatan'] . "/" . $request['address_kabupaten'];
             $response = $this->model->create($request);
             $findRekamMedic = $this->medicalRecords->where('medical_record_id', $request['medical_record_id'])->first();
             if ($findRekamMedic != null) {
@@ -363,7 +363,7 @@ class PattientService
 
     public function findByIdInAdmin($id)
     {
-        $res = $this->model->where('id', $id)->first();
+        $res = $this->model->where('medical_record_id', $id)->first();
         if ($res != null) {
             $res = $res->toArray();
             if (sizeof($res) > 0) {

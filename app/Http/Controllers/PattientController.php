@@ -102,7 +102,7 @@ class PattientController extends Controller
             'medical_record_id' => ['required', 'digits:6'],
             'id_registration_officer' => 'required',
         ];
-
+ 
         $customMessages = [
             'required' => 'rekam medic tidak boleh kosong',
             "digits:6" => "rekam medic hanya boleh sepanjang 6 digit"
@@ -121,7 +121,7 @@ class PattientController extends Controller
                         'email' => ['required', 'email', 'unique:pattient,email'],
                         'gender' => ['required'],
                         'password' => ['required'],
-                     'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                        'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
                         'address_RT' => ['required', 'numeric'],
                         'address_RW' => ['required', 'numeric'],
                         'address_desa' => ['required', 'string'],
@@ -391,7 +391,6 @@ class PattientController extends Controller
     public function findByIdInaAdmin($id)
     {
         $data = $this->service->findByIdInAdmin($id);
-       dd($data);
         if (sizeof($data) > 0) {
             return view('admin.pasien-detail', ["data" => $data]);
         }
