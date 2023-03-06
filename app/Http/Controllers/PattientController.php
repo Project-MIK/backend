@@ -121,7 +121,7 @@ class PattientController extends Controller
                         'email' => ['required', 'email', 'unique:pattient,email'],
                         'gender' => ['required'],
                         'password' => ['required'],
-                        'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                     'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
                         'address_RT' => ['required', 'numeric'],
                         'address_RW' => ['required', 'numeric'],
                         'address_desa' => ['required', 'string'],

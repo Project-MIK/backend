@@ -151,8 +151,11 @@
 
         </div>
     </div>
+<<<<<<< HEAD
     <x-slot:footer>
     </x-slot:footer>
+=======
+>>>>>>> origin/frontend-bachtiar
 </x-modals.modal>
 @endsection
 @section('after-js')
@@ -194,6 +197,11 @@
         var id2 = document.getElementById('detail-id-tidak');
 
  
+<<<<<<< HEAD
+=======
+        console.table(data);
+
+>>>>>>> origin/frontend-bachtiar
         img.setAttribute('src', data.link_photo);
         description.innerHTML = data.description;
         name.innerHTML = data.name;
@@ -202,7 +210,11 @@
         doctor.innerHTML = data.doctor;
         payment_method = data.payment_method;
         payment_amount = data.payment_amount;
+<<<<<<< HEAD
         status = data.status;
+=======
+        status.innerHTML = data.status;
+>>>>>>> origin/frontend-bachtiar
         id1.value = data.id;
         id2.value = data.id;
     }

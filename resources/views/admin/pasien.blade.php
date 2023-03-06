@@ -69,8 +69,7 @@
 </div>
 
 
-
-<x-modals.modal id-modal="modal-rs" >
+<x-modals.modal id-modal="modal-rs" modal-size="" modal-bg="">
     <x-slot:header>
         Menambahkan nomer rekamedik
     </x-slot:header>

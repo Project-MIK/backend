@@ -65,7 +65,7 @@
 
 <!-- /.card-body -->
 
-<x-modals.modal id-modal="modal-tambah">
+<x-modals.modal id-modal="modal-tambah" modal-bg="" modal-size="">
     <x-slot:header>
         <h2>Tambah Jadwal</h2>
     </x-slot:header>
@@ -119,7 +119,7 @@
 
 </x-modals.modal>
 
-<x-modals.modal id-modal="modal-edit">
+<x-modals.modal id-modal="modal-edit" modal-bg="" modal-size="">
     <x-slot:header>
         <h3>Edit schedule</h3>
     </x-slot:header>

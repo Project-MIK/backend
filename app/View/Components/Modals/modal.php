@@ -7,8 +7,7 @@ use Illuminate\View\Component;
 class Modal extends Component
 {
     public $idModal,$modalSize,$modalBg,$footer,$header;
-    
-    public function __construct($idModal,$modalSize = "",$modalBg="",$footer="",$header="")
+      public function __construct($idModal,$modalSize = "",$modalBg="",$footer="",$header="")
     {
         $this->idModal = $idModal;
         $this->modalSize = $modalSize;
@@ -17,7 +16,6 @@ class Modal extends Component
         $this->header=$header;
     }
 
-    
 
     /**
      * Get the view / contents that represent the component.
