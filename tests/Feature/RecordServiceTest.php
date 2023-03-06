@@ -102,4 +102,9 @@ class RecordServiceTest extends TestCase
        
         
     }
+
+    public function test_show_consultation(){
+        $service = new RecordService();
+        $service->showComplaintOnAdmin();
+    }
 }

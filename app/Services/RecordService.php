@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Helpers\Helper;
 use App\Models\Doctor;
 use App\Models\MedicalRecords;
+use App\Models\Pattient;
 use App\Models\Record;
 use App\Models\RecordCategory;
 use App\Models\ScheduleDetail;
@@ -25,6 +26,7 @@ class RecordService
     private RecordCategory $recordCategory;
 
     private ScheduleDetail $schedule;
+    private Pattient $pattient;
 
 
     public function __construct()
@@ -34,6 +36,7 @@ class RecordService
         $this->doctor = new Doctor();
         $this->schedule = new ScheduleDetail();
         $this->recordCategory = new RecordCategory();
+        $this->pattient = new Pattient();
     }
 
     public function index()
@@ -166,7 +169,7 @@ class RecordService
         // isi dengan nama folder tempat kemana file diupload
         $tujuan_upload = 'bukti_pembayaran';
 
-        $res = Db::table('record')->where('id' , $id)->update(
+        $res = Db::table('record')->where('id', $id)->update(
             [
                 "bukti" => $fullName,
                 'status_payment_consultation' => 'PROSES VERIFIKASI',
@@ -193,16 +196,31 @@ class RecordService
     }
 
 
-    public function cancelConsultation($id){
-        $res = $this->record->where('id' , $id)->update([
+    public function cancelConsultation($id)
+    {
+        $res = $this->record->where('id', $id)->update([
             "status_payment_consultation" => "DIBATALKAN",
             'status_consultation' => 'consultation-complete'
         ]);
-        if($res){
+        if ($res) {
             return true;
         }
         return false;
     }
+
+    public function showComplaintOnAdmin()
+    {
+        $res = $this->pattient
+            ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
+            ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
+            ->join('record_category', 'record.id_category', 'record_category.id')
+            ->join('doctors', 'record.doctor_id', 'doctors.id')
+            ->join('polyclinics', 'polyclinics.id', 'doctors.polyclinic_id')
+            ->select('pattient.name as nama pasien', 'pattient.medical_record_id as no rekammedic', 'record_category.category_name as kategori keluhan', 'polyclinics.name as poliklinik', 'doctors.name as dokter', 'record.bukti as foto struk')
+            ->get()->toArray();
+        return $res;
+    }
+
 }
 
 ?>
