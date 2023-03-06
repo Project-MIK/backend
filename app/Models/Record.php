@@ -22,7 +22,8 @@ class Record extends Model
         "id_category",
         'valid_status',
         'status_consultation', 
-        'status_payment_consultation'
+        'status_payment_consultation',
+        'payment_method'
     ];
     
 }
