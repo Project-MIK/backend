@@ -23,6 +23,10 @@ return new class extends Migration {
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->unsignedBigInteger('doctor_id');
+            $table->string('payment_method')->nullable(false);
+            $table->foreign('payment_method')->references('id')->on('payment_metode')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->unsignedBigInteger('id_category')->nullable(true);
             $table->enum('status_consultation', ['waiting-consultation-payment', 'confirmed-consultation-payment', 'consultation-complete'])->default('waiting-consultation-payment')->nullable(false);
             $table->string('bukti')->nullable(true);
