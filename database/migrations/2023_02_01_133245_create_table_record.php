@@ -23,7 +23,7 @@ return new class extends Migration {
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->unsignedBigInteger('doctor_id');
-            $table->string('payment_method')->nullable(false);
+            $table->string('payment_method')->nullable(true);
             $table->foreign('payment_method')->references('id')->on('payment_metode')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
