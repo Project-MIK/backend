@@ -1,3 +1,4 @@
+
 <div class="modal fade" id="{{$idModal}}">
     <div class="modal-dialog {{$modalSize}}">
       <div class="modal-content {{$modalBg}}">

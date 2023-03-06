@@ -115,4 +115,10 @@ class RecordController extends Controller
             return redirect()->back()->withErrors(['message' => "gagal membatalkan konsultasi"]);
         }
     }
+
+
+    public function showComplaintOnAdmin(){
+        $data = $this->service->showComplaintOnAdmin();
+        return view('admin.complain',['data'=>$data]);
+    }
 }

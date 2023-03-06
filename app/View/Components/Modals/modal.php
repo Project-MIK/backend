@@ -4,7 +4,7 @@ namespace App\View\Components\modals;
 
 use Illuminate\View\Component;
 
-class modal extends Component
+class Modal extends Component
 {
     public $idModal,$modalSize,$modalBg,$footer,$header;
     
@@ -17,6 +17,7 @@ class modal extends Component
         $this->header=$header;
     }
 
+    
 
     /**
      * Get the view / contents that represent the component.

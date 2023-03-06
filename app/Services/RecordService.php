@@ -210,13 +210,23 @@ class RecordService
 
     public function showComplaintOnAdmin()
     {
+        // 'id'=>'KLaasdj',
+        //             'name'=>'Bachtiar Arya Habibie',
+        //             'category'=>'kepala',
+        //             'poly'=>'anak',
+        //             'doctor'=>'anis',
+        //             'link_foto'=>'https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1600959891/inewyddubc2v9au1ef2h.png',
+        //             'description'=>'Saya, John, mengalami sakit kepala yang cukup mengganggu belakangan ini. Sakit kepala ini terjadi pada bagian belakang kepala dan terjadi sekitar 2-3 kali seminggu. Setiap kali sakit kepala terjadi, saya merasakan mual dan sedikit pusing yang cukup mengganggu aktivitas saya. Sakit kepala ini berlangsung selama sekitar 2-3 jam setiap kali terjadi. Meskipun saya tidak memiliki riwayat penyakit kepala atau keluarga yang menderita sakit kepala secara serius, namun saya menyadari bahwa kebiasaan saya yang sering bekerja dengan komputer dalam waktu yang lama dan kurang istirahat mungkin menjadi faktor pemicu sakit kepala yang saya alami. Saya berharap dapat menemukan solusi yang tepat untuk mengatasi keluhan sakit kepala yang saya alami ini.',
+        //             'payment_method'=>'BRI',
+        //             'payment_amount'=>90000,
+        //             'status'=>'belum terkonfirmasi'
         $res = $this->pattient
             ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('record_category', 'record.id_category', 'record_category.id')
             ->join('doctors', 'record.doctor_id', 'doctors.id')
             ->join('polyclinics', 'polyclinics.id', 'doctors.polyclinic_id')
-            ->select('pattient.name as nama pasien', 'pattient.medical_record_id as no rekammedic', 'record_category.category_name as kategori keluhan', 'polyclinics.name as poliklinik', 'doctors.name as dokter', 'record.bukti as foto struk')
+            ->select('record.id as id' ,'pattient.name as name', 'pattient.medical_record_id as no rekammedic', 'record_category.category_name as category', 'polyclinics.name as poly', 'doctors.name as doctor', 'record.bukti as link_foto' , 'record.description' ,'record.status_consultation as status')
             ->get()->toArray();
         return $res;
     }

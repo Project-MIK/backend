@@ -69,7 +69,7 @@
     <!-- /.card-body -->
 </div>
 
-<x-modals.modal id-modal="detail-modal" modal-size="modal-lg">
+<x-modals.modal id-modal="detail-modal" modal-size="modal-lg" modal-bg="">
     <x-slot:header>
         <h2>Detail</h2>
     </x-slot:header>
@@ -151,6 +151,8 @@
 
         </div>
     </div>
+    <x-slot:footer>
+    </x-slot:footer>
 </x-modals.modal>
 @endsection
 @section('after-js')

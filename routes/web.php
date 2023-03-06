@@ -18,6 +18,7 @@ use App\Http\Controllers\PolyclinicController;
 use App\Http\Controllers\RecordCategoryController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,38 +52,42 @@ Route::get("/recovery/{token}", function ($token) {
 Route::post("/recovery/{token}", function (Request $request) {
     dd($request);
 });
-Route::post("/recovery/{token}", fn () => view("pacient.auth.recovery"));
+Route::post("/recovery/{token}", fn() => view("pacient.auth.recovery"));
 
 // Dashboard
 Route::prefix("/dashboard")->group(function () {
     // # Showing data consultation, history and setting
     Route::view("/", "pacient.dashboard.index");
     // # Action pacient save setting
-    Route::post("/save-setting", [PattientController::class , 'updateDataPattient']);
+    Route::post("/save-setting", [PattientController::class, 'updateDataPattient']);
     //changeEmail
     // # Action pacient change email
-    Route::post("/change-email", [PattientController::class , 'changeEmail']);
+    Route::post("/change-email", [PattientController::class, 'changeEmail']);
 
     // # Action pacient change password
-    Route::post("/change-password",[PattientController::class , 'changePassword']);
+    Route::post("/change-password", [PattientController::class, 'changePassword']);
 });
 
 // Consultation
 Route::prefix('konsultasi')->group(function () {
-    
+
     // Create consultation #1 - description complaint & set category
-    Route::get('/', [RecordCategoryController::class , 'index'] )->middleware('checkRecord');
+    Route::get('/', [RecordCategoryController::class, 'index'])->middleware('checkRecord');
     Route::post('/', function (Request $request) {
-        session(['consultation' => [
-            "description" => trim($request->input("consultation_complaint")),
-            "category" => explode("-", $request->input("consultation_category")),
-        ]]);
+        session([
+            'consultation' => [
+                "description" => trim($request->input("consultation_complaint")),
+                "category" => explode("-", $request->input("consultation_category")),
+            ]
+        ]);
         return redirect("/konsultasi/poliklinik");
-    });
+    }
+    );
 
     // Create consultation #2 - set polyclinic
     Route::get('/poliklinik', function () {
-        if (!isset(session("consultation")["description"])) return redirect("/konsultasi");
+        if (!isset(session("consultation")["description"]))
+            return redirect("/konsultasi");
         return view("pacient.consultation.polyclinic", [
             "polyclinics" => [
                 "PL0001" => "POLIKLINIK OBGYN (OBSTETRI & GINEKOLOGI)",
@@ -92,17 +97,22 @@ Route::prefix('konsultasi')->group(function () {
                 "PL0005" => "POLIKLINIK BEDAH ONKOLOGI"
             ]
         ]);
-    });
+    }
+    );
     Route::post('/poliklinik', function (Request $request) {
-        session(['consultation' => array_merge(session('consultation'), [
-            "polyclinic" => explode("-", $request->input("consultation_polyclinic"))
-        ])]);
+        session([
+            'consultation' => array_merge(session('consultation'), [
+                "polyclinic" => explode("-", $request->input("consultation_polyclinic"))
+            ])
+        ]);
         return redirect("/konsultasi/dokter");
-    });
+    }
+    );
 
     // Create consultation #3 - set doctor & schedule consultation
     Route::get('/dokter', function () {
-        if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
+        if (!isset(session("consultation")["polyclinic"]))
+            return redirect("/konsultasi/poliklinik");
         return view("pacient.consultation.doctor", [
             "doctors" => [
                 [
@@ -141,9 +151,11 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]
         ]);
-    });
+    }
+    );
     Route::get('/dokter/{id}', function ($id) {
-        if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
+        if (!isset(session("consultation")["polyclinic"]))
+            return redirect("/konsultasi/poliklinik");
         return view("pacient.consultation.doctor", [
             "id" => $id,
             "doctors" => [
@@ -183,9 +195,11 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]
         ]);
-    });
+    }
+    );
     Route::get('/dokter/{id}/{date}', function ($id, $date) {
-        if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
+        if (!isset(session("consultation")["polyclinic"]))
+            return redirect("/konsultasi/poliklinik");
         return view("pacient.consultation.doctor", [
             "id" => $id,
             "date" => $date,
@@ -226,23 +240,29 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]
         ]);
-    });
+    }
+    );
     Route::post('/dokter', function (Request $request) {
-        session(['consultation' => array_merge(session('consultation'), [
-            "doctor" => explode("-", $request->input("consultation_doctor")),
-            "price" => $request->input("consultation_price"),
-            "schedule_date" => $request->input("consultation_schedule_date"),
-            "schedule_time" => explode("-", $request->input("consultation_schedule_time"))
-        ])]);
+        session([
+            'consultation' => array_merge(session('consultation'), [
+                "doctor" => explode("-", $request->input("consultation_doctor")),
+                "price" => $request->input("consultation_price"),
+                "schedule_date" => $request->input("consultation_schedule_date"),
+                "schedule_time" => explode("-", $request->input("consultation_schedule_time"))
+            ])
+        ]);
         return redirect("/konsultasi/rincian");
-    });
+    }
+    );
 
     // Create consultation #4 - showing confirmation desciption data
     Route::get('/rincian', function () {
-        if (!isset(session("consultation")["doctor"])) return redirect("/konsultasi/dokter");
+        if (!isset(session("consultation")["doctor"]))
+            return redirect("/konsultasi/dokter");
         return view("pacient.consultation.detail-order");
-    });
-    Route::post('/rincian',[RecordController::class , "store"]);
+    }
+    );
+    Route::post('/rincian', [RecordController::class, "store"]);
 
     // Show pacient consultation based on ID
     Route::get('/{id}', function ($id) {
@@ -280,16 +300,17 @@ Route::prefix('konsultasi')->group(function () {
 
         //     "valid_status" => 1678766166
         // ]);
-    });
+    }
+    );
     // Cancel sheduling consultation
-    Route::get('/{id}/cancel-consultation', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/cancel-consultation', [RecordController::class , 'cancelConsultation']);
+    Route::get('/{id}/cancel-consultation', fn($id) => redirect("/konsultasi/{$id}"));
+    Route::post('/{id}/cancel-consultation', [RecordController::class, 'cancelConsultation']);
 
     // Send proof payment to confirmation consultation
-    Route::get('/{id}/payment-consultation', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/payment-consultation', [RecordController::class , 'updateBukti'] );
-    
-    
+    Route::get('/{id}/payment-consultation', fn($id) => redirect("/konsultasi/{$id}"));
+    Route::post('/{id}/payment-consultation', [RecordController::class, 'updateBukti']);
+
+
     // function (Request $request, $id) {
     //     // dd([
     //     //     "id" => $id,
@@ -300,13 +321,14 @@ Route::prefix('konsultasi')->group(function () {
     // });
 
     // Cancel scheduling medical prescription
-    Route::get('/{id}/cancel-medical-prescription', fn ($id) => redirect("/konsultasi/{$id}"));
+    Route::get('/{id}/cancel-medical-prescription', fn($id) => redirect("/konsultasi/{$id}"));
     Route::post('/{id}/cancel-medical-prescription', function ($id) {
         dd($id);
-    });
+    }
+    );
 
     // Send proof payment to confirmation medical prescription
-    Route::get('/{id}/payment-medical-prescription', fn ($id) => redirect("/konsultasi/{$id}"));
+    Route::get('/{id}/payment-medical-prescription', fn($id) => redirect("/konsultasi/{$id}"));
     Route::post('/{id}/payment-medical-prescription', function (Request $request, $id) {
         dd([
             "id" => $id,
@@ -314,7 +336,8 @@ Route::prefix('konsultasi')->group(function () {
             "bank-payment" => $request->input("bank-payment"),
             "upload-proof-payment" => $request->file('upload-proof-payment')
         ]);
-    });
+    }
+    );
 
     // Pacient generate consultation pickup document based on id
     Route::get("/{id}/export", function ($id) {
@@ -336,10 +359,11 @@ Route::prefix('konsultasi')->group(function () {
 
         $pdf = PDF::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
         return $pdf->download("DOKUMEN PENGAMBILAN OBAT - {$id}.pdf");
-    });
+    }
+    );
 
     // Set option pickup delivery medical prescription
-    Route::get('/{id}/pickup-delivery', fn ($id) => redirect("/konsultasi/{$id}"));
+    Route::get('/{id}/pickup-delivery', fn($id) => redirect("/konsultasi/{$id}"));
     Route::post('/{id}/pickup-delivery', function (Request $request, $id) {
         dd([
             "id" => $id,
@@ -347,42 +371,48 @@ Route::prefix('konsultasi')->group(function () {
             "pacient_notelp" => $request->input("pacient-notelp"),
             "pacient_address" => $request->input("pacient-addreass")
         ]);
-    });
+    }
+    );
 
     // Cancel pickup medical prescription
-    Route::get('/{id}/cancel-pickup', fn ($id) => redirect("/konsultasi/{$id}"));
+    Route::get('/{id}/cancel-pickup', fn($id) => redirect("/konsultasi/{$id}"));
     Route::post('/{id}/cancel-pickup', function ($id) {
         dd([
             "id" => $id
         ]);
-    });
+    }
+    );
 });
 
 
 //admin
 Route::prefix('admin')->group(function () {
-    Route::view('/', 'admin.dashboard',);
+    Route::view('/', 'admin.dashboard', );
 
     Route::prefix('pasien')->group(function () {
         Route::view('view', 'admin.pasien');
         Route::get('/', [PattientController::class, 'index']);
         Route::post('store', [PattientController::class, 'storewithRekamMedic']); //redirect to /admin/pasien
-        Route::put('update' , [PattientController::class , 'updatePatientInAdmin']);
-        Route::get('detail/{medical_record_id}' , [PattientController::class , 'findByIdInaAdmin']);
+        Route::put('update', [PattientController::class, 'updatePatientInAdmin']);
+        Route::get('detail/{medical_record_id}', [PattientController::class, 'findByIdInaAdmin']);
         Route::get('store', function () {
             return view('admin.pasien-store');
-        });
-        Route::put('rs',function(Request $request){
+        }
+        );
+        Route::put('rs', function (Request $request) {
             dd($request);
-        });
-    });
+        }
+        );
+    }
+    );
 
     Route::prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index']);
         Route::post('store', [AdminController::class, 'store']);
         Route::put('update');
         Route::delete('destroy', [AdminController::class, 'destroy']);
-    });
+    }
+    );
 
     Route::prefix('petugas')->group(function () {
         Route::view('view', 'admin.petugas');
@@ -390,7 +420,8 @@ Route::prefix('admin')->group(function () {
         Route::post('store');
         Route::put('update');
         Route::delete('destroy');
-    });
+    }
+    );
 
     Route::prefix('doctor')->group(function () {
         Route::view('view', 'admin.doctor');
@@ -398,7 +429,8 @@ Route::prefix('admin')->group(function () {
         Route::post('store');
         Route::put('update');
         Route::delete('destroy');
-    });
+    }
+    );
 
     Route::prefix('medrec')->group(function () {
         Route::view('view', 'admin.medrec');
@@ -406,7 +438,8 @@ Route::prefix('admin')->group(function () {
         Route::post('store');
         Route::put('update');
         Route::delete('destroy');
-    });
+    }
+    );
 
     Route::prefix('medicine')->group(function () {
         Route::view('view', 'admin.medicine');
@@ -414,7 +447,8 @@ Route::prefix('admin')->group(function () {
         Route::post('store');
         Route::put('update');
         Route::delete('destroy');
-    });
+    }
+    );
 
     Route::prefix('category')->group(function () {
         //category: nama kategori
@@ -434,17 +468,22 @@ Route::prefix('admin')->group(function () {
                 'poly' => $poli
             ];
             return view('admin.category', $data);
-        });
+        }
+        );
         Route::post('store', function (Request $request) {
             dd($request);
-        });
+        }
+        );
         Route::put('update', function (Request $request) {
             dd($request);
-        });
+        }
+        );
         Route::delete('destroy', function (Request $request) {
             dd([$request]);
-        });
-    });
+        }
+        );
+    }
+    );
 
     Route::prefix('schedule')->group(function () {
         //category: nama kategori
@@ -466,55 +505,34 @@ Route::prefix('admin')->group(function () {
                 ],
             ];
             return view('admin.schedule', ['data' => $data]);
-        });
+        }
+        );
         Route::post('store', function (Request $request) {
 
             dd($request);
-        });
+        }
+        );
         Route::put('update', function (Request $request) {
             dd($request);
-        });
+        }
+        );
         Route::delete('destroy', function (Request $request) {
             dd([$request]);
-        });
-    });
+        }
+        );
+    }
+    );
 
-    Route::prefix('complain')->group(function(){
-        
-        Route::get('/',function(){
-            $data = [
-                [
-                    'id'=>'KLaasdj',
-                    'name'=>'Bachtiar Arya Habibie',
-                    'category'=>'kepala',
-                    'poly'=>'anak',
-                    'doctor'=>'anis',
-                    'link_foto'=>'https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1600959891/inewyddubc2v9au1ef2h.png',
-                    'description'=>'Saya, John, mengalami sakit kepala yang cukup mengganggu belakangan ini. Sakit kepala ini terjadi pada bagian belakang kepala dan terjadi sekitar 2-3 kali seminggu. Setiap kali sakit kepala terjadi, saya merasakan mual dan sedikit pusing yang cukup mengganggu aktivitas saya. Sakit kepala ini berlangsung selama sekitar 2-3 jam setiap kali terjadi. Meskipun saya tidak memiliki riwayat penyakit kepala atau keluarga yang menderita sakit kepala secara serius, namun saya menyadari bahwa kebiasaan saya yang sering bekerja dengan komputer dalam waktu yang lama dan kurang istirahat mungkin menjadi faktor pemicu sakit kepala yang saya alami. Saya berharap dapat menemukan solusi yang tepat untuk mengatasi keluhan sakit kepala yang saya alami ini.',
-                    'payment_method'=>'BRI',
-                    'payment_amount'=>90000,
-                    'status'=>'belum terkonfirmasi'
-                ],
-                [
-                    'id'=>'KLqwer',
-                    'name'=>'Muhammad Tajut Zamzami',
-                    'category'=>'paru-paru',
-                    'poly'=>'dalam',
-                    'doctor'=>'Andre',
-                    'link_foto'=>'https://images.tokopedia.net/img/cache/500-square/hDjmkQ/2022/2/21/ba348df9-d8a5-459a-9cb9-acc30dc45eda.jpg',
-                    'description'=>'Saya merasakan sesak napas yang cukup parah dan sulit untuk bernafas dengan normal. Saya juga merasakan adanya rasa nyeri atau ketidaknyamanan pada dada saya saat bernapas atau batuk. Terkadang, saya juga merasa sangat lelah dan tidak bertenaga akibat kekurangan oksigen dalam tubuh. Rasanya sangat tidak nyaman dan membuat saya sulit untuk melakukan aktivitas sehari-hari dengan baik. Saya berharap agar cepat pulih dari kondisi ini dan kembali dapat menjalani hidup dengan normal kembali.',
-                    'payment_method'=>'BRI',
-                    'payment_amount'=>90000,
-                    'status'=>'belum terkonfirmasi'
-                ],
-            ];
-            return view('admin.complain',['data'=>$data]);
-        });
+    Route::prefix('complain')->group(function () {
 
-        Route::put('agreement',function(Request $request){
+        Route::get('/', [RecordController::class, 'showComplaintOnAdmin']);
+
+        Route::put('agreement', function (Request $request) {
             dd($request);
-        });
-    });
+        }
+        );
+    }
+    );
 });
 
 //dokter
@@ -522,33 +540,46 @@ Route::prefix('doctor')->group(function () {
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', function () {
             return view('doctor.pages.dashboard');
-        });
-    });
+        }
+        );
+    }
+    );
 
     Route::get('/consul', function () {
         $data = [
             [
                 'consul_id' => 'KL4567',
-                'patient_name' => 'tajut zamzami', // name of patient who need consultation
-                'medrec' => '123456', //medical record of patient
-                'duration' => 3600, //the video duration of video conference in milisecond
-                'start' => '1677639600', //the jitsi meet start in timestamp
-                'end' => '1677643200', //the jitsi meet end in timestamp
+                'patient_name' => 'tajut zamzami',
+                // name of patient who need consultation
+                'medrec' => '123456',
+                //medical record of patient
+                'duration' => 3600,
+                //the video duration of video conference in milisecond
+                'start' => '1677639600',
+                //the jitsi meet start in timestamp
+                'end' => '1677643200',
+                //the jitsi meet end in timestamp
                 'link' => 'https://meet.jit.si/KL4567' //the jitsi meeting link 
             ],
             [
                 'consul_id' => 'KL123',
-                'patient_name' => 'Bachtiar Arya', // name of patient who need consultation
-                'medrec' => '654321', //medical record of patient
-                'duration' => 3600, //the video duration of video conference in milisecond
-                'start' => '1677650400', //the jitsi meet start in timestamp
-                'end' => '1677654000', //the jitsi meet end in timestamp
+                'patient_name' => 'Bachtiar Arya',
+                // name of patient who need consultation
+                'medrec' => '654321',
+                //medical record of patient
+                'duration' => 3600,
+                //the video duration of video conference in milisecond
+                'start' => '1677650400',
+                //the jitsi meet start in timestamp
+                'end' => '1677654000',
+                //the jitsi meet end in timestamp
                 'link' => 'https://meet.jit.si/KL123' //the jitsi meeting link 
             ]
         ];
 
         return view('doctor.pages.consul', ['data' => $data]);
-    });
+    }
+    );
 
     Route::prefix('category')->group(function () {
         //category: nama kategori
@@ -568,17 +599,22 @@ Route::prefix('doctor')->group(function () {
                 'poly' => $poli
             ];
             return view('doctor.pages.category', $data);
-        });
+        }
+        );
         Route::post('/store', function (Request $request) {
             dd($request);
-        });
+        }
+        );
         Route::put('/update', function (Request $request) {
             dd($request);
-        });
+        }
+        );
         Route::delete('/destroy', function (Request $request) {
             dd([$request]);
-        });
-    });
+        }
+        );
+    }
+    );
 
     Route::prefix('schedule')->group(function () {
         //category: nama kategori
@@ -600,9 +636,11 @@ Route::prefix('doctor')->group(function () {
                 ],
             ];
             return view('doctor.pages.schedule', ['data' => $data]);
-        });
-    });
+        }
+        );
+    }
+    );
 });
 
 // Logout ( Clear all session pacient )
-Route::get("/keluar", [PattientController::class , 'logout']);
+Route::get("/keluar", [PattientController::class, 'logout']);
