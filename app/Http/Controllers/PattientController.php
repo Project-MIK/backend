@@ -113,6 +113,7 @@ class PattientController extends Controller
             return redirect()->back()->withErrors("message", "no rekam medic sudah digunakan gunakan");
         }
         if ($request['citizen'] == 'WNI') {
+            
             $res = $this->service->storeWithAdmin(
                 $request->validate(
                     [
@@ -120,7 +121,7 @@ class PattientController extends Controller
                         'email' => ['required', 'email', 'unique:pattient,email'],
                         'gender' => ['required'],
                         'password' => ['required'],
-                        'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                     'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
                         'address_RT' => ['required', 'numeric'],
                         'address_RW' => ['required', 'numeric'],
                         'address_desa' => ['required', 'string'],
