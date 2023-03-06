@@ -159,6 +159,8 @@ class RecordService
 
     public function updateBukti($id, Request $request)
     {
+        $payment = $request->only('bank-payment');
+
         $file = $request->file('upload-proof-payment');
         // nama file
         $fileName = $file->getClientOriginalName();
@@ -173,7 +175,8 @@ class RecordService
             [
                 "bukti" => $fullName,
                 'status_payment_consultation' => 'PROSES VERIFIKASI',
-                'status_consultation' => "waiting-consultation-payment"
+                'status_consultation' => "waiting-consultation-payment",
+                'payment_method' => $payment['bank-payment']
             ]
         );
         if ($res) {

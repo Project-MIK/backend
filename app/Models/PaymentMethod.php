@@ -15,6 +15,7 @@ class PaymentMethod extends Model
         'no_rek',
         'atas_nama'
     ];
+    public $incrementing = false;
 
     protected $table = 'payment_metode';
 

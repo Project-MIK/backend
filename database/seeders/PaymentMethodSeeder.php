@@ -24,11 +24,20 @@ class PaymentMethodSeeder extends Seeder
                 'atas_nama' => "RUMAH SAKIT HUSADA JEMBER"
             ],
             [
-                'id' => 'BCI',
+                'id' => 'BC',
                 'name' => 'BANK BCA',
                 'no_rek' => "2039276351298",
                 'atas_nama' => "RUMAH SAKIT HUSADA JEMBER"
             ]
+        );
+
+        PaymentMethod::create(
+            [
+                'id' => 'BCA',
+                'name' => 'BANK CENTRAL ASIA',
+                'no_rek' => "2039276351298",
+                'atas_nama' => "RUMAH SAKIT HUSADA JEMBER"
+            ],
         );
     }
 }

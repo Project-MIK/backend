@@ -77,16 +77,6 @@ class RecordController extends Controller
 
     public function updateBukti(Request $request, $id)
     {
-        // $rules = [
-        //     'upload-proof-payment' => ['required', 'max:5120', 'mimes:jpeg,png,jng'],
-        // ];
-        // $customMessages = [
-        //     'required' => 'Foto bukti pembayaran tidak boleh kosong',
-        //     "max" => "Ukuran Foto tidak boleh lebih dari 5MB",
-        //     "mimes" => "File harus berupa jpeg , png , atau jpg"
-        // ];
-        // $this->validate($request, $rules, $customMessages);
-        // menyimpan data file yang diupload ke variabel $file
         $response = $this->service->updateBukti($id, $request);
         if ($response) {
             return redirect()->back()->with('message', "berhasil mengupload bukti pembayaran , harap menunggu hasil validasi");
