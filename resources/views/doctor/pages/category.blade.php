@@ -59,9 +59,9 @@
 
     <!-- /.card-body -->
 
-    <x-modal>
-        <x-slot:modalid>tambah-kategori</x-slot:modalid>
-        <x-slot:judul>tambah Kategori</x-slot:judul>
+    <x-modals.modal id-modal="modal-kategori" modal-size="" modal-bg="">
+        <x-slot:header><h3>Tambah Kategori</h3></x-slot:Header>
+        <x-slot:footer></x-slot:footer>
         <form action="store" method="post">
             @csrf
             @method('post')
@@ -81,9 +81,9 @@
         </form>
     </x-modal>
 
-    <x-modals.modal-danger-sm>
-        <x-slot:id>modal-delete</x-slot:id>
-        <x-slot:title>Warning</x-slot:title>
+    <x-modals.modal id-modal="modal-delete" modal-size="modal-sm" modal-bg="bg-danger">
+        <x-slot:header><h3>Warning</h3></x-slot:Header>
+        <x-slot:footer></x-slot:footer>
         <h3>Apakah Anda Yakin Ingin menghapus data ini?</h3>
         <form action="/doctor/category/destroy" method="POST">
             @csrf
@@ -93,9 +93,9 @@
         </form>
         </x-modal>
 
-        <x-modal>
-            <x-slot:modalid>modal-edit</x-slot:modalid>
-            <x-slot:judul>Edit Kategori</x-slot:judul>
+        <x-modals.modal id-modal="modal-edit" modal-size="" modal-bg="">
+            <x-slot:header><h3>Edit Kategori</h3></x-slot:Header>
+            <x-slot:footer></x-slot:footer>
             <form action="update" method="post">
                 @csrf
                 @method('put')
