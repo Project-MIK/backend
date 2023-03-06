@@ -166,12 +166,16 @@
         </div>
         <button type="submit" class="btn btn-block btn-default">simpan</button>
     </form>
+    <x-slot:footer>
+    </x-slot:footer>
 </x-modals.modal>
 
 <x-modals.modal id-modal="modal-delete" modal-size="modal-sm" modal-bg="bg-danger">
     <x-slot:header>
         <h4>Delete</h4>
     </x-slot:header>
+    <x-slot:footer>
+    </x-slot:footer>
     <h5>Apakah anda yakin inging menghapus data ini?</h5>
     <form action="/admin/schedule/destroy" method="POST">
     @csrf

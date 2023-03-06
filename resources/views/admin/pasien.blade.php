@@ -83,6 +83,8 @@
     <input type="email" id="email-for-rs" name="email" hidden>
     <button type='submit' class='ml-auto col-2 btn btn-block btn-default'>Update</button>
     </form>
+    <x-slot:footer>
+    </x-slot:footer>
 </x-modals.modal>
 
 
