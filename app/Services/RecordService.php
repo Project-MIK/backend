@@ -226,9 +226,54 @@ class RecordService
             ->join('record_category', 'record.id_category', 'record_category.id')
             ->join('doctors', 'record.doctor_id', 'doctors.id')
             ->join('polyclinics', 'polyclinics.id', 'doctors.polyclinic_id')
-            ->select('record.id as id' ,'pattient.name as name', 'pattient.medical_record_id as no rekammedic', 'record_category.category_name as category', 'polyclinics.name as poly', 'doctors.name as doctor', 'record.bukti as link_foto' , 'record.description' ,'record.status_consultation as status')
+            ->join('payment_metode', 'payment_metode.id', 'record.payment_method')
+            ->select('record.id as id_record', 'pattient.name as name', 'pattient.medical_record_id as no rekammedic', 'record_category.category_name as category', 'polyclinics.name as poly', 'doctors.name as doctor', 'record.bukti as link_foto', 'record.description', 'record.status_consultation as status', 'payment_metode.name as payment_method')
             ->get()->toArray();
+        foreach ($res as $key => $value) {
+            # code...
+            $res[$key]['payment_amount'] = '90.000';
+            $res[$key]['link_foto'] = url('/') . ('/bukti_pembayaran/' . $res[$key]['link_foto']);
+            $res[$key]['id'] = $res[$key]['id_record'];
+            unset($res[$key]['id_record']);
+        }
         return $res;
+    }
+
+    public function acceptPaymentOrDecline($id, $status)
+    {
+        $res = [];
+        if ($status == 'disetujui') {
+            $isUpdate = $this->record->where('id', $id)
+                ->update([
+                    'status_consultation' => 'confirmerd_consultation_payment',
+                    'status_payment_consultation' => 'TERKONFIRMASI'
+                ]);
+
+            if ($isUpdate) {
+                $res['status'] = true;
+                $res['message'] = 'berhasil menyetujui pembayaran';
+                return $res;
+            } else {
+                $res['status'] = false;
+                $res['message'] = 'gagal menyetujui pembayaran';
+                return $res;
+            }
+        } else {
+            $isUpdate = $this->record->where('id', $id)
+                ->update([
+                    'status_payment_consultation' => 'PEMBAYARAN TIDAK VALID'
+                ]);
+            if ($isUpdate) {
+                $res['status'] = true;
+                $res['message'] = 'berhasil menolak pembayaran';
+                return $res;
+            } else {
+                $res['status'] = true;
+                $res['message'] = 'berhasil menolak pembayaran';
+                return $res;
+            }
+        }
+
     }
 
 }

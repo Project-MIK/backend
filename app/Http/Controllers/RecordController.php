@@ -117,8 +117,15 @@ class RecordController extends Controller
     }
 
 
-    public function showComplaintOnAdmin(){
+    public function showComplaintOnAdmin()
+    {
         $data = $this->service->showComplaintOnAdmin();
-        return view('admin.complain',['data'=>$data]);
+        return view('admin.complain', ['data' => $data]);
+    }
+
+    public function confirmStatusPayment(Request $request)
+    {
+        $res = $this->service->acceptPaymentOrDecline($request->id, $request->status);
+        return redirect()->back()->with('message', $res['message']);
     }
 }
