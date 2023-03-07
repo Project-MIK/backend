@@ -46,12 +46,11 @@ class RecordCategoryController extends Controller
     {
 
         $rules = [
-            'category' => ['required', 'min:4', "regex:/^[a-zA-Z]+$/u"],
+            'category' => ['required', 'min:4'],
         ];
         $customMessages = [
             'required' => 'Category Complaint tidak boleh kosong',
             "min" => "Category Complaint harus minimal 4 Character",
-            "regex" => "Category Complaint harus berupa huruf"
         ];
         $data = $this->validate($request, $rules, $customMessages);
         $res = $this->service->insert($data);
