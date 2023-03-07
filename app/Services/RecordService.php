@@ -248,7 +248,7 @@ class RecordService
         if ($status == 'disetujui') {
             $isUpdate = $this->record->where('id', $id)
                 ->update([
-                    'status_consultation' => 'confirmerd_consultation_payment',
+                    'status_consultation' => 'confirmed-consultation-payment',
                     'status_payment_consultation' => 'TERKONFIRMASI'
                 ]);
 

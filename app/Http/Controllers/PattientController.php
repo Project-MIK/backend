@@ -498,5 +498,10 @@ class PattientController extends Controller
         return redirect('/masuk');
     }
 
+    public function showDataAction($id){
+        $data = $this->service->showDataActionConsultation($id);
+        return view("pacient.consultation.detail-consultation",$data);
+    }
+
 
 }
