@@ -599,6 +599,62 @@ Route::prefix('admin')->group(function () {
             return view('admin.consul', ['data' => $data]);
         });
     });
+
+    Route::prefix('poly')->group(function(){
+        
+
+        Route::get('/',function(){
+            $category = [
+                [
+                    'id_category'=>'1',
+                    'category'=>'kategory 1'
+                ],
+                [
+                    'id_category'=>'2',
+                    'category'=>'kategory 2'
+                ],
+                [
+                    'id_category'=>'3',
+                    'category'=>'kategory 3'
+                ],
+            ];
+            
+            $data = [
+                [
+                    'id_poly'=>'1',
+                    'poly'=>'anak',
+                    'id_category'=>'1',
+                    'category'=>'kategori 1'
+                ],
+                [
+                    'id_poly'=>'12',
+                    'poly'=>'dalam',
+                    'id_category'=>'1',
+                    'category'=>'kategori 1'
+                ],
+                [
+                    'id_poly'=>'13',
+                    'poly'=>'dalam',
+                    'id_category'=>'2',
+                    'category'=>'kategori 2'
+                ],
+            ];
+            return view('admin.poli',['data'=>$data,'category'=>$category]);
+        });
+
+        Route::post('store',function(Request $request){
+            dd($request);
+        });
+
+        Route::put('update',function(Request $request){
+            dd($request);
+        });
+
+        Route::delete('destroy',function (Request $request){
+            dd($request);
+        });
+
+    });
 });
 
 //dokter
