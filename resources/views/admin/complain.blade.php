@@ -21,6 +21,7 @@
                     <th>metode pembayaran</th>
                     <th>jumlah pembayaran</th>
                     <th>bukti pembayaran</th>
+                    <th>status</th>
                     <th></th>
                 </tr>
             </thead>
@@ -39,7 +40,19 @@
                     <td>{{$record['payment_amount']}}</td>
                     <td><img src="{{$record['link_foto']}}" style="max-height: 100px; max-width: 100px;" alt="bukti pembayaran"></td>
                     <td hidden>{{$record['description']}}</td>
-                    <td hidden>{{$record['status']}}</td>
+                    @if($record['status'] == 0)
+                    <td data-id="{{$record['status']}}">
+                        <p class="text-primary">belum dikonfirmasi</p>
+                    </td>
+                    @elseif($record['status'] == 1)
+                    <td data-id="{{$record['status']}}">
+                        <p class="text-danger">tidak disetujui</p>
+                    </td>
+                    @else
+                    <td data-id="{{$record['status']}}">
+                        <p class="text-success">disetujui</p>
+                    </td>
+                    @endif
                     <th>
                         <div class="row">
                             <div class="col">
@@ -61,6 +74,7 @@
                     <th>metode pembayaran</th>
                     <th>jumlah pembayaran</th>
                     <th>bukti pembayaran</th>
+                    <th>status</th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -136,7 +150,7 @@
                     @method('put')
                     <input name="id" id="detail-id-setuju" hidden>
                     <input name="status" value="disetujui" hidden>
-                    <button type="submit" class="btn btn-block btn-success btn-sm">accept</button>
+                    <button type="submit" id="tombol-acc" class="btn btn-block btn-success btn-sm">accept</button>
                 </form>
             </div>
             <div class="m-1">
@@ -145,10 +159,9 @@
                     @method('put')
                     <input name="id" id="detail-id-tidak" hidden>
                     <input name="status" value="tidak disetujuti" hidden>
-                    <button type="submit" class="btn btn-block btn-danger btn-sm">decline</button>
+                    <button type="submit" id="tombol-dec" class="btn tombol btn-block btn-danger btn-sm">decline</button>
                 </form>
             </div>
-
         </div>
     </div>
 </x-modals.modal>
@@ -160,7 +173,7 @@
         rawData = tabel.getElementsByTagName('td');
         img = rawData[8].children[0];
         src = img.getAttribute('src');
-        
+
         var obj = {
             id: rawData[1].innerText
             , name: rawData[2].innerHTML
@@ -171,11 +184,13 @@
             , payment_amount: rawData[7].innerHTML
             , link_photo: src
             , description: rawData[9].innerHTML
-            , status: rawData[10].innerHTML
+            , status: rawData[10].getAttribute("data-id")
         };
 
         return obj;
     }
+
+
 
     function setDetail(params) {
         var data = getData(params);
@@ -190,8 +205,10 @@
         var status = document.getElementById('detail-status');
         var id1 = document.getElementById('detail-id-setuju');
         var id2 = document.getElementById('detail-id-tidak');
+        var tombolAcc = document.getElementById('tombol-acc');
+        var tombolDec = document.getElementById('tombol-dec');
 
- 
+
         console.table(data);
 
         img.setAttribute('src', data.link_photo);
@@ -202,10 +219,23 @@
         doctor.innerHTML = data.doctor;
         payment_method = data.payment_method;
         payment_amount = data.payment_amount;
-        status.innerHTML = data.status;
+        if (data.status == 0) {
+            status.innerHTML = "<p class='text-primary'>belum dikonfirmasi</p>";
+            tombolAcc.hidden = false;
+            tombolDec.hidden = false;
+        } else if (data.status == 1) {
+            status.innerHTML = "<p class='text-danger'>tidak disetuji</p>";
+            tombolAcc.hidden = true;
+            tombolDec.hidden = true;
+        } else {
+            status.innerHTML = " <p class='text-success'>disetuji</p>";
+            tombolAcc.hidden = true;
+            tombolDec.hidden = true;
+        }
         id1.value = data.id;
         id2.value = data.id;
     }
 
 </script>
+
 @endsection

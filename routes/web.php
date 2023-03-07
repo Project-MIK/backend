@@ -548,7 +548,7 @@ Route::prefix('admin')->group(function () {
                     'description' => 'Saya, John, mengalami sakit kepala yang cukup mengganggu belakangan ini. Sakit kepala ini terjadi pada bagian belakang kepala dan terjadi sekitar 2-3 kali seminggu. Setiap kali sakit kepala terjadi, saya merasakan mual dan sedikit pusing yang cukup mengganggu aktivitas saya. Sakit kepala ini berlangsung selama sekitar 2-3 jam setiap kali terjadi. Meskipun saya tidak memiliki riwayat penyakit kepala atau keluarga yang menderita sakit kepala secara serius, namun saya menyadari bahwa kebiasaan saya yang sering bekerja dengan komputer dalam waktu yang lama dan kurang istirahat mungkin menjadi faktor pemicu sakit kepala yang saya alami. Saya berharap dapat menemukan solusi yang tepat untuk mengatasi keluhan sakit kepala yang saya alami ini.',
                     'payment_method' => 'BRI',
                     'payment_amount' => 90000,
-                    'status' => 'belum terkonfirmasi'
+                    'status' => 0
                 ],
                 [
                     'id' => 'KLqwer',
@@ -560,7 +560,19 @@ Route::prefix('admin')->group(function () {
                     'description' => 'Saya merasakan sesak napas yang cukup parah dan sulit untuk bernafas dengan normal. Saya juga merasakan adanya rasa nyeri atau ketidaknyamanan pada dada saya saat bernapas atau batuk. Terkadang, saya juga merasa sangat lelah dan tidak bertenaga akibat kekurangan oksigen dalam tubuh. Rasanya sangat tidak nyaman dan membuat saya sulit untuk melakukan aktivitas sehari-hari dengan baik. Saya berharap agar cepat pulih dari kondisi ini dan kembali dapat menjalani hidup dengan normal kembali.',
                     'payment_method' => 'BRI',
                     'payment_amount' => 90000,
-                    'status' => 'sudah disetujui'
+                    'status' => 1
+                ],
+                [
+                    'id' => 'KLqweas',
+                    'name' => 'Muhammad Tajut Zamzami',
+                    'category' => 'paru-paru',
+                    'poly' => 'dalam',
+                    'doctor' => 'Andre',
+                    'link_foto' => 'https://images.tokopedia.net/img/cache/500-square/hDjmkQ/2022/2/21/ba348df9-d8a5-459a-9cb9-acc30dc45eda.jpg',
+                    'description' => 'Saya merasakan sesak napas yang cukup parah dan sulit untuk bernafas dengan normal. Saya juga merasakan adanya rasa nyeri atau ketidaknyamanan pada dada saya saat bernapas atau batuk. Terkadang, saya juga merasa sangat lelah dan tidak bertenaga akibat kekurangan oksigen dalam tubuh. Rasanya sangat tidak nyaman dan membuat saya sulit untuk melakukan aktivitas sehari-hari dengan baik. Saya berharap agar cepat pulih dari kondisi ini dan kembali dapat menjalani hidup dengan normal kembali.',
+                    'payment_method' => 'BRI',
+                    'payment_amount' => 90000,
+                    'status' => 2
                 ],
             ];
             return view('admin.complain', ['data' => $data]);
