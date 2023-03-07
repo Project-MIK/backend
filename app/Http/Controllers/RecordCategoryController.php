@@ -83,13 +83,13 @@ class RecordCategoryController extends Controller
         return $res;
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $res = $this->service->deleteById($id);
+        $res = $this->service->deleteById($request->id_category);
         if ($res) {
             return redirect()->back()->with("message", "berhasil menghapus category");
         } else {
-            return redirect()->back()->with("message", "gagal menghapus category");
+            return redirect()->back()->withErrors("gagal menghapus category");
         }
     }
 }

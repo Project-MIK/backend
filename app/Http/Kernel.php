@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\GuestAdmin;
 use App\Http\Middleware\IsAdminLogin;
 use App\Http\Middleware\OnlyThoseWhoDontHaveRecordMiddleware;
 use App\Http\Middleware\PattientMiddleware;
@@ -68,6 +69,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         "isAdmin" => IsAdminLogin::class,
         'pattentNotAuthenticate' => PattientMiddleware::class,
-        'checkRecord' => OnlyThoseWhoDontHaveRecordMiddleware::class
+        'checkRecord' => OnlyThoseWhoDontHaveRecordMiddleware::class,
+        'guestAdmin' => GuestAdmin::class
     ];
 }

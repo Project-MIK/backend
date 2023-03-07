@@ -280,15 +280,15 @@ class RecordService
     }
 
 
-    public function showConsulByDocter()
+    public function showConsulByDocter($id)
     {
         $data = $this->pattient
             ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('doctors', 'doctors.id', 'record.doctor_id')
             ->join('schedule_details', 'schedule_details.id', 'record.schedule_id')
-            ->select( 'record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'schedule_details.time_start as start', 'schedule_details.time_end as end')
-            ->where('doctors.id', 1)
+            ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'schedule_details.time_start as start', 'schedule_details.time_end as end')
+            ->where('doctors.id', $id)
             ->get()->toArray();
         foreach ($data as $key => $value) {
             # code...
@@ -298,39 +298,9 @@ class RecordService
             $data[$key]['duration'] = $end - $start;
             $data[$key]['start'] = $start;
             $data[$key]['end'] = $end;
-            $data[$key]['link']="https://meet.jit.si/".$data[$key]['consul_id'];
+            $data[$key]['link'] = "https://meet.jit.si/" . $data[$key]['consul_id'];
         }
-        return $data
-        ; // $data = [
-        //     [
-        //         'consul_id' => 'KL4567',
-        //         'patient_name' => 'tajut zamzami',
-        //         // name of patient who need consultation
-        //         'medrec' => '123456',
-        //         //medical record of patient
-        //         'duration' => 3600,
-        //         //the video duration of video conference in milisecond
-        //         'start' => '1677639600',
-        //         //the jitsi meet start in timestamp
-        //         'end' => '1677643200',
-        //         //the jitsi meet end in timestamp
-        //         'link' => 'https://meet.jit.si/KL4567' //the jitsi meeting link 
-        //     ],
-        //     [
-        //         'consul_id' => 'KL123',
-        //         'patient_name' => 'Bachtiar Arya',
-        //         // name of patient who need consultation
-        //         'medrec' => '654321',
-        //         //medical record of patient
-        //         'duration' => 3600,
-        //         //the video duration of video conference in milisecond
-        //         'start' => '1677650400',
-        //         //the jitsi meet start in timestamp
-        //         'end' => '1677654000',
-        //         //the jitsi meet end in timestamp
-        //         'link' => 'https://meet.jit.si/KL123' //the jitsi meeting link 
-        //     ]
-        // ];
+        return $data;
 
     }
 

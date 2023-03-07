@@ -418,92 +418,94 @@ Route::prefix('konsultasi')->group(function () {
 
 //admin
 Route::prefix('admin')->group(function () {
-    Route::view('/', 'admin.dashboard',);
+    Route::view('/', 'admin.dashboard', )->middleware('isAdmin');
 
-    Route::prefix('login')->group(function(){
-        Route::get('/',function(){
-            return view('admin.login');
-        });
-
-        Route::post('login',function(Request $request){
-            dd($request);
-        });
-    });
+    Route::prefix('login')->group(
+        function () {
+            Route::get(
+                '/',
+                function () {
+                        return view('admin.login');
+                    }
+            )->middleware('guestAdmin');
+            Route::post('login', [AdminController::class, 'login'])->middleware('guestAdmin');
+        }
+    );
 
     Route::prefix('pasien')->group(
         function () {
-            Route::view('view', 'admin.pasien');
-            Route::get('/', [PattientController::class, 'index']);
-            Route::post('store', [PattientController::class, 'storewithRekamMedic']); //redirect to /admin/pasien
+            Route::view('view', 'admin.pasien')->middleware('isAdmin');
+            Route::get('/', [PattientController::class, 'index'])->middleware('isAdmin');
+            Route::post('store', [PattientController::class, 'storewithRekamMedic'])->middleware('isAdmin'); //redirect to /admin/pasien
             Route::put(
                 'update',
                 function (Request $request) {
 
                     dd($request);
                 }
-            );
-            Route::get('detail/{medical_record_id}', [PattientController::class, "findByIdInaAdmin"]);
+            )->middleware('isAdmin');
+            Route::get('detail/{medical_record_id}', [PattientController::class, "findByIdInaAdmin"])->middleware('isAdmin');
             Route::get(
                 'store',
                 function () {
                         return view('admin.pasien-store');
                     }
-            );
+            )->middleware('isAdmin');
             Route::put(
                 'rs',
                 function (Request $request) {
                         dd($request);
                     }
-            );
+            )->middleware('isAdmin');
         }
     );
 
     Route::prefix('admin')->group(
         function () {
-            Route::get('/', [AdminController::class, 'index']);
-            Route::post('store', [AdminController::class, 'store']);
-            Route::put('update');
-            Route::delete('destroy', [AdminController::class, 'destroy']);
+            Route::get('/', [AdminController::class, 'index'])->middleware('isAdmin');
+            Route::post('store', [AdminController::class, 'store'])->middleware('isAdmin');
+            Route::put('update')->middleware('isAdmin');
+            Route::delete('destroy', [AdminController::class, 'destroy'])->middleware('isAdmin');
         }
     );
 
     Route::prefix('petugas')->group(
         function () {
-            Route::view('view', 'admin.petugas');
-            Route::get('/');
-            Route::post('store');
-            Route::put('update');
-            Route::delete('destroy');
+            Route::view('view', 'admin.petugas')->middleware('isAdmin');
+            Route::get('/')->middleware('isAdmin');
+            Route::post('store')->middleware('isAdmin');
+            Route::put('update')->middleware('isAdmin');
+            Route::delete('destroy')->middleware('isAdmin');
         }
     );
 
     Route::prefix('doctor')->group(
         function () {
-            Route::view('view', 'admin.doctor');
-            Route::get('/');
-            Route::post('store');
-            Route::put('update');
-            Route::delete('destroy');
+            Route::view('view', 'admin.doctor')->middleware('isAdmin');
+            Route::get('/')->middleware('isAdmin');
+            Route::post('store')->middleware('isAdmin');
+            Route::put('update')->middleware('isAdmin');
+            Route::delete('destroy')->middleware('isAdmin');
         }
     );
 
     Route::prefix('medrec')->group(
         function () {
-            Route::view('view', 'admin.medrec');
-            Route::get('/');
-            Route::post('store');
-            Route::put('update');
-            Route::delete('destroy');
+            Route::view('view', 'admin.medrec')->middleware('isAdmin');
+            Route::get('/')->middleware('isAdmin');
+            Route::post('store')->middleware('isAdmin');
+            Route::put('update')->middleware('isAdmin');
+            Route::delete('destroy')->middleware('isAdmin');
         }
     );
 
     Route::prefix('medicine')->group(
         function () {
-            Route::view('view', 'admin.medicine');
-            Route::get('/');
-            Route::post('store');
-            Route::put('update');
-            Route::delete('destroy');
+            Route::view('view', 'admin.medicine')->middleware('isAdmin');
+            Route::get('/')->middleware('isAdmin');
+            Route::post('store')->middleware('isAdmin');
+            Route::put('update')->middleware('isAdmin');
+            Route::delete('destroy')->middleware('isAdmin');
         }
     );
 
@@ -514,23 +516,21 @@ Route::prefix('admin')->group(function () {
             Route::get(
                 '/',
                 [RecordCategoryController::class, 'indexAdmin']
-            );
+            )->middleware('isAdmin');
             Route::post(
                 'store',
                 [RecordCategoryController::class, 'store']
-            );
+            )->middleware('isAdmin');
             Route::put(
                 'update',
                 function (Request $request) {
                         dd($request);
                     }
-            );
+            )->middleware('isAdmin');
             Route::delete(
                 'destroy',
-                function (Request $request) {
-                        dd([$request]);
-                    }
-            );
+                [RecordCategoryController::class , 'destroy']
+            )->middleware('isAdmin');
         }
     );
 
@@ -558,26 +558,26 @@ Route::prefix('admin')->group(function () {
                     ];
                     return view('admin.schedule', ['data' => $data]);
                 }
-            );
+            )->middleware('isAdmin');
             Route::post(
                 'store',
                 function (Request $request) {
 
                         dd($request);
                     }
-            );
+            )->middleware('isAdmin');
             Route::put(
                 'update',
                 function (Request $request) {
                         dd($request);
                     }
-            );
+            )->middleware('isAdmin');
             Route::delete(
                 'destroy',
                 function (Request $request) {
                         dd([$request]);
                     }
-            );
+            )->middleware('isAdmin');
         }
     );
 
@@ -586,33 +586,46 @@ Route::prefix('admin')->group(function () {
             Route::get(
                 '/',
                 [RecordController::class, 'showComplaintOnAdmin']
-            );
+            )->middleware('isAdmin');
 
             Route::put(
                 'agreement',
                 [RecordController::class, 'confirmStatusPayment']
-            );
+            )->middleware('isAdmin');
         }
     );
 });
 
 //dokter
 Route::prefix('doctor')->group(function () {
-    Route::prefix('/dashboard')->group(function () {
-        Route::get('/', function () {
-            return view('doctor.pages.dashboard');
-        });
-    });
+    Route::prefix('/dashboard')->group(
+        function () {
+            Route::get(
+                '/',
+                function () {
+                        return view('doctor.pages.dashboard');
+                    }
+            );
+        }
+    );
 
-    Route::prefix('login')->group(function(){
-        Route::get('/',function(){
-            return view('doctor.pages.login');
-        });
+    Route::prefix('login')->group(
+        function () {
+            Route::get(
+                '/',
+                function () {
+                        return view('doctor.pages.login');
+                    }
+            );
 
-        Route::post('login',function(Request $request){
-            dd($request);
-        });
-    });
+            Route::post(
+                'login',
+                function (Request $request) {
+                        dd($request);
+                    }
+            );
+        }
+    );
 
     Route::get(
         '/consul',
