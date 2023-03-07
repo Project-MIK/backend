@@ -40,12 +40,10 @@ class AdminController extends Controller
         $response = $this->service->store($request->validate($request->rules()));
         if ($response) {
             // return redirect('admin/admin')->with('message', 'berhasil menambahkan data admin');
-            $message = ['status' => true, "message" => "berhasil menambahkan data admin"];
-            return redirect()->back()->with('message', $message);
+            return redirect()->back()->with('message', "berhasil menambahkan admin baru");
         } else {
             // return redirect('admin/admin')->with('message', 'gagal menambahkan data admin , terjadi kesalahan server');
-            $message = ['status' => false, "message" => "gagal menambahkan data admin"];
-            return redirect()->back()->with('message', $message);
+            return redirect()->back()->withErrors("Gagal menambahkan admin");
         }
     }
     public function show(Admin $admin)
@@ -122,7 +120,7 @@ class AdminController extends Controller
         ];
         $res = $this->service->login($data);
         if ($res) {
-            return redirect('admin')->with('message' , 'Berhasil login');
+            return redirect('admin')->with('message', 'Berhasil login');
         } else {
             return Redirect::back()->withErrors(['msg' => 'Password atau Email Kamu Salah']);
         }

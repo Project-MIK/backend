@@ -127,7 +127,19 @@
                             <div class="col-2"><i class="fa-solid fa-tags"></i></div>
                             <div class="col-10">
                                 <p>
-                                    Complaint Category 
+                                    Kategori
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/poly/" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-regular fa-hospital"></i></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Poliklinik
                                 </p>
                             </div>
                         </div>
@@ -148,7 +160,7 @@
                 <li class="nav-item">
                     <a href="/admin/consul/" class="nav-link">
                         <div class="row">
-                            <div class="col-2"><i class="fa-solid fa-calendar-days"></i></div>
+                            <div class="col-2"><i class="fa-solid fa-stethoscope"></i></div>
                             <div class="col-10">
                                 <p>
                                     Konsultasi
