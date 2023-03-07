@@ -57,22 +57,22 @@ Route::post("/recovery/{token}", fn() => view("pacient.auth.recovery"));
 // Dashboard
 Route::prefix("/dashboard")->group(function () {
     // # Showing data consultation, history and setting
-    Route::view("/", "pacient.dashboard.index");
+    Route::view("/", "pacient.dashboard.index")->middleware('pattientAuthenticate');
     // # Action pacient save setting
-    Route::post("/save-setting", [PattientController::class, 'updateDataPattient']);
+    Route::post("/save-setting", [PattientController::class, 'updateDataPattient'])->middleware('pattientAuthenticate');
     //changeEmail
     // # Action pacient change email
-    Route::post("/change-email", [PattientController::class, 'changeEmail']);
+    Route::post("/change-email", [PattientController::class, 'changeEmail'])->middleware('pattientAuthenticate');
 
     // # Action pacient change password
-    Route::post("/change-password", [PattientController::class, 'changePassword']);
+    Route::post("/change-password", [PattientController::class, 'changePassword'])->middleware('pattientAuthenticate');
 });
 
 // Consultation
 Route::prefix('konsultasi')->group(function () {
 
     // Create consultation #1 - description complaint & set category
-    Route::get('/', [RecordCategoryController::class, 'index'])->middleware('checkRecord');
+    Route::get('/', [RecordCategoryController::class, 'index'])->middleware(['checkRecord' , 'pattientAuthenticate']);
     Route::post(
         '/',
         function (Request $request) {
@@ -84,7 +84,7 @@ Route::prefix('konsultasi')->group(function () {
             ]);
             return redirect("/konsultasi/poliklinik");
         }
-    );
+    )->middleware(['checkRecord' , 'pattientAuthenticate']);
 
     // Create consultation #2 - set polyclinic
     Route::get(
@@ -102,7 +102,7 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]);
         }
-    );
+    )->middleware('pattientAuthenticate');
     Route::post(
         '/poliklinik',
         function (Request $request) {
@@ -113,7 +113,7 @@ Route::prefix('konsultasi')->group(function () {
             ]);
             return redirect("/konsultasi/dokter");
         }
-    );
+    )->middleware(['checkRecord' , 'pattientAuthenticate']);
 
     // Create consultation #3 - set doctor & schedule consultation
     Route::get(
@@ -160,7 +160,7 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]);
         }
-    );
+    )->middleware(['checkRecord' , 'pattientAuthenticate']);
     Route::get(
         '/dokter/{id}',
         function ($id) {
@@ -206,7 +206,7 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]);
         }
-    );
+    )->middleware(['checkRecord' , 'pattientAuthenticate']);
     Route::get(
         '/dokter/{id}/{date}',
         function ($id, $date) {
@@ -253,7 +253,7 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]);
         }
-    );
+    )->middleware(['checkRecord' , 'pattientAuthenticate']);
     Route::post(
         '/dokter',
         function (Request $request) {
@@ -267,7 +267,7 @@ Route::prefix('konsultasi')->group(function () {
             ]);
             return redirect("/konsultasi/rincian");
         }
-    );
+    )->middleware(['checkRecord' , 'pattientAuthenticate']);
 
     // Create consultation #4 - showing confirmation desciption data
     Route::get(
@@ -277,7 +277,7 @@ Route::prefix('konsultasi')->group(function () {
                 return redirect("/konsultasi/dokter");
             return view("pacient.consultation.detail-order");
         }
-    );
+    )->middleware(['checkRecord' , 'pattientAuthenticate']);
     Route::post('/rincian', [RecordController::class, "store"]);
 
     // Show pacient consultation based on ID
