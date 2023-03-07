@@ -503,7 +503,6 @@ Route::prefix('admin')->group(function () {
             //count: jumlah kategori digunakan pada komplain
             Route::get(
                 '/',
-
                 [RecordCategoryController::class, 'indexAdmin']
             );
             Route::post(
@@ -602,40 +601,7 @@ Route::prefix('doctor')->group(function () {
 
     Route::get(
         '/consul',
-        function () {
-            $data = [
-                [
-                    'consul_id' => 'KL4567',
-                    'patient_name' => 'tajut zamzami',
-                    // name of patient who need consultation
-                    'medrec' => '123456',
-                    //medical record of patient
-                    'duration' => 3600,
-                    //the video duration of video conference in milisecond
-                    'start' => '1677639600',
-                    //the jitsi meet start in timestamp
-                    'end' => '1677643200',
-                    //the jitsi meet end in timestamp
-                    'link' => 'https://meet.jit.si/KL4567' //the jitsi meeting link 
-                ],
-                [
-                    'consul_id' => 'KL123',
-                    'patient_name' => 'Bachtiar Arya',
-                    // name of patient who need consultation
-                    'medrec' => '654321',
-                    //medical record of patient
-                    'duration' => 3600,
-                    //the video duration of video conference in milisecond
-                    'start' => '1677650400',
-                    //the jitsi meet start in timestamp
-                    'end' => '1677654000',
-                    //the jitsi meet end in timestamp
-                    'link' => 'https://meet.jit.si/KL123' //the jitsi meeting link 
-                ]
-            ];
-
-            return view('doctor.pages.consul', ['data' => $data]);
-        }
+        [RecordController::class, 'showConsulByDoctor']
     );
 
     Route::prefix('category')->group(

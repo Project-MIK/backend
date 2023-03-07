@@ -143,7 +143,7 @@ class PattientController extends Controller
                 try {
                     //code...
                     Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'], $request['email']));
-                    return redirect()->back()->with("message", "gagal mengirim email");
+                    return redirect()->back()->with("message", "berhasil mengirim email");
                 } catch (\Throwable $th) {
                     //throw $th;
                     return redirect()->back()->with("message", "gagal mengirim email");
@@ -181,7 +181,7 @@ class PattientController extends Controller
                 try {
                     //code...
                     Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'], $request['email']));
-                    return redirect()->back()->with("message", "gagal mengirim email");
+                    return redirect()->back()->with("message", "berhasil mengirim email");
                 } catch (\Throwable $th) {
                     //throw $th;
                     return redirect()->back()->with("message", "gagal mengirim email");

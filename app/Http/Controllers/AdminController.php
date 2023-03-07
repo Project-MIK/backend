@@ -8,7 +8,10 @@ use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
 use App\Models\Admin;
 use App\Services\AdminService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
@@ -24,7 +27,7 @@ class AdminController extends Controller
     public function index()
     {
         $data = $this->service->findAll();
-        return view("admin.admin", ['data'=> $data]);
+        return view("admin.admin", ['data' => $data]);
     }
     public function create()
     {
@@ -55,7 +58,7 @@ class AdminController extends Controller
         $data = $this->service->findById($admin->id);
         return $data;
     }
-    public function update(UpdateAdminRequest $request,  Admin $admin)
+    public function update(UpdateAdminRequest $request, Admin $admin)
     {
         $validatedData = $request->validate($request->validate($request->rules()['update']));
         $isChanged = Helper::compareToArrays($validatedData, $admin, 'admin');
@@ -109,5 +112,19 @@ class AdminController extends Controller
     {
         // return null if not exist , return array if exist
         return $this->service->findByEmail($request->email);
+    }
+
+    public function login(Request $request)
+    {
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+        $res = $this->service->login($data);
+        if ($res) {
+            return redirect('admin');
+        } else {
+            return Redirect::back()->withErrors(['msg' => 'Password atau Email Kamu Salah']);
+        }
     }
 }

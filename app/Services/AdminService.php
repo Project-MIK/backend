@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\Helper;
 use App\Http\Requests\StoreAdminRequest;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AdminService
@@ -87,5 +88,10 @@ class AdminService
     }
 
 
-    
+    public function login(array $request)
+    {
+        $res = Auth::guard('admin')->attempt(['email' => $request['email'], 'password' => $request['password']]);
+        return $res;
+    }
+
 }

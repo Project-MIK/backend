@@ -118,4 +118,10 @@ class RecordController extends Controller
         $res = $this->service->acceptPaymentOrDecline($request->id, $request->status);
         return redirect()->back()->with('message', $res['message']);
     }
+
+    public function showConsulByDoctor()
+    {
+        $data = $this->service->showConsulByDocter();
+        return view('doctor.pages.consul', ['data' => $data]);
+    }
 }
