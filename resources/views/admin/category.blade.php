@@ -20,8 +20,6 @@
                 <tr>
                     <th>no</th>
                     <th>kategori</th>
-                    <th>Poly</th>
-                    <th>count</th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,8 +30,6 @@
                     <td>{{$no}}</td>
                     <td hidden>{{$item['id_category']}}</td>
                     <td>{{$item['category']}}</td>
-                    <td data-id="{{$item['id_poly']}}">{{$item['poly']}}</td>
-                    <td>{{$item['count']}}</td>
                     <td>
                         <div class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
@@ -48,8 +44,6 @@
                 <tr>
                     <th>no</th>
                     <th>kategori</th>
-                    <th>Poly</th>
-                    <th>count</th>
                     <th></th>
                 </tr>
             </tfoot>
