@@ -63,7 +63,7 @@
         </div>
         <div class="form-group">
             <label>Kategori</label>
-            <select class="form-control" name="category">
+            <select class="form-control" name="id_category">
                 @foreach($category as $item)
                     <option value="{{$item['id_category']}}">{{$item['category']}}</option>
                 @endforeach
@@ -79,15 +79,15 @@
     </x-slot:header>
     <form action="/admin/poly/update" method="post">
         @csrf
-        @method('post')
-        <input type="text" name="id" id="edit-id">
+        @method('put')
+        <input type="text" name="id" id="edit-id" hidden>
         <div class="form-group">
             <label for="store-category">Poliklinik</label>
             <input type="text" class="form-control" id="edit-poly" placeholder="Masukan kategori" name="poly">
         </div>
         <div class="form-group">
             <label>Kategori</label>
-            <select class="form-control" name="category" id="edit-category">
+            <select class="form-control" name="id_category" id="edit-category">
                 @foreach($category as $item)
                     <option value="{{$item['id_category']}}">{{$item['category']}}</option>
                 @endforeach
