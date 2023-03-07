@@ -418,7 +418,17 @@ Route::prefix('konsultasi')->group(function () {
 
 //admin
 Route::prefix('admin')->group(function () {
-    Route::view('/', 'admin.dashboard', );
+    Route::view('/', 'admin.dashboard',);
+
+    Route::prefix('login')->group(function(){
+        Route::get('/',function(){
+            return view('admin.login');
+        });
+
+        Route::post('login',function(Request $request){
+            dd($request);
+        });
+    });
 
     Route::prefix('pasien')->group(
         function () {
@@ -588,16 +598,21 @@ Route::prefix('admin')->group(function () {
 
 //dokter
 Route::prefix('doctor')->group(function () {
-    Route::prefix('/dashboard')->group(
-        function () {
-            Route::get(
-                '/',
-                function () {
-                        return view('doctor.pages.dashboard');
-                    }
-            );
-        }
-    );
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/', function () {
+            return view('doctor.pages.dashboard');
+        });
+    });
+
+    Route::prefix('login')->group(function(){
+        Route::get('/',function(){
+            return view('doctor.pages.login');
+        });
+
+        Route::post('login',function(Request $request){
+            dd($request);
+        });
+    });
 
     Route::get(
         '/consul',
