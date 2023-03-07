@@ -25,6 +25,8 @@ class RecordCategoryService
 
     public function insert(array $request)
     {
+        $request['category_name'] = $request['category'];
+        unset($request['category']);
         $response = [];
         $checkNameCategory = $this->recordCategory->where('category_name', $request['category_name'])->first();
         if ($checkNameCategory == null) {

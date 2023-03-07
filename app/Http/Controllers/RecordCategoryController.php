@@ -25,17 +25,29 @@ class RecordCategoryController extends Controller
         foreach ($data as $key => $value) {
             # code...
             $categories[$value['id']] = $value['category_name'];
-        };
-        return view("pacient.consultation.complaint",compact('categories'));
+        }
+        ;
+        return view("pacient.consultation.complaint", compact('categories'));
+    }
+
+    public function indexAdmin()
+    {
+        $data = $this->service->findAll();
+        foreach ($data as $key => $value) {
+            # code...
+            $data[$key]['category'] = $data[$key]['category_name'];
+            $data[$key]['id_category'] = $data[$key]['id'];
+            unset($data[$key]['category_name'],$data[$key]['id']);
+        }
+        return view('admin.category', compact('data'));
     }
 
     public function store(RecordCategoryStoreRequest $request)
     {
 
         $rules = [
-            'category_name' => ['required', 'min:4', "regex:/^[a-zA-Z]+$/u"],
+            'category' => ['required', 'min:4', "regex:/^[a-zA-Z]+$/u"],
         ];
-
         $customMessages = [
             'required' => 'Category Complaint tidak boleh kosong',
             "min" => "Category Complaint harus minimal 4 Character",
@@ -43,9 +55,7 @@ class RecordCategoryController extends Controller
         ];
         $data = $this->validate($request, $rules, $customMessages);
         $res = $this->service->insert($data);
-        if ($res['status']) {
-            return redirect()->back()->with("message", $res['message']);
-        }
+        return redirect()->back()->with("message", $res['message']);
     }
 
     public function update($id, RecordCategoryUpdateRequest $request)
@@ -66,8 +76,8 @@ class RecordCategoryController extends Controller
     }
     public function show($id)
     {
-        $res =  $this->service->findByid($id);
-        if($res==null){
+        $res = $this->service->findByid($id);
+        if ($res == null) {
             return [];
         }
         return $res;
@@ -76,10 +86,10 @@ class RecordCategoryController extends Controller
     public function destroy($id)
     {
         $res = $this->service->deleteById($id);
-        if($res){
-            return redirect()->back()->with("message" , "berhasil menghapus category");
-        }else{
-            return redirect()->back()->with("message" , "gagal menghapus category");
+        if ($res) {
+            return redirect()->back()->with("message", "berhasil menghapus category");
+        } else {
+            return redirect()->back()->with("message", "gagal menghapus category");
         }
-    }   
+    }
 }
