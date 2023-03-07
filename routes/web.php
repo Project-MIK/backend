@@ -381,6 +381,16 @@ Route::prefix('konsultasi')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::view('/', 'admin.dashboard',);
 
+    Route::prefix('login')->group(function(){
+        Route::get('/',function(){
+            return view('admin.login');
+        });
+
+        Route::post('login',function(Request $request){
+            dd($request);
+        });
+    });
+
     Route::prefix('pasien')->group(function () {
         Route::view('view', 'admin.pasien');
         Route::get('/', [PattientController::class, 'index']);
@@ -596,6 +606,16 @@ Route::prefix('doctor')->group(function () {
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', function () {
             return view('doctor.pages.dashboard');
+        });
+    });
+
+    Route::prefix('login')->group(function(){
+        Route::get('/',function(){
+            return view('doctor.pages.login');
+        });
+
+        Route::post('login',function(Request $request){
+            dd($request);
         });
     });
 
