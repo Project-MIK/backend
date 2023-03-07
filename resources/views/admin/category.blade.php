@@ -20,8 +20,6 @@
                 <tr>
                     <th>no</th>
                     <th>kategori</th>
-                    <th>Poly</th>
-                    <th>count</th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,8 +30,6 @@
                     <td>{{$no}}</td>
                     <td hidden>{{$item['id_category']}}</td>
                     <td>{{$item['category']}}</td>
-                    <td data-id="{{$item['id_poly']}}">{{$item['poly']}}</td>
-                    <td>{{$item['count']}}</td>
                     <td>
                         <div class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
@@ -48,8 +44,6 @@
                 <tr>
                     <th>no</th>
                     <th>kategori</th>
-                    <th>Poly</th>
-                    <th>count</th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -68,14 +62,6 @@
             <div class="form-group">
                 <label for="store-category">Kategori</label>
                 <input type="text" class="form-control" id="store-category" placeholder="Masukan kategori" name="category">
-            </div>
-            <div class="form-group">
-                <label>Poli</label>
-                <select class="form-control" name="id_poly" id="edit-poly">
-                    @foreach($poly as $option)
-                    <option value="{{$option['id_poly']}}">{{$option['poly']}}</option>
-                    @endforeach
-                </select>
             </div>
             <button type="submit" class="btn btn-block btn-default btn-sm">Simpan</button>
         </form>
@@ -103,14 +89,6 @@
                 <div class="form-group">
                     <label for="edit-category">Kategori</label>
                     <input type="text" class="form-control" id="edit-category" placeholder="Masukan kategori" name="category">
-                </div>
-                <div class="form-group">
-                    <label>Poli</label>
-                    <select name="id_poly" id="edit-poly" class="form-control">
-                        @foreach($poly as $option)
-                        <option value="{{$option['id_poly']}}">{{$option['poly']}}</option>
-                        @endforeach
-                    </select>
                 </div>
                 <button type="submit" class="col-4 btn btn-block btn-primary btn-sm">Submit</button>
             </form>
