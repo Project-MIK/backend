@@ -19,12 +19,8 @@
                     </div>
                     <div class="form-group col-md-6">
                         <div id="nik" class="d-block">
-                            <label for="inputNik" id="labelNik" class="text-trouth">NIK <span class="text-sm font-weight-normal">( Nomor Induk Kependudukan )</span></label>
-                            <input type="text" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" value="-" autofocus required>
-                        </div>
-                        <div id="paspor" class="d-none">
-                            <label for="inputPaspor" class="text-trouth">Nomor Paspor</label>
-                            <input type="text" class="form-control py-4" id="inputPaspor" name="no_paspor" placeholder="Ketikkan nomor paspor" value="-" required>
+                            <label for="inputNik" id="labelNik"  class="text-trouth">NIK <span class="text-sm font-weight-normal">( Nomor Induk Kependudukan )</span></label>
+                            <input type="number" value="{{old('nik')}}" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" value="-" autofocus required>
                         </div>
                     </div>
                 </div>

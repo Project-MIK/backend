@@ -69,14 +69,6 @@
                 <label for="store-category">Kategori</label>
                 <input type="text" class="form-control" id="store-category" placeholder="Masukan kategori" name="category">
             </div>
-            <div class="form-group">
-                <label>Poli</label>
-                <select class="form-control" name="id_poly" id="edit-poly">
-                    @foreach($poly as $option)
-                    <option value="{{$option['id_poly']}}">{{$option['poly']}}</option>
-                    @endforeach
-                </select>
-            </div>
             <button type="submit" class="btn btn-block btn-default btn-sm">Simpan</button>
         </form>
     </x-modals.modal>
@@ -103,14 +95,6 @@
                 <div class="form-group">
                     <label for="edit-category">Kategori</label>
                     <input type="text" class="form-control" id="edit-category" placeholder="Masukan kategori" name="category">
-                </div>
-                <div class="form-group">
-                    <label>Poli</label>
-                    <select name="id_poly" id="edit-poly" class="form-control">
-                        @foreach($poly as $option)
-                        <option value="{{$option['id_poly']}}">{{$option['poly']}}</option>
-                        @endforeach
-                    </select>
                 </div>
                 <button type="submit" class="col-4 btn btn-block btn-primary btn-sm">Submit</button>
             </form>
