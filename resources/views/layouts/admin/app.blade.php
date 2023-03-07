@@ -40,7 +40,7 @@
     <x-admin-postrendered-assets />
 
     @if(session('message'))
-    {{dd(session('message'))}}
+    {{-- {{dd(session('message'))}} --}}
     <script>
         $(function() {
             $(document).ready(function() {

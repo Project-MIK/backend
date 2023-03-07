@@ -386,38 +386,38 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [PattientController::class, 'index']);
         Route::post('store', [PattientController::class, 'storewithRekamMedic']); //redirect to /admin/pasien
         Route::put('update', function (Request $request) {
-            
+
             dd($request);
         });
         Route::get('detail/{medical_record_id}', function ($medical_record_id) {
             //butuh fungsi getbyId
             $data = [
-                'fullname' => "Bachtiar",//
-                'email' => "bachtiarah@gmail.com",//
-                'gender' => "L",//
-                'password' => "Asa",//
-                'phone_number' => "082234439795",//
-                'address_RT' => "01",//
-                'address_RW' => "01",//
-                'address_desa' => "Banjarejo",//
-                'address_dusun' => "Banjarejo",//
-                'address_kecamatan' => "Dagangan",//
-                'address_kabupaten' => "Madiun",//
-                'citizen' => "WNA",//
-                'profession' => "Mahasiswa",//
-                'date_birth' => "18 Januari 2003",//
-                'blood_group' => "-",//
-                'place_birth' => "Madiun",//
-                'no_paspor' => "1234567890123456",//
+                'fullname' => "Bachtiar", //
+                'email' => "bachtiarah@gmail.com", //
+                'gender' => "L", //
+                'password' => "Asa", //
+                'phone_number' => "082234439795", //
+                'address_RT' => "01", //
+                'address_RW' => "01", //
+                'address_desa' => "Banjarejo", //
+                'address_dusun' => "Banjarejo", //
+                'address_kecamatan' => "Dagangan", //
+                'address_kabupaten' => "Madiun", //
+                'citizen' => "WNA", //
+                'profession' => "Mahasiswa", //
+                'date_birth' => "18 Januari 2003", //
+                'blood_group' => "-", //
+                'place_birth' => "Madiun", //
+                'no_paspor' => "1234567890123456", //
                 "medical_record_id" => "123456",
                 "id_registration_officer" => "1",
             ];
-            return view('admin.pasien-detail', ["data"=>$data]);
+            return view('admin.pasien-detail', ["data" => $data]);
         });
         Route::get('store', function () {
             return view('admin.pasien-store');
         });
-        Route::put('rs',function(Request $request){
+        Route::put('rs', function (Request $request) {
             dd($request);
         });
     });
@@ -524,40 +524,69 @@ Route::prefix('admin')->group(function () {
         });
     });
 
-    Route::prefix('complain')->group(function(){
-        
-        Route::get('/',function(){
+    Route::prefix('complain')->group(function () {
+
+        Route::get('/', function () {
             $data = [
                 [
-                    'id'=>'KLaasdj',
-                    'name'=>'Bachtiar Arya Habibie',
-                    'category'=>'kepala',
-                    'poly'=>'anak',
-                    'doctor'=>'anis',
-                    'link_foto'=>'https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1600959891/inewyddubc2v9au1ef2h.png',
-                    'description'=>'Saya, John, mengalami sakit kepala yang cukup mengganggu belakangan ini. Sakit kepala ini terjadi pada bagian belakang kepala dan terjadi sekitar 2-3 kali seminggu. Setiap kali sakit kepala terjadi, saya merasakan mual dan sedikit pusing yang cukup mengganggu aktivitas saya. Sakit kepala ini berlangsung selama sekitar 2-3 jam setiap kali terjadi. Meskipun saya tidak memiliki riwayat penyakit kepala atau keluarga yang menderita sakit kepala secara serius, namun saya menyadari bahwa kebiasaan saya yang sering bekerja dengan komputer dalam waktu yang lama dan kurang istirahat mungkin menjadi faktor pemicu sakit kepala yang saya alami. Saya berharap dapat menemukan solusi yang tepat untuk mengatasi keluhan sakit kepala yang saya alami ini.',
-                    'payment_method'=>'BRI',
-                    'payment_amount'=>90000,
-                    'status'=>'belum terkonfirmasi'
+                    'id' => 'KLaasdj',
+                    'name' => 'Bachtiar Arya Habibie',
+                    'category' => 'kepala',
+                    'poly' => 'anak',
+                    'doctor' => 'anis',
+                    'link_foto' => 'https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1600959891/inewyddubc2v9au1ef2h.png',
+                    'description' => 'Saya, John, mengalami sakit kepala yang cukup mengganggu belakangan ini. Sakit kepala ini terjadi pada bagian belakang kepala dan terjadi sekitar 2-3 kali seminggu. Setiap kali sakit kepala terjadi, saya merasakan mual dan sedikit pusing yang cukup mengganggu aktivitas saya. Sakit kepala ini berlangsung selama sekitar 2-3 jam setiap kali terjadi. Meskipun saya tidak memiliki riwayat penyakit kepala atau keluarga yang menderita sakit kepala secara serius, namun saya menyadari bahwa kebiasaan saya yang sering bekerja dengan komputer dalam waktu yang lama dan kurang istirahat mungkin menjadi faktor pemicu sakit kepala yang saya alami. Saya berharap dapat menemukan solusi yang tepat untuk mengatasi keluhan sakit kepala yang saya alami ini.',
+                    'payment_method' => 'BRI',
+                    'payment_amount' => 90000,
+                    'status' => 'belum terkonfirmasi'
                 ],
                 [
-                    'id'=>'KLqwer',
-                    'name'=>'Muhammad Tajut Zamzami',
-                    'category'=>'paru-paru',
-                    'poly'=>'dalam',
-                    'doctor'=>'Andre',
-                    'link_foto'=>'https://images.tokopedia.net/img/cache/500-square/hDjmkQ/2022/2/21/ba348df9-d8a5-459a-9cb9-acc30dc45eda.jpg',
-                    'description'=>'Saya merasakan sesak napas yang cukup parah dan sulit untuk bernafas dengan normal. Saya juga merasakan adanya rasa nyeri atau ketidaknyamanan pada dada saya saat bernapas atau batuk. Terkadang, saya juga merasa sangat lelah dan tidak bertenaga akibat kekurangan oksigen dalam tubuh. Rasanya sangat tidak nyaman dan membuat saya sulit untuk melakukan aktivitas sehari-hari dengan baik. Saya berharap agar cepat pulih dari kondisi ini dan kembali dapat menjalani hidup dengan normal kembali.',
-                    'payment_method'=>'BRI',
-                    'payment_amount'=>90000,
-                    'status'=>'sudah disetujui'
+                    'id' => 'KLqwer',
+                    'name' => 'Muhammad Tajut Zamzami',
+                    'category' => 'paru-paru',
+                    'poly' => 'dalam',
+                    'doctor' => 'Andre',
+                    'link_foto' => 'https://images.tokopedia.net/img/cache/500-square/hDjmkQ/2022/2/21/ba348df9-d8a5-459a-9cb9-acc30dc45eda.jpg',
+                    'description' => 'Saya merasakan sesak napas yang cukup parah dan sulit untuk bernafas dengan normal. Saya juga merasakan adanya rasa nyeri atau ketidaknyamanan pada dada saya saat bernapas atau batuk. Terkadang, saya juga merasa sangat lelah dan tidak bertenaga akibat kekurangan oksigen dalam tubuh. Rasanya sangat tidak nyaman dan membuat saya sulit untuk melakukan aktivitas sehari-hari dengan baik. Saya berharap agar cepat pulih dari kondisi ini dan kembali dapat menjalani hidup dengan normal kembali.',
+                    'payment_method' => 'BRI',
+                    'payment_amount' => 90000,
+                    'status' => 'sudah disetujui'
                 ],
             ];
-            return view('admin.complain',['data'=>$data]);
+            return view('admin.complain', ['data' => $data]);
         });
 
-        Route::put('agreement',function(Request $request){
+        Route::put('agreement', function (Request $request) {
             dd($request);
+        });
+    });
+
+    Route::prefix('consul')->group(function () {
+        Route::get('/', function () {
+            $data = [
+                [
+                    'consul_id' => 'KL4567',
+                    'patient_name' => 'tajut zamzami', // name of patient who need consultation
+                    'medrec' => '123456', //medical record of patient
+                    'doctor' => 'Dr. Anis',
+                    'duration' => 3600, //the video duration of video conference in milisecond
+                    'start' => '1677639600', //the jitsi meet start in timestamp
+                    'end' => '1677643200', //the jitsi meet end in timestamp
+                    'link' => 'https://meet.jit.si/KL4567' //the jitsi meeting link 
+                ],
+                [
+                    'consul_id' => 'KL123',
+                    'patient_name' => 'Bachtiar Arya', // name of patient who need consultation
+                    'medrec' => '654321', //medical record of patient
+                    'doctor' => 'Dr. Andre',
+                    'duration' => 3600, //the video duration of video conference in milisecond
+                    'start' => '1677650400', //the jitsi meet start in timestamp
+                    'end' => '1677654000', //the jitsi meet end in timestamp
+                    'link' => 'https://meet.jit.si/KL123' //the jitsi meeting link 
+                ]
+            ];
+
+            return view('admin.consul', ['data' => $data]);
         });
     });
 });
