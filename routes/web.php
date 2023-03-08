@@ -367,15 +367,12 @@ Route::prefix('konsultasi')->group(function () {
     );
 
     // Cancel pickup medical prescription
-    Route::get('/{id}/cancel-pickup', fn($id) => redirect("/konsultasi/{$id}"));
-    Route::post(
-        '/{id}/cancel-pickup',
-        function ($id) {
-            dd([
-                "id" => $id
-            ]);
-        }
-    );
+    Route::get('/{id}/cancel-pickup', fn ($id) => redirect("/konsultasi/{$id}"));
+    Route::post('/{id}/cancel-pickup', function ($id) {
+        dd([
+            "id" => $id
+        ]);
+    });
 });
 
 
