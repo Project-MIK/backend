@@ -41,7 +41,7 @@
                     <td>{{$item['duration']/60}} menit</td>
                     <td>{{$start}}</td>
                     <td>{{$end}}</td>
-                    <td><button data-toggle='modal' data-target='#vc' class="col detail btn btn-block btn-primary btn-sm">Mulai Konsultasi</button></td>
+                    <td><a target="blank" href="/admin/consul/vidcon/{{$item['consul_id']}}"><button class="col detail btn btn-block btn-primary btn-sm">Mulai Konsultasi</button></a></td>
                 </tr>
                 @php($no++)
                 @endforeach

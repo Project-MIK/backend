@@ -381,12 +381,12 @@ Route::prefix('konsultasi')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::view('/', 'admin.dashboard',);
 
-    Route::prefix('login')->group(function(){
-        Route::get('/',function(){
+    Route::prefix('login')->group(function () {
+        Route::get('/', function () {
             return view('admin.login');
         });
 
-        Route::post('login',function(Request $request){
+        Route::post('login', function (Request $request) {
             dd($request);
         });
     });
@@ -610,62 +610,73 @@ Route::prefix('admin')->group(function () {
 
             return view('admin.consul', ['data' => $data]);
         });
+
+        Route::get('vidcon/{id_consul}', function ($id_consul) {
+
+            //data from getById($id_consul) 
+            $data = [
+                'id_consul' => $id_consul, 
+                'doctor' => 'Dr. Anis', 
+                'patien' => 'Bachtiar',
+                'duration' => 7200000 //in milisecond
+            ];
+            return view('admin.jitsi', ['data' => $data]);
+        });
     });
 
-    Route::prefix('poly')->group(function(){
-        
+    Route::prefix('poly')->group(function () {
 
-        Route::get('/',function(){
+
+        Route::get('/', function () {
             $category = [
                 [
-                    'id_category'=>'1',
-                    'category'=>'kategory 1'
+                    'id_category' => '1',
+                    'category' => 'kategory 1'
                 ],
                 [
-                    'id_category'=>'2',
-                    'category'=>'kategory 2'
+                    'id_category' => '2',
+                    'category' => 'kategory 2'
                 ],
                 [
-                    'id_category'=>'3',
-                    'category'=>'kategory 3'
+                    'id_category' => '3',
+                    'category' => 'kategory 3'
                 ],
             ];
-            
+
             $data = [
                 [
-                    'id_poly'=>'1',
-                    'poly'=>'anak',
-                    'id_category'=>'1',
-                    'category'=>'kategori 1'
+                    'id_poly' => '1',
+                    'poly' => 'anak',
+                    'id_category' => '1',
+                    'category' => 'kategori 1'
                 ],
                 [
-                    'id_poly'=>'12',
-                    'poly'=>'dalam',
-                    'id_category'=>'1',
-                    'category'=>'kategori 1'
+                    'id_poly' => '12',
+                    'poly' => 'dalam',
+                    'id_category' => '1',
+                    'category' => 'kategori 1'
                 ],
                 [
-                    'id_poly'=>'13',
-                    'poly'=>'dalam',
-                    'id_category'=>'2',
-                    'category'=>'kategori 2'
+                    'id_poly' => '13',
+                    'poly' => 'dalam',
+                    'id_category' => '2',
+                    'category' => 'kategori 2'
                 ],
             ];
-            return view('admin.poli',['data'=>$data,'category'=>$category]);
+            return view('admin.poli', ['data' => $data, 'category' => $category]);
         });
 
-        Route::post('store',function(Request $request){
+        Route::post('store', function (Request $request) {
             dd($request);
         });
 
-        Route::put('update',function(Request $request){
+        Route::put('update', function (Request $request) {
             dd($request);
         });
 
-        Route::delete('destroy',function (Request $request){
+        Route::delete('destroy', function (Request $request) {
             dd($request);
         });
-
     });
 });
 
@@ -677,12 +688,12 @@ Route::prefix('doctor')->group(function () {
         });
     });
 
-    Route::prefix('login')->group(function(){
-        Route::get('/',function(){
+    Route::prefix('login')->group(function () {
+        Route::get('/', function () {
             return view('doctor.pages.login');
         });
 
-        Route::post('login',function(Request $request){
+        Route::post('login', function (Request $request) {
             dd($request);
         });
     });
