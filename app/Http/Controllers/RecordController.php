@@ -125,4 +125,5 @@ class RecordController extends Controller
         $data = $this->service->showConsulByDocter($id);
         return view('doctor.pages.consul', ['data' => $data]);
     }
+    
 }

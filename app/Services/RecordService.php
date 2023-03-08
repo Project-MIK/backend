@@ -229,11 +229,11 @@ class RecordService
             $res[$key]['id'] = $res[$key]['id_record'];
             $status = $res[$key]['status'];
             $resultStatus = 0;
-            if($status == 'PROSES VERIFIKASI'){
-                $resultStatus = 0;                
-            }else if($status == 'PEMBAYARAN TIDAK VALID'){
+            if ($status == 'PROSES VERIFIKASI') {
+                $resultStatus = 0;
+            } else if ($status == 'PEMBAYARAN TIDAK VALID') {
                 $resultStatus = 1;
-            }else if($status == 'TERKONFIRMASI'){
+            } else if ($status == 'TERKONFIRMASI') {
                 $resultStatus = 2;
             }
             $res[$key]['status'] = $resultStatus;
@@ -304,6 +304,16 @@ class RecordService
 
     }
 
+    public function consultationComplete($idRecord)
+    {
+        $res = $this->record->where('id', $idRecord)->update(
+            ['status_consultation' => 'consultation-complete']
+        );
+        if ($res) {
+            return true;
+        }
+        return false;
+    }
 }
 
 ?>

@@ -107,4 +107,11 @@ class RecordServiceTest extends TestCase
         $service = new RecordService();
         $service->showComplaintOnAdmin();
     }
+
+    public function test_set_consultation_complete(){
+        $id = "KL0923210";
+        $service = new RecordService();
+        $res = $service->consultationComplete($id);
+        dd($res);
+    }
 }
