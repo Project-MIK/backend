@@ -54,10 +54,14 @@ class PattientService
     public function storeWithAdmin(array $request)
     {
         $res = [];
+        if ($request['citizen'] == 'WNA') {
+            $request['no_paspor'] = $request['paspor'];
+            unset($request['paspor']);
+        }
         try {
             $request['password'] = bcrypt($request['password']);
             $request['name'] = $request['fullname'];
-            $request['address'] = $request['address_RT'] . "/" . $request['address_RW']."/". $request['address_desa'] . "/" . $request['address_dusun'] . "/" . $request['address_kecamatan'] . "/" . $request['address_kabupaten'];
+            $request['address'] = $request['address_RT'] . "/" . $request['address_RW'] . "/" . $request['address_desa'] . "/" . $request['address_dusun'] . "/" . $request['address_kecamatan'] . "/" . $request['address_kabupaten'];
             $response = $this->model->create($request);
             $findRekamMedic = $this->medicalRecords->where('medical_record_id', $request['medical_record_id'])->first();
             if ($findRekamMedic != null) {

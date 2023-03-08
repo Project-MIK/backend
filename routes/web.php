@@ -399,10 +399,7 @@ Route::prefix('admin')->group(function () {
             Route::post('store', [PattientController::class, 'storewithRekamMedic'])->middleware('isAdmin'); //redirect to /admin/pasien
             Route::put(
                 'update',
-                function (Request $request) {
-
-                    dd($request);
-                }
+                [AdminController::class , 'updateDataPattient']
             )->middleware('isAdmin');
             Route::get('detail/{medical_record_id}', [PattientController::class, "findByIdInaAdmin"])->middleware('isAdmin');
             Route::get(

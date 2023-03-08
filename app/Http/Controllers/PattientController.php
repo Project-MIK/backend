@@ -98,19 +98,21 @@ class PattientController extends Controller
     }
     public function storewithRekamMedic(StorePattientMedicalRequest $request)
     {
+
         $rules = [
             'medical_record_id' => ['required', 'digits:6'],
             'id_registration_officer' => 'required',
         ];
- 
+
         $customMessages = [
             'required' => 'rekam medic tidak boleh kosong',
             "digits:6" => "rekam medic hanya boleh sepanjang 6 digit"
         ];
         $this->validate($request, $rules, $customMessages);
         $res = $this->medicalRecordService->findByMedicalRecordCheck($request['medical_record_id']);
+
         if ($res != null) {
-            return redirect()->back()->withErrors("message", "no rekam medic sudah digunakan gunakan");
+            return redirect()->back()->withErrors("no rekam medic sudah digunakan gunakan");
         }
         if ($request['citizen'] == 'WNI') {
 
@@ -143,13 +145,13 @@ class PattientController extends Controller
                 try {
                     //code...
                     Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'], $request['email']));
-                    return redirect()->back()->with("message", "berhasil mengirim email");
+                    return redirect('admin/pasien')->with("message", "berhasil mengirim email");
                 } catch (\Throwable $th) {
                     //throw $th;
-                    return redirect()->back()->with("message", "gagal mengirim email");
+                    return redirect()->back()->withErrors("gagal mengirim email");
                 }
             } else {
-                return redirect()->back()->with("message", "gagal mengirim mendaftarkan passien");
+                return redirect()->back()->withErrors("gagal mengirim mendaftarkan passien");
             }
         } else {
             $res = $this->service->storeWithAdmin(
@@ -171,7 +173,7 @@ class PattientController extends Controller
                         'date_birth' => ['required'],
                         'blood_group' => ['required'],
                         'place_birth' => ['required'],
-                        'no_paspor' => ['required', 'numeric', 'digits:16', 'unique:pattient,nik'],
+                        'paspor' => ['required', 'numeric', 'digits:16', 'unique:pattient,nik'],
                         "medical_record_id" => ["required"],
                         "id_registration_officer" => ['required']
                     ]
@@ -181,13 +183,13 @@ class PattientController extends Controller
                 try {
                     //code...
                     Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'], $request['email']));
-                    return redirect()->back()->with("message", "berhasil mengirim email");
+                    return redirect('admin/pasien')->with("message", "berhasil mengirim email");
                 } catch (\Throwable $th) {
                     //throw $th;
-                    return redirect()->back()->with("message", "gagal mengirim email");
+                    return redirect()->back()->withErrors("gagal mengirim email");
                 }
             } else {
-                return redirect()->back()->with("message", "gagal mengirim mendaftarkan passien");
+                return redirect()->back()->withErrors("gagal mengirim mendaftarkan passien");
             }
         }
     }
@@ -388,6 +390,9 @@ class PattientController extends Controller
         }
     }
 
+
+
+
     public function findByIdInaAdmin($id)
     {
         $data = $this->service->findByIdInAdmin($id);
@@ -397,7 +402,8 @@ class PattientController extends Controller
         return redirect('/admin/pasien');
     }
 
-    public function updatePatientInAdmin(Request $request){
+    public function updatePatientInAdmin(Request $request)
+    {
         $id = 1;
         $rules = [
             'fullname' => ['required', 'min:4'],
@@ -460,7 +466,7 @@ class PattientController extends Controller
                 'number_phone.min' => 'no Hp tidak boleh kurang dari 10 digit',
                 'number_phone.max' => 'no Hp tidak boleh lebih dari 13 digit'
             ];
-           //$ok =  $this->validate($request, $rules, $customMessages);
+            //$ok =  $this->validate($request, $rules, $customMessages);
         }
         $data = $request->except([
             'address_RT',
@@ -484,7 +490,7 @@ class PattientController extends Controller
         $data['phone_number'] = $request->no_telp;
         $data['gender'] = $request->gender == 'female' ? 'W' : 'M';
         $res = $this->service->updateDataPattient($data, $id);
-        if ($res) {       
+        if ($res) {
             return redirect()->back()->with('message', 'berhasil memperbarui data');
         } else {
             echo "failed";
@@ -498,9 +504,10 @@ class PattientController extends Controller
         return redirect('/masuk');
     }
 
-    public function showDataAction($id){
+    public function showDataAction($id)
+    {
         $data = $this->service->showDataActionConsultation($id);
-        return view("pacient.consultation.detail-consultation",$data);
+        return view("pacient.consultation.detail-consultation", $data);
     }
 
 
