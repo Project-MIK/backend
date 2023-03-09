@@ -72,7 +72,7 @@ Route::prefix("/dashboard")->group(function () {
 Route::prefix('konsultasi')->group(function () {
 
     // Create consultation #1 - description complaint & set category
-    Route::get('/', [RecordCategoryController::class, 'index'])->middleware(['checkRecord' , 'pattientAuthenticate']);
+    Route::get('/', [RecordCategoryController::class, 'index'])->middleware(['checkRecord', 'pattientAuthenticate']);
     Route::post(
         '/',
         function (Request $request) {
@@ -84,7 +84,7 @@ Route::prefix('konsultasi')->group(function () {
             ]);
             return redirect("/konsultasi/poliklinik");
         }
-    )->middleware(['checkRecord' , 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']);
 
     // Create consultation #2 - set polyclinic
     Route::get(
@@ -113,7 +113,7 @@ Route::prefix('konsultasi')->group(function () {
             ]);
             return redirect("/konsultasi/dokter");
         }
-    )->middleware(['checkRecord' , 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']);
 
     // Create consultation #3 - set doctor & schedule consultation
     Route::get(
@@ -160,7 +160,7 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]);
         }
-    )->middleware(['checkRecord' , 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']);
     Route::get(
         '/dokter/{id}',
         function ($id) {
@@ -206,7 +206,7 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]);
         }
-    )->middleware(['checkRecord' , 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']);
     Route::get(
         '/dokter/{id}/{date}',
         function ($id, $date) {
@@ -253,7 +253,7 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]);
         }
-    )->middleware(['checkRecord' , 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']);
     Route::post(
         '/dokter',
         function (Request $request) {
@@ -267,7 +267,7 @@ Route::prefix('konsultasi')->group(function () {
             ]);
             return redirect("/konsultasi/rincian");
         }
-    )->middleware(['checkRecord' , 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']);
 
     // Create consultation #4 - showing confirmation desciption data
     Route::get(
@@ -277,13 +277,13 @@ Route::prefix('konsultasi')->group(function () {
                 return redirect("/konsultasi/dokter");
             return view("pacient.consultation.detail-order");
         }
-    )->middleware(['checkRecord' , 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']);
     Route::post('/rincian', [RecordController::class, "store"]);
 
     // Show pacient consultation based on ID
     Route::get(
         '/{id}',
-       [PattientController::class , 'showDataAction']
+        [PattientController::class, 'showDataAction']
     );
 
     // Cancel sheduling consultation
@@ -367,12 +367,15 @@ Route::prefix('konsultasi')->group(function () {
     );
 
     // Cancel pickup medical prescription
-    Route::get('/{id}/cancel-pickup', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/cancel-pickup', function ($id) {
-        dd([
-            "id" => $id
-        ]);
-    });
+    Route::get('/{id}/cancel-pickup', fn($id) => redirect("/konsultasi/{$id}"));
+    Route::post(
+        '/{id}/cancel-pickup',
+        function ($id) {
+            dd([
+                "id" => $id
+            ]);
+        }
+    );
 });
 
 
@@ -399,7 +402,7 @@ Route::prefix('admin')->group(function () {
             Route::post('store', [PattientController::class, 'storewithRekamMedic'])->middleware('isAdmin'); //redirect to /admin/pasien
             Route::put(
                 'update',
-                [AdminController::class , 'updateDataPattient']
+                [AdminController::class, 'updateDataPattient']
             )->middleware('isAdmin');
             Route::get('detail/{medical_record_id}', [PattientController::class, "findByIdInaAdmin"])->middleware('isAdmin');
             Route::get(
@@ -486,7 +489,7 @@ Route::prefix('admin')->group(function () {
             )->middleware('isAdmin');
             Route::delete(
                 'destroy',
-                [RecordCategoryController::class , 'destroy']
+                [RecordCategoryController::class, 'destroy']
             )->middleware('isAdmin');
         }
     );
@@ -551,105 +554,88 @@ Route::prefix('admin')->group(function () {
             )->middleware('isAdmin');
         }
     );
-            
-
-  
-
-    Route::prefix('consul')->group(function () {
-        Route::get('/', function () {
-            $data = [
-                [
-                    'consul_id' => 'KL4567',
-                    'patient_name' => 'tajut zamzami', // name of patient who need consultation
-                    'medrec' => '123456', //medical record of patient
-                    'doctor' => 'Dr. Anis',
-                    'duration' => 3600, //the video duration of video conference in milisecond
-                    'start' => '1677639600', //the jitsi meet start in timestamp
-                    'end' => '1677643200', //the jitsi meet end in timestamp
-                    'link' => 'https://meet.jit.si/KL4567' //the jitsi meeting link 
-                ],
-                [
-                    'consul_id' => 'KL123',
-                    'patient_name' => 'Bachtiar Arya', // name of patient who need consultation
-                    'medrec' => '654321', //medical record of patient
-                    'doctor' => 'Dr. Andre',
-                    'duration' => 3600, //the video duration of video conference in milisecond
-                    'start' => '1677650400', //the jitsi meet start in timestamp
-                    'end' => '1677654000', //the jitsi meet end in timestamp
-                    'link' => 'https://meet.jit.si/KL123' //the jitsi meeting link 
-                ]
-            ];
-
-            return view('admin.consul', ['data' => $data]);
-        });
-
-        Route::get('vidcon/{id_consul}', function ($id_consul) {
-
-            //data from getById($id_consul) 
-            $data = [
-                'id_consul' => $id_consul, 
-                'doctor' => 'Dr. Anis', 
-                'patien' => 'Bachtiar',
-                'duration' => 7200000 //in milisecond
-            ];
-            return view('admin.jitsi', ['data' => $data]);
-        });
-    });
-
-    Route::prefix('poly')->group(function () {
 
 
-        Route::get('/', function () {
-            $category = [
-                [
-                    'id_category' => '1',
-                    'category' => 'kategory 1'
-                ],
-                [
-                    'id_category' => '2',
-                    'category' => 'kategory 2'
-                ],
-                [
-                    'id_category' => '3',
-                    'category' => 'kategory 3'
-                ],
-            ];
 
-            $data = [
-                [
-                    'id_poly' => '1',
-                    'poly' => 'anak',
-                    'id_category' => '1',
-                    'category' => 'kategori 1'
-                ],
-                [
-                    'id_poly' => '12',
-                    'poly' => 'dalam',
-                    'id_category' => '1',
-                    'category' => 'kategori 1'
-                ],
-                [
-                    'id_poly' => '13',
-                    'poly' => 'dalam',
-                    'id_category' => '2',
-                    'category' => 'kategori 2'
-                ],
-            ];
-            return view('admin.poli', ['data' => $data, 'category' => $category]);
-        });
 
-        Route::post('store', function (Request $request) {
-            dd($request);
-        });
+    Route::prefix('consul')->group(
+        function () {
+            Route::get(
+                '/',[RecordController::class , 'showConsulOnAdmin']
+            );
 
-        Route::put('update', function (Request $request) {
-            dd($request);
-        });
+            Route::get('vidcon/{id_consul}', [RecordController::class, "startCoverenceByAdmin"]);
+        }
+    );
 
-        Route::delete('destroy', function (Request $request) {
-            dd($request);
-        });
-    });
+    Route::prefix('poly')->group(
+        function () {
+
+
+            Route::get(
+                '/',
+                function () {
+                        $category = [
+                            [
+                                'id_category' => '1',
+                                'category' => 'kategory 1'
+                            ],
+                            [
+                                'id_category' => '2',
+                                'category' => 'kategory 2'
+                            ],
+                            [
+                                'id_category' => '3',
+                                'category' => 'kategory 3'
+                            ],
+                        ];
+
+                        $data = [
+                            [
+                                'id_poly' => '1',
+                                'poly' => 'anak',
+                                'id_category' => '1',
+                                'category' => 'kategori 1'
+                            ],
+                            [
+                                'id_poly' => '12',
+                                'poly' => 'dalam',
+                                'id_category' => '1',
+                                'category' => 'kategori 1'
+                            ],
+                            [
+                                'id_poly' => '13',
+                                'poly' => 'dalam',
+                                'id_category' => '2',
+                                'category' => 'kategori 2'
+                            ],
+                        ];
+                        return view('admin.poli', ['data' => $data, 'category' => $category]);
+                    }
+            );
+
+            Route::post(
+                'store',
+                function (Request $request) {
+                        dd($request);
+                    }
+            );
+
+            Route::put(
+                'update',
+                function (Request $request) {
+                        dd($request);
+                    }
+            );
+
+            Route::delete(
+                'destroy',
+                function (Request $request) {
+                        dd($request);
+                    }
+            );
+        }
+    );
 });
 
 //dokter
@@ -665,15 +651,23 @@ Route::prefix('doctor')->group(function () {
         }
     );
 
-    Route::prefix('login')->group(function () {
-        Route::get('/', function () {
-            return view('doctor.pages.login');
-        });
+    Route::prefix('login')->group(
+        function () {
+            Route::get(
+                '/',
+                function () {
+                        return view('doctor.pages.login');
+                    }
+            );
 
-        Route::post('login', function (Request $request) {
-            dd($request);
-        });
-    });
+            Route::post(
+                'login',
+                function (Request $request) {
+                        dd($request);
+                    }
+            );
+        }
+    );
 
     Route::get(
         '/consul',

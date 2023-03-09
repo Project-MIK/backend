@@ -31,6 +31,7 @@ class RecordController extends Controller
 
     public function store(Request $request)
     {
+        // request need to create function findby(date , time_start, time_end)
         $validator = Validator::make($request->all(), [
             'description' => ['required', 'max:255', 'min:10'],
             [
@@ -125,5 +126,24 @@ class RecordController extends Controller
         $data = $this->service->showConsulByDocter($id);
         return view('doctor.pages.consul', ['data' => $data]);
     }
-    
+
+    public function startCoverenceByAdmin($id)
+    {
+
+        $data = $this->service->startConverenceAdminById($id);
+        if ($data != null) {
+            return view('admin.jitsi', ['data' => $data]);
+
+        }
+        return back()->withErrors("data consul tidak ditemukan");
+
+    }
+
+    public function showConsulOnAdmin()
+    {
+        $data = $this->service->showConsulAdmin();
+        return view('admin.consul', ['data' => $data]);
+        
+    }
+
 }
