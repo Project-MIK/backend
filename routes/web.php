@@ -18,6 +18,7 @@ use App\Http\Controllers\PolyclinicController;
 use App\Http\Controllers\RecordCategoryController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
+use Svg\Tag\Rect;
 
 /*
 |--------------------------------------------------------------------------
@@ -459,15 +460,13 @@ Route::prefix('admin')->group(function () {
         }
     );
 
-    Route::prefix('medicine')->group(
-        function () {
-            Route::view('view', 'admin.medicine')->middleware('isAdmin');
-            Route::get('/')->middleware('isAdmin');
-            Route::post('store')->middleware('isAdmin');
-            Route::put('update')->middleware('isAdmin');
-            Route::delete('destroy')->middleware('isAdmin');
-        }
-    );
+    Route::prefix('medicine')->group(function () {
+        Route::view('view', 'admin.medicine');
+        Route::get('/');
+        Route::post('store');
+        Route::put('update');
+        Route::delete('destroy');
+    });
 
     Route::prefix('category')->group(
         function () {
@@ -565,7 +564,13 @@ Route::prefix('admin')->group(function () {
             );
 
             Route::get('vidcon/{id_consul}', [RecordController::class, "startCoverenceByAdmin"]);
+            Route::post('receipt/store',function(Request $request){
+                dd($request);
+            });
         }
+
+      
+
     );
 
     Route::prefix('poly')->group(
