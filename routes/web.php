@@ -553,6 +553,7 @@ Route::prefix('admin')->group(function () {
     );
             
 
+  
 
     Route::prefix('consul')->group(function () {
         Route::get('/', function () {
@@ -664,23 +665,15 @@ Route::prefix('doctor')->group(function () {
         }
     );
 
-    Route::prefix('login')->group(
-        function () {
-            Route::get(
-                '/',
-                function () {
-                        return view('doctor.pages.login');
-                    }
-            );
+    Route::prefix('login')->group(function () {
+        Route::get('/', function () {
+            return view('doctor.pages.login');
+        });
 
-            Route::post(
-                'login',
-                function (Request $request) {
-                        dd($request);
-                    }
-            );
-        }
-    );
+        Route::post('login', function (Request $request) {
+            dd($request);
+        });
+    });
 
     Route::get(
         '/consul',
