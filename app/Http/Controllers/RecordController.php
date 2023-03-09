@@ -121,7 +121,7 @@ class RecordController extends Controller
 
     public function showConsulByDoctor()
     {
-        $id = Auth::guard('admin')->user()->id;
+        $id = Auth::guard('admin')->user()->id; // change with id doctor
         $data = $this->service->showConsulByDocter($id);
         return view('doctor.pages.consul', ['data' => $data]);
     }
