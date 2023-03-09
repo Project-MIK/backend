@@ -17,6 +17,8 @@ use App\Http\Controllers\PolyclinicController;
 use App\Http\Controllers\RecordCategoryController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
+use Svg\Tag\Rect;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -466,7 +468,9 @@ Route::prefix('admin')->group(function () {
     Route::prefix('medicine')->group(function () {
         Route::view('view', 'admin.medicine');
         Route::get('/');
-        Route::post('store');
+        Route::post('store',function(Request $request){
+            dd($request);
+        });
         Route::put('update');
         Route::delete('destroy');
     });
@@ -622,6 +626,11 @@ Route::prefix('admin')->group(function () {
             ];
             return view('admin.jitsi', ['data' => $data]);
         });
+
+        Route::post('receipt/store',function(Request $request){
+            dd($request);
+        });
+
     });
 
     Route::prefix('poly')->group(function () {

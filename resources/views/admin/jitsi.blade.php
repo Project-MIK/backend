@@ -17,63 +17,86 @@
                 <div id="meet" class=""></div>
             </div>
             <div class="">
-                <div class="card card-primary">
+                <div class="card card-primary ">
                     <div class="card-header">
                         <h3 class="card-title">Tambah resep</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form>
+                    <form action="/admin/consul/receipt/store" method="POST">
+                        @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Deskripsi</label>
                                 <textarea class="form-control" rows="3" placeholder="" name="description"></textarea>
                             </div>
                             <div class="row">
+                                <div class="col-sm-6">
+                                    <!-- radio -->
+                                    <div class="form-group">
+                                        <label for="pickup">Pick Up</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="pickup">
+                                            <label class="form-check-label">rumah sakit</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="pickup" checked="">
+                                            <label class="form-check-label">gojek</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Alamat</label>
+                                        <textarea class="form-control" rows="3" placeholder="" name="address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col">
                                     <label for="exampleInputEmail1">Obat</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="nama obat">
+                                    <input type="text" class="form-control" id="medicine" placeholder="nama obat">
                                 </div>
                                 <div class="form-group col">
                                     <label for="exampleInputPassword1">qty</label>
-                                    <input type="number" class="form-control" id="exampleInputPassword1" placeholder="harga obat">
+                                    <input type="number" oninput="setSubTotal()" class="form-control" id="qty" placeholder="harga obat">
                                 </div>
                                 <div class="form-group col">
                                     <label for="exampleInputPassword1">harga</label>
-                                    <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                    <input type="number" oninput="setSubTotal()" class="form-control" id="price" placeholder="harga">
                                 </div>
                                 <div class="form-group col">
                                     <label for="exampleInputPassword1">sub total</label>
-                                    <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                    <div class="row">
+                                        <div class="col"><input type="number" class="form-control" id="sub-total" placeholder="subtotal"></div>
+                                        <div class="col"><button type="button" class="btn btn-primary" onclick="addData()">add</button></div>
+                                    </div>
                                 </div>
-                                <button type="button" class="btn btn-primary">add</button>
-
+                            </div>
+                            <div class="alert alert-danger" role="alert" id="af" hidden>
+                                Form obat, qty, harga, dan sub total tidak boelh kosong
                             </div>
                             <div class="border-t">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" id="table-med">
                                     <thead>
                                         <tr>
-                                            <th style="width: 10px">#</th>
                                             <th>Obat</th>
                                             <th>qty</th>
                                             <th>harga</th>
                                             <th>sub indo</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>bodrex</td>
-                                            <td>4</td>
-                                            <td>1000</td>
-                                            <td>4000</td>
-                                        </tr>
+                                    <tbody id="table-value">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <!-- /.card-body -->
 
+                        <div id="input-container">
+
+                        </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -87,6 +110,8 @@
 @endsection
 @section('after-js')
 <script>
+    var LastRow = 0;
+
     // Mendapatkan elemen body
     const body = document.body;
 
@@ -149,7 +174,125 @@
 
     });
 
-    
+    function addMed() {
+        var medicine = document.getElementById('medicine').value;
+        var qty = document.getElementById('qty').value;
+        var price = document.getElementById('price').value;
+        var subTotal = document.getElementById('sub-total').value;
+        var table = document.getElementById("table-value");
+
+        var inputContainer = document.getElementById('input-container');
+        var inputObat = document.createElement("INPUT");
+        var inputQty = document.createElement("INPUT");
+        var inputPrice = document.createElement("INPUT");
+        var inputSubTotal = document.createElement("INPUT");
+
+        inputObat.hidden = true;
+        inputObat.setAttribute("name", "medicine[" + LastRow + "][]");
+        inputObat.setAttribute("value", medicine);
+        inputQty.hidden = true;
+        inputQty.setAttribute("name", "medicine[" + LastRow + "][]");
+        inputQty.setAttribute("value", qty);
+        inputPrice.hidden = true;
+        inputPrice.setAttribute("name", "medicine[" + LastRow + "][]");
+        inputPrice.setAttribute("value", price);
+        inputSubTotal.hidden = true;
+        inputSubTotal.setAttribute("name", "medicine[" + LastRow + "][]");
+        inputSubTotal.setAttribute("value", subTotal);
+
+        var row = table.insertRow();
+        // var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(0);
+        var cell3 = row.insertCell(1);
+        var cell4 = row.insertCell(2);
+        var cell5 = row.insertCell(3);
+        var cell6 = row.insertCell(4);
+        // cell1.innerHTML = LastRow;
+        cell2.appendChild(inputObat);
+        cell3.appendChild(inputQty);
+        cell4.appendChild(inputPrice);
+        cell5.appendChild(inputSubTotal);
+        cell2.innerHTML += medicine;
+        cell3.innerHTML += qty;
+        cell4.innerHTML += price;
+        cell5.innerHTML += subTotal;
+        cell6.innerHTML = "<button onclick='deleteRow(this)' type='button' class='close' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+
+        
+
+
+        LastRow++;
+
+    }
+
+    function reArrangeCell() {
+        
+        table = document.getElementById("table-value");
+        rows = table.rows;
+        console.log(rows);
+
+        rows.forEach(element => {
+            index = element.rowIndex;
+            console.log("row index = "+index);
+
+            inputs = element.getElementsByTagName("input");
+            console.log(inputs);
+            inputs.forEach(element => {
+                element.name = "medicine["+(index-1)+"][]";
+            });
+        });
+    }
+
+    function deleteRow(params) {
+        row = params.parentNode.parentNode;
+        row.remove();
+        reArrangeCell();
+    }
+
+    function addData() {
+        medicine = document.getElementById('medicine').value;
+        qty = document.getElementById('qty').value;
+        price = document.getElementById('price').value;
+        subTotal = document.getElementById('sub-total').value;
+        alert = document.getElementById('af');
+
+        if (medicine && qty && price && subTotal) {
+            addMed();
+            alert.hidden = true;
+            clearFormMed();
+        } else {
+            alert.hidden = false;
+        }
+    }
+
+    function setSubTotal() {
+        subTotal = document.getElementById('sub-total');
+        if (document.getElementById('price').value == 0) {
+            harga = 0;
+        } else {
+            harga = document.getElementById('price').value;
+        }
+        if (document.getElementById('qty').value == 0) {
+            harga = 0;
+        } else {
+            qty = document.getElementById('qty').value;
+        }
+
+
+        subTotal.value = parseInt(harga) * parseInt(qty);
+    }
+
+    function clearFormMed() {
+        medicine = document.getElementById('medicine');
+        qty = document.getElementById('qty');
+        price = document.getElementById('price');
+        subTotal = document.getElementById('sub-total');
+
+        medicine.value = "";
+        qty.value = "";
+        price.value = "";
+        subTotal.value = "";
+    }
 
 </script>
 
