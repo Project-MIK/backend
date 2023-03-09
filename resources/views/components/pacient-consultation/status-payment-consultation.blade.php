@@ -26,7 +26,7 @@
             <label for="price-consultation" class="text-trouth">Nominal Bayar Konsultasi</label>
             <input type="text" class="form-control py-4 text-bunting font-weight-bold" id="price-consultation" value="{{$price}}" readonly>
         </div>
-        @if ($validStatus > time())
+        @if ($validStatus > time() || $status == "PROSES VERIFIKASI")
         <div class="form-group col-12">
             <label for="status-payment" class="text-trouth">Status Pembayaran</label>
             <input type="text" class="form-control py-4" id="status-payment" value="{{$status}}" readonly>
