@@ -300,7 +300,6 @@ class PattientService
             }
             $response['price_consultation'] = "90000";
         }
-        dd($response);
         return $response;
     }
     public function changeEmail($id, $email)

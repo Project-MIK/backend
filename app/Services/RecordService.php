@@ -46,6 +46,7 @@ class RecordService
 
     public function insert(array $request)
     {
+        dd($request);
         //KL6584690
         $resultId = "";
         do {
@@ -58,7 +59,7 @@ class RecordService
         $scheduleTime = $this->schedule->where('id', $request['id_schedules'])->first();
         $validStatus = new \DateTime(Carbon::parse($scheduleTime->time_start));
         $res = [];
-
+        
         $exist = $this->medicalRecord->where('medical_record_id', $request['medical_record_id'])->first();
         if ($exist == null) {
             $res['status'] = false;
@@ -313,6 +314,57 @@ class RecordService
             return true;
         }
         return false;
+    }
+
+
+    public function startConverenceAdminById($id)
+    {
+        $res = $this->pattient
+            ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
+            ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
+            ->join('doctors', 'doctors.id', 'record.doctor_id')
+            ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
+            ->select('pattient.name as patien', 'record.id as id_consul', 'doctors.name as doctor', 'schedule_details.time_start', 'schedule_details.time_end')
+            ->where('record.status_consultation', 'confirmed-consultation-payment')
+            ->where('record.status_payment_consultation', 'TERKONFIRMASI')
+            ->where('schedule_details.time_end' , '>=' , Carbon::now())
+            ->where('record.id', $id)
+            ->first();
+        if ($res != null) {
+            $res = $res->toArray();
+            $start = strtotime($res['time_start']);
+            $end = strtotime($res['time_end']);
+            $duration = $end - strtotime(Carbon::now());
+            $res['duration'] = $duration;
+            unset($res['time_start'], $res['time_end']);
+        }
+
+        # code...
+        return $res;
+    }
+
+
+    public function showConsulAdmin()
+    {
+        $currentDate = Carbon::now();
+        $res = $this->pattient
+            ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
+            ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
+            ->join('doctors', 'doctors.id', 'record.doctor_id')
+            ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
+            ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'doctors.name as doctor', 'schedule_details.time_start as start', 'schedule_details.time_end as end', 'record.valid_status')
+            ->where('record.status_consultation', 'confirmed-consultation-payment')
+            ->where('record.status_payment_consultation', 'TERKONFIRMASI')
+            ->where('schedule_details.time_end' , '>=' , Carbon::now())
+            ->get()->toArray();
+        foreach ($res as $key => $value) {
+            # code...
+            $res[$key]['start'] = strtotime($res[$key]['start']);
+            $res[$key]['end'] = strtotime($res[$key]['end']);
+            $duration = $res[$key]['end'] - $res[$key]['start'];
+            $res[$key]['duration'] = $duration;
+        }
+        return $res;
     }
 }
 
