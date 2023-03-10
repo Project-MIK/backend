@@ -13,7 +13,6 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">DataTable with default features</h3>
-
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -42,8 +41,8 @@
                     <td>{{$item['address']}}</td>
                     <td>
                         <div data-id="{{$item['id']}}" class="row">
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Delete</button></div>
+                            <div class="col"><button onclick="setEdit(this)" type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
+                            <div class="col"><button type="button" onclick="setDelete(this)" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Delete</button></div>
                         </div>
                     </td>
                 </tr>
@@ -68,7 +67,7 @@
 <x-modals.modal id-modal="modal-tambah" modal-size="" modal-bg="">
     <x-slot:header><h3>Tambah Admin</h3></x-slot:Header>
     <x-slot:footer></x-slot:footer>
-    <form action="admin/store" method="post">
+    <form action="admin/admin" method="post">
         @csrf
         <div class="form-group">
             <label>Nama</label>
@@ -93,21 +92,23 @@
 <x-modals.modal id-modal="modal-detail" modal-size="" modal-bg="">
     <x-slot:header><h3>Detail Admin</h3></x-slot:Header>
     <x-slot:footer></x-slot:footer>
-    <form action="" method="post">
+    <form action="/admin/admin/update" method="post">
         @csrf
+        @method('put')
+        <input type="text" hidden name="id" id="edit-id">
         <div class="form-group">
             <label>Nama</label>
-            <input type="text"  class="form-control" name="name" required>
+            <input type="text" id="edit-name"  class="form-control" name="name" required>
         </div>
         <div class="form-group">
             <label>Email</label>
-            <input type="text"  class="form-control" name="email" readonly >
+            <input type="text" id="edit-email"  class="form-control" name="email" readonly >
         </div>
         <div class="form-group">
             <label for="detail-alamat">Alamat</label>
-            <textarea  id="detail-alamat" class="form-control" name="address" rows="3" placeholder="Alamat ......" required></textarea>
+            <textarea  id="edit-address" class="form-control" name="address" rows="3" placeholder="Alamat ......" required></textarea>
         </div>
-        <button type="button" class="btn btn-block btn-primary">save</button>
+        <button type="submit" class="btn btn-block btn-primary">save</button>
     </form>
 </x-modals.modal>
 
@@ -117,7 +118,10 @@
     <x-slot:header><h3>Warning</h3></x-slot:Header>
     <x-slot:footer></x-slot:footer>
     <h5>apakah anda yakin ingin menghapus data ini?</h5>
-    <form action="" method="post">
+    <form action="destroy" method="post">
+        @csrf
+        @method('delete')
+        <input type="text" hidden name="id">
         <button type="submit" class="btn btn-block btn-danger btn-sm">YA!</button>
     </form>
 </x-modals.modal>
@@ -135,8 +139,39 @@
     });
 
 
-    function fillName(name) {
-        document.querySelector("#detail-nama").value = name;
+
+    function getData(button) {
+        tabel = button.parentElement.parentElement.parentElement.parentElement;
+        rawData = tabel.getElementsByTagName('td');
+
+        var obj = {
+            id: rawData[1].innerText
+            , name : rawData[2].innerText
+            , email: rawData[3].innerText
+            , address: rawData[4].innerText
+        };
+
+        return obj;
+    }
+
+    function setEdit(params) {
+        var data = getData(params);
+        var id = document.getElementById('edit-id');
+        var name = document.getElementById('edit-name');
+        var email = document.getElementById('edit-email');
+        var address = document.getElementById('edit-address');
+
+        id.value = data.id;
+        name.value = data.name;
+        email.value = data.email;
+        address.value = data.address;
+    }
+
+    function setDelete(params) {
+        var data = getData(params);
+        var id = document.getElementById('delete-id');
+        id.value = data.id;
+
     }
 
     //untuk mengset data nama pada tabel ke form modal ketika btn dengan class detail di klik
@@ -183,6 +218,8 @@
             })
         });
     });
+
+    
 
 </script>
 {{-- {{dd($errors)}} --}}

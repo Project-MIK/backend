@@ -7,6 +7,7 @@ use App\Http\Requests\RecordStoreRequest;
 use App\Services\RecordService;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -132,11 +133,16 @@ class RecordController extends Controller
 
         $data = $this->service->startConverenceAdminById($id);
         if ($data != null) {
+
+            // if($data['time_start'] >= time()){  
+            //     $date = Carbon::createFromTimestamp($data['time_start']);
+            //     $result = $date->format('l, d F Y H:i');
+            //     return redirect()->back()->withErrors("Konsultasi dimulai pada ".$result);
+            // }
             return view('admin.jitsi', ['data' => $data]);
 
         }
         return back()->withErrors("data consul tidak ditemukan");
-
     }
 
     public function showConsulOnAdmin()
@@ -144,6 +150,11 @@ class RecordController extends Controller
         $data = $this->service->showConsulAdmin();
         return view('admin.consul', ['data' => $data]);
         
+    }
+
+
+    public function addRecipe(Request $request){
+        dd($request);
     }
 
 }

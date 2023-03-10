@@ -89,7 +89,13 @@ class RecordCategoryService
         return false;
     }
 
+    public function showDataCategory(){
+        $res = $this->recordCategory->all();
+        return $res;
+    }
 
+
+   
 }
 
 ?>

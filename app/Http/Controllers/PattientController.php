@@ -6,10 +6,12 @@ use App\Http\Requests\PattienLoginRequest;
 use App\Http\Requests\StorePattientMedicalRequest;
 use App\Http\Requests\StorePattientRequest;
 use App\Http\Requests\UpdatePattientRequest;
+use App\Mail\EmailVerivication;
 use App\Mail\MailHelper;
 use App\Models\Pattient;
 use App\Services\MedicalRecordService;
 use App\Services\PattientService;
+use App\Services\RecoveryAccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -23,11 +25,14 @@ class PattientController extends Controller
     private PattientService $service;
     private MedicalRecordService $medicalRecordService;
 
+    private RecoveryAccountService $recoveryService;
+
 
     public function __construct()
     {
         $this->service = new PattientService();
         $this->medicalRecordService = new MedicalRecordService();
+        $this->recoveryService = new RecoveryAccountService();
     }
     public function index()
     {
@@ -508,6 +513,45 @@ class PattientController extends Controller
     {
         $data = $this->service->showDataActionConsultation($id);
         return view("pacient.consultation.detail-consultation", $data);
+    }
+
+    public function sendEmailVerivikasi(Request $request)
+    {
+        $res = $this->service->sendEmailVerivikasi($request->email);
+        if ($res != null) {
+            $id = $res->id;
+            $res = $this->recoveryService->insert($id);
+            Mail::to($request->email)->send(new EmailVerivication($res->token, $request->email));
+            return redirect()->back()->with("message", "berhasil mengirimkan email");
+        } else {
+            return redirect("/lupa-sandi")->withErrors("Gagal mengirmkan email , email tidak terdaftar");
+        }
+    }
+
+    // ubah di web.php
+    public function forgot_pasword(Request $request)
+    {
+        $password1 = $request->password1;
+        $password2 = $request->password2;
+        if ($password1 != $password2) {
+            return redirect("recovery/" . $request->token_recovery)->withErrors("Password dan Konfirmasi Password harus sama");
+        }
+        $res = $this->service->forgot_pasword($request->token_recovery, $request->password);
+        if ($res) {
+            return redirect('masuk')->with('message', 'berhasil memperbarui kata sandi , silahkan login');
+        }
+        return redirect("recovery/" . $request->token_recovery)->withErrors("Gagal memperbarui kata sandi terjadi kesalahan");
+    }
+
+    
+    public function checkTokenValid($token)
+    {
+        $isValid = $this->recoveryService->checkTokenValid($token);
+        if ($isValid['status']) {
+            return view("pacient.auth.recovery", compact("token"));
+        }
+        return redirect('lupa-sandi')->withErrors($isValid['message']);
+
     }
 
 

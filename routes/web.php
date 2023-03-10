@@ -42,14 +42,10 @@ Route::post("/daftar", [PattientController::class, "store"]);
 
 // # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgot-password");
-Route::post("/lupa-sandi", function (Request $request) {
-    dd($request);
-});
+Route::post("/lupa-sandi",[PattientController::class , "sendEmailVerivikasi"]);
 
 // # Password Recovery
-Route::get("/recovery/{token}", function ($token) {
-    return view("pacient.auth.recovery", compact("token"));
-});
+Route::get("/recovery/{token}", [PattientController::class , "checkTokenValid"]);
 Route::post("/recovery/{token}", function (Request $request) {
     dd($request);
 });
@@ -466,7 +462,8 @@ Route::prefix('admin')->group(function () {
         Route::post('store');
         Route::put('update');
         Route::delete('destroy');
-    });
+    }
+    );
 
     Route::prefix('category')->group(
         function () {
@@ -560,16 +557,15 @@ Route::prefix('admin')->group(function () {
     Route::prefix('consul')->group(
         function () {
             Route::get(
-                '/',[RecordController::class , 'showConsulOnAdmin']
+                '/',
+                [RecordController::class, 'showConsulOnAdmin']
             );
 
             Route::get('vidcon/{id_consul}', [RecordController::class, "startCoverenceByAdmin"]);
-            Route::post('receipt/store',function(Request $request){
-                dd($request);
-            });
+            Route::post('receipt/store', [RecordController::class, "addRecipe"]);
         }
 
-      
+
 
     );
 

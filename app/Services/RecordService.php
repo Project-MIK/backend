@@ -11,6 +11,7 @@ use App\Models\Record;
 use App\Models\RecordCategory;
 use App\Models\ScheduleDetail;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -59,7 +60,7 @@ class RecordService
         $scheduleTime = $this->schedule->where('id', $request['id_schedules'])->first();
         $validStatus = new \DateTime(Carbon::parse($scheduleTime->time_start));
         $res = [];
-        
+
         $exist = $this->medicalRecord->where('medical_record_id', $request['medical_record_id'])->first();
         if ($exist == null) {
             $res['status'] = false;
@@ -327,18 +328,20 @@ class RecordService
             ->select('pattient.name as patien', 'record.id as id_consul', 'doctors.name as doctor', 'schedule_details.time_start', 'schedule_details.time_end')
             ->where('record.status_consultation', 'confirmed-consultation-payment')
             ->where('record.status_payment_consultation', 'TERKONFIRMASI')
-            ->where('schedule_details.time_end' , '>=' , Carbon::now())
+            ->where('schedule_details.time_end', '>=', Carbon::now())
             ->where('record.id', $id)
             ->first();
-        if ($res != null) {
+        if ($res != null) { 
             $res = $res->toArray();
+            $start = now();
+            $end = Carbon::parse($res['time_end']);
+            $duration = $start->diffInMilliseconds($end);
             $start = strtotime($res['time_start']);
             $end = strtotime($res['time_end']);
-            $duration = $end - strtotime(Carbon::now());
             $res['duration'] = $duration;
-            unset($res['time_start'], $res['time_end']);
+            $res['time_start'] = strtotime($res['time_start']);
+            unset($res['time_end']);
         }
-
         # code...
         return $res;
     }
@@ -355,7 +358,7 @@ class RecordService
             ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'doctors.name as doctor', 'schedule_details.time_start as start', 'schedule_details.time_end as end', 'record.valid_status')
             ->where('record.status_consultation', 'confirmed-consultation-payment')
             ->where('record.status_payment_consultation', 'TERKONFIRMASI')
-            ->where('schedule_details.time_end' , '>=' , Carbon::now())
+            ->where('schedule_details.time_end', '>=', Carbon::now())
             ->get()->toArray();
         foreach ($res as $key => $value) {
             # code...
@@ -366,6 +369,25 @@ class RecordService
         }
         return $res;
     }
+
+    public function addRecipe($id , array $request){
+        
+    }
+
+    public function update_to_consultation_waiting($idRecord){
+        
+    }
+
+    public function update_to_consultation_complete($idrecord){
+
+    }
+
+    public function update_to_confirmed_consultation_payment($idRecord){
+      
+    }
+
+    
+
 }
 
 ?>

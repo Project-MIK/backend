@@ -91,4 +91,8 @@ class RecordCategoryController extends Controller
             return redirect()->back()->withErrors("gagal menghapus category");
         }
     }
+
+    public function showDataCategoryOnPolyclinic(){
+        $data = $this->service->showDataCategory();
+    }
 }

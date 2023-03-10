@@ -7,6 +7,7 @@ use App\Helpers\Helper;
 use App\Models\MedicalRecords;
 use App\Models\Pattient;
 use App\Models\Record;
+use App\Models\RecoveryAccount;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Sarav\Multiauth\MultiauthServiceProvider;
@@ -22,6 +23,8 @@ class PattientService
     private MedicalRecords $medicalRecords;
     private MedicalRecordService $medicalRecordService;
 
+    private RecoveryAccount $recovery;
+
     private Record $record;
 
     public function __construct()
@@ -30,6 +33,7 @@ class PattientService
         $this->medicalRecordService = new MedicalRecordService();
         $this->model = new Pattient();
         $this->medicalRecords = new MedicalRecords();
+        $this->recovery = new RecoveryAccount();
     }
     public function findAll()
     {
@@ -388,6 +392,27 @@ class PattientService
         }
     }
 
-  
 
+    public function sendEmailVerivikasi($email)
+    {
+        $res = $this->model->where('email', $email)->first();
+        return $res;
+    }
+
+
+    public function forgot_pasword($idtoken, $password)
+    {
+        $res = $this->recovery->where('token', $idtoken)->first();
+        if ($res) {
+            $id_pattient = $res->id_pattient;
+            $isUpdate = $this->model->where('id', $id_pattient)->update([
+                "password" => bcrypt($password)
+            ]);
+            if ($isUpdate) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
 }
