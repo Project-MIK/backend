@@ -374,6 +374,20 @@ class RecordService
         
     }
 
+    public function update_to_consultation_waiting($idRecord){
+        
+    }
+
+    public function update_to_consultation_complete($idrecord){
+
+    }
+
+    public function update_to_confirmed_consultation_payment($idRecord){
+      
+    }
+
+    
+
 }
 
 ?>

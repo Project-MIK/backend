@@ -1,3 +1,9 @@
+{{-- 
+    TODO: membuat dropdown untuk obat, yang akan mengset harganya dari obatnya juga,
+    TODO: mebuat qtynya bisa mengalikan harga dengan dirinya dan mengset valuenya ke sub total
+    TODO: membuat fungsi ajax yang akan langsung mengirimkan data obat ke server, dan ke table
+    --}}
+
 @extends('layouts.admin.AppOnlyAsset')
 @section('content')
 <div class="bg-white container-xl border rounded  m-5 mx-auto">
