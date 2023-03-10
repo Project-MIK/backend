@@ -13,8 +13,8 @@
                         <p class="text-trouth font-weight-light text-sm">Masukkan e-mail yang terdaftar. Kami akan </br> mengirimkan tautan verifikasi untuk mengatur ulang kata sandi anda.</p>
                         <div class="my-5">
                             @if($errors->any())                   
-                                <div class="alert alert-danger" role="alert">
-                                    {{$errors->all()->first()}}
+                                <div class="alert alert-danger" rolae="alert">
+                                    {{$errors->first()}}
                                 </div>
                             @endif
                             <div class="form-group mb-4">

@@ -36,7 +36,7 @@ class PattientSeeder extends Seeder
         Pattient::create([
             "name" => "zamz", 
             "password" =>  bcrypt("rahasia"),
-            "email" => "moh@gmail.com",
+            "email" => "mohammadtajutzamzami07@gmail.com",
             "gender" => "M" , 
             "phone_number" => "085607185972",
             "address" => "003/005/Blokagung/Karangdoro/Tegalsari/Banyuwangi",
