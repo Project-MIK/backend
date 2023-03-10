@@ -97,36 +97,37 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="inputBloodGroup" class="text-trouth">Golongan Darah</label>
+                        <label for="inputBloodGroup" class="text-trouth">Golongan Darah {{$data['blood_group']}}</label>
                         <select id="inputBloodGroup" class="form-control" name="blood_group">
+                            
                             @switch($data['blood_group'])
                                 @case("A")
                                     <option selected value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="AB">AB</option>
                                     <option value="O">O</option>
-                                    <option selected value="-"></option>
+                                    <option value="-"></option>
                                     @break
                                 @case("B")
                                     <option value="A">A</option>
                                     <option selected value="B">B</option>
                                     <option value="AB">AB</option>
                                     <option value="O">O</option>
-                                    <option selected value="-"></option>
+                                    <option value="-"></option>
                                     @break
                                 @case("AB")
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option selected value="AB">AB</option>
                                     <option value="O">O</option>
-                                    <option selected value="-"></option>
+                                    <option value="-"></option>
                                     @break
                                 @case("O")
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="AB">AB</option>
                                     <option selected value="O">O</option>
-                                    <option selected value="-"></option>
+                                    <option value="-"></option>
                                     @break
                                 @default
                                     <option value="A">A</option>
@@ -187,11 +188,7 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputEmail" class="text-trouth">Email</label>
-                <input value="{{$data['email']}}" type="text" class="form-control py-4" id="inputEmail" name="email" placeholder="Ketikkan email" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputPassword" class="text-trouth">Kata Sandi</label>
-                <input value="{{$data['password']}}" type="text" class="form-control py-4" id="inputPassword" name="password" placeholder="Ketikkan kata sandi" required>
+                <input readonly value="{{$data['email']}}" type="text" class="form-control py-4" id="inputEmail" name="email" placeholder="Ketikkan email" required>
             </div>
         </div>
     </div>

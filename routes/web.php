@@ -418,7 +418,7 @@ Route::prefix('admin')->group(function () {
                 'citizen' => "WNA", //
                 'profession' => "Mahasiswa", //
                 'date_birth' => "18 Januari 2003", //
-                'blood_group' => "-", //
+                'blood_group' => "A", //
                 'place_birth' => "Madiun", //
                 'no_paspor' => "1234567890123456", //
                 "medical_record_id" => "123456",
