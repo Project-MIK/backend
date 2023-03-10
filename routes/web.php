@@ -437,7 +437,9 @@ Route::prefix('admin')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index']);
         Route::post('store', [AdminController::class, 'store']);
-        Route::put('update');
+        Route::put('update',function(Request $request){
+            dd($request);
+        });
         Route::delete('destroy', [AdminController::class, 'destroy']);
     });
 
