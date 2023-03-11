@@ -437,7 +437,7 @@ Route::prefix('admin')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index']);
         Route::post('store', [AdminController::class, 'store']);
-        Route::put('update',function(Request $request){
+        Route::put('update', function (Request $request) {
             dd($request);
         });
         Route::delete('destroy', [AdminController::class, 'destroy']);
@@ -470,7 +470,7 @@ Route::prefix('admin')->group(function () {
     Route::prefix('medicine')->group(function () {
         Route::view('view', 'admin.medicine');
         Route::get('/');
-        Route::post('store',function(Request $request){
+        Route::post('store', function (Request $request) {
             dd($request);
         });
         Route::put('update');
@@ -619,20 +619,83 @@ Route::prefix('admin')->group(function () {
 
         Route::get('vidcon/{id_consul}', function ($id_consul) {
 
+            $receipt = [
+                [
+                    "name" => "Paracetamol",
+                    "qty" => 2,
+                    "price" => 5000,
+                    "total" => 10000
+                ],
+                [
+                    "name" => "Amoxicillin",
+                    "qty" => 1,
+                    "price" => 15000,
+                    "total" => 15000
+                ],
+                [
+                    "name" => "Loratadine",
+                    "qty" => 3,
+                    "price" => 8000,
+                    "total" => 24000
+                ]
+            ];
+
+            $medicine = [
+                ["id" => 1, "name" => "Paracetamol", "price" => 15000],
+                ["id" => 2, "name" => "Ibuprofen", "price" => 22000],
+                ["id" => 3, "name" => "Aspirin", "price" => 10000],
+                ["id" => 4, "name" => "Omeprazole", "price" => 33000],
+                ["id" => 5, "name" => "Simvastatin", "price" => 17000]
+            ];
+
             //data from getById($id_consul) 
             $data = [
-                'id_consul' => $id_consul, 
-                'doctor' => 'Dr. Anis', 
+                'id_consul' => $id_consul,
+                'doctor' => 'Dr. Anis',
                 'patien' => 'Bachtiar',
                 'duration' => 7200000 //in milisecond
             ];
-            return view('admin.jitsi', ['data' => $data]);
+            return view('admin.jitsi', ['data' => $data, 'medicine' => $medicine,'receipt'=>$receipt,'id_complaint'=>$id_consul]);
         });
 
-        Route::post('receipt/store',function(Request $request){
-            dd($request);
-        });
+        Route::post('receipt/store', function (Request $request) {
+            $response = [
+                $request->input('id_medicine','id tidak ada'),$request->input('qty','qty kosong')
+            ];
+            echo json_encode($response);
+        })->name("receipt.store");
 
+        Route::get('receipt/{id_complaint}',function($id_complaint){
+            $receipt = [
+                [
+                    "name" => "Paracetamol",
+                    "qty" => 2,
+                    "price" => 5000,
+                    "total" => 10000
+                ],
+                [
+                    "name" => "Amoxicillin",
+                    "qty" => 1,
+                    "price" => 15000,
+                    "total" => 15000
+                ],
+                [
+                    "name" => "Loratadine",
+                    "qty" => 3,
+                    "price" => 8000,
+                    "total" => 24000
+                ],
+                [
+                    "name" => "Loratadine",
+                    "qty" => 2,
+                    "price" => 8000,
+                    "total" => 16000
+                ],
+
+            ];
+
+            echo json_encode($receipt);
+        })->name("getReceipt");
     });
 
     Route::prefix('poly')->group(function () {
