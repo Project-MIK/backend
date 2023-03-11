@@ -20,12 +20,18 @@ class MedicinesController extends Controller
     public function __construct()
     {
         $this->service = new MedicineService();
+        
     }
 
     public function index()
     {
         $data =  $this->service->findAll();
         return view('obat.obat' , ['data' => $data]);
+    }
+
+    public function showMedicineOnDropdown(){
+        $data =  $this->service->findAll();
+        return $data;
     }
 
     public function show($id)

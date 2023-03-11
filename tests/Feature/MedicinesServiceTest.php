@@ -32,6 +32,7 @@ class MedicinesServiceTest extends TestCase
     public function test_get_all(){
         $service  = new MedicineService();
         $res = $service->findAll();
+        dd($res);
         $this->assertNotNull($res);
     }
 

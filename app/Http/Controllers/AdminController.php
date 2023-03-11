@@ -130,102 +130,120 @@ class AdminController extends Controller
     }
     public function updateDataPattient(Request $request)
     {
-        $id = $request->id;
-        $rules = [
-            'fullname' => ['required', 'min:4'],
-            'address_RT' => ['required', 'min:2', 'max:3'],
-            'address_RW' => ['required', 'min:2', 'max:3'],
-            'address_desa' => ['required', 'max:20', 'min:4'],
-            'address_kecamatan' => ['required', 'max:20', 'min:4'],
-            'address_kabupaten' => ['required', 'max:20', 'min:4'],
-            'no_telp' => ['required', 'min:10', 'max:13'],
-            'address_dusun' => ['required', 'max:20', 'min:4'],
-            
-        ];
-        if ($request->citizen == 'WNI') {
-            $rules['nik'] = ['required', 'digits:16'];
-            $customMessages = [
-                'fullname.required' => 'Nama lengkap tidak boleh kosong.',
-                'fullname.min' => 'Nama lengkap tidak boleh kurang dari 4 digit',
-                'address_RT.required' => 'RT tidak boleh kosong',
-                'address_RT.min' => 'RT tidak boleh kurang dari 2 digit',
-                'address_RT.max' => 'RT tidak boleh lebih dari 3 digit',
-                'address_desa.required' => 'Desa tidak boleh kosong',
-                'address_desa.max' => 'Desa tidak boleh lebih dari 20 digit',
-                'address_desa.min' => 'Desa tidak boleh kurang dari 4 digit',
-                'address_dusun.required' => '-Dusun tidak boleh kosong',
-                'address_dusun.max' => '-Dusun tidak boleh lebih dari 20 digit',
-                'address_dusun.min' => 'Dusun tidak boleh kurang dari 4 digit',
-                'address_kecamatan.required' => 'Kecamatan tidak boleh kosong',
-                'address_kecamatan.min' => 'Kecamatan tidak boleh kurang dari 4 digit',
-                'address_kecamatan.max' => 'Kecamatan tidak boleh lebih dari 20 digit',
-                'address_kabupaten.required' => 'Kabupaten tidak boleh kosong',
-                'address_kabupaten.max' => 'Kabupaten tidak boleh lebih dari 20 digit',
-                'address_kabupaten.min' => 'kabupaten tidak boleh kurang dari 4 digit',
-                'no_telp.required' => 'No Hp tidak boleh kosong',
-                'no_telp.min' => 'no Hp tidak boleh kurang dari 10 digit',
-                'no_telp.max' => 'no Hp tidak boleh lebih dari 13 digit'
+        // need id
+        if ($request->id != null) {
+            $id = $request->id;
+            $rules = [
+                'fullname' => ['required', 'min:4'],
+                'address_RT' => ['required', 'min:2', 'max:3'],
+                'address_RW' => ['required', 'min:2', 'max:3'],
+                'address_desa' => ['required', 'max:20', 'min:4'],
+                'address_kecamatan' => ['required', 'max:20', 'min:4'],
+                'address_kabupaten' => ['required', 'max:20', 'min:4'],
+                'no_telp' => ['required', 'min:10', 'max:13'],
+                'address_dusun' => ['required', 'max:20', 'min:4'],
+
             ];
-            $this->validate($request, $rules, $customMessages);
-            $checkNik = $this->pattientService->checkNik($id, $request->nik);
-            // jika checknik true maka nik tidak ada yang digunakan
-            $this->validate($request, $rules, $customMessages);
-            if ($checkNik) {
-                return redirect()->back()->withErrors(['msg' => 'nik sudah digunakan olah pengguna lain']);
+            if ($request->citizen == 'WNI') {
+                $rules['nik'] = ['required', 'digits:16'];
+                $customMessages = [
+                    'fullname.required' => 'Nama lengkap tidak boleh kosong.',
+                    'fullname.min' => 'Nama lengkap tidak boleh kurang dari 4 digit',
+                    'address_RT.required' => 'RT tidak boleh kosong',
+                    'address_RT.min' => 'RT tidak boleh kurang dari 2 digit',
+                    'address_RT.max' => 'RT tidak boleh lebih dari 3 digit',
+                    'address_desa.required' => 'Desa tidak boleh kosong',
+                    'address_desa.max' => 'Desa tidak boleh lebih dari 20 digit',
+                    'address_desa.min' => 'Desa tidak boleh kurang dari 4 digit',
+                    'address_dusun.required' => '-Dusun tidak boleh kosong',
+                    'address_dusun.max' => '-Dusun tidak boleh lebih dari 20 digit',
+                    'address_dusun.min' => 'Dusun tidak boleh kurang dari 4 digit',
+                    'address_kecamatan.required' => 'Kecamatan tidak boleh kosong',
+                    'address_kecamatan.min' => 'Kecamatan tidak boleh kurang dari 4 digit',
+                    'address_kecamatan.max' => 'Kecamatan tidak boleh lebih dari 20 digit',
+                    'address_kabupaten.required' => 'Kabupaten tidak boleh kosong',
+                    'address_kabupaten.max' => 'Kabupaten tidak boleh lebih dari 20 digit',
+                    'address_kabupaten.min' => 'kabupaten tidak boleh kurang dari 4 digit',
+                    'no_telp.required' => 'No Hp tidak boleh kosong',
+                    'no_telp.min' => 'no Hp tidak boleh kurang dari 10 digit',
+                    'no_telp.max' => 'no Hp tidak boleh lebih dari 13 digit'
+                ];
+                $this->validate($request, $rules, $customMessages);
+                $checkNik = $this->pattientService->checkNik($id, $request->nik);
+                // jika checknik true maka nik tidak ada yang digunakan
+                $this->validate($request, $rules, $customMessages);
+                if ($checkNik) {
+                    return redirect()->back()->withErrors(['msg' => 'nik sudah digunakan olah pengguna lain']);
+                }
+            } else {
+                $checkPaspor = $this->pattientService->checkNoPaspor($id, $request->no_paspor);
+                if ($checkPaspor) {
+                    return redirect()->back()->withErrors(['msg' => 'no paspor sudah digunakan olah pengguna lain']);
+                }
+                $rules['no_paspor'] = ['required', 'digits:16', 'unique:pattient,no_paspor'];
+                $customMessages = [
+                    'fullname.required' => 'Nama lengkap tidak boleh kosong.',
+                    'fullname.min' => 'Nama lengkap tidak boleh kurang dari 4 digit',
+                    'address_RT.required' => 'RT tidak boleh kosong',
+                    'address_RT.min' => 'RT tidak boleh kurang dari 2 digit',
+                    'address_RT.max' => 'RT tidak boleh lebih dari 3 digit',
+                    'address_desa.required' => 'Desa tidak boleh kosong',
+                    'address_desa.max' => 'Desa tidak boleh lebih dari 20 digit',
+                    'address_desa.min' => 'Desa tidak boleh kurang dari 4 digit',
+                    'address_dusun.required' => 'Dusun tidak boleh kosong',
+                    'address_dusun.max' => 'Dusun tidak boleh lebih dari 20 digit',
+                    'address_dusun.min' => 'Dusun tidak boleh kurang dari 4 digit',
+                    'address_kecamatan.required' => 'Kecamatan tidak boleh kosong',
+                    'address_kecamatan.min' => 'Kecamatan tidak boleh kurang dari 4 digit',
+                    'address_kecamatan.max' => 'Kecamatan tidak boleh lebih dari 20 digit',
+                    'address_kabupaten.required' => 'Kabupaten tidak boleh kosong',
+                    'address_kabupaten.max' => 'Kabupaten tidak boleh lebih dari 20 digit',
+                    'address_kabupaten.min' => 'kabupaten tidak boleh kurang dari 4 digit',
+                    'no_telp.required' => 'No Hp tidak boleh kosong',
+                    'no_telp.min' => 'no Hp tidak boleh kurang dari 10 digit',
+                    'no_telp.max' => 'no Hp tidak boleh lebih dari 13 digit'
+                ];
+                $this->validate($request, $rules, $customMessages);
+            }
+            $data = $request->except([
+                'address_RT',
+                'address_RW',
+                'address_dusun',
+                'address_desa',
+                'address_kecamatan',
+                'address_kabupaten',
+                'no_telp',
+                'fullname',
+                'birth_date',
+                '_token',
+                'email'
+            ]);
+            $data['date_birth'] = $request->birth_date;
+            $data['name'] = $request->fullname;
+            $data['address'] = $request->address_RT . '/' . $request->address_RW . '/' . $request->address_Dusun . '/' . $request->address_Desa . '/' . $request->address_kecamatan . '/' . $request->address_kabupaten;
+            $data['phone_number'] = $request->number_phone;
+            $res = $this->pattientService->updateDataPattient($data, $id);
+            if ($res) {
+                return redirect()->back()->with('message', 'berhasil memperbarui data');
+            } else {
+                return redirect()->back()->withErrors(['msg' => 'Gagal Memperbarui Tidak ada perubahan data']);
             }
         } else {
-            $checkPaspor = $this->pattientService->checkNoPaspor($id, $request->no_paspor);
-            if ($checkPaspor) {
-                return redirect()->back()->withErrors(['msg' => 'no paspor sudah digunakan olah pengguna lain']);
-            }
-            $rules['no_paspor'] = ['required', 'digits:16', 'unique:pattient,no_paspor'];
-            $customMessages = [
-                'fullname.required' => 'Nama lengkap tidak boleh kosong.',
-                'fullname.min' => 'Nama lengkap tidak boleh kurang dari 4 digit',
-                'address_RT.required' => 'RT tidak boleh kosong',
-                'address_RT.min' => 'RT tidak boleh kurang dari 2 digit',
-                'address_RT.max' => 'RT tidak boleh lebih dari 3 digit',
-                'address_desa.required' => 'Desa tidak boleh kosong',
-                'address_desa.max' => 'Desa tidak boleh lebih dari 20 digit',
-                'address_desa.min' => 'Desa tidak boleh kurang dari 4 digit',
-                'address_dusun.required' => 'Dusun tidak boleh kosong',
-                'address_dusun.max' => 'Dusun tidak boleh lebih dari 20 digit',
-                'address_dusun.min' => 'Dusun tidak boleh kurang dari 4 digit',
-                'address_kecamatan.required' => 'Kecamatan tidak boleh kosong',
-                'address_kecamatan.min' => 'Kecamatan tidak boleh kurang dari 4 digit',
-                'address_kecamatan.max' => 'Kecamatan tidak boleh lebih dari 20 digit',
-                'address_kabupaten.required' => 'Kabupaten tidak boleh kosong',
-                'address_kabupaten.max' => 'Kabupaten tidak boleh lebih dari 20 digit',
-                'address_kabupaten.min' => 'kabupaten tidak boleh kurang dari 4 digit',
-                'no_telp.required' => 'No Hp tidak boleh kosong',
-                'no_telp.min' => 'no Hp tidak boleh kurang dari 10 digit',
-                'no_telp.max' => 'no Hp tidak boleh lebih dari 13 digit'
-            ];
-            $this->validate($request, $rules, $customMessages);
+            return redirect()->back()->withErrors("id parameter tidak valid");
         }
-        $data = $request->except([
-            'address_RT',
-            'address_RW',
-            'address_dusun',
-            'address_desa',
-            'address_kecamatan',
-            'address_kabupaten',
-            'no_telp',
-            'fullname',
-            'birth_date',
-            '_token',
-            'email'
-        ]);
-        $data['date_birth'] = $request->birth_date;
-        $data['name'] = $request->fullname;
-        $data['address'] = $request->address_RT . '/' . $request->address_RW . '/' . $request->address_Dusun . '/' . $request->address_Desa . '/' . $request->address_kecamatan . '/' . $request->address_kabupaten;
-        $data['phone_number'] = $request->number_phone;
-        $res = $this->pattientService->updateDataPattient($data, $id);
-        if ($res) {
-            return redirect()->back()->with('message', 'berhasil memperbarui data');
-        } else {
-            return redirect()->back()->withErrors(['msg' => 'Gagal Memperbarui Tidak ada perubahan data']);
+
+    }
+
+
+    public function updateAdmin(Request $request)
+    {
+        $res = $this->service->update($request->except(['_token', '_method']));
+        if($res['status']){
+            return redirect('admin/admin')->with('message', $res['message']);
+        }else{
+            return redirect('admin/admin')->withErrors($res['message']);
         }
+        
     }
 
 

@@ -10,7 +10,7 @@ class Recipes extends Model
     use HasFactory;
     protected $fillable = [
         "description",
-        "total_price",
+        "price_medical_prescription",
         "pickup_medical_prescription" , 
         "pickup_medical_status",
         "pickup_medical_addreass_pacient",

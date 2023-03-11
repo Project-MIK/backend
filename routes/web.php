@@ -42,10 +42,10 @@ Route::post("/daftar", [PattientController::class, "store"]);
 
 // # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgot-password");
-Route::post("/lupa-sandi",[PattientController::class , "sendEmailVerivikasi"]);
+Route::post("/lupa-sandi", [PattientController::class, "sendEmailVerivikasi"]);
 
 // # Password Recovery
-Route::get("/recovery/{token}", [PattientController::class , "checkTokenValid"]);
+Route::get("/recovery/{token}", [PattientController::class, "checkTokenValid"]);
 Route::post("/recovery/{token}", function (Request $request) {
     dd($request);
 });
@@ -421,7 +421,10 @@ Route::prefix('admin')->group(function () {
         function () {
             Route::get('/', [AdminController::class, 'index'])->middleware('isAdmin');
             Route::post('store', [AdminController::class, 'store'])->middleware('isAdmin');
-            Route::put('update')->middleware('isAdmin');
+            Route::put(
+                'update',
+                [AdminController::class, "updateAdmin"]
+            )->middleware('isAdmin');
             Route::delete('destroy', [AdminController::class, 'destroy'])->middleware('isAdmin');
         }
     );
@@ -456,13 +459,14 @@ Route::prefix('admin')->group(function () {
         }
     );
 
-    Route::prefix('medicine')->group(function () {
-        Route::view('view', 'admin.medicine');
-        Route::get('/');
-        Route::post('store');
-        Route::put('update');
-        Route::delete('destroy');
-    }
+    Route::prefix('medicine')->group(
+        function () {
+            Route::view('view', 'admin.medicine');
+            Route::get('/');
+            Route::post('store');
+            Route::put('update');
+            Route::delete('destroy');
+        }
     );
 
     Route::prefix('category')->group(
@@ -576,20 +580,9 @@ Route::prefix('admin')->group(function () {
             Route::get(
                 '/',
                 function () {
-                        $category = [
-                            [
-                                'id_category' => '1',
-                                'category' => 'kategory 1'
-                            ],
-                            [
-                                'id_category' => '2',
-                                'category' => 'kategory 2'
-                            ],
-                            [
-                                'id_category' => '3',
-                                'category' => 'kategory 3'
-                            ],
-                        ];
+                    // show data category on modal + polyclinic
+                        $controller = new RecordCategoryController();
+                        $category = $controller->showDataCategoryOnPolyclinic();
 
                         $data = [
                             [

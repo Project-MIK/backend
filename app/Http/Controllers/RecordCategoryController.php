@@ -37,7 +37,7 @@ class RecordCategoryController extends Controller
             # code...
             $data[$key]['category'] = $data[$key]['category_name'];
             $data[$key]['id_category'] = $data[$key]['id'];
-            unset($data[$key]['category_name'],$data[$key]['id']);
+            unset($data[$key]['category_name'], $data[$key]['id']);
         }
         return view('admin.category', compact('data'));
     }
@@ -92,7 +92,20 @@ class RecordCategoryController extends Controller
         }
     }
 
-    public function showDataCategoryOnPolyclinic(){
+    public function showDataCategoryOnPolyclinic()
+    {
         $data = $this->service->showDataCategory();
+        $data = $data->toArray();
+        if (sizeof($data) > 0) {
+            foreach ($data as $key => $value) {
+                # code...
+                $data[$key]['id_category'] = $value['id'];
+                $data[$key]['category'] = $value['category_name'];
+                unset($data[$key]['id'], $data[$key]['category_name']);
+            }
+        }else{
+            return redirect('category')->withErrors('category kosong silahkan tambahkan category terlebih dahulu');
+        }
+        return $data;
     }
 }

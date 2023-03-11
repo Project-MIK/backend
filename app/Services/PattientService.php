@@ -213,26 +213,18 @@ class PattientService
 
     public function showRecordHistory($medicalRecords)
     {
-        // "id" => "KL6584690",
-        // "description" => "Consectetur veniam excepteur est ea consequat adipisicing sunt mollit. Mollit in quis ipsum fugiat officia ea est nostrud id cupidatat voluptate adipisicing. Est veniam ullamco velit consequat cupidatat ea ad tempor sunt et do qui pariatur proident.",
-        // "schedule" => 1685571753,
-        // "start_consultation" => 1685571753,
-        // "end_consultation" => 1685572753,
-        // "status" => "waiting-consultation-payment",
-        // "status_payment_consultation" => "TERKONFIRMASI",
-        // "status_payment_medical_prescription" => "DIBATALKAN",
-        // "valid_status" => 1676441478
         $query = $this->model->join('medical_records', 'medical_records.medical_record_id', "pattient.medical_record_id")
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
             ->leftJoin('recipes', 'record.id_recipe', 'recipes.id')
-            ->select('record.status_payment_consultation', 'recipes.pickup_medical_description as status_payment_medical_prescription', 'record.id as id_record', 'record.description', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'schedule_details.consultation_date as schedule')
-            ->where('pattient.medical_record_id', $medicalRecords);
+            ->select('record.status_payment_consultation', 'recipes.pickup_medical_description as status_payment_medical_prescription', 'record.id as id_record', 'record.description', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'schedule_details.consultation_date as schedule');
+         
         $check = $this->record->where('medical_record_id', $medicalRecords)->get()->toArray();
         if (sizeof($check) > 0) {
             $res = $query->where('record.status_consultation', '=', 'consultation-complete')
+            ->where('record.medical_record_id', "=",$medicalRecords)
                 ->orwhere('record.status_payment_consultation', 'DIBATALKAN')
-                ->orwhere('record.valid_status', '<', Carbon::now())
+                ->where('record.valid_status', '<', Carbon::now())
                 ->get()->toArray();
             foreach ($res as $key => $value) {
                 # code... $response = $res->toArray();
@@ -258,7 +250,7 @@ class PattientService
             ->join('doctors', 'doctors.id', 'record.doctor_id')
             ->join('polyclinics', 'polyclinics.id', 'doctors.polyclinic_id')
             ->join('record_category', 'record_category.id', 'record.id_category')
-            ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctors.name as doctor', 'schedule_details.consultation_date', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime')->where('record.id', $idRecord)
+            ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctors.name as doctor', 'schedule_details.consultation_date', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime' , 'recipes.price_medical_prescription')->where('record.id', $idRecord)
             ->first();
         $response = [];
         if ($res != null) {
@@ -293,7 +285,7 @@ class PattientService
                 $response['pickup_medical_description'] = $res->pickup_medical_description;
                 $response['pickup_by_pacient'] = $res->name_pacient;
                 $response['pickup_datetime'] = strtotime($res->pickup_datetime);
-                $response['price_medical_prescription'] = $res->recipes->total_price;
+                $response['price_medical_prescription'] = $res->price_medical_prescription;
                 $response['status_payment_medical_prescription'] = "TERKONFIRMASI";
                 $response['proof_payment_medical_prescription'] = $res->bukti;
             }
