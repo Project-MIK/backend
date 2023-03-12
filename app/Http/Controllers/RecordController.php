@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ComplaintStoreRequest;
 use App\Http\Requests\RecordStoreRequest;
+use App\Services\MedicineService;
+use App\Services\RecipeDetailsService;
 use App\Services\RecordService;
 
 use Illuminate\Http\Request;
@@ -17,11 +19,15 @@ class RecordController extends Controller
 {
 
     private RecordService $service;
+    private RecipeDetailsService $recipeDetailService;
 
+    private MedicineService $medicineService;
 
     public function __construct()
     {
         $this->service = new RecordService();
+        $this->recipeDetailService = new RecipeDetailsService();
+        $this->medicineService = new MedicineService();
     }
 
 
@@ -130,30 +136,35 @@ class RecordController extends Controller
 
     public function startCoverenceByAdmin($id)
     {
-
+        $receipt = $this->recipeDetailService->showDataRecipePatient($id);
+        $medicine = $this->medicineService->findAll();
         $data = $this->service->startConverenceAdminById($id);
+        $milliseconds = $data['time_start']; // example millisecond timestamp
+        $start = Carbon::createFromTimestamp($milliseconds);
+        $formattedDate = $start->format('Y-m-d H:i');
         if ($data != null) {
-
-            // if($data['time_start'] >= time()){  
-            //     $date = Carbon::createFromTimestamp($data['time_start']);
-            //     $result = $date->format('l, d F Y H:i');
-            //     return redirect()->back()->withErrors("Konsultasi dimulai pada ".$result);
-            // }
-            return view('admin.jitsi', ['data' => $data]);
-
+            if (time() > $data['time_end']) {
+                return back()->withErrors("waktu consultasi sudah selesai");
+            }
+            if (time() < [$data['time_start']]) {
+                return back()->withErrors("Konsultasi akan dimulai pada : " . $formattedDate);
+            }
+            return view('admin.jitsi', ['data' => $data, 'medicine' => $medicine, 'receipt' => $receipt, 'id_complaint' => $id]);
+        } else {
+            return back()->withErrors("data consul tidak ditemukan");
         }
-        return back()->withErrors("data consul tidak ditemukan");
     }
 
     public function showConsulOnAdmin()
     {
         $data = $this->service->showConsulAdmin();
         return view('admin.consul', ['data' => $data]);
-        
+
     }
 
 
-    public function addRecipe(Request $request){
+    public function addRecipe(Request $request)
+    {
         dd($request);
     }
 

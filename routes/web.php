@@ -377,260 +377,291 @@ Route::prefix('konsultasi')->group(function () {
 
 
 //admin
-Route::prefix('admin')->group(function () {
-    Route::view('/', 'admin.dashboard', )->middleware('isAdmin');
+Route::prefix('admin')->group(
+    function () {
+        Route::view('/', 'admin.dashboard', )->middleware('isAdmin');
 
-    Route::prefix('login')->group(
-        function () {
-            Route::get(
-                '/',
-                function () {
-                        return view('admin.login');
-                    }
-            )->middleware('guestAdmin');
-            Route::post('login', [AdminController::class, 'login'])->middleware('guestAdmin');
-        }
-    );
+        Route::prefix('login')->group(
+            function () {
+                    Route::get(
+                        '/',
+                        function () {
+                                        return view('admin.login');
+                                    }
+                    )->middleware('guestAdmin');
+                    Route::post('login', [AdminController::class, 'login'])->middleware('guestAdmin');
+                }
+        );
 
-    Route::prefix('pasien')->group(
-        function () {
-            Route::view('view', 'admin.pasien')->middleware('isAdmin');
-            Route::get('/', [PattientController::class, 'index'])->middleware('isAdmin');
-            Route::post('store', [PattientController::class, 'storewithRekamMedic'])->middleware('isAdmin'); //redirect to /admin/pasien
-            Route::put(
-                'update',
-                [AdminController::class, 'updateDataPattient']
-            )->middleware('isAdmin');
-            Route::get('detail/{medical_record_id}', [PattientController::class, "findByIdInaAdmin"])->middleware('isAdmin');
-            Route::get(
-                'store',
-                function () {
-                        return view('admin.pasien-store');
-                    }
-            )->middleware('isAdmin');
-            Route::put(
-                'rs',
-                function (Request $request) {
-                        dd($request);
-                    }
-            )->middleware('isAdmin');
-        }
-    );
+        Route::prefix('pasien')->group(
+            function () {
+                    Route::view('view', 'admin.pasien')->middleware('isAdmin');
+                    Route::get('/', [PattientController::class, 'index'])->middleware('isAdmin');
+                    Route::post('store', [PattientController::class, 'storewithRekamMedic'])->middleware('isAdmin'); //redirect to /admin/pasien
+                    Route::put(
+                        'update',
+                        [AdminController::class, 'updateDataPattient']
+                    )->middleware('isAdmin');
+                    Route::get('detail/{medical_record_id}', [PattientController::class, "findByIdInaAdmin"])->middleware('isAdmin');
+                    Route::get(
+                        'store',
+                        function () {
+                                        return view('admin.pasien-store');
+                                    }
+                    )->middleware('isAdmin');
+                    Route::put(
+                        'rs',
+                        function (Request $request) {
+                                        dd($request);
+                                    }
+                    )->middleware('isAdmin');
+                }
+        );
 
-    Route::prefix('admin')->group(
-        function () {
-            Route::get('/', [AdminController::class, 'index'])->middleware('isAdmin');
-            Route::post('store', [AdminController::class, 'store'])->middleware('isAdmin');
-            Route::put(
-                'update',
-                [AdminController::class, "updateAdmin"]
-            )->middleware('isAdmin');
-            Route::delete('destroy', [AdminController::class, 'destroy'])->middleware('isAdmin');
-        }
-    );
+        Route::prefix('admin')->group(
+            function () {
+                    Route::get('/', [AdminController::class, 'index'])->middleware('isAdmin');
+                    Route::post('store', [AdminController::class, 'store'])->middleware('isAdmin');
+                    Route::put(
+                        'update',
+                        [AdminController::class, "updateAdmin"]
+                    )->middleware('isAdmin');
+                    Route::delete('destroy', [AdminController::class, 'destroy'])->middleware('isAdmin');
+                }
+        );
 
-    Route::prefix('petugas')->group(
-        function () {
-            Route::view('view', 'admin.petugas')->middleware('isAdmin');
-            Route::get('/')->middleware('isAdmin');
-            Route::post('store')->middleware('isAdmin');
-            Route::put('update')->middleware('isAdmin');
-            Route::delete('destroy')->middleware('isAdmin');
-        }
-    );
+        Route::prefix('petugas')->group(
+            function () {
+                    Route::view('view', 'admin.petugas')->middleware('isAdmin');
+                    Route::get('/')->middleware('isAdmin');
+                    Route::post('store')->middleware('isAdmin');
+                    Route::put('update')->middleware('isAdmin');
+                    Route::delete('destroy')->middleware('isAdmin');
+                }
+        );
 
-    Route::prefix('doctor')->group(
-        function () {
-            Route::view('view', 'admin.doctor')->middleware('isAdmin');
-            Route::get('/')->middleware('isAdmin');
-            Route::post('store')->middleware('isAdmin');
-            Route::put('update')->middleware('isAdmin');
-            Route::delete('destroy')->middleware('isAdmin');
-        }
-    );
 
-    Route::prefix('medrec')->group(
-        function () {
-            Route::view('view', 'admin.medrec')->middleware('isAdmin');
-            Route::get('/')->middleware('isAdmin');
-            Route::post('store')->middleware('isAdmin');
-            Route::put('update')->middleware('isAdmin');
-            Route::delete('destroy')->middleware('isAdmin');
-        }
-    );
+        Route::prefix('medrec')->group(
+            function () {
+                    Route::view('view', 'admin.medrec')->middleware('isAdmin');
+                    Route::get('/')->middleware('isAdmin');
+                    Route::post('store')->middleware('isAdmin');
+                    Route::put('update')->middleware('isAdmin');
+                    Route::delete('destroy')->middleware('isAdmin');
+                }
+        );
 
-    Route::prefix('medicine')->group(
-        function () {
-            Route::view('view', 'admin.medicine');
-            Route::get('/');
-            Route::post('store');
-            Route::put('update');
-            Route::delete('destroy');
-        }
-    );
+        Route::prefix('medicine')->group(
+            function () {
+                    Route::view('view', 'admin.medicine');
+                    Route::get('/');
+                    Route::post('store');
+                    Route::put('update');
+                    Route::delete('destroy');
+                }
+        );
 
-    Route::prefix('category')->group(
-        function () {
-            //category: nama kategori
-            //count: jumlah kategori digunakan pada komplain
-            Route::get(
-                '/',
-                [RecordCategoryController::class, 'indexAdmin']
-            )->middleware('isAdmin');
-            Route::post(
-                'store',
-                [RecordCategoryController::class, 'store']
-            )->middleware('isAdmin');
-            Route::put(
-                'update',
-                function (Request $request) {
-                        dd($request);
-                    }
-            )->middleware('isAdmin');
-            Route::delete(
-                'destroy',
-                [RecordCategoryController::class, 'destroy']
-            )->middleware('isAdmin');
-        }
-    );
+        Route::prefix('category')->group(
+            function () {
+                    //category: nama kategori
+                    //count: jumlah kategori digunakan pada komplain
+                    Route::get(
+                        '/',
+                        [RecordCategoryController::class, 'indexAdmin']
+                    )->middleware('isAdmin');
+                    Route::post(
+                        'store',
+                        [RecordCategoryController::class, 'store']
+                    )->middleware('isAdmin');
+                    Route::put(
+                        'update',
+                        function (Request $request) {
+                                        dd($request);
+                                    }
+                    )->middleware('isAdmin');
+                    Route::delete(
+                        'destroy',
+                        [RecordCategoryController::class, 'destroy']
+                    )->middleware('isAdmin');
+                }
+        );
 
-    Route::prefix('schedule')->group(
-        function () {
-            //category: nama kategori
-            //count: jumlah kategori digunakan pada komplain
-            Route::get(
-                '/',
-                function () {
+        Route::prefix('schedule')->group(
+            function () {
+                    //category: nama kategori
+                    //count: jumlah kategori digunakan pada komplain
+                    Route::get(
+                        '/',
+                        function () {
+
+                            $data = [
+                                [
+                                    'id' => '10',
+                                    'date' => '1677373423',
+                                    'start' => '1677373423',
+                                    'end' => '1675386223'
+                                ],
+                                [
+                                    'id' => '2',
+                                    'date' => '1677373423',
+                                    'start' => '1677373423',
+                                    'end' => '1675386223'
+                                ],
+                            ];
+                            return view('admin.schedule', ['data' => $data]);
+                        }
+                    )->middleware('isAdmin');
+                    Route::post(
+                        'store',
+                        function (Request $request) {
+
+                                        dd($request);
+                                    }
+                    )->middleware('isAdmin');
+                    Route::put(
+                        'update',
+                        function (Request $request) {
+                                        dd($request);
+                                    }
+                    )->middleware('isAdmin');
+                    Route::delete(
+                        'destroy',
+                        function (Request $request) {
+                                        dd([$request]);
+                                    }
+                    )->middleware('isAdmin');
+                }
+        );
+
+        Route::prefix('complain')->group(
+            function () {
+                    Route::get(
+                        '/',
+                        [RecordController::class, 'showComplaintOnAdmin']
+                    )->middleware('isAdmin');
+
+                    Route::put(
+                        'agreement',
+                        [RecordController::class, 'confirmStatusPayment']
+                    )->middleware('isAdmin');
+                }
+        );
+
+        Route::prefix('consul')->group(
+            function () {
+                    Route::get(
+                        '/',
+                        [RecordController::class, 'showConsulOnAdmin']
+                    );
+                    //startCoverenceByAdmin
+                    Route::get('vidcon/{id_consul}', [RecordController::class, "startCoverenceByAdmin"]);
+                    Route::post('receipt/store', [RecordController::class, "addRecipe"]);
+
+                }
+        );
+
+        Route::post(
+            'receipt/store',
+            function (Request $request) {
+                    $response = [
+                        $request->input('id_medicine', 'id tidak ada'), $request->input('qty', 'qty kosong')
+                    ];
+                    echo json_encode($response);
+                }
+        )->name("receipt.store");
+
+        Route::get(
+            'receipt/{id_complaint}',
+            function ($id_complaint) {
+                    $receipt = [
+                        [
+                            "name" => "Paracetamol",
+                            "qty" => 2,
+                            "price" => 5000,
+                            "total" => 10000
+                        ],
+                        [
+                            "name" => "Amoxicillin",
+                            "qty" => 1,
+                            "price" => 15000,
+                            "total" => 15000
+                        ],
+                        [
+                            "name" => "Loratadine",
+                            "qty" => 3,
+                            "price" => 8000,
+                            "total" => 24000
+                        ],
+                        [
+                            "name" => "Loratadine",
+                            "qty" => 2,
+                            "price" => 8000,
+                            "total" => 16000
+                        ],
+
+                    ];
+
+                    echo json_encode($receipt);
+                }
+        )->name("getReceipt");
+    }
+
+);
+
+Route::prefix('poly')->group(
+    function () {
+        Route::get(
+            '/',
+            function () {
+                    // show data category on modal + polyclinic
+                    $controller = new RecordCategoryController();
+                    $category = $controller->showDataCategoryOnPolyclinic();
 
                     $data = [
                         [
-                            'id' => '10',
-                            'date' => '1677373423',
-                            'start' => '1677373423',
-                            'end' => '1675386223'
+                            'id_poly' => '1',
+                            'poly' => 'anak',
+                            'id_category' => '1',
+                            'category' => 'kategori 1'
                         ],
                         [
-                            'id' => '2',
-                            'date' => '1677373423',
-                            'start' => '1677373423',
-                            'end' => '1675386223'
+                            'id_poly' => '12',
+                            'poly' => 'dalam',
+                            'id_category' => '1',
+                            'category' => 'kategori 1'
+                        ],
+                        [
+                            'id_poly' => '13',
+                            'poly' => 'dalam',
+                            'id_category' => '2',
+                            'category' => 'kategori 2'
                         ],
                     ];
-                    return view('admin.schedule', ['data' => $data]);
+                    return view('admin.poli', ['data' => $data, 'category' => $category]);
                 }
-            )->middleware('isAdmin');
-            Route::post(
-                'store',
-                function (Request $request) {
+        );
+        Route::post(
+            'store',
+            function (Request $request) {
+                    dd($request);
+                }
+        );
+        Route::put(
+            'update',
+            function (Request $request) {
+                    dd($request);
+                }
+        );
 
-                        dd($request);
-                    }
-            )->middleware('isAdmin');
-            Route::put(
-                'update',
-                function (Request $request) {
-                        dd($request);
-                    }
-            )->middleware('isAdmin');
-            Route::delete(
-                'destroy',
-                function (Request $request) {
-                        dd([$request]);
-                    }
-            )->middleware('isAdmin');
-        }
-    );
+        Route::delete(
+            'destroy',
+            function (Request $request) {
+                    dd($request);
+                }
+        );
+    }
+);
 
-    Route::prefix('complain')->group(
-        function () {
-            Route::get(
-                '/',
-                [RecordController::class, 'showComplaintOnAdmin']
-            )->middleware('isAdmin');
-
-            Route::put(
-                'agreement',
-                [RecordController::class, 'confirmStatusPayment']
-            )->middleware('isAdmin');
-        }
-    );
-
-
-
-
-    Route::prefix('consul')->group(
-        function () {
-            Route::get(
-                '/',
-                [RecordController::class, 'showConsulOnAdmin']
-            );
-
-            Route::get('vidcon/{id_consul}', [RecordController::class, "startCoverenceByAdmin"]);
-            Route::post('receipt/store', [RecordController::class, "addRecipe"]);
-        }
-
-
-
-    );
-
-    Route::prefix('poly')->group(
-        function () {
-
-
-            Route::get(
-                '/',
-                function () {
-                    // show data category on modal + polyclinic
-                        $controller = new RecordCategoryController();
-                        $category = $controller->showDataCategoryOnPolyclinic();
-
-                        $data = [
-                            [
-                                'id_poly' => '1',
-                                'poly' => 'anak',
-                                'id_category' => '1',
-                                'category' => 'kategori 1'
-                            ],
-                            [
-                                'id_poly' => '12',
-                                'poly' => 'dalam',
-                                'id_category' => '1',
-                                'category' => 'kategori 1'
-                            ],
-                            [
-                                'id_poly' => '13',
-                                'poly' => 'dalam',
-                                'id_category' => '2',
-                                'category' => 'kategori 2'
-                            ],
-                        ];
-                        return view('admin.poli', ['data' => $data, 'category' => $category]);
-                    }
-            );
-
-            Route::post(
-                'store',
-                function (Request $request) {
-                        dd($request);
-                    }
-            );
-
-            Route::put(
-                'update',
-                function (Request $request) {
-                        dd($request);
-                    }
-            );
-
-            Route::delete(
-                'destroy',
-                function (Request $request) {
-                        dd($request);
-                    }
-            );
-        }
-    );
-});
 
 //dokter
 Route::prefix('doctor')->group(function () {

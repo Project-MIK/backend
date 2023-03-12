@@ -46,7 +46,7 @@ class PattientController extends Controller
     }
     public function store(StorePattientRequest $request)
     {
-        if ($request['citizen'] == 'indonesia') {
+        if ($request['citizen'] == 'WNI') {
             $request['citizen'] = 'WNI';
             $res = $this->service->store($request->validate([
                 'fullname' => ['required', 'string', 'min:4'],
@@ -234,7 +234,7 @@ class PattientController extends Controller
         $data = $pattienLoginRequest->validate($pattienLoginRequest->rules());
         $res = $this->service->login($data);
         if ($res) {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('message' , 'berhasil login');
         } else {
             return Redirect::back()->withErrors(['msg' => 'Password atau No Rekam Medik Salah']);
         }
@@ -243,7 +243,7 @@ class PattientController extends Controller
     public function showRecordDashboard($idMedicalRecord)
     {
         $res = $this->service->showRecordDashboard($idMedicalRecord);
-
+        
         return $res;
     }
     public function showRecordHistory($idMedicalRecord)

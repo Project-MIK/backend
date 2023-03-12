@@ -1,3 +1,7 @@
+<!-- jQuery -->
+<script src="{{ asset('/adminlte/plugins/jquery/jquery.min.js')}}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ asset('/adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome Icons -->
@@ -29,5 +33,8 @@
 <script src="{{asset('/adminlte/plugins/toastr/toastr.min.js')}}"></script>
 {{-- jitsi --}}
 <script src='https://meet.jit.si/external_api.js'></script>
+{{-- sellect 2 --}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {{-- local css --}}
 <link rel="stylesheet" href="{{asset('css/appadmin.css')}}">

@@ -24,11 +24,11 @@ class DatabaseSeeder extends Seeder
     
 
         $this->call(RecordCategorySeeder::class);
-        $this->call([RegistrationOfficersSeeder::class , PolyclinicSeeder::class , DoctorSeeder::class , SchedulesSeeder::class , ScheduleDetailSeeder::class , RecipeSeeder::class]);
+        $this->call([RegistrationOfficersSeeder::class , PolyclinicSeeder::class , DoctorSeeder::class , SchedulesSeeder::class , ScheduleDetailSeeder::class , RecipeSeeder::class ,]);
             
         $this->call([
             PaymentMethodSeeder::class,
-            AdminSeeder::class , MedicinesSeeder::class , MedicalRecordsSeeder::class , RecordSeeder::class 
+            AdminSeeder::class , MedicinesSeeder::class , MedicalRecordsSeeder::class , RecordSeeder::class , RecipeDetailsSeeder::class
         ]);
         $this->call(PattientSeeder::class);
 

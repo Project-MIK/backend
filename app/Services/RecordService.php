@@ -340,7 +340,7 @@ class RecordService
             $end = strtotime($res['time_end']);
             $res['duration'] = $duration;
             $res['time_start'] = strtotime($res['time_start']);
-            unset($res['time_end']);
+            $res['time_end'] = strtotime($res['time_end']);
         }
         # code...
         return $res;

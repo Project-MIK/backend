@@ -25,8 +25,8 @@ class RecordSeeder extends Seeder
             "doctor_id" => 1 , 
             "schedule_id" => 1,
             "id_category" => 1,
-            'status_consultation' => "consultation-complete",
-            'valid_status' => Carbon::now(),
+            'status_consultation' => "confirmed-consultation-payment",
+            'valid_status' => Carbon::now()->addHour(),
             'bukti' => 'crPpMrq4pf9w.UyqHeG5Jl3qwo.gvoZeNzgGV4T1V1396QYRW.png',
             'status_payment_consultation' => 'TERKONFIRMASI',
             'payment_method' => "BRI"
