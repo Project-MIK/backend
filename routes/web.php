@@ -621,18 +621,21 @@ Route::prefix('admin')->group(function () {
 
             $receipt = [
                 [
+                    "id" => '1',
                     "name" => "Paracetamol",
                     "qty" => 2,
                     "price" => 5000,
                     "total" => 10000
                 ],
                 [
+                    "id" => '2',
                     "name" => "Amoxicillin",
                     "qty" => 1,
                     "price" => 15000,
                     "total" => 15000
                 ],
                 [
+                    "id" => '3',
                     "name" => "Loratadine",
                     "qty" => 3,
                     "price" => 8000,
@@ -655,17 +658,38 @@ Route::prefix('admin')->group(function () {
                 'patien' => 'Bachtiar',
                 'duration' => 7200000 //in milisecond
             ];
-            return view('admin.jitsi', ['data' => $data, 'medicine' => $medicine,'receipt'=>$receipt,'id_complaint'=>$id_consul]);
+            return view('admin.jitsi', ['data' => $data, 'medicine' => $medicine, 'receipt' => $receipt, 'id_complaint' => $id_consul]);
         });
 
         Route::post('receipt/store', function (Request $request) {
+            /*
+            request = {
+                id_medicine: id_medicine,
+                qty: qty
+            }
+            */
+
             $response = [
-                $request->input('id_medicine','id tidak ada'),$request->input('qty','qty kosong')
+                'id' => $request->input('id_medicine', 'id tidak ada'),
+                'name' => 'nama obat',
+                'qty' => $request->input('qty', 'qty kosong'),
+                'harga' => 'harga obat',
+                'total' => 'total dari qty dikali obat'
             ];
             echo json_encode($response);
         })->name("receipt.store");
 
-        Route::get('receipt/{id_complaint}',function($id_complaint){
+        Route::delete('receipt/destroy', function (Request $request) {
+            //request {'id':'id obat yang akan dihapus dari resep'}
+
+            $response = [
+                'status' => 'success'
+            ];
+
+            echo json_encode($response);
+        })->name('receipt.destroy');
+
+        Route::get('receipt/{id_complaint}', function ($id_complaint) {
             $receipt = [
                 [
                     "name" => "Paracetamol",
