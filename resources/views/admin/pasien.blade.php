@@ -120,7 +120,6 @@
     $(function() {
         $("#example1").DataTable({
             "responsive": true
-            ,"order":[1,"asc"]
             , "lengthChange": false
             , "autoWidth": true
             , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
