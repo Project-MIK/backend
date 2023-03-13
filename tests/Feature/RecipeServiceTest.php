@@ -56,4 +56,15 @@ class RecipeServiceTest extends TestCase
         $res = $service->checkMedicine(2 , 1);
         $this->assertFalse($res);
     }
+
+    public function test_update_total(){
+        $service = new RecipesService();
+        $service->update_total_price(10000 , 2);
+    }
+
+    public function test_findByID(){
+        $service = new RecipesService();
+        $data = $service->findById(2);
+        dd($data->price_medical_prescription);
+    }
 }

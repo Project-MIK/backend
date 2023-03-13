@@ -47,7 +47,6 @@ class RecordService
 
     public function insert(array $request)
     {
-        dd($request);
         //KL6584690
         $resultId = "";
         do {
@@ -331,7 +330,7 @@ class RecordService
             ->where('schedule_details.time_end', '>=', Carbon::now())
             ->where('record.id', $id)
             ->first();
-        if ($res != null) { 
+        if ($res != null) {
             $res = $res->toArray();
             $start = now();
             $end = Carbon::parse($res['time_end']);
@@ -343,6 +342,7 @@ class RecordService
             $res['time_end'] = strtotime($res['time_end']);
         }
         # code...
+
         return $res;
     }
 
@@ -370,23 +370,40 @@ class RecordService
         return $res;
     }
 
-    public function addRecipe($id , array $request){
-        
-    }
-
-    public function update_to_consultation_waiting($idRecord){
-        
-    }
-
-    public function update_to_consultation_complete($idrecord){
+    public function addRecipe($id, array $request)
+    {
 
     }
 
-    public function update_to_confirmed_consultation_payment($idRecord){
-      
+    public function update_to_consultation_waiting($idRecord)
+    {
+        $this->record->where('id', $idRecord)->update([
+            'status_consultation' => 'waiting-consultation-payment'
+        ]);
     }
 
-    
+    public function update_to_consultation_complete($idrecord)
+    {
+
+    }
+    public function update_to_confirmed_consultation_payment($idRecord)
+    {
+
+    }
+    public function update_to_consultation_payment_waiting($idRecord)
+    {
+        // waiting-medical-prescription-payment
+        $data = $this->record->where('id', $idRecord)->first();
+        if ($data != null) {
+            $this->record->where('id', $idRecord)->update([
+                'status_consultation' => 'waiting-medical-prescription-payment',
+                "valid_status" => Carbon::parse($data->valid_status)->addHours(2)->toDateTimeString()
+            ]);
+        }
+
+    }
+
+
 
 }
 

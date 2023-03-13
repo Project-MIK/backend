@@ -139,9 +139,9 @@ class RecordController extends Controller
         $receipt = $this->recipeDetailService->showDataRecipePatient($id);
         $medicine = $this->medicineService->findAll();
         $data = $this->service->startConverenceAdminById($id);
-        $milliseconds = $data['time_start']; // example millisecond timestamp
-        $start = Carbon::createFromTimestamp($milliseconds);
-        $formattedDate = $start->format('Y-m-d H:i');
+        // $milliseconds = $data['time_start']; // example millisecond timestamp
+        // $start = Carbon::createFromTimestamp($milliseconds);
+        // $formattedDate = $start->format('Y-m-d H:i');
         
         if ($data != null) {
             // if (time() > $data['time_end']) {

@@ -610,6 +610,7 @@ Route::prefix('admin')->group(
                                             'total' => $obat->price * $request->qty
                                         ];
                                         $data = [
+                                            'id_consule' => $request->id_consule,
                                             'id_recipe' => $id,
                                             "id_medicine" => $request->id_medicine,
                                             "qty" => $request->qty,
@@ -629,7 +630,6 @@ Route::prefix('admin')->group(
                                             // http_response_code(201);
                                             echo json_encode($response);
                                         } else {
-                                            $detailController->store($data);
                                             $response = [
                                                 "status" => false
                                             ];

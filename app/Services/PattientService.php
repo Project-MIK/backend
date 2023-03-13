@@ -250,7 +250,7 @@ class PattientService
             ->join('doctors', 'doctors.id', 'record.doctor_id')
             ->join('polyclinics', 'polyclinics.id', 'doctors.polyclinic_id')
             ->join('record_category', 'record_category.id', 'record.id_category')
-            ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctors.name as doctor', 'schedule_details.consultation_date', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime' , 'recipes.price_medical_prescription')->where('record.id', $idRecord)
+            ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctors.name as doctor', 'schedule_details.consultation_date', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime' , 'recipes.price_medical_prescription' , 'recipes.status_payment_medical_prescription')->where('record.id', $idRecord)
             ->first();
         $response = [];
         if ($res != null) {
@@ -286,10 +286,10 @@ class PattientService
                 $response['pickup_by_pacient'] = $res->name_pacient;
                 $response['pickup_datetime'] = strtotime($res->pickup_datetime);
                 $response['price_medical_prescription'] = $res->price_medical_prescription;
-                $response['status_payment_medical_prescription'] = "TERKONFIRMASI";
+                $response['status_payment_medical_prescription'] = $res->status_payment_medical_prescription;
                 $response['proof_payment_medical_prescription'] = $res->bukti;
             }
-            if ($response['status'] == 'confirmed-consultation-payment' && Carbon::now() >= $res->start_consultation && Carbon::now() <= $res->end_consultation) {
+            if ($response['status'] == 'confirmed-consultation-payment' && time() > strtotime($res->start_consultation) && time() < strtotime($res->end_consultation)) {
                 $response['live_consultation'] = true;
             } else {
                 $response['live_consultation'] = false;

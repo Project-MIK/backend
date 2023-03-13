@@ -53,8 +53,9 @@ class RecipeDetailsService
         $check = $this->record->where('id', $idConsule)->first();
         if ($check != null) {
             $idrecipe = $check->id_recipe;
-            if ($idrecipe != null) {
+            if($idrecipe!=null){
                 return $this->model->where('id_recipe', $idrecipe)->where('id_medicine', $idMedicine)->delete();
+
             }
             return false;
         }

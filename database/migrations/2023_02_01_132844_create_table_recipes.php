@@ -20,6 +20,8 @@ return new class extends Migration
             $table->enum('pickup_medical_prescription' , ['hospital-pharmacy' , 'delivery-gojek'])->default('hospital-pharmacy');
             $table->enum('pickup_medical_status' , ['MENUNGGU DIAMBIL' , 'SUDAH DIAMBIL'  , 'DIKIRIM DENGAN GOJEK' , 'GAGAL DIKIRIM'])->default('MENUNGGU DIAMBIL');
             $table->string('pickup_medical_addreass_pacient')->nullable(true);
+            $table->enum('status_payment_medical_prescription' , ['PROSES VERIFIKASI' , 'BELUM TERKONFIRMASI' , 'TERKONFIRMASI' , 
+            'DIBATALKAN'])->default('BELUM TERKONFIRMASI');
             $table->enum('pickup_medical_description' , ['alamat penerima tidak valid' , 'pasien tidak dapat dihubungi'])->nullable(true);
             $table->timestamp('pickup_datetime')->nullable(true);
             $table->timestamps();

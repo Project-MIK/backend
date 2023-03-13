@@ -54,8 +54,8 @@ class PattientController extends Controller
                 'gender' => ['required'],
                 'password' => ['required'],
                 'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
-                'address_RT' => ['required', 'numeric', 'max:3'],
-                'address_RW' => ['required', 'numeric', 'max:3'],
+                'address_RT' => ['required', 'numeric', 'digits:3'],
+                'address_RW' => ['required', 'numeric', 'digits:3'],
                 'address_desa' => ['required', 'string'],
                 'address_dusun' => ['required', 'string'],
                 'address_kecamatan' => ['required', 'string'],
@@ -80,8 +80,8 @@ class PattientController extends Controller
                 'gender' => ['required'],
                 'password' => ['required'],
                 'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
-                'address_RT' => ['required', 'numeric', 'max:3'],
-                'address_RW' => ['required', 'numeric', 'max:3'],
+                'address_RT' => ['required', 'numeric', 'digits:3'],
+                'address_RW' => ['required', 'numeric', 'digits:3'],
                 'address_desa' => ['required', 'string'],
                 'address_dusun' => ['required', 'string'],
                 'address_kecamatan' => ['required', 'string'],
@@ -511,8 +511,12 @@ class PattientController extends Controller
 
     public function showDataAction($id)
     {
-        $data = $this->service->showDataActionConsultation($id);
-        return view("pacient.consultation.detail-consultation", $data);
+        $data = $this->service->showDataActionConsultation($id);  
+        if(sizeof($data) == 0){
+            return redirect()->back()->withErrors("id konsultasi tidak ditemukan");
+        }else{
+            return view("pacient.consultation.detail-consultation", $data);
+        }   
     }
 
     public function sendEmailVerivikasi(Request $request)

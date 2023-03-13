@@ -51,10 +51,10 @@ class RecipesService
         return true;
     }
 
-    public function update_total_price(array $request, $id)
+    public function update_total_price($total, $id)
     {
         $isUpdate = $this->model->where('id', $id)->update([
-            'price_medical_prescription' => $request['total'],
+            'price_medical_prescription' => $total,
         ]);
         if ($isUpdate) {
             return true;
@@ -68,6 +68,9 @@ class RecipesService
        return $res->id;
     }
 
+    public function findById($idRecipe){
+        return $this->model->where('id' , $idRecipe)->first();
+    }
 
 }
 
