@@ -4,17 +4,20 @@ namespace App\Services;
 
 use App\Models\Pattient;
 use App\Models\RecipeDetails;
+use App\Models\Record;
 
 class RecipeDetailsService
 {
 
     private RecipeDetails $model;
     private Pattient $patient;
+    private Record $record;
 
     public function __construct()
     {
         $this->model = new RecipeDetails();
         $this->patient = new Pattient();
+        $this->record = new Record();
     }
 
 
@@ -44,16 +47,25 @@ class RecipeDetailsService
         return false;
     }
 
-    public function delete($idRecipe, $idMedicine)
+    public function delete($idConsule, $idMedicine)
     {
-        return $this->model->where('id_recipe', $idRecipe)->where('id_medicine', $idMedicine)->delete();
+
+        $check = $this->record->where('id', $idConsule)->first();
+        if ($check != null) {
+            $idrecipe = $check->id_recipe;
+            if ($idrecipe != null) {
+                return $this->model->where('id_recipe', $idrecipe)->where('id_medicine', $idMedicine)->delete();
+            }
+            return false;
+        }
+        return false;
     }
 
 
     public function checkMedicine($idRecipe, $idMedicine)
     {
         $data = $this->model->where('id_recipe', $idRecipe)->where('id_medicine', $idMedicine)->first();
-        if($data != null){
+        if ($data != null) {
             return false;
         }
         return true;

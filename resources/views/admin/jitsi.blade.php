@@ -234,6 +234,7 @@
         row = params.parentNode.parentNode;
         items = row.getElementsByTagName('td');
         id = items[0].innerHTML;
+        var id_consule = "{{ request()->route('id_consul') }}";
 
         var xhr = new XMLHttpRequest();
         xhr.open('delete', "{{ route('receipt.destroy') }}", true);
@@ -247,6 +248,7 @@
             }
         };
         var data = JSON.stringify({
+            id_consule: id_consule,
             id: id
         });
         xhr.send(data);
