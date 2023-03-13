@@ -8,59 +8,21 @@
     @csrf
     @method('put')
     <div class="my-5">
-        @if($data['citizen']=="WNI")
+        
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                <select id="inputCitizen" class="form-control" name="citizen" onchange="setNIK(this)">
-                    <option selected value="WNI">Warga Negara Indonesia</option>
-                    <option value="WNA">Warga Negara Asing</option>
-                </select>
+                <input type="text" value="{{$data['citizen']}}" class="form-control py-4" id="inputCitizen" name="citizen" placeholder="Ketikkan nomor induk kependudukan" readonly required>
+
             </div>
             <div class="form-group col-md-6">
                 <div id="nik" class="d-block">
                     <label for="inputNik" id="labelNik" class="text-trouth">NIK <span class="text-sm font-weight-normal">( Nomor Induk Kependudukan )</span></label>
-                    <input type="text" value="{{$data['nik']}}" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" value="-" autofocus required>
+                    <input type="text" value="{{$data['nik']}}" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" autofocus required>
                 </div>
             </div>
         </div>
-        @elseif($data['citizen']=="WNA")
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                <select id="inputCitizen" class="form-control" name="citizen" onchange="setNIK(this)">
-                    <option value="WNI">Warga Negara Indonesia</option>
-                    <option selected value="WNA">Warga Negara Asing</option>
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-                <div id="nik" class="d-block">
-                    <label for="inputNik" id="labelNik" class="text-trouth">Paspor</span></label>
-                    <input type="text" value="{{$data['no_paspor']}}" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" value="-" autofocus required>
-                </div>
-            </div>
-        </div>
-        @else
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                <select id="inputCitizen" class="form-control" name="citizen" onchange="setNIK(this)">
-                    <option selected value="WNI">Warga Negara Indonesia</option>
-                    <option value="WNA">Warga Negara Asing</option>
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-                <div id="nik" class="d-block">
-                    <label for="inputNik" id="labelNik" class="text-trouth">NIK <span class="text-sm font-weight-normal">( Nomor Induk Kependudukan )</span></label>
-                    <input type="text" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" value="-" autofocus required>
-                </div>
-                <div id="paspor" class="d-none">
-                    <label for="inputPaspor" class="text-trouth">Nomor Paspor</label>
-                    <input type="text" class="form-control py-4" id="inputPaspor" name="no_paspor" placeholder="Ketikkan nomor paspor" value="-" required>
-                </div>
-            </div>
-        </div>
-        @endif
+        
         </select>
 
         <div class="form-row">
