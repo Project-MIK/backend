@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MedicalRecordsController;
 use App\Http\Controllers\MedicinesController;
+use App\Http\Controllers\RecipeDetailController;
 use App\Http\Controllers\RegistrationOfficersController;
 use App\Mail\MailHelper;
 use App\Models\RegistrationOfficers;
@@ -15,6 +16,7 @@ use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PolyclinicController;
+use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecordCategoryController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
@@ -555,7 +557,35 @@ Route::prefix('admin')->group(
                     );
                     //startCoverenceByAdmin
                     Route::get('vidcon/{id_consul}', [RecordController::class, "startCoverenceByAdmin"]);
-                    Route::post('receipt/store', [RecordController::class, "addRecipe"]);
+                    Route::post('receipt/store', function (Request $request) {
+                        /*
+                        request = {
+                            id_medicine: id_medicine,
+                            qty: qty
+                        }
+                        */
+                        $detailController = new RecipeDetailController();
+                        $recipeController = new RecipeController();
+                        $recipeController->checkRecipe();
+                        $response = [
+                            'id' => $request->id_medicine,
+                            'name' => 'nama obat',
+                            'qty' => $request->input('qty', 'qty kosong'),
+                            'harga' => 'harga obat',
+                            'total' => 'total dari qty dikali obat'
+                        ];
+                        echo json_encode($response);
+                    })->name("receipt.store");
+            
+                    Route::delete('receipt/destroy', function (Request $request) {
+                        //request {'id':'id obat yang akan dihapus dari resep'}
+            
+                        $response = [
+                            'status' => 'success'
+                        ];
+            
+                        echo json_encode($response);
+                    })->name('receipt.destroy');
 
                 }
         );
@@ -563,109 +593,52 @@ Route::prefix('admin')->group(
         //     return view('admin.consul', ['data' => $data]);
         // });
 
-        Route::get('vidcon/{id_consul}', function ($id_consul) {
+        // Route::get('vidcon/{id_consul}', function ($id_consul) {
 
-            $receipt = [
-                [
-                    "id" => '1',
-                    "name" => "Paracetamol",
-                    "qty" => 2,
-                    "price" => 5000,
-                    "total" => 10000
-                ],
-                [
-                    "id" => '2',
-                    "name" => "Amoxicillin",
-                    "qty" => 1,
-                    "price" => 15000,
-                    "total" => 15000
-                ],
-                [
-                    "id" => '3',
-                    "name" => "Loratadine",
-                    "qty" => 3,
-                    "price" => 8000,
-                    "total" => 24000
-                ]
-            ];
+        //     $receipt = [
+        //         [
+        //             "id" => '1',
+        //             "name" => "Paracetamol",
+        //             "qty" => 2,
+        //             "price" => 5000,
+        //             "total" => 10000
+        //         ],
+        //         [
+        //             "id" => '2',
+        //             "name" => "Amoxicillin",
+        //             "qty" => 1,
+        //             "price" => 15000,
+        //             "total" => 15000
+        //         ],
+        //         [
+        //             "id" => '3',
+        //             "name" => "Loratadine",
+        //             "qty" => 3,
+        //             "price" => 8000,
+        //             "total" => 24000
+        //         ]
+        //     ];
 
-            $medicine = [
-                ["id" => 1, "name" => "Paracetamol", "price" => 15000],
-                ["id" => 2, "name" => "Ibuprofen", "price" => 22000],
-                ["id" => 3, "name" => "Aspirin", "price" => 10000],
-                ["id" => 4, "name" => "Omeprazole", "price" => 33000],
-                ["id" => 5, "name" => "Simvastatin", "price" => 17000]
-            ];
+        //     $medicine = [
+        //         ["id" => 1, "name" => "Paracetamol", "price" => 15000],
+        //         ["id" => 2, "name" => "Ibuprofen", "price" => 22000],
+        //         ["id" => 3, "name" => "Aspirin", "price" => 10000],
+        //         ["id" => 4, "name" => "Omeprazole", "price" => 33000],
+        //         ["id" => 5, "name" => "Simvastatin", "price" => 17000]
+        //     ];
 
-            //data from getById($id_consul) 
-            $data = [
-                'id_consul' => $id_consul,
-                'doctor' => 'Dr. Anis',
-                'patien' => 'Bachtiar',
-                'duration' => 7200000 //in milisecond
-            ];
-            return view('admin.jitsi', ['data' => $data, 'medicine' => $medicine, 'receipt' => $receipt, 'id_complaint' => $id_consul]);
-        });
+        //     //data from getById($id_consul) 
+        //     $data = [
+        //         'id_consul' => $id_consul,
+        //         'doctor' => 'Dr. Anis',
+        //         'patien' => 'Bachtiar',
+        //         'duration' => 7200000 //in milisecond
+        //     ];
+        //     return view('admin.jitsi', ['data' => $data, 'medicine' => $medicine, 'receipt' => $receipt, 'id_complaint' => $id_consul]);
+        // });
 
-        Route::post('receipt/store', function (Request $request) {
-            /*
-            request = {
-                id_medicine: id_medicine,
-                qty: qty
-            }
-            */
-            $response = [
-                'id' => $request->id_medicine,
-                'name' => 'nama obat',
-                'qty' => $request->input('qty', 'qty kosong'),
-                'harga' => 'harga obat',
-                'total' => 'total dari qty dikali obat'
-            ];
-            echo json_encode($response);
-        })->name("receipt.store");
+        
 
-        Route::delete('receipt/destroy', function (Request $request) {
-            //request {'id':'id obat yang akan dihapus dari resep'}
-
-            $response = [
-                'status' => 'success'
-            ];
-
-            echo json_encode($response);
-        })->name('receipt.destroy');
-
-        Route::get('receipt/{id_complaint}', function ($id_complaint) {
-            $receipt = [
-                [
-                    "name" => "Paracetamol",
-                    "qty" => 2,
-                    "price" => 5000,
-                    "total" => 10000
-                ],
-                [
-                    "name" => "Amoxicillin",
-                    "qty" => 1,
-                    "price" => 15000,
-                    "total" => 15000
-                ],
-                [
-                    "name" => "Loratadine",
-                    "qty" => 3,
-                    "price" => 8000,
-                    "total" => 24000
-                ],
-                [
-                    "name" => "Loratadine",
-                    "qty" => 2,
-                    "price" => 8000,
-                    "total" => 16000
-                ],
-
-                    ];
-
-                    echo json_encode($receipt);
-                }
-        )->name("getReceipt");
     }
 
 );
