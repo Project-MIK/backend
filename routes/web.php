@@ -614,9 +614,8 @@ Route::prefix('admin')->group(
                 qty: qty
             }
             */
-
             $response = [
-                'id' => $request->input('id_medicine', 'id tidak ada'),
+                'id' => $request->id_medicine,
                 'name' => 'nama obat',
                 'qty' => $request->input('qty', 'qty kosong'),
                 'harga' => 'harga obat',

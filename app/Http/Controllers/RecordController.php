@@ -143,12 +143,12 @@ class RecordController extends Controller
         $start = Carbon::createFromTimestamp($milliseconds);
         $formattedDate = $start->format('Y-m-d H:i');
         if ($data != null) {
-            if (time() > $data['time_end']) {
-                return back()->withErrors("waktu consultasi sudah selesai");
-            }
-            if (time() < [$data['time_start']]) {
-                return back()->withErrors("Konsultasi akan dimulai pada : " . $formattedDate);
-            }
+            // if (time() > $data['time_end']) {
+            //     return back()->withErrors("waktu consultasi sudah selesai");
+            // }
+            // if (time() < [$data['time_start']]) {
+            //     return back()->withErrors("Konsultasi akan dimulai pada : " . $formattedDate);
+            // }
             return view('admin.jitsi', ['data' => $data, 'medicine' => $medicine, 'receipt' => $receipt, 'id_complaint' => $id]);
         } else {
             return back()->withErrors("data consul tidak ditemukan");
