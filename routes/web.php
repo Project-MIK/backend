@@ -560,8 +560,8 @@ Route::prefix('admin')->group(
                 }
         );
 
-            return view('admin.consul', ['data' => $data]);
-        });
+        //     return view('admin.consul', ['data' => $data]);
+        // });
 
         Route::get('vidcon/{id_consul}', function ($id_consul) {
 
