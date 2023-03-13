@@ -67,7 +67,7 @@
 <x-modals.modal id-modal="modal-tambah" modal-size="" modal-bg="">
     <x-slot:header><h3>Tambah Admin</h3></x-slot:Header>
     <x-slot:footer></x-slot:footer>
-    <form action="admin/admin" method="post">
+    <form action="/admin/admin/store" method="post">
         @csrf
         <div class="form-group">
             <label>Nama</label>
