@@ -610,9 +610,10 @@ Route::prefix('admin')->group(
         Route::post('receipt/store', function (Request $request) {
             /*
             request = {
-                id_medicine: id_medicine,
-                qty: qty
-            }
+            id_consule: id_consule
+            , id_medicine: id_medicine
+            , qty: qty
+        }
             */
             $response = [
                 'id' => $request->id_medicine,

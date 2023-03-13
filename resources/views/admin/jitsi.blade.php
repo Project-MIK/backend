@@ -41,7 +41,7 @@
                         <div class="card-body">
 
                             <div class="form-group">
-                                <label for="medicine">Obat</label>
+                                <label for="medicine">Obat </label>
                                 <select id="id_medicine" class="select2 form-control" name="medicine" required>
                                     @foreach($medicine as $item)
                                     <option value="{{$item['id']}}" data-price="{{$item['price']}}">
@@ -62,6 +62,7 @@
                             <div class="border-t">
                                 <table class="table table-bordered" id="table-med">
                                     <thead>
+                                        
                                         <tr>
                                             <th>Obat</th>
                                             <th>qty</th>
@@ -206,6 +207,7 @@
     function submitForm() {
         var id_medicine = document.getElementById("id_medicine").value;
         var qty = document.getElementById("qty").value;
+        var id_consule = "{{ request()->route('id_consul') }}";
 
         // Kirim data menggunakan AJAX
         var xhr = new XMLHttpRequest();
@@ -219,7 +221,8 @@
             }
         };
         var data = JSON.stringify({
-            id_medicine: id_medicine
+            id_consule: id_consule
+            , id_medicine: id_medicine
             , qty: qty
         });
         xhr.send(data);
