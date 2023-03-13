@@ -15,11 +15,15 @@ class RecipeController extends Controller
         $this->service = new RecipesService();
     }
 
-    public function store(){
-
+    public function store($id){
+        return $this->service->insert($id);
     }
 
-    public function checkRecipe(){
-        
+    public function checkRecipe($idRecord){
+       return $this->service->checkFindByIdInRecord($idRecord);
+    }
+
+    public function getLastInsertID(){
+       return  $this->service->getLastInsertId();
     }
 }

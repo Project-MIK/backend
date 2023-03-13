@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PolyclinicController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecordCategoryController;
+use App\Services\MedicineService;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Svg\Tag\Rect;
@@ -557,102 +558,128 @@ Route::prefix('admin')->group(
                     );
                     //startCoverenceByAdmin
                     Route::get('vidcon/{id_consul}', [RecordController::class, "startCoverenceByAdmin"]);
-                    Route::post('receipt/store', function (Request $request) {
-                        /*
-                        request = {
-                        id_consule: id_consule
-            , id_medicine: id_medicine
-                        , qty: qty
-                    }
-                        */
-                        $detailController = new RecipeDetailController();
-                        $recipeController = new RecipeController();
-                        $recipeController->checkRecipe();
-                        $response = [
-                            'id' => $request->id_medicine,
-                            'name' => 'nama obat',
-                            'qty' => $request->input('qty', 'qty kosong'),
-                            'harga' => 'harga obat',
-                            'total' => 'total dari qty dikali obat'
-                        ];
-                        echo json_encode($response);
-                    })->name("receipt.store");
-            
-                    Route::delete('receipt/destroy', function (Request $request) {
-                        //request {'id':'id obat yang akan dihapus dari resep'}
-            
-                        $response = [
-                            'status' => 'success'
-                        ];
-            
-                        echo json_encode($response);
-                    })->name('receipt.destroy');
+                    Route::post(
+                        'receipt/store',
+                        function (Request $request) {
+                                        $detailController = new RecipeDetailController();
+                                        $recipeController = new RecipeController();
+                                        $isThereRecipe = $recipeController->checkRecipe($request->id_consule);
+                                        $medicineService = new MedicineService();
+                                        $id = null;
+                                        if ($isThereRecipe) {
+                                            $idresponse = $recipeController->store($request->id_consule);
+                                            $id = $idresponse['id'];
+                                        } else {
+                                            $id = $recipeController->getLastInsertID();
+                                        }
+                                        ;
+                                        $obat = $medicineService->findById($request->id_medicine);
+                                        $response = [
+                                            'id' => $request->id_medicine,
+                                            'name' => $obat->name,
+                                            'qty' => $request->input('qty', 'qty kosong'),
+                                            'harga' => $obat->price,
+                                            'total' => $obat->price * $request->qty
+                                        ];
+                                        $data = [
+                                            'id_recipe' => $id,
+                                            "id_medicine" => $request->id_medicine,
+                                            "qty" => $request->qty,
+                                            "total" => $response['total']
+                                        ];
+                                        $isThere = $detailController->checkMedicine($id, $request->id_medicine);
+                                        if ($isThere) {
+                                            $detailController->store($data);
+                                            $response = [
+                                                'id' => $request->id_medicine,
+                                                'name' => $obat->name,
+                                                'qty' => $request->input('qty', 'qty kosong'),
+                                                'harga' => $obat->price,
+                                                'total' => $obat->price * $request->qty,
+                                                "status" => true
+                                            ];
+                                            // http_response_code(201);
+                                            echo json_encode($response);
+                                        } else {
+                                            $detailController->store($data);
+                                            $response = [
+                                                "status" => false
+                                            ];
+                                            //echo http_response_code(409);
+                                        }
+                                    }
+                    )->name("receipt.store");
 
+                    Route::delete(
+                        'receipt/destroy',
+                        function (Request $request) {
+                                        //request {'id':'id obat yang akan dihapus dari resep'}
+                                        $controller = new RecipeDetailController();
+                                        $isDelete = $controller->delete(2, $request->id);
+                                        $response = [
+                                            'status' => $isDelete
+                                        ];
+                                        echo json_encode($response);
+                                    }
+                    )->name('receipt.destroy');
                 }
         );
 
-        //     return view('admin.consul', ['data' => $data]);
-        // });
-
-                //     echo json_encode($receipt);
-                // }
-        // )->name("getReceipt");
-    
         Route::prefix('poly')->group(
             function () {
-                Route::get(
-                    '/',
-                    function () {
-                            // show data category on modal + polyclinic
-                            $controller = new RecordCategoryController();
-                            $category = $controller->showDataCategoryOnPolyclinic();
-        
-                            $data = [
-                                [
-                                    'id_poly' => '1',
-                                    'poly' => 'anak',
-                                    'id_category' => '1',
-                                    'category' => 'kategori 1'
-                                ],
-                                [
-                                    'id_poly' => '12',
-                                    'poly' => 'dalam',
-                                    'id_category' => '1',
-                                    'category' => 'kategori 1'
-                                ],
-                                [
-                                    'id_poly' => '13',
-                                    'poly' => 'dalam',
-                                    'id_category' => '2',
-                                    'category' => 'kategori 2'
-                                ],
-                            ];
-                            return view('admin.poli', ['data' => $data, 'category' => $category]);
-                        }
-                );
-                Route::post(
-                    'store',
-                    function (Request $request) {
-                            dd($request);
-                        }
-                );
-                Route::put(
-                    'update',
-                    function (Request $request) {
-                            dd($request);
-                        }
-                );
-        
-                Route::delete(
-                    'destroy',
-                    function (Request $request) {
-                            dd($request);
-                        }
-                );
-            }
+                    Route::get(
+                        '/',
+                        function () {
+                                        // show data category on modal + polyclinic
+                                        $controller = new RecordCategoryController();
+                                        $category = $controller->showDataCategoryOnPolyclinic();
+
+                                        $data = [
+                                            [
+                                                'id_poly' => '1',
+                                                'poly' => 'anak',
+                                                'id_category' => '1',
+                                                'category' => 'kategori 1'
+                                            ],
+                                            [
+                                                'id_poly' => '12',
+                                                'poly' => 'dalam',
+                                                'id_category' => '1',
+                                                'category' => 'kategori 1'
+                                            ],
+                                            [
+                                                'id_poly' => '13',
+                                                'poly' => 'dalam',
+                                                'id_category' => '2',
+                                                'category' => 'kategori 2'
+                                            ],
+                                        ];
+                                        return view('admin.poli', ['data' => $data, 'category' => $category]);
+                                    }
+                    );
+                    Route::post(
+                        'store',
+                        function (Request $request) {
+                                        dd($request);
+                                    }
+                    );
+                    Route::put(
+                        'update',
+                        function (Request $request) {
+                                        dd($request);
+                                    }
+                    );
+
+                    Route::delete(
+                        'destroy',
+                        function (Request $request) {
+                                        dd($request);
+                                    }
+                    );
+                }
         );
-        
-    
+
+
     }
 
 );

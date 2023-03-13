@@ -142,6 +142,7 @@ class RecordController extends Controller
         $milliseconds = $data['time_start']; // example millisecond timestamp
         $start = Carbon::createFromTimestamp($milliseconds);
         $formattedDate = $start->format('Y-m-d H:i');
+        
         if ($data != null) {
             // if (time() > $data['time_end']) {
             //     return back()->withErrors("waktu consultasi sudah selesai");

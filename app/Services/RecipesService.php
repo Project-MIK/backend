@@ -20,7 +20,7 @@ class RecipesService
     }
 
 
-    public function insert()
+    public function insert($id)
     {
         $response = [];
         $res = $this->model->create([
@@ -31,6 +31,9 @@ class RecipesService
         if ($res) {
             $response['status'] = true;
             $response['id'] = $res->id;
+            $this->record->Where('id' , $id)->update([
+                'id_recipe' => $res->id
+            ]);
             return $response;
         } else {
             $response['status'] = false;
@@ -57,6 +60,12 @@ class RecipesService
             return true;
         }
         return false;
+    }
+
+
+    public function getLastInsertId(){
+       $res = $this->model->orderBy('created_at' , 'desc')->first();   
+       return $res->id;
     }
 
 
