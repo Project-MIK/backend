@@ -594,9 +594,9 @@ Route::prefix('admin')->group(
         //     return view('admin.consul', ['data' => $data]);
         // });
 
-                    echo json_encode($receipt);
-                }
-        )->name("getReceipt");
+                //     echo json_encode($receipt);
+                // }
+        // )->name("getReceipt");
     
         Route::prefix('poly')->group(
             function () {
