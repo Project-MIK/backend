@@ -589,9 +589,9 @@ Route::prefix('admin')->group(
                     /*
                         request = {
                         id_consule: id_consule
-            , id_medicine: id_medicine
+                        , id_medicine: id_medicine
                         , qty: qty
-                    }
+                        }
                         */
                     $detailController = new RecipeDetailController();
                     $recipeController = new RecipeController();
@@ -617,13 +617,6 @@ Route::prefix('admin')->group(
                 })->name('receipt.destroy');
             }
         );
-
-        //     return view('admin.consul', ['data' => $data]);
-        // });
-
-        //     echo json_encode($receipt);
-        // }
-        // )->name("getReceipt");
 
         Route::prefix('poly')->group(
             function () {
