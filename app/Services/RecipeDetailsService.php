@@ -30,6 +30,20 @@ class RecipeDetailsService
             ->get()->toArray();
     }
 
+    public function insert(array $request)
+    {
+        $res = $this->model->create([
+            "id_recipe" => $request['id_recipe'],
+            "id_medicine" => $request['id_medicine'],
+            "qty" => $request['qty'],
+            "total_price" => $request['total_price']
+        ]);
+        if ($res) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 
