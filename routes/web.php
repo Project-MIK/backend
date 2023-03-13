@@ -434,11 +434,34 @@ Route::prefix('admin')->group(
 
         Route::prefix('petugas')->group(
             function () {
-                Route::view('view', 'admin.petugas')->middleware('isAdmin');
-                Route::get('/')->middleware('isAdmin');
-                Route::post('store')->middleware('isAdmin');
-                Route::put('update')->middleware('isAdmin');
-                Route::delete('destroy')->middleware('isAdmin');
+                Route::get('/', function () {
+                    $data = [
+                        [
+                            'id' => '1',
+                            'name' => 'Bachtiar Arya Habibie',
+                            'email' => 'bachtiar@telemedicine.com',
+                            'gender' => 'M',
+                            'address' => 'Madiun Dagangan Banjarejo'
+                        ],
+                        [
+                            'id' => '2',
+                            'name' => 'Rina Fitriani',
+                            'email' => 'rina@company.com',
+                            'gender' => 'W',
+                            'address' => 'Jakarta Selatan']
+
+                    ];
+                    return view('admin.petugas', ['data' => $data]);
+                })->middleware('isAdmin');
+                Route::post('store',function(Request $request){
+                    dd($request);
+                })->middleware('isAdmin');
+                Route::put('update',function(Request $request){
+                    dd($request);
+                })->middleware('isAdmin');
+                Route::delete('destroy',function(Request $request){
+                    dd($request);
+                })->middleware('isAdmin');
             }
         );
 
@@ -455,8 +478,8 @@ Route::prefix('admin')->group(
 
         Route::prefix('medicine')->group(
             function () {
-                
-                Route::get('/',function(){
+
+                Route::get('/', function () {
                     $data = [
                         [
                             'id' => 1,
@@ -477,15 +500,15 @@ Route::prefix('admin')->group(
                             'stock' => 20
                         ]
                     ];
-                    return view('admin.medicine',['data'=>$data],);
+                    return view('admin.medicine', ['data' => $data],);
                 });
-                Route::post('store',function(Request $request){
+                Route::post('store', function (Request $request) {
                     dd($request);
                 });
-                Route::put('update',function(Request $request){
+                Route::put('update', function (Request $request) {
                     dd($request);
                 });
-                Route::delete('destroy',function(Request $request){
+                Route::delete('destroy', function (Request $request) {
                     dd($request);
                 });
             }

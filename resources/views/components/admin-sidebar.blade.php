@@ -62,7 +62,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/petugas/view" class="nav-link">
+                    <a href="/admin/petugas" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-id-card"></i></div>
                             <div class="col-10">
