@@ -667,63 +667,66 @@ Route::prefix('admin')->group(
                     echo json_encode($receipt);
                 }
         )->name("getReceipt");
-    }
-
-);
-
-Route::prefix('poly')->group(
-    function () {
-        Route::get(
-            '/',
+    
+        Route::prefix('poly')->group(
             function () {
-                    // show data category on modal + polyclinic
-                    $controller = new RecordCategoryController();
-                    $category = $controller->showDataCategoryOnPolyclinic();
-
-                    $data = [
-                        [
-                            'id_poly' => '1',
-                            'poly' => 'anak',
-                            'id_category' => '1',
-                            'category' => 'kategori 1'
-                        ],
-                        [
-                            'id_poly' => '12',
-                            'poly' => 'dalam',
-                            'id_category' => '1',
-                            'category' => 'kategori 1'
-                        ],
-                        [
-                            'id_poly' => '13',
-                            'poly' => 'dalam',
-                            'id_category' => '2',
-                            'category' => 'kategori 2'
-                        ],
-                    ];
-                    return view('admin.poli', ['data' => $data, 'category' => $category]);
-                }
+                Route::get(
+                    '/',
+                    function () {
+                            // show data category on modal + polyclinic
+                            $controller = new RecordCategoryController();
+                            $category = $controller->showDataCategoryOnPolyclinic();
+        
+                            $data = [
+                                [
+                                    'id_poly' => '1',
+                                    'poly' => 'anak',
+                                    'id_category' => '1',
+                                    'category' => 'kategori 1'
+                                ],
+                                [
+                                    'id_poly' => '12',
+                                    'poly' => 'dalam',
+                                    'id_category' => '1',
+                                    'category' => 'kategori 1'
+                                ],
+                                [
+                                    'id_poly' => '13',
+                                    'poly' => 'dalam',
+                                    'id_category' => '2',
+                                    'category' => 'kategori 2'
+                                ],
+                            ];
+                            return view('admin.poli', ['data' => $data, 'category' => $category]);
+                        }
+                );
+                Route::post(
+                    'store',
+                    function (Request $request) {
+                            dd($request);
+                        }
+                );
+                Route::put(
+                    'update',
+                    function (Request $request) {
+                            dd($request);
+                        }
+                );
+        
+                Route::delete(
+                    'destroy',
+                    function (Request $request) {
+                            dd($request);
+                        }
+                );
+            }
         );
-        Route::post(
-            'store',
-            function (Request $request) {
-                    dd($request);
-                }
-        );
-        Route::put(
-            'update',
-            function (Request $request) {
-                    dd($request);
-                }
-        );
-
-        Route::delete(
-            'destroy',
-            function (Request $request) {
-                    dd($request);
-                }
-        );
+        
+    
     }
+
 );
+
 
 
 //dokter
