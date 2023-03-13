@@ -18,7 +18,7 @@ class ScheduleDetailController extends Controller
     {
         $data = $this->service->findAll();
 
-        return $data;
+        return view('admin.schedule', ['data' => $data]);
     }
 
     public function create()

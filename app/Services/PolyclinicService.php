@@ -55,6 +55,17 @@ class PolyclinicService
         }
     }
 
+    public function findByCategory($id)
+    {
+        $data = Polyclinic::where('record_category_id', $id)->get()->toArray();
+        
+        if ($data == null) {
+            return null;
+        } else {
+            return $data;
+        }
+    }
+
     public function findByName($name)
     {
         $data = Polyclinic::where('name', 'like', '%' . $name . '%')->orderBy('name')->get();

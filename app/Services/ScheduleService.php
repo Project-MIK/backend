@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Schedule;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ScheduleService {
     public function findAll() {
@@ -17,9 +18,37 @@ class ScheduleService {
     }
 
     public function findById($id) {
-        $data = Schedule::where('id', $id)->get();
+        $data = Schedule::with('scheduleDetails')->where('id', $id)->get()->toArray();
 
-        if($data->isEmpty()) {
+        if($data == null) {
+            return null;
+        } else {
+            return $data;
+        }
+    }
+
+    public function findByDoctor($id)
+    {
+        $data = Schedule::with('scheduleDetails')->where('doctor_id', $id)->get()->toArray();
+
+        if($data == null) {
+            return null;
+        } else {
+            return $data;
+        }
+    }
+    
+    public function findByDoctorAndDate($id, $date)
+    {
+        // $data = Schedule::with('scheduleDetails')->where('doctor_id', $id)->whereDate('consultation_date', $date)->get()->toArray();
+        $data = DB::table('schedules')
+                ->join('schedule_details', 'schedules.id', '=', 'schedule_details.schedule_id')
+                ->where('doctor_id', $id)
+                ->whereDate('consultation_date', $date)
+                ->get()
+                ->toArray();
+
+        if($data == null) {
             return null;
         } else {
             return $data;

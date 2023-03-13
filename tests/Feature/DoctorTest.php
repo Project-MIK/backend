@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Http\Controllers\DoctorController;
 use App\Http\Requests\DoctorStoreRequest;
 use App\Http\Requests\DoctorUpdateRequest;
+use App\Services\DoctorService;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
@@ -15,6 +16,8 @@ class DoctorTest extends TestCase
     public function test_success_findAll_data_doctors() {
         $this->controller = new DoctorController();
         $response = $this->controller->index();
+
+        dd($response);
 
         $this->assertNotNull($response);
     }
@@ -130,5 +133,29 @@ class DoctorTest extends TestCase
         $data = $this->controller->searchByGender("E");
 
         $this->assertNull($data);
+    }
+
+    public function test_success_findAll_doctors_service()
+    {
+        $service = new DoctorService();
+
+        $data = $service->findAll();
+        dd($data);
+        // foreach ($data as $doctors) {
+        //     dd($doctors);
+        // }
+
+        $this->assertNotNull($data);
+    }
+
+    public function test_success_findById_doctor_service()
+    {
+        
+        $service = new DoctorService();
+
+        $data = $service->findById(2);
+        dd($data);
+
+        $this->assertNotNull($data);
     }
 }

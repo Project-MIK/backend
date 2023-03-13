@@ -10,9 +10,20 @@ use function PHPUnit\Framework\isEmpty;
 class DoctorService {
     public function findAll() 
     {
-        $data = Doctor::with('polyclinic')->orderBy('name')->get();
+        $data = Doctor::with('schedules')->get()->toArray();
 
-        if ($data->isEmpty()) {
+        if ($data == null) {
+            return null;
+        } else {
+            return $data;
+        }
+    }
+
+    public function findByPolyclinic($id)
+    {
+        $data = Doctor::where('polyclinic_id', $id)->get()->toArray();
+
+        if ($data == null) {
             return null;
         } else {
             return $data;
@@ -21,12 +32,12 @@ class DoctorService {
 
     public function findById($id) 
     {
-        $data = Doctor::with('polyclinic')->where('id', $id)->get();
+        $data = Doctor::with('schedules')->where('id', $id)->first();
 
-        if ($data->isEmpty()) {
+        if ($data == null) {
             return null;
         } else {
-            return $data;
+            return $data->toArray();
         }
     }
 

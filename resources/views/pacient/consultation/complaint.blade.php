@@ -16,6 +16,11 @@
                     </a>
                     <form class="w-100" action="" method="POST">
                         @csrf
+                        @if ($message = Session::get('message'))
+                            <div class="alert alert-info">
+                                {{$message}}
+                            </div>
+                        @endif
                         <div class="d-flex align-items-center">
                             <a id="back-page-2" class="mr-3" href="/dashboard">
                                 <svg role="button" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

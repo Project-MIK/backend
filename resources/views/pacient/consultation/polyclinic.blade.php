@@ -4,6 +4,9 @@
             button,select{height:50px!important}#back-page-1{display:none}#back-page-2{display:block}#next-step{width:100%}@media (min-width:991.98px){#back-page-1{display:block}#back-page-2{display:none}#next-step{width:25%}}
         </style>
     @endslot
+    {{-- @php
+        dd($polyclinics);
+    @endphp --}}
     <div class="container wrapper-pacient my-5">
         <div class="card shadow-lg rounded-lg w-100 mx-auto">
             <div class="card-body">
@@ -29,9 +32,13 @@
                             <div class="form-group">
                                 <label for="category" class="text-trouth">Poliklinik</label>
                                 <select id="category" class="form-control" name="consultation_polyclinic">
-                                    @foreach ($polyclinics as $id => $polyclinic )
-                                        <option value="{{$id}}-{{$polyclinic}}">{{$polyclinic}}</option>
-                                    @endforeach
+                                    @if ($polyclinics == null)
+                                        <option value="-">-</option>
+                                    @else
+                                        @foreach ($polyclinics as $id => $polyclinic )
+                                            <option value="{{$id}}-{{$polyclinic}}">{{$polyclinic}}</option>
+                                        @endforeach
+                                    @endif
                                 </select>                                  
                             </div>                            
                         </div>

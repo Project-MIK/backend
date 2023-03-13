@@ -17,9 +17,7 @@ class PolyclinicController extends Controller
 
     public function index()
     {
-        $data = $this->service->findAll();
-        
-        return $data;
+        $polyclinics = $this->service->findAll();
     }
 
     public function create()
@@ -40,10 +38,29 @@ class PolyclinicController extends Controller
         return $response;
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
         $data = $this->service->findById($id);
         return $data;
+    }
+
+    public function showByCategory()
+    {
+        if (!isset(session("consultation")["description"])) return redirect("/konsultasi");
+
+        
+        $id = session('consultation')['category'][0];
+
+        $polyclinics = [];
+        $data = $this->service->findByCategory($id);
+        if($data !== null) {
+            foreach ($data as $key => $value) {
+                $polyclinics[$value['id']] = $value['name'];
+            };
+        }
+        
+        return view('pacient.consultation.polyclinic', compact('polyclinics'));
     }
 
     public function edit($id)

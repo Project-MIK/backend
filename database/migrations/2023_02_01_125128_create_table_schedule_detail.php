@@ -13,9 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-
-
-
         Schema::create('schedule_details', function (Blueprint $table) {
             $table->id();
             $table->date('consultation_date');
