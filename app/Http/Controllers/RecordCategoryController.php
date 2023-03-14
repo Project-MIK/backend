@@ -95,7 +95,6 @@ class RecordCategoryController extends Controller
     public function showDataCategoryOnPolyclinic()
     {
         $data = $this->service->showDataCategory();
-        $data = $data->toArray();
         if (sizeof($data) > 0) {
             foreach ($data as $key => $value) {
                 # code...

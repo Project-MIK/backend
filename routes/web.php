@@ -457,38 +457,10 @@ Route::prefix('admin')->group(
         Route::prefix('medicine')->group(
             function () {
                 
-                Route::get('/',function(){
-                    $data = [
-                        [
-                            'id' => 1,
-                            'name' => 'Paracetamol',
-                            'price' => 1500,
-                            'stock' => 50
-                        ],
-                        [
-                            'id' => 2,
-                            'name' => 'Amoxicillin',
-                            'price' => 3000,
-                            'stock' => 30
-                        ],
-                        [
-                            'id' => 3,
-                            'name' => 'Aspirin',
-                            'price' => 2000,
-                            'stock' => 20
-                        ]
-                    ];
-                    return view('admin.medicine',['data'=>$data],);
-                });
-                Route::post('store',function(Request $request){
-                    dd($request);
-                });
-                Route::put('update',function(Request $request){
-                    dd($request);
-                });
-                Route::delete('destroy',function(Request $request){
-                    dd($request);
-                });
+                Route::get('/' , [MedicinesController::class , "index"]);
+                Route::post('store',[MedicinesController::class  , "store"]);
+                Route::put('update',[MedicinesController::class , "update"]);
+                Route::delete('destroy',[MedicinesController::class, "destroy"]);
             }
         );
 
@@ -661,7 +633,10 @@ Route::prefix('admin')->group(
                                         // show data category on modal + polyclinic
                                         $controller = new RecordCategoryController();
                                         $category = $controller->showDataCategoryOnPolyclinic();
-
+                                        if(sizeof($category) <=0){
+                                            $category = [];
+                                        }
+                                        // ambil data poly
                                         $data = [
                                             [
                                                 'id_poly' => '1',
