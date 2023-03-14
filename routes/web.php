@@ -437,9 +437,7 @@ Route::prefix('admin')->group(
             function () {
                 Route::get('/', [RegistrationOfficersController::class , 'index'])->middleware('isAdmin');
                 Route::post('store',[RegistrationOfficersController::class , 'store'])->middleware('isAdmin');
-                Route::put('update',function(Request $request){
-                    dd($request);
-                })->middleware('isAdmin');
+                Route::put('update',[RegistrationOfficersController::class , 'update'])->middleware('isAdmin');
                 Route::delete('destroy',[RegistrationOfficersController::class , 'destroy'])->middleware('isAdmin');
             }
         );
@@ -683,7 +681,33 @@ Route::prefix('admin')->group(
                 }
         );
 
+        Route::prefix('doctor')->group(function(){
+            Route::get('/',function(){
+                $data = [
+                    'id' => '1',
+                    'name' => 'Dr Anis',
+                    'email' => 'anis@telemedicine.com',
+                    'no_telp' => '081212134546',
+                    'gender'=>'W',
+                    'id_poly'=>'1',
+                    'poly'=>'anak'
+                ];
 
+                return view('admin.doctor',['data'=>$data]);
+            });
+
+            Route::post('store',function(Request $request){
+                dd($request);
+            });
+
+            Route::put('update',function(Request $request){
+                dd($request);
+            });
+
+            Route::delete('destroy',function(Request $request){
+                dd($request);
+            });
+        });
     }
 
 );

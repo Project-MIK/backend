@@ -56,7 +56,6 @@ class RegistrationOfficerService
             }
         }
         try {
-            $request['password'] = bcrypt($request['password']);
             $res = $this->model->where('id', $id)->update($request);
             if ($res) {
                 return true;
