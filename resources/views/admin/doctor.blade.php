@@ -24,13 +24,16 @@
                 </tr>
             </thead>
             <tbody>
+                @php($no = 1);
+                @foreach($data as $item)
                 <tr>
-                    <td>1</td>
-                    <td>Dr. Anis </td>
-                    <td>Perempuan</td>
-                    <td>Surabaya</td>
-                    <td>0812 1213 4546</td>
-                    <td>anak</td>
+                    <td>{{$no++}}</td>
+                    <td hidden>{{$item['id']}}</td>
+                    <td>{{$item['name']}}</td>
+                    <td>{{$item['email']}}</td>
+                    <td>{{$item['no_telp']}}</td>
+                    <td hidden>{{$item['id_poly']}}</td>
+                    <td>{{$item['poly']}}</td>
                     <td>
                         <div class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
@@ -38,20 +41,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Dr. Adi </td>
-                    <td>Laki- Laki</td>
-                    <td>Malang</td>
-                    <td>0812 1213 4546</td>
-                    <td>dalam</td>
-                    <td>
-                        <div class="row">
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Danger</button></div>
-                        </div>
-                    </td>
-                </tr>
+                @endforeach
             </tbody>
             <tfoot>
                 <tr>

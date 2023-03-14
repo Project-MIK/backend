@@ -76,6 +76,10 @@
             <input type="email" class="form-control" name="email" id="tambah-name" placeholder="Masukan nama">
         </div>
         <div class="form-group">
+            <label for="tambah-email">password</label>
+            <input type="text" class="form-control" name="password" placeholder="Masukan password">
+        </div>
+        <div class="form-group">
             <label for="tambah-gender">gender</label>
             <select class="form-control" id="tambah-gender" name="gender">
                 <option value="M">laki laki</option>
