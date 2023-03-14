@@ -22,7 +22,26 @@ class RegistrationOfficersController extends Controller
     public function index()
     {
         $data = $this->service->findAll();
-        return $data;
+
+
+        // $data = [
+        //     [
+        //         'id' => '1',
+        //         'name' => 'Bachtiar Arya Habibie',
+        //         'email' => 'bachtiar@telemedicine.com',
+        //         'gender' => 'M',
+        //         'address' => 'Madiun Dagangan Banjarejo'
+        //     ],
+        //     [
+        //         'id' => '2',
+        //         'name' => 'Rina Fitriani',
+        //         'email' => 'rina@company.com',
+        //         'gender' => 'W',
+        //         'address' => 'Jakarta Selatan']
+
+        // ];
+
+        return view('admin.petugas', ['data' => $data]);
     }
     public function create()
     {
@@ -32,15 +51,15 @@ class RegistrationOfficersController extends Controller
     {
         $res = $this->service->store($request->validate($request->rules()));
         if ($res != null) {
-            session()->flash('message', "berhasil menambahkan data pegawai");
+            return redirect()->back()->with('message', 'berhasil menambahkan petugas pendaftaran');
         } else {
-            session()->flash('message', "gagal menambahkan data pegawai");
+            return redirect()->back()->withErrors('gagal menambahkan petugas pendaftaran terjadi kesalahan');
         }
     }
     public function show($id)
     {
         $data = $this->service->findById($id);
-        if($data!=null){
+        if ($data != null) {
             return $data;
         }
         return response($data, 404)
@@ -62,14 +81,17 @@ class RegistrationOfficersController extends Controller
         // return view
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $res = $this->service->deleteById($id);
+        $res = $this->service->deleteById($request->id);
         if ($res) {
-            session()->flash("message", "berhasil menghapus data");
+            return redirect()->back()->with('message' , 'berhasil menghapus data pegawai');
         } else {
-            session()->flash("message", "gagal menghapus data , data tidak ditemukan");
+            return redirect()->back()->withErrors('gagal menghapus data pegawai , pegawai telah melakukan pendaftaran pasien');
         }
         // return view
     }
+
+
+
 }

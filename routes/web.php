@@ -435,11 +435,12 @@ Route::prefix('admin')->group(
 
         Route::prefix('petugas')->group(
             function () {
-                Route::view('view', 'admin.petugas')->middleware('isAdmin');
-                Route::get('/')->middleware('isAdmin');
-                Route::post('store')->middleware('isAdmin');
-                Route::put('update')->middleware('isAdmin');
-                Route::delete('destroy')->middleware('isAdmin');
+                Route::get('/', [RegistrationOfficersController::class , 'index'])->middleware('isAdmin');
+                Route::post('store',[RegistrationOfficersController::class , 'store'])->middleware('isAdmin');
+                Route::put('update',function(Request $request){
+                    dd($request);
+                })->middleware('isAdmin');
+                Route::delete('destroy',[RegistrationOfficersController::class , 'destroy'])->middleware('isAdmin');
             }
         );
 
