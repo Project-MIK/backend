@@ -23,8 +23,9 @@
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
+                {{ session('message') }}
 
-                <form action="/doctor/login/login" method="post">
+                <form action="/doctor/login" method="post">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Email">

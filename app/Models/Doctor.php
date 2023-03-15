@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Doctor extends Model
+class Doctor extends Authenticatable
 {
     use HasFactory;
 
@@ -16,6 +16,8 @@ class Doctor extends Model
         'gender',
         'address',
         'phone',
+        'email',
+        'password',
         'polyclinic_id',
     ];
 
@@ -28,4 +30,8 @@ class Doctor extends Model
     {
         return $this->hasManyThrough(ScheduleDetail::class, Schedule::class);
     }
+
+    protected $hidden = [
+        'password'
+    ];
 }

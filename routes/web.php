@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthDoctorController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MedicalRecordsController;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PolyclinicController;
 use App\Http\Controllers\RecordCategoryController;
 use App\Http\Controllers\ScheduleDetailController;
+use App\Http\Middleware\isDoctor;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 /*
@@ -579,18 +581,15 @@ Route::prefix('doctor')->group(function () {
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', function () {
             return view('doctor.pages.dashboard');
-        });
+        })->middleware('isDoctor');
     });
 
-    Route::prefix('login')->group(function(){
-        Route::get('/',function(){
-            return view('doctor.pages.login');
-        });
-
-        Route::post('login',function(Request $request){
-            dd($request);
-        });
+    Route::middleware('DoctorLoggedIn')->prefix('login')->group(function() {
+        Route::get('/', [AuthDoctorController::class, 'index']);
+        Route::post('/', [AuthDoctorController::class, 'authenticate']);
     });
+
+    Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('isDoctor');
 
     Route::get('/consul', function () {
         $data = [

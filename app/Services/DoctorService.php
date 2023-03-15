@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Doctor;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -95,5 +96,12 @@ class DoctorService {
         } else {
             return $data;
         }
+    }
+
+    public function login(array $request)
+    {
+        $response = Auth::guard('doctor')->attempt($request);
+
+        return $response;
     }
 }
