@@ -448,18 +448,19 @@ Route::prefix('admin')->group(
                             'name' => 'Rina Fitriani',
                             'email' => 'rina@company.com',
                             'gender' => 'W',
-                            'address' => 'Jakarta Selatan']
+                            'address' => 'Jakarta Selatan'
+                        ]
 
                     ];
                     return view('admin.petugas', ['data' => $data]);
                 })->middleware('isAdmin');
-                Route::post('store',function(Request $request){
+                Route::post('store', function (Request $request) {
                     dd($request);
                 })->middleware('isAdmin');
-                Route::put('update',function(Request $request){
+                Route::put('update', function (Request $request) {
                     dd($request);
                 })->middleware('isAdmin');
-                Route::delete('destroy',function(Request $request){
+                Route::delete('destroy', function (Request $request) {
                     dd($request);
                 })->middleware('isAdmin');
             }
@@ -695,16 +696,16 @@ Route::prefix('admin')->group(
             }
         );
 
-        Route::prefix('doctor')->group(function(){
-            Route::get('/',function(){
+        Route::prefix('doctor')->group(function () {
+            Route::get('/', function () {
                 $poly = [
                     [
-                        'id_poly'=>'1',
-                        'name'=>'anak'
+                        'id_poly' => '1',
+                        'name' => 'anak'
                     ],
                     [
-                        'id_poly'=>'2',
-                        'name'=>'dalam'
+                        'id_poly' => '2',
+                        'name' => 'dalam'
                     ],
                 ];
 
@@ -714,27 +715,95 @@ Route::prefix('admin')->group(
                         'name' => 'Dr Anis',
                         'email' => 'anis@telemedicine.com',
                         'no_telp' => '081212134546',
-                        'gender'=>'W',
-                        'id_poly'=>'1',
-                        'poly'=>'anak',
-                        'address'=>'Jember'
+                        'gender' => 'W',
+                        'id_poly' => '1',
+                        'poly' => 'anak',
+                        'address' => 'Jember'
                     ]
                 ];
 
-                return view('admin.doctor',['data'=>$data,'poly'=>$poly]);
+                return view('admin.doctor', ['data' => $data, 'poly' => $poly]);
             });
 
-            Route::post('store',function(Request $request){
+            Route::post('store', function (Request $request) {
                 dd($request);
+            });
+
+            Route::put('update', function (Request $request) {
+                dd($request);
+            });
+
+            Route::delete('destroy', function (Request $request) {
+                dd($request);
+            });
+        });
+
+        Route::prefix('receiptProof')->group(function () {
+            Route::get('/', function () {
+                $data = [
+                    [
+                        'patien_name' => 'Some one',
+                        'id_consul' => 'KLqwer',
+                        'id_receipt' => '123c31p7',
+                        'total' => '200000',
+                        'proof' => 'https://feb.umri.ac.id/wp-content/uploads/2021/03/Bukti-Pembayaran-Ujian-Skripsi.jpeg',
+                        'status' => '2',
+                        'list_medicine'=>[
+                            [
+                                'medicine'=>'paracetamol',
+                                'qty'=>'10',
+                                'price'=>'10000',
+                                'sub_total'=>'100000'
+                            ],
+                            [
+                                'medicine'=>'paracetamol',
+                                'qty'=>'10',
+                                'price'=>'10000',
+                                'sub_total'=>'100000'
+                            ]
+                        ]
+                    ],
+                    [
+                        'patien_name' => 'Jane Doe',
+                        'id_consul' => 'GHjklw',
+                        'id_receipt' => '456d89e2',
+                        'total' => '75000',
+                        'proof' => 'https://edupay.zendesk.com/hc/article_attachments/360046355232/mceclip9.png',
+                        'status' => '1',
+                        'list_medicine'=>[
+                            [
+                                'medicine'=>'paracetamol',
+                                'qty'=>'10',
+                                'price'=>'10000',
+                                'sub_total'=>'100000'
+                            ]
+                        ]
+                    ],
+                    [
+                        'patien_name' => 'John Smith',
+                        'id_consul' => 'Rtyuiq',
+                        'id_receipt' => 'abc12345',
+                        'total' => '250000',
+                        'proof' => 'https://1.bp.blogspot.com/-vRxyZBWkyb4/Xn6k2sMrXuI/AAAAAAAAGog/Ay9PBsRutbo3Q6PcL6pXjsc-r-5MT9tLwCLcBGAsYHQ/s1600/buzzbreak%2Bbayar%2Blewat%2BDANA.png',
+                        'status' => '0',
+                        'list_medicine'=>[
+                            [
+                                'medicine'=>'paracetamol',
+                                'qty'=>'10',
+                                'price'=>'10000',
+                                'sub_total'=>'100000'
+                            ]
+                        ]
+                    ]
+                ];
+
+                return view('admin.receiptProof', ['data' => $data]);
             });
 
             Route::put('update',function(Request $request){
                 dd($request);
             });
 
-            Route::delete('destroy',function(Request $request){
-                dd($request);
-            });
         });
     }
 

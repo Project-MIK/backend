@@ -169,6 +169,18 @@
                         </div>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="/admin/receiptProof" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-receipt"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Pemabayaran Resep
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
