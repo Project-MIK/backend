@@ -151,17 +151,17 @@ class RecipesService
                 $data[$key]['status'] = 2;
             } else if ($value['status'] == 'DIBATALKAN') {
                 $data[$key]['status'] = 1;
-            }   
+            }
             $data[$key]['proof'] = url('/') . ('/bukti_pembayaran_recipe/' . $data[$key]['proof']);
             # code...
             $listObat = $this->model->join('recipe_detail', 'recipes.id', 'recipe_detail.id_recipe')
                 ->join('medicines', 'medicines.id', 'recipe_detail.id_medicine')
-                ->select('medicines.name as medicine', 'medicines.price as price', 'recipe_detail.qty as qty' , 'recipe_detail.total_price as sub_total')
+                ->select('medicines.name as medicine', 'medicines.price as price', 'recipe_detail.qty as qty', 'recipe_detail.total_price as sub_total')
                 ->where('recipe_detail.id_recipe', $value['id_receipt'])
                 ->get()->toArray();
             $data[$key]['list_medicine'] = $listObat;
         }
-    
+
         return $data;
     }
 
@@ -182,7 +182,8 @@ class RecipesService
                 // konsultasi di anggap selesai
                 $isUpdateRecord = $this->record->where('id', $request['id_consul'])->update(
                     [
-                        'status_consultation' => 'consultation-complete'
+                        'status_consultation' => 'consultation-complete',
+                        'status_medical_prescription' => 'DIBATALKAN'
                     ]
                 );
                 if ($isUpdateRecord) {
@@ -200,7 +201,8 @@ class RecipesService
                 $isUpdateRecord = $this->record->where('id', $request['id_consul'])->update(
                     [
                         'status_consultation' => 'confirmed-medical-prescription-payment',
-                        'valid_status' => Carbon::now()->addHours(1) // tambahkan valid status untuk mengkonfirmasi pengambilan obat
+                        'valid_status' => Carbon::now()->addHours(1) ,// tambahkan valid status untuk mengkonfirmasi pengambilan obat
+                        'status_medical_prescription' => 'TERKONFIRMASI'
                     ]
                 );
                 if ($isUpdateRecord) {
@@ -211,6 +213,47 @@ class RecipesService
             return false;
         }
     }
+
+
+    public function actionDelivery(array $request)
+    {
+        // ada button untuk membuat action dimana si gojek kembali dengan keadaan obat tidak sampai ke pasien dengan kondisi description yang bisa di pilih sesuai dengan value di bawah
+        // $request = [
+        //     'id_recipe' => 'id_recipe' , 
+        //     'description' => '', // alamat tidak valid atau Pasien tidak dapat dihubungi      
+        //     'status' => 'tolak' , 'pasien mengambil ke rs'
+        // ];
+       
+        if($request['status'] == 'tolak'){
+            $this->model->where('id' , $request['id_recipe'])->update([
+                'pickup_medical_status' => 'GAGAL DIKIRIM' , 
+                'pickup_medical_description' => $request['description'],
+                'pickup_medical_prescription' => 'hospital-pharmacy'
+            ]);
+        }else if($request['status'] == 'pasien mengambil ke rs'){
+            $this->model->where('id' , $request['id_recipe'])->update([
+                'pickup_medical_status' => 'SUDAH DIAMBIL' , 
+            ]);
+        }
+    }
+
+
+    public function showDataDelivery()
+    {
+        return $this->pattient
+            ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
+            ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
+            ->join('recipes', 'record.id_recipe', 'recipes.id')
+            ->join('recipe_detail', 'recipe_detail.id_recipe', 'recipes.id')
+            ->select('pattient.name as nama_pasien', 'record.id as id_consul', 'recipes.id as id_recipe', 'recipes.pickup_medical_prescription as metode pengiriman', 'recipes.pickup_medical_status as status', 'recipes.no_telp_delivery as no_telp', 'recipes.pickup_medical_addreass_pacient as alamat pasien')
+            ->where('record.status_consultation', 'consultation-complete')
+            ->where('record.status_medical_prescription', 'TERKONFIRMASI')
+            ->where('record.id_recipe', '<>', null)
+            ->where('recipes.status_payment_medical_prescription', 'TERKONFIRMASI')
+            ->get()->toArray();
+    }
+
+
 }
 
 ?>

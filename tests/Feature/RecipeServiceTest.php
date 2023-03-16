@@ -86,4 +86,15 @@ class RecipeServiceTest extends TestCase
         dd($res);
 
     }
+
+    public function test_action_delivery(){
+        $service = new RecipesService();
+        $service->actionDelivery(["zam" , "jago"]);
+    }
+
+    public function test_show_delivery(){
+        $service = new RecipesService();
+        $data = $service->showDataDelivery();
+        dd($data);
+    }
 }
