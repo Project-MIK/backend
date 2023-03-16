@@ -669,19 +669,32 @@ Route::prefix('admin')->group(
 
         Route::prefix('doctor')->group(function () {
             Route::get('/', function () {
-                $data = [
-                    'id' => '1',
-                    'name' => 'Dr Anis',
-                    'email' => 'anis@telemedicine.com',
-                    'no_telp' => '081212134546',
-                    'gender' => 'W',
-                    'id_poly' => '1',
-                    'poly' => 'anak'
+                $poly = [
+                    [
+                        'id_poly' => '1',
+                        'name' => 'anak'
+                    ],
+                    [
+                        'id_poly' => '2',
+                        'name' => 'dalam'
+                    ],
                 ];
 
-                return view('admin.doctor', ['data' => $data]);
-            }
-            );
+                $data = [
+                    [
+                        'id' => '1',
+                        'name' => 'Dr Anis',
+                        'email' => 'anis@telemedicine.com',
+                        'no_telp' => '081212134546',
+                        'gender' => 'W',
+                        'id_poly' => '1',
+                        'poly' => 'anak',
+                        'address' => 'Jember'
+                    ]
+                ];
+
+                return view('admin.doctor', ['data' => $data, 'poly' => $poly]);
+            });
 
             Route::post('store', function (Request $request) {
                 dd($request);
@@ -695,14 +708,18 @@ Route::prefix('admin')->group(
 
             Route::delete('destroy', function (Request $request) {
                 dd($request);
-            }
-            );
-        }
-        );
+            });
+        });
+
+        Route::prefix('receiptProof')->group(function () {
+            Route::get('/', [RecipeController::class , 'displayDataRequiresApproval']);
+
+            Route::put('update',[RecipeController::class , 'acceptOrRejectMedicinePayment']);
+
+        });
     }
 
 );
-
 
 
 //dokter

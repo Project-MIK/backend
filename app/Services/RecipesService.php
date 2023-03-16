@@ -116,44 +116,71 @@ class RecipesService
 
     public function displayDataRequiresApproval()
     {
+
+        // [
+        //     'patien_name' => 'Jane Doe',
+        //     'id_consul' => 'GHjklw',
+        //     'id_receipt' => '456d89e2',
+        //     'total' => '75000',
+        //     'proof' => 'https://edupay.zendesk.com/hc/article_attachments/360046355232/mceclip9.png',
+        //     'status' => '1',
+        //     'list_medicine'=>[
+        //         [
+        //             'medicine'=>'paracetamol',
+        //             'qty'=>'10',
+        //             'price'=>'10000',
+        //             'sub_total'=>'100000'
+        //         ]
+        //     ]
+        // ],
+
         $data = $this->pattient
             ->join('medical_records', 'pattient.medical_record_id', 'medical_records.medical_record_id')
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('recipes', 'recipes.id', 'record.id_recipe')
             ->join('recipe_detail', 'recipe_detail.id_recipe', 'recipes.id')
-            ->select('pattient.name as nama_pasien', 'record.id as id_consul', 'recipes.id as id_recipe', 'recipes.price_medical_prescription as total_harga', 'recipes.proof_payment_medical_prescription as bukti', 'recipes.status_payment_medical_prescription as status')
+            ->select('pattient.name as patien_name', 'record.id as id_consul', 'recipes.id as id_receipt', 'recipes.price_medical_prescription as total', 'recipes.proof_payment_medical_prescription as proof', 'recipes.status_payment_medical_prescription as status')
             ->where('recipes.status_payment_medical_prescription', '<>', 'BELUM TERKONFIRMASI')
             ->get()
             ->toArray();
         foreach ($data as $key => $value) {
+
+            if ($value['status'] == 'PROSES VERIFIKASI') {
+                $data[$key]['status'] = 0;
+            } else if ($value['status'] == 'TERKONFIRMASI') {
+                $data[$key]['status'] = 2;
+            } else if ($value['status'] == 'DIBATALKAN') {
+                $data[$key]['status'] = 1;
+            }   
+            $data[$key]['proof'] = url('/') . ('/bukti_pembayaran_recipe/' . $data[$key]['proof']);
             # code...
             $listObat = $this->model->join('recipe_detail', 'recipes.id', 'recipe_detail.id_recipe')
                 ->join('medicines', 'medicines.id', 'recipe_detail.id_medicine')
-                ->select('medicines.name as nama_obat', 'medicines.price as harga', 'recipe_detail.qty as qty')
-                ->where('recipe_detail.id_recipe', $value['id_recipe'])
+                ->select('medicines.name as medicine', 'medicines.price as price', 'recipe_detail.qty as qty' , 'recipe_detail.total_price as sub_total')
+                ->where('recipe_detail.id_recipe', $value['id_receipt'])
                 ->get()->toArray();
             $data[$key]['list_medicine'] = $listObat;
         }
+    
         return $data;
-        ;
     }
 
     public function acceptOrReject(array $request)
     {
-            /*
-            request = [
-            id_recipe => 1,
-            id_consule => klsasd,
-            status => 'terkonfirmasi atau dibatalkan'
-            ];
-            */
-        if ($request['status'] == 'DIBATALKAN') {
-            $isUpdate = $this->model->where('id', $request['id_recipe'])->update([
+        /*
+        request = [
+        id_recipe => 1,
+        id_consule => klsasd,
+        status => 'terkonfirmasi atau dibatalkan'
+        ];
+        */
+        if ($request['status'] == 'tidak disetujui') {
+            $isUpdate = $this->model->where('id', $request['id_receipt'])->update([
                 'status_payment_medical_prescription' => 'DIBATALKAN'
             ]);
             if ($isUpdate) {
                 // konsultasi di anggap selesai
-                $isUpdateRecord = $this->record->where('id', $request['id_consule'])->update(
+                $isUpdateRecord = $this->record->where('id', $request['id_consul'])->update(
                     [
                         'status_consultation' => 'consultation-complete'
                     ]
@@ -164,13 +191,13 @@ class RecipesService
                 return false;
             }
             return false;
-        } else if ($request['status'] == 'TERKONFIRMASI') {
-            $isUpdate = $this->model->where('id', $request['id_recipe'])->update([
+        } else if ($request['status'] == 'disetujui') {
+            $isUpdate = $this->model->where('id', $request['id_receipt'])->update([
                 'status_payment_medical_prescription' => 'TERKONFIRMASI'
             ]);
             if ($isUpdate) {
                 // konsultasi di anggap dilanjutkan dengan kondisi membeli obat
-                $isUpdateRecord = $this->record->where('id', $request['id_consule'])->update(
+                $isUpdateRecord = $this->record->where('id', $request['id_consul'])->update(
                     [
                         'status_consultation' => 'confirmed-medical-prescription-payment',
                         'valid_status' => Carbon::now()->addHours(1) // tambahkan valid status untuk mengkonfirmasi pengambilan obat

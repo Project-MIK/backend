@@ -74,7 +74,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/doctor/view" class="nav-link">
+                    <a href="/admin/doctor/" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-user-doctor"></i></div>
                             <div class="col-10">
@@ -164,6 +164,18 @@
                             <div class="col-10">
                                 <p>
                                     Konsultasi
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/receiptProof" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-receipt"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Pemabayaran Resep
                                 </p>
                             </div>
                         </div>
