@@ -694,47 +694,42 @@ Route::prefix('admin')->group(
                 ];
 
                 return view('admin.doctor', ['data' => $data, 'poly' => $poly]);
-            });
-
-            Route::post('store', function (Request $request) {
-                dd($request);
             }
             );
 
-            Route::put('update', function (Request $request) {
-                dd($request);
-            }
+            Route::post(
+                'store',
+                function (Request $request) {
+                        dd($request);
+                    }
+            );
+
+            Route::put(
+                'update',
+                function (Request $request) {
+                        dd($request);
+                    }
             );
 
             Route::delete('destroy', function (Request $request) {
                 dd($request);
-            });
-        });
+            }
+            );
+        }
+        );
 
         Route::prefix('receiptProof')->group(function () {
-            Route::get('/', [RecipeController::class , 'displayDataRequiresApproval']);
+            Route::get('/', [RecipeController::class, 'displayDataRequiresApproval']);
 
-            Route::put('update',[RecipeController::class , 'acceptOrRejectMedicinePayment']);
+            Route::put('update', [RecipeController::class, 'acceptOrRejectMedicinePayment']);
 
-        });
+        }
+        );
 
-        Route::prefix('delivery')->group(function(){
-            Route::get('/',function(){
-                $data = [
-                    [
-                        'name' => 'bachira',
-                        'id_consul' => 'KL092320',
-                        'id_receipt' => 2,
-                        'delivery_method' => 'gojek',
-                        'status' => 'MENUNGGU DIAMBIL',
-                        'no_telp'=> '081234567899',
-                        'address' => 'jln Semeru Sumbersari Jember'
-                    ]
-                    ];
-
-                return view('admin.delivery',['data'=>$data]);
-            });
-        });
+        Route::prefix('delivery')->group(function () {
+            Route::get('/', [RecipeController::class, 'showDataDelivery']);
+        }
+        );
     }
 
 );

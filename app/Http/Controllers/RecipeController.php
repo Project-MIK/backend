@@ -52,4 +52,9 @@ class RecipeController extends Controller
       $res = $this->service->acceptOrReject($request->except(['_token', '_method']));
       dd($res);
    }
+
+   public function showDataDelivery(){
+      $data = $this->service->showDataDelivery();
+     return view('admin.delivery',['data'=>$data]);
+   }
 }

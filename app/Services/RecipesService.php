@@ -245,7 +245,7 @@ class RecipesService
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('recipes', 'record.id_recipe', 'recipes.id')
             ->join('recipe_detail', 'recipe_detail.id_recipe', 'recipes.id')
-            ->select('pattient.name as nama_pasien', 'record.id as id_consul', 'recipes.id as id_recipe', 'recipes.pickup_medical_prescription as metode pengiriman', 'recipes.pickup_medical_status as status', 'recipes.no_telp_delivery as no_telp', 'recipes.pickup_medical_addreass_pacient as alamat pasien')
+            ->select('pattient.name as name', 'record.id as id_consul', 'recipes.id as id_receipt', 'recipes.pickup_medical_prescription as delivery_method', 'recipes.pickup_medical_status as status', 'recipes.no_telp_delivery as no_telp', 'recipes.pickup_medical_addreass_pacient as address')
             ->where('record.status_consultation', 'consultation-complete')
             ->where('record.status_medical_prescription', 'TERKONFIRMASI')
             ->where('record.id_recipe', '<>', null)
