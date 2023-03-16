@@ -66,9 +66,9 @@
 </div>
 
 <x-modals.modal id-modal='modal-detail' modal-size='modal-lg' modal-bg=''>
-    <X-slot:header>
+    <x-slot:header>
         <h3>Detail Pembayaran</h3>
-    </X-slot:header>
+    </x-slot:header>
     <div class="row">
         <div class="col">
             <div class="form-group">
