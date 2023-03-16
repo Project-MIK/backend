@@ -136,6 +136,7 @@
                 @csrf
                 @method('put')
                 <input type="text" name="id_receipt" hidden id="form-acc-id_receipt">
+                <input type="text" name="id_consul" hidden id="form-acc-id_consul">
                 <input name="status" value="disetujui" hidden>
                 <button id="tombol-acc" type="submit" class="btn btn-block btn-success btn-sm">acc</button>
             </form>
@@ -144,6 +145,7 @@
             <form action="/admin/receiptProof/update" method="POST">
                 @csrf
                 @method('put')
+                <input type="text" name="id_consul" hidden id="form-dec-id_consul">
                 <input type="text" name="id_receipt" hidden id="form-dec-id_receipt">
                 <input name="status" value="tidak disetujuti" hidden>
                 <button type="submit" id="tombol-dec" class="btn btn-block btn-danger btn-sm">dec</button>
@@ -188,8 +190,12 @@
         var total = document.getElementById('detail-total');
         var idAcc = document.getElementById('form-acc-id_receipt');
         var idDec = document.getElementById('form-dec-id_receipt');
+        var idCAcc = document.getElementById('form-acc-id_consul');
+        var idCDec = document.getElementById('form-dec-id_consul');
 
 
+        idCAcc.value = data.id_consul;
+        idCDec.value = data.id_consul;
         idAcc.value = data.id_receipt;
         idDec.value = data.id_receipt;
         idConsul.innerText = data.id_consul;
