@@ -181,6 +181,18 @@
                         </div>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="/admin/delivery" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Pengiriman Obat
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

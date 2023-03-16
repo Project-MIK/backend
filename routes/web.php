@@ -717,6 +717,24 @@ Route::prefix('admin')->group(
             Route::put('update',[RecipeController::class , 'acceptOrRejectMedicinePayment']);
 
         });
+
+        Route::prefix('delivery')->group(function(){
+            Route::get('/',function(){
+                $data = [
+                    [
+                        'name' => 'bachira',
+                        'id_consul' => 'KL092320',
+                        'id_receipt' => 2,
+                        'delivery_method' => 'gojek',
+                        'status' => 'MENUNGGU DIAMBIL',
+                        'no_telp'=> '081234567899',
+                        'address' => 'jln Semeru Sumbersari Jember'
+                    ]
+                    ];
+
+                return view('admin.delivery',['data'=>$data]);
+            });
+        });
     }
 
 );
