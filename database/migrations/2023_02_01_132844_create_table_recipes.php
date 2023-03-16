@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('pickup_medical_addreass_pacient')->nullable(true);
             $table->enum('status_payment_medical_prescription' , ['PROSES VERIFIKASI' , 'BELUM TERKONFIRMASI' , 'TERKONFIRMASI' , 
             'DIBATALKAN'])->default('BELUM TERKONFIRMASI');
+            $table->string('no_telp_delivery')->nullable(true);
+            $table->string('proof_payment_medical_prescription')->nullable(true);
             $table->enum('pickup_medical_description' , ['alamat penerima tidak valid' , 'pasien tidak dapat dihubungi'])->nullable(true);
             $table->timestamp('pickup_datetime')->nullable(true);
             $table->timestamps();

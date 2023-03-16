@@ -7,6 +7,7 @@ use App\Helpers\Helper;
 use App\Models\Doctor;
 use App\Models\MedicalRecords;
 use App\Models\Pattient;
+use App\Models\Recipes;
 use App\Models\Record;
 use App\Models\RecordCategory;
 use App\Models\ScheduleDetail;
@@ -28,6 +29,7 @@ class RecordService
 
     private ScheduleDetail $schedule;
     private Pattient $pattient;
+    private Recipes $recipe;
 
 
     public function __construct()
@@ -38,6 +40,7 @@ class RecordService
         $this->schedule = new ScheduleDetail();
         $this->recordCategory = new RecordCategory();
         $this->pattient = new Pattient();
+        $this->recipe = new Recipes();
     }
 
     public function index()
@@ -399,6 +402,40 @@ class RecordService
                 'status_consultation' => 'waiting-medical-prescription-payment',
                 "valid_status" => Carbon::parse($data->valid_status)->addHours(2)->toDateTimeString()
             ]);
+        }
+
+    }
+
+    public function setMetodeDelivery(array $request)
+    {
+        $data = $this->record->where('id', $request['id'])->first();
+        if ($data != null) {
+            $idRecipe = $data->id_recipe;
+            $metode = $request['pickup-medical-prescription'];
+            if ($metode == 'delivery-gojek') {
+                $isUpdate = $this->recipe->where('id', $idRecipe)->update(
+                    [
+                        'no_telp_delivery' => $request['pacient-notelp'],
+                        'pickup_medical_addreass_pacient' => $request['pacient-addreass'],
+                        'pickup_medical_prescription' => 'delivery-gojek',
+                        'pickup_medical_status' => 'DIKIRIM DENGAN GOJEK'
+                    ]
+                );
+                if ($isUpdate) {
+                    return true;
+                }
+                return false;
+            } else if ($metode == ['hospital-pharmacy']) {
+                $isUpdate = $this->recipe->where('id', $idRecipe)->update([
+                    'pickup_medical_prescription' => 'hospital-pharmacy'
+                ]);
+                if ($isUpdate) {
+                    return true;
+                }
+                return false;
+            }
+        } else {
+            return false;
         }
 
     }

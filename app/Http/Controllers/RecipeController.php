@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
-    //
-
+    
     private RecipesService $service;
 
     public function __construct(){
@@ -25,5 +24,19 @@ class RecipeController extends Controller
 
     public function getLastInsertID(){
        return  $this->service->getLastInsertId();
+    }
+
+
+    public function updateBuktiPembayaran(Request $request , $id){
+       $res =  $this->service->updateBuktiMedicalPrescription($request , $id);
+       if($res){
+        return redirect()->back()->with('message' , 'berhasil mengirimkan bukti pembayaran , harap tunggu check secara berkala untuk melihat status anda');
+       }else{
+        return redirect()->back()->withErrors('Gagal mengirimkan bukti pembayaran');
+       }
+    }
+    
+    public function displayDataRequiresApproval(){
+       $data =  $this->service->displayDataRequiresApproval();
     }
 }

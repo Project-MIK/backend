@@ -531,7 +531,6 @@ class PattientController extends Controller
             return redirect("/lupa-sandi")->withErrors("Gagal mengirmkan email , email tidak terdaftar");
         }
     }
-
     // ubah di web.php
     public function forgot_pasword(Request $request)
     {
@@ -547,7 +546,6 @@ class PattientController extends Controller
         return redirect("recovery/" . $request->token_recovery)->withErrors("Gagal memperbarui kata sandi terjadi kesalahan");
     }
 
-    
     public function checkTokenValid($token)
     {
         $isValid = $this->recoveryService->checkTokenValid($token);
@@ -555,8 +553,10 @@ class PattientController extends Controller
             return view("pacient.auth.recovery", compact("token"));
         }
         return redirect('lupa-sandi')->withErrors($isValid['message']);
-
     }
+
+
+    
 
 
 }

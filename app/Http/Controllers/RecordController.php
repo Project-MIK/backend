@@ -142,7 +142,7 @@ class RecordController extends Controller
         // $milliseconds = $data['time_start']; // example millisecond timestamp
         // $start = Carbon::createFromTimestamp($milliseconds);
         // $formattedDate = $start->format('Y-m-d H:i');
-        
+
         if ($data != null) {
             // if (time() > $data['time_end']) {
             //     return back()->withErrors("waktu consultasi sudah selesai");
@@ -167,6 +167,14 @@ class RecordController extends Controller
     public function addRecipe(Request $request)
     {
         dd($request);
+    }
+
+    public function setMetodeDelivery(Request $request, $id)
+    {
+        $dataRequest = $request->except(['_token']);
+        $dataRequest['id'] = $id;
+        $this->service->setMetodeDelivery($dataRequest);
+        return redirect('/konsultasi/'.$id);
     }
 
 }

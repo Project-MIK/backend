@@ -67,4 +67,23 @@ class RecipeServiceTest extends TestCase
         $data = $service->findById(2);
         dd($data->price_medical_prescription);
     }
+
+
+    public function test_show_data_need_approfal(){
+        $service = new RecipesService();
+        $data = $service->displayDataRequiresApproval();
+        dd($data);
+    }
+
+    public function test_acc_medicine_payment(){
+        $service  = new RecipesService();
+        $request = [
+            'id_consule' =>'KL0923210',
+            'id_recipe' => 2,
+            'status' =>'DIBATALKAN'
+        ];
+        $res = $service->acceptOrReject($request);
+        dd($res);
+
+    }
 }

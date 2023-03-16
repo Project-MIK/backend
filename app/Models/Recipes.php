@@ -15,7 +15,10 @@ class Recipes extends Model
         "pickup_medical_status",
         "pickup_medical_addreass_pacient",
         "pickup_medical_description",
-        "pickup_datetime"
+        "pickup_datetime",
+        'proof_payment_medical_prescription',
+        'no_telp_delivery' , 
+        'address_pickup_delivery'
     ];
     protected $table = 'recipes';
     
