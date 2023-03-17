@@ -21,6 +21,7 @@
                     <th>no_telp</th>
                     <th>alamat</th>
                     <th>status</th>
+                    <th>Deskripsi</th>
                     <th></th>
                 </tr>
             </thead>
@@ -36,6 +37,7 @@
                     <td>{{$item['no_telp']}}</td>
                     <td>{{$item['address']}}</td>
                     <td>{{$item['status']}}</td>
+                    <td>{{$item['description']}}</td>
                     <th>
                         <div class="row">
                             <div class="col">
@@ -60,6 +62,7 @@
                     <th>no_telp</th>
                     <th>alamat</th>
                     <th>status</th>
+                    <th>Deskripsi</th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -115,6 +118,10 @@
         </div>
     </div>
     <div class="form-group">
+        <label>Description</label>
+        <p id="detail-description">aksdfjjew</p>
+    </div>
+    <div class="form-group">
         <label>Alamat</label>
         <textarea id="detail-address" class="form-control" rows="3" placeholder="Enter ..."></textarea>
     </div>
@@ -138,9 +145,13 @@
                 <option value="GAGAL DIKIRIM">GAGAL DIKIRIM</option>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="description-form-group">
             <label>Deskripsi</label>
-            <textarea required class="form-control" rows="3" name="description" id="update_description" placeholder="Enter ..."></textarea>
+            <select onchange="setDescription(this)" name="description" class="form-control" id="update_description">
+                <option value=""></option>
+                <option value="alamat penerima tidak valid">alamat penerima tidak valid</option>
+                <option value="pasien tidak dapat dihubungi">pasien tidak dapat dihubungi</option>
+            </select>
         </div>
         <button type="submit" class="btn btn-block btn-success btn-sm">Update</button>
 
@@ -162,6 +173,7 @@
             , no_telp: rawData[5].innerText
             , address: rawData[6].innerText
             , status: rawData[7].innerText
+            , description: rawData[8].innerText
         };
 
         return obj;
@@ -176,6 +188,7 @@
         var no_telp = document.getElementById('detail-no-telpon');
         var status = document.getElementById('detail-status');
         var address = document.getElementById('detail-address');
+        var description = document.getElementById('detail-description');
 
         name.innerText = data.patient;
         id_consul.innerText = data.id_consul;
@@ -185,6 +198,13 @@
         status.innerText = data.status;
         address.value = data.address;
 
+        if (data.description) {
+            description.innerText = data.description;
+        } else {
+            description.innerText = "tidakada deskripsi"
+        }
+
+
     }
 
     function setUpdate(params) {
@@ -192,10 +212,37 @@
         var id_receipt = document.getElementById('update_id_receipt');
         var status = document.getElementById('update_status');
         var description = document.getElementById('update_description');
+        var descriptionForm = document.getElementById('description-form-group');
 
         id_receipt.value = data.id_receipt;
         status.value = data.status;
+        if (status.value == "GAGAL DIKIRIM") {
+            descriptionForm.hidden = false;
+            description.value = data.description;
+        } else {
+            descriptionForm.hidden = true;
+            description.value = "";
+        }
     }
+
+    function setDescription() {
+        var descriptionForm = document.getElementById('description-form-group');
+        var status = document.getElementById('update_status');
+        var description = document.getElementById('update_description');
+        if (status.value == "GAGAL DIKIRIM") {
+            descriptionForm.hidden = false;
+        } else {
+            descriptionForm.hidden = true;
+            description.value = "";
+        }
+    }
+
+    var selectElemen = document.getElementById('update_status')
+
+    selectElemen.addEventListener("change", (event) => {
+        console.log('something happen');
+        setDescription();
+    });
 
 </script>
 @endsection

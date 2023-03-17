@@ -815,6 +815,7 @@ Route::prefix('admin')->group(
                         'id_receipt' => 2,
                         'delivery_method' => 'gojek',
                         'status' => 'MENUNGGU DIAMBIL',
+                        'description'=>'',
                         'no_telp'=> '081234567899',
                         'address' => 'jln Semeru Sumbersari Jember'
                     ]
