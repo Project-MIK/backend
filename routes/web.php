@@ -822,6 +822,10 @@ Route::prefix('admin')->group(
 
                 return view('admin.delivery',['data'=>$data]);
             });
+
+            Route::put('update',function(Request $request){
+                dd($request);
+            });
         });
     }
 

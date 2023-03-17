@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 @section('content-header')
-    <h1>Pengiriman Obat</h1>
+<h1>Pengiriman Obat</h1>
 @endsection
 @section('content')
 <div class="card">
@@ -41,6 +41,9 @@
                             <div class="col">
                                 <button type="button" onclick="setDetail(this)" data-toggle='modal' data-target='#detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button>
                             </div>
+                            <div class="col">
+                                <button type="button" onclick="setUpdate(this)" data-toggle='modal' data-target='#modal-update' class="col detail btn btn-block btn-primary btn-sm">Update</button>
+                            </div>
                         </div>
                     </th>
                 </tr>
@@ -66,14 +69,16 @@
 </div>
 
 <x-modals.modal id-modal="detail" modal-size="modal-lg" modal-bg='' footer=''>
-    <x-slot:header><h1>Detail</h1></x-slot:header>
+    <x-slot:header>
+        <h1>Detail</h1>
+    </x-slot:header>
     <div class="row">
         <div class="col">
             <div class="form-group">
                 <label>nama pasien</label>
                 <p id="detail-name">aksdfjjew</p>
             </div>
-            
+
         </div>
         <div class="col">
             <div class="form-group">
@@ -94,7 +99,7 @@
                 <label>Metode Pengiriman</label>
                 <p id="detail-metode">aksdfjjew</p>
             </div>
-            
+
         </div>
         <div class="col">
             <div class="form-group">
@@ -112,12 +117,40 @@
     <div class="form-group">
         <label>Alamat</label>
         <textarea id="detail-address" class="form-control" rows="3" placeholder="Enter ..."></textarea>
-      </div>
+    </div>
 </x-modals.modal>
+
+<x-modals.modal id-modal="modal-update" modal-size='' modal-bg='' footer=''>
+    <x-slot:header>
+        <h2>Update Status</h2>
+    </x-slot:header>
+    <form method="POST" action="/admin/delivery/update">
+        @csrf
+        @method('put')
+        <input type="text" hidden id="update_id_receipt" name="id_receipt">
+        <div class="form-group">
+            <label>Status</label>
+            <select class="form-control" name="status" id="update_status">
+                <option value=""></option>
+                <option value="MENUNGGU DIAMBIL">MENUNGGU DIAMBIL</option>
+                <option value="SUDAH DIAMBIL">SUDAH DIAMBIL</option>
+                <option value="DIKIRIM DENGAN GOJEK">DIKIRIM DENGAN GOJEK</option>
+                <option value="GAGAL DIKIRIM">GAGAL DIKIRIM</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Deskripsi</label>
+            <textarea required class="form-control" rows="3" name="description" id="update_description" placeholder="Enter ..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-block btn-success btn-sm">Update</button>
+
+    </form>
+</x-modals.modal>
+
 @endsection
 @section('after-js')
-    <script>
-        function getData(button) {
+<script>
+    function getData(button) {
         tabel = button.parentElement.parentElement.parentElement.parentElement;
         rawData = tabel.getElementsByTagName('td');
 
@@ -153,5 +186,16 @@
         address.value = data.address;
 
     }
-    </script>
+
+    function setUpdate(params) {
+        var data = getData(params);
+        var id_receipt = document.getElementById('update_id_receipt');
+        var status = document.getElementById('update_status');
+        var description = document.getElementById('update_description');
+
+        id_receipt.value = data.id_receipt;
+        status.value = data.status;
+    }
+
+</script>
 @endsection
