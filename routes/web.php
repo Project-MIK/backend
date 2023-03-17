@@ -728,6 +728,7 @@ Route::prefix('admin')->group(
 
         Route::prefix('delivery')->group(function () {
             Route::get('/', [RecipeController::class, 'showDataDelivery']);
+            Route::put('update', [RecipeController::class , 'actionDelivery']);
         }
         );
     }
