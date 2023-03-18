@@ -224,16 +224,46 @@ class RecipesService
         //     'status' => 'tolak' , 'pasien mengambil ke rs'
         // ];
        
-        if($request['status'] == 'tolak'){
-            $this->model->where('id' , $request['id_recipe'])->update([
+        if($request['status'] == 'GAGAL DIKIRIM'){
+            $isUpdate = $this->model->where('id' , $request['id_recipe'])->update([
                 'pickup_medical_status' => 'GAGAL DIKIRIM' , 
                 'pickup_medical_description' => $request['description'],
                 'pickup_medical_prescription' => 'hospital-pharmacy'
             ]);
-        }else if($request['status'] == 'pasien mengambil ke rs'){
-            $this->model->where('id' , $request['id_recipe'])->update([
-                'pickup_medical_status' => 'SUDAH DIAMBIL' , 
+            if($isUpdate){
+                return true;
+            }
+            return false;
+        }else if($request['status'] == 'MENUNGGU DIAMBIL'){
+            $isUpdate = $this->model->where('id' , $request['id_recipe'])->update([
+                'pickup_medical_status' => 'MENUNGGU DIAMBIL', 
+                'pickup_medical_prescription' => 'hospital-pharmacy',
+                'pickup_medical_description' => null,
             ]);
+            if($isUpdate){
+                return true;
+            }
+            return false;
+        }else if($request['status'] == 'SUDAH DIAMBIL'){
+            $isUpdate = $this->model->where('id' , $request['id_recipe'])->update([
+                'pickup_medical_status' => 'SUDAH DIAMBIL', 
+                'pickup_medical_prescription' => 'hospital-pharmacy',
+                'pickup_medical_description' => null,
+            ]);
+            if($isUpdate){
+                return true;
+            }
+            return false;
+        }else if($request['status'] == 'DIKIRIM DENGAN GOJEK'){
+            $isUpdate = $this->model->where('id' , $request['id_recipe'])->update([
+                'pickup_medical_status' => 'DIKIRIM DENGAN GOJEK', 
+                'pickup_medical_prescription' => 'delivery-gojek',
+                'pickup_medical_description' => null,
+            ]);
+            if($isUpdate){
+                return true;
+            }
+            return false;
         }
     }
 
@@ -245,11 +275,12 @@ class RecipesService
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('recipes', 'record.id_recipe', 'recipes.id')
             ->join('recipe_detail', 'recipe_detail.id_recipe', 'recipes.id')
-            ->select('pattient.name as name', 'record.id as id_consul', 'recipes.id as id_receipt', 'recipes.pickup_medical_prescription as delivery_method', 'recipes.pickup_medical_status as status', 'recipes.no_telp_delivery as no_telp', 'recipes.pickup_medical_addreass_pacient as address')
+            ->select('pattient.name as name', 'record.id as id_consul', 'recipes.id as id_receipt', 'recipes.pickup_medical_prescription as delivery_method', 'recipes.pickup_medical_status as status', 'recipes.no_telp_delivery as no_telp', 'recipes.pickup_medical_addreass_pacient as address' , 'recipes.pickup_medical_description as description')
             ->where('record.status_consultation', 'consultation-complete')
             ->where('record.status_medical_prescription', 'TERKONFIRMASI')
             ->where('record.id_recipe', '<>', null)
             ->where('recipes.status_payment_medical_prescription', 'TERKONFIRMASI')
+            ->orderBy('recipes.status_payment_medical_prescription' , 'desc')
             ->get()->toArray();
     }
 

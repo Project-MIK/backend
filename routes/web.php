@@ -463,9 +463,7 @@ Route::prefix('admin')->group(
                     )->middleware('isAdmin');
                     Route::put(
                         'update',
-                        function (Request $request) {
-                                        dd($request);
-                                    }
+                        [RecordCategoryController::class  , 'update'] ,
                     )->middleware('isAdmin');
                     Route::delete(
                         'destroy',

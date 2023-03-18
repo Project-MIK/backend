@@ -53,13 +53,24 @@ class RecipeController extends Controller
       dd($res);
    }
 
-   public function showDataDelivery(){
+   public function showDataDelivery()
+   {
       $data = $this->service->showDataDelivery();
-     return view('admin.delivery',['data'=>$data]);
+      return view('admin.delivery', ['data' => $data]);
    }
 
-   public function actionDelivery(Request $request){
-      $this->service->actionDelivery($request->except(['_method' , '_token']));
-      return back();
+   public function actionDelivery(Request $request)
+   {
+      $dataRequest = [
+         'status' => $request->status , 
+         'description' => $request->description,
+         'id_recipe' => $request->id_receipt
+      ];
+      $res = $this->service->actionDelivery($dataRequest);
+      if($res){
+         return back()->with('message' , 'berhasil memperbarui status delivery');
+      }else{
+         return back()->withErrors('gagal memperbarui status delivery');
+      }
    }
 }

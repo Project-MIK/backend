@@ -57,10 +57,10 @@ class RecordCategoryController extends Controller
         return redirect()->back()->with("message", $res['message']);
     }
 
-    public function update($id, RecordCategoryUpdateRequest $request)
+    public function update(Request $request)
     {
         $rules = [
-            'category_name' => ['required', 'min:4', "regex:/^[a-zA-Z]+$/u", 'unique:record_category,category_name'],
+            'category' => ['required', 'min:4', "regex:/^[a-zA-Z]+$/u", 'unique:record_category,category_name'],
         ];
 
         $customMessages = [
@@ -69,9 +69,15 @@ class RecordCategoryController extends Controller
             "regex" => "Category Complaint harus berupa huruf",
             "unique" => "Nama Category Tidak boleh sama"
         ];
+        $id = $request->id_category;
         $data = $this->validate($request, $rules, $customMessages);
         $res = $this->service->update($id, $data);
-        return redirect()->back()->with("message", $res['message']);
+        if ($res['status']) {
+            return redirect()->back()->with("message", $res['message']);
+        }else{
+            return redirect()->back()->withErrors($res['message']);
+        }
+
     }
     public function show($id)
     {
@@ -102,7 +108,7 @@ class RecordCategoryController extends Controller
                 $data[$key]['category'] = $value['category_name'];
                 unset($data[$key]['id'], $data[$key]['category_name']);
             }
-        }else{
+        } else {
             return redirect('category')->withErrors('category kosong silahkan tambahkan category terlebih dahulu');
         }
         return $data;
