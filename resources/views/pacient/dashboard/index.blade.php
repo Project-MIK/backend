@@ -68,7 +68,7 @@
                     <div class="p-5 w-100">
                         <div id="pacient-name-tag" class="d-flex align-items-center justify-content-between">
                             <div>
-                                <h1 class="font-weight-bold text-bunting text-xl">Halo, {{Auth::guard('pattient')->user()->name}} </h1>
+                                <h1 class="font-weight-bold text-bunting text-xl">Halo,</h1>
                                 <p class="text-trouth font-weight-light text-sm">Gunakan layanan telemedicine untuk mewujudkan akses kesehatan terjangkau secara online</p>
                             </div>
                             <a href="/keluar">
@@ -95,8 +95,8 @@
                         </div>
                         <div id="pacient-contents" class="my-5">
                             <x-consultation-actions.consultation/>
-                            <x-consultation-actions.history/>
-                            <x-consultation-actions.setting/>
+                            {{-- <x-consultation-actions.history/>
+                            <x-consultation-actions.setting/> --}}
                         </div>
                     </div>
                 </div>

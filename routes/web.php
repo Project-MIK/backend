@@ -31,11 +31,11 @@ Route::view("/", "pacient.index");
 
 // Authentication - Login
 Route::view("/masuk", "pacient.auth.login")->middleware('pattentNotAuthenticate');
-Route::post("/masuk", [PattientController::class, "login"])->name('login');
+// Route::post("/masuk", [PattientController::class, "login"])->name('login');
 
 // # Register
 Route::view("/daftar", "pacient.auth.register")->middleware('pattentNotAuthenticate');
-Route::post("/daftar", [PattientController::class, "store"]);
+// Route::post("/daftar", [PattientController::class, "store"]);
 
 // # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgot-password");
@@ -275,28 +275,28 @@ Route::prefix('konsultasi')->group(function () {
             "polyclinic" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
             "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
             "schedule" => 1677603600,
-            "start_consultation" => 1677632400,
-            "end_consultation" => 1677636000,
+            "start_consultation" => 1678431674,
+            "end_consultation" => 1678441674,
             "live_consultation" => false,
-            "status" => "confirmed-medical-prescription-payment",
+            "status" => "waiting-medical-prescription-payment",
 
             "price_consultation" => "Rp. 90.000",
-            "status_payment_consultation" => "TERKONFIRMASI", // PROSES VERIFIKASI / BELUM TERKONFIRMASI / TERKONFIRMASI / DIBATALKAN
+            "status_payment_consultation" => "TERKONFRIMASI", // PROSES VERIFIKASI / BELUM TERKONFIRMASI / TERKONFIRMASI / DIBATALKAN
             "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
 
-            "price_medical_prescription" => "Rp. 100.000", // null
-            "status_payment_medical_prescription" => "TERKONFIRMASI",
-            "proof_payment_medical_prescription" => "https://tangerangonline.id/wp-content/uploads/2021/06/IMG-20210531-WA0027.jpg",
+            "price_medical_prescription" => "Rp. 90.000", // null
+            "status_payment_medical_prescription" =>  "BELUM TERKONFIRMASI",
+            "proof_payment_medical_prescription" => null,
 
             "pickup_medical_prescription" => "hospital-pharmacy", // hospital-pharmacy, delivery-gojek
             "pickup_medical_status" => "MENUNGGU DIAMBIL", // MENUNGGU DIAMBIL, SUDAH DIAMBIL, DIKIRIM DENGAN GOJEK, GAGAL DIKIRIM, TIDAK MENERIMA SEKRANG
-            "pickup_medical_no_telp_pacient" => "085235119101",
-            "pickup_medical_addreass_pacient" => "Enim ullamco reprehenderit nulla aliqua reprehenderit",
-            "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
-            "pickup_by_pacient" => "Aristo Caesar Pratama",
-            "pickup_datetime" => 1676184847,
+            "pickup_medical_no_telp_pacient" => null,
+            "pickup_medical_addreass_pacient" => null,
+            "pickup_medical_description" => null, // alamat penerima tidak valid, pasien tidak dapat dihubungi
+            "pickup_by_pacient" => null,
+            "pickup_datetime" => null,
 
-            "valid_status" => 1677653043
+            "valid_status" => 1679431674
         ]);
     });
 
@@ -373,216 +373,6 @@ Route::prefix('konsultasi')->group(function () {
         dd([
             "id" => $id
         ]);
-    });
-});
-
-
-//admin
-Route::prefix('admin')->group(function () {
-    Route::view('/', 'admin.dashboard',);
-
-    Route::prefix('pasien')->group(function () {
-        Route::view('view', 'admin.pasien');
-        Route::get('/', [PattientController::class, 'index']);
-        Route::post('store', [PattientController::class, 'storewithRekamMedic']);//redirect to /admin/pasien
-        Route::put('update');
-        Route::delete('destroy');
-        Route::get('detail/{id}', function ($id) {
-            return view('admin.pasien-detail', [$id]);
-        });
-        Route::get('store',function (){
-            return view('admin.pasien-store');
-        });
-    });
-
-    Route::prefix('admin')->group(function () {
-        Route::get('/', [AdminController::class, 'index']);
-        Route::post('store', [AdminController::class, 'store']);
-        Route::put('update');
-        Route::delete('destroy', [AdminController::class, 'destroy']);
-    });
-
-    Route::prefix('petugas')->group(function () {
-        Route::view('view', 'admin.petugas');
-        Route::get('/');
-        Route::post('store');
-        Route::put('update');
-        Route::delete('destroy');
-    });
-
-    Route::prefix('doctor')->group(function () {
-        Route::view('view', 'admin.doctor');
-        Route::get('/');
-        Route::post('store');
-        Route::put('update');
-        Route::delete('destroy');
-    });
-
-    Route::prefix('medrec')->group(function () {
-        Route::view('view', 'admin.medrec');
-        Route::get('/');
-        Route::post('store');
-        Route::put('update');
-        Route::delete('destroy');
-    });
-
-    Route::prefix('medicine')->group(function () {
-        Route::view('view', 'admin.medicine');
-        Route::get('/');
-        Route::post('store');
-        Route::put('update');
-        Route::delete('destroy');
-    });
-
-    Route::prefix('category')->group(function () {
-        //category: nama kategori
-        //count: jumlah kategori digunakan pada komplain
-        Route::get('/', function () {
-            $poli = [
-                ['id_poly' => '1', 'poly' => 'anak'],
-                ['id_poly' => '2', 'poly' => 'dalam']
-            ];
-
-            $data = [
-                'data' => [
-                    ['id_category' => '1', 'category' => 'kepala', 'count' => 12, 'id_poly' => '1', 'poly' => 'anak'],
-                    ['id_category' => '2', 'category' => 'perut', 'count' => 12, 'id_poly' => '2', 'count' => 5, 'poly' => 'dalam'],
-                    ['id_category' => '3', 'category' => 'tangan', 'count' => 12, 'id_poly' => '1', 'count' => 0, 'poly' => 'anak']
-                ],
-                'poly' => $poli
-            ];
-            return view('admin.category', $data);
-        });
-        Route::post('store', function (Request $request) {
-            dd($request);
-        });
-        Route::put('update', function (Request $request) {
-            dd($request);
-        });
-        Route::delete('destroy', function (Request $request) {
-            dd([$request]);
-        });
-    });
-
-    Route::prefix('schedule')->group(function () {
-        //category: nama kategori
-        //count: jumlah kategori digunakan pada komplain
-        Route::get('/', function () {
-
-            $data = [
-                [
-                    'id'=>'10',
-                    'date'=>'1677373423',
-                    'start'=>'1677373423',
-                    'end'=>'1675386223'
-                ],
-                [
-                    'id'=>'2',
-                    'date'=>'1677373423',
-                    'start'=>'1677373423',
-                    'end'=>'1675386223'
-                ],
-            ];
-            return view('admin.schedule', ['data'=>$data]);
-        });
-        Route::post('store', function (Request $request) {
-
-            dd($request);
-        });
-        Route::put('update', function (Request $request) {
-            dd($request);
-        });
-        Route::delete('destroy', function (Request $request) {
-            dd([$request]);
-        });
-    });
-});
-
-//dokter
-Route::prefix('doctor')->group(function () {
-    Route::prefix('/dashboard')->group(function () {
-        Route::get('/', function () {
-            return view('doctor.pages.dashboard');
-        });
-    });
-
-    Route::get('/consul', function () {
-        $data = [
-            [
-                'consul_id'=>'KL4567',
-                'patient_name' => 'tajut zamzami', // name of patient who need consultation
-                'medrec' => '123456', //medical record of patient
-                'duration' => 3600, //the video duration of video conference in milisecond
-                'start' => '1677639600', //the jitsi meet start in timestamp
-                'end' => '1677643200', //the jitsi meet end in timestamp
-                'link' => 'https://meet.jit.si/KL4567' //the jitsi meeting link 
-            ],
-            [
-                'consul_id'=>'KL123',
-                'patient_name' => 'Bachtiar Arya', // name of patient who need consultation
-                'medrec' => '654321', //medical record of patient
-                'duration' => 3600, //the video duration of video conference in milisecond
-                'start' => '1677650400', //the jitsi meet start in timestamp
-                'end' => '1677654000', //the jitsi meet end in timestamp
-                'link' => 'https://meet.jit.si/KL123' //the jitsi meeting link 
-            ]
-        ];
-
-        return view('doctor.pages.consul', ['data' => $data]);
-    });
-
-    Route::prefix('category')->group(function () {
-        //category: nama kategori
-        //count: jumlah kategori digunakan pada komplain
-        Route::get('/', function () {
-            $poli = [
-                ['id_poly' => '1', 'poly' => 'anak'],
-                ['id_poly' => '2', 'poly' => 'dalam']
-            ];
-
-            $data = [
-                'data' => [
-                    ['id_category' => '1', 'category' => 'kepala', 'count' => 12, 'id_poly' => '1', 'poly' => 'anak'],
-                    ['id_category' => '2', 'category' => 'perut', 'count' => 12, 'id_poly' => '2', 'count' => 5, 'poly' => 'dalam'],
-                    ['id_category' => '3', 'category' => 'tangan', 'count' => 12, 'id_poly' => '1', 'count' => 0, 'poly' => 'anak']
-                ],
-                'poly' => $poli
-            ];
-            return view('doctor.pages.category', $data);
-        });
-        Route::post('/store', function (Request $request) {
-            dd($request);
-        });
-        Route::put('/update', function (Request $request) {
-            dd($request);
-        });
-        Route::delete('/destroy', function (Request $request) { 
-            dd([$request]);
-        });
-    });
-
-    Route::prefix('schedule')->group(function () {
-        //category: nama kategori
-        //count: jumlah kategori digunakan pada komplain
-        Route::get('/', function () {
-
-            $data = [
-                [
-                    'id'=>'1',
-                    'date'=>'1677373423',
-                    'start'=>'1677373423',
-                    'end'=>'1675386223'
-                ],
-                [
-                    'id'=>'2',
-                    'date'=>'1677373423',
-                    'start'=>'1677373423',
-                    'end'=>'1675386223'
-                ],
-            ];
-            return view('doctor.pages.schedule', ['data'=>$data]);
-        });
-        
     });
 });
 

@@ -9,6 +9,16 @@
                     @csrf
                     <h1 class="font-weight-bold text-bunting text-center text-xl">Atur Ulang Kata Sandi</h1>
                     <p class="text-trouth font-weight-light text-sm mx-auto text-center w-75">Gunakan kata sandi yang rumit seperti gabungan karakter, angka dan simbol</p>
+                    @if($errors->any())                   
+                        <div class="alert alert-danger" role="alert">
+                            {{$errors->first()}}
+                        </div>
+                    @endif
+                    @if ($message = Session::get('message'))
+                        <div class="alert alert-success mb-5">
+                            {{$message}}
+                        </div>
+                    @endif
                     <div class="my-5">
                         <input type="text" name="token_recovery" class="d-none" value="{{$token}}">
                         <div class="form-group mb-4">
