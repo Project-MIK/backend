@@ -90,10 +90,11 @@ class RecordCategoryService
     }
 
     public function showDataCategory(){
-        $res = $this->recordCategory->all();
+        $res = $this->recordCategory->all()->toArray();
         return $res;
     }
 
+   
 
    
 }
