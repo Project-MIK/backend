@@ -14,7 +14,12 @@
                         <div class="my-5">
                             @if($errors->any())                   
                                 <div class="alert alert-danger" role="alert">
-                                    {{$errors->all()->first()}}
+                                    {{$errors->first()}}
+                                </div>
+                            @endif
+                            @if ($message = Session::get('message'))
+                                <div class="alert alert-success mb-5" role="alert">
+                                    {{$message}}
                                 </div>
                             @endif
                             <div class="form-group mb-4">
