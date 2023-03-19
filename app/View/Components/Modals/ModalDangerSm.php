@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Modals;
 
 use Illuminate\View\Component;
 
-class admin-prerendered-assets extends Component
+class ModalDangerSm extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class admin-prerendered-assets extends Component
      */
     public function render()
     {
-        return view('components.admin-prerendered-assets');
+        return view('components.modals.modal-danger-sm');
     }
 }

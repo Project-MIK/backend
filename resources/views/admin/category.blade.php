@@ -20,8 +20,6 @@
                 <tr>
                     <th>no</th>
                     <th>kategori</th>
-                    <th>Poly</th>
-                    <th>count</th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,8 +30,6 @@
                     <td>{{$no}}</td>
                     <td hidden>{{$item['id_category']}}</td>
                     <td>{{$item['category']}}</td>
-                    <td data-id="{{$item['id_poly']}}">{{$item['poly']}}</td>
-                    <td>{{$item['count']}}</td>
                     <td>
                         <div class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
@@ -48,8 +44,6 @@
                 <tr>
                     <th>no</th>
                     <th>kategori</th>
-                    <th>Poly</th>
-                    <th>count</th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -59,9 +53,9 @@
 
     <!-- /.card-body -->
 
-    <x-modal>
-        <x-slot:modalid>tambah-kategori</x-slot:modalid>
-        <x-slot:judul>tambah Kategori</x-slot:judul>
+    <x-modals.modal id-modal="tambah-kategori" modal-size="" modal-bg="">
+        <x-slot:header><h3>Tambah Kategori</h3></x-slot:Header>
+        <x-slot:footer></x-slot:footer>
         <form action="store" method="post">
             @csrf
             @method('post')
@@ -69,21 +63,13 @@
                 <label for="store-category">Kategori</label>
                 <input type="text" class="form-control" id="store-category" placeholder="Masukan kategori" name="category">
             </div>
-            <div class="form-group">
-                <label>Poli</label>
-                <select class="form-control" name="id_poly" id="edit-poly">
-                    @foreach($poly as $option)
-                    <option value="{{$option['id_poly']}}">{{$option['poly']}}</option>
-                    @endforeach
-                </select>
-            </div>
             <button type="submit" class="btn btn-block btn-default btn-sm">Simpan</button>
         </form>
-    </x-modal>
+    </x-modals.modal>
 
-    <x-modals.modal-danger-sm>
-        <x-slot:id>modal-delete</x-slot:id>
-        <x-slot:title>Warning</x-slot:title>
+    <x-modals.modal id-modal="modal-delete" modal-size="modal-sm" modal-bg="bg-danger">
+        <x-slot:header><h3>Warning</h3></x-slot:Header>
+        <x-slot:footer></x-slot:footer>
         <h3>Apakah Anda Yakin Ingin menghapus data ini?</h3>
         <form action="destroy" method="POST">
             @csrf
@@ -91,11 +77,11 @@
             <input hidden name="id_category" value="1">
             <button type="submit" class="btn btn-block btn-danger btn-sm">Delete</button>
         </form>
-        </x-modal>
+    </x-modals.modal>
 
-        <x-modal>
-            <x-slot:modalid>modal-edit</x-slot:modalid>
-            <x-slot:judul>Edit Kategori</x-slot:judul>
+    <x-modals.modal id-modal="modal-edit" modal-size="" modal-bg="">
+        <x-slot:header><h3>Edit Kategori</h3></x-slot:Header>
+        <x-slot:footer></x-slot:footer>
             <form action="update" method="post">
                 @csrf
                 @method('put')
@@ -104,17 +90,9 @@
                     <label for="edit-category">Kategori</label>
                     <input type="text" class="form-control" id="edit-category" placeholder="Masukan kategori" name="category">
                 </div>
-                <div class="form-group">
-                    <label>Poli</label>
-                    <select name="id_poly" id="edit-poly" class="form-control">
-                        @foreach($poly as $option)
-                        <option value="{{$option['id_poly']}}">{{$option['poly']}}</option>
-                        @endforeach
-                    </select>
-                </div>
                 <button type="submit" class="col-4 btn btn-block btn-primary btn-sm">Submit</button>
             </form>
-        </x-modal>
+    </x-modals.modal>
         @endsection
         @section('after-js')
 

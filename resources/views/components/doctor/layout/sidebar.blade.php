@@ -54,18 +54,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/doctor/category" class="nav-link">
-                        <div class="row">
-                            <div class="col-2"><i class="fa-solid fa-tags"></i></div>
-                            <div class="col-10">
-                                <p>
-                                    Kategori Keluhan
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="/doctor/schedule/" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-calendar-days"></i></div>

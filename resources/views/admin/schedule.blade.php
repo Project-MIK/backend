@@ -65,7 +65,7 @@
 
 <!-- /.card-body -->
 
-<x-modals.modal id-modal="modal-tambah">
+<x-modals.modal id-modal="modal-tambah" modal-bg="" modal-size="">
     <x-slot:header>
         <h2>Tambah Jadwal</h2>
     </x-slot:header>
@@ -119,7 +119,7 @@
 
 </x-modals.modal>
 
-<x-modals.modal id-modal="modal-edit">
+<x-modals.modal id-modal="modal-edit" modal-bg="" modal-size="">
     <x-slot:header>
         <h3>Edit schedule</h3>
     </x-slot:header>
@@ -166,12 +166,16 @@
         </div>
         <button type="submit" class="btn btn-block btn-default">simpan</button>
     </form>
+    <x-slot:footer>
+    </x-slot:footer>
 </x-modals.modal>
 
 <x-modals.modal id-modal="modal-delete" modal-size="modal-sm" modal-bg="bg-danger">
     <x-slot:header>
         <h4>Delete</h4>
     </x-slot:header>
+    <x-slot:footer>
+    </x-slot:footer>
     <h5>Apakah anda yakin inging menghapus data ini?</h5>
     <form action="/admin/schedule/destroy" method="POST">
     @csrf

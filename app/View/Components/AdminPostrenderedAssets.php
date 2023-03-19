@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components\Modals;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class modal-danger-sm extends Component
+class AdminPostrenderedAssets extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class modal-danger-sm extends Component
      */
     public function render()
     {
-        return view('components.modals.modal-danger-sm');
+        return view('components.admin-postrendered-assets');
     }
 }
