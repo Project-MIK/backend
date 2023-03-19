@@ -24,14 +24,29 @@ class PattientSeeder extends Seeder
             "email" => "email@gmail.com",
             "gender" => "M" , 
             "phone_number" => "085607185972",
-            "address" => "RT/RW : 1/2 Dusun sidoarjo Desa yosomulyo Kec. gambiaran Kab.banyuwangi",
+            "address" => "003/005/Blokagung/Karangdoro/Tegalsari/Banyuwangi",
             "citizen" => "WNI" , 
             "profession" => "GURU" , 
             "date_birth" => "2023-02-08 12:51:41",
             "place_birth" => "bwi" , 
             "blood_group" => "B", 
-            "nik" => 287639876267861,
+            "nik" => 2876398762678612,
             'medical_record_id' => 123123
+        ]);
+        Pattient::create([
+            "name" => "zamz", 
+            "password" =>  bcrypt("rahasia"),
+            "email" => "mohammadtajutzamzami07@gmail.com",
+            "gender" => "M" , 
+            "phone_number" => "085607185972",
+            "address" => "003/005/Blokagung/Karangdoro/Tegalsari/Banyuwangi",
+            "citizen" => "WNA" , 
+            "profession" => "GURU" , 
+            "date_birth" => "2023-02-08 12:51:41",
+            "place_birth" => "bwi" , 
+            "blood_group" => "B", 
+            "no_paspor" => 9872653416527356,
+            'medical_record_id' => 321321
         ]);
     }
 }

@@ -17,7 +17,7 @@ class SchedulesSeeder extends Seeder
     {
         DB::table('schedules')->insert(
             [
-                "id_doctor" => 1,
+                "doctor_id" => 1,
             ]
         );
     }

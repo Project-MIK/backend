@@ -18,7 +18,7 @@
                                 </div>
                             @endif
                             @if ($message = Session::get('message'))
-                                <div class="alert alert-success mb-5">
+                                <div class="alert alert-success mb-5" role="alert">
                                     {{$message}}
                                 </div>
                             @endif

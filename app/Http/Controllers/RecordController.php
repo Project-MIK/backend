@@ -2,20 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ComplaintStoreRequest;
 use App\Http\Requests\RecordStoreRequest;
+use App\Services\MedicineService;
+use App\Services\RecipeDetailsService;
 use App\Services\RecordService;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
 
 class RecordController extends Controller
 {
 
     private RecordService $service;
+    private RecipeDetailsService $recipeDetailService;
 
+    private MedicineService $medicineService;
 
     public function __construct()
     {
         $this->service = new RecordService();
+        $this->recipeDetailService = new RecipeDetailsService();
+        $this->medicineService = new MedicineService();
     }
 
 
@@ -24,32 +36,56 @@ class RecordController extends Controller
         return view('test.register');
     }
 
-    public function store(RecordStoreRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validate($request->rules());
-        $res = $this->service->insert($data);
-        // $res['status'] = true or false
-        return redirect()->back()->with("message", $res['message']);
+        // request need to create function findby(date , time_start, time_end)
+        $validator = Validator::make($request->all(), [
+            'description' => ['required', 'max:255', 'min:10'],
+            [
+                'description.required' => 'Deskripsi keluhan tidak boleh kosong',
+                "description.max" => "Deskripsi Keluhan tidak boleh lebih dari 255 huruf",
+                'description.min' => "Deskripsi Keluhan tidak boleh kurang dari 10"
+            ]
+        ]);
+        if ($validator->fails()) {
+            return redirect('/konsultasi')->withErrors($validator);
+        }
+        if (Auth::guard('pattient')->check()) {
+            $idMedicalRecord = Auth::guard('pattient')->user()->medical_record_id;
+            $data = [
+                "medical_record_id" => $idMedicalRecord,
+                "description" => $request->description,
+                "complaint" => $request->description,
+                "id_schedules" => 1,
+                "id_doctor" => 1,
+                "id_category" => $request->category
+            ];
+            $res = $this->service->insert($data);
+            if ($res['status']) {
+                $id = $res['id'];
+                return redirect("/konsultasi/$id#payment");
+            } else {
+                return redirect('dasboard')->with('message', 'gagal membuat konsultasi terjadi kesalahan');
+            }
+        } else {
+            return redirect("/masuk")->with("message", "silahkan login terlebih dahulu");
+        }
+
     }
 
     public function upadate()
     {
-        
+
     }
 
-    public function updateBukti(Request $request)
+    public function destroy($id)
     {
-        $rules = [
-            'avatar' => ['required', 'max:5120', 'mimes:jpeg,png,jng'],
-        ];
-        $customMessages = [
-            'required' => 'Foto bukti pembayaran tidak boleh kosong',
-            "max" => "Ukuran Foto tidak boleh lebih dari 5MB",
-            "mimes" => "File harus berupa jpeg , png , atau jpg"
-        ];
-        $this->validate($request, $rules, $customMessages);
-        // menyimpan data file yang diupload ke variabel $file
-        $response = $this->service->updateBukti('KL0923210', $request);
+        dd($id);
+    }
+
+    public function updateBukti(Request $request, $id)
+    {
+        $response = $this->service->updateBukti($id, $request);
         if ($response) {
             return redirect()->back()->with('message', "berhasil mengupload bukti pembayaran , harap menunggu hasil validasi");
         } else {
@@ -61,10 +97,75 @@ class RecordController extends Controller
     {
         $id = $request->id;
         $res = $this->service->validBuktiPembayaran($id);
-        if($res){
-            return redirect()->back()->with("message" , "berhasil menyetujui pembayaran");
-        }else{
-            return redirect()->back()->with("message" , "gagal   menyetujui pembayaran");
+        if ($res) {
+            return redirect()->back()->with("message", "berhasil menyetujui pembayaran");
+        } else {
+            return redirect()->back()->with("message", "gagal   menyetujui pembayaran");
         }
     }
+
+    public function cancelConsultation($id)
+    {
+        $res = $this->service->cancelConsultation($id);
+        if ($res) {
+            return redirect('/dashboard');
+        } else {
+            return redirect()->back()->withErrors(['message' => "gagal membatalkan konsultasi"]);
+        }
+    }
+
+
+    public function showComplaintOnAdmin()
+    {
+        $data = $this->service->showComplaintOnAdmin();
+        return view('admin.complain', ['data' => $data]);
+    }
+
+    public function confirmStatusPayment(Request $request)
+    {
+        $res = $this->service->acceptPaymentOrDecline($request->id, $request->status);
+        return redirect()->back()->with('message', $res['message']);
+    }
+
+    public function showConsulByDoctor()
+    {
+        $id = Auth::guard('admin')->user()->id; // change with id doctor
+        $data = $this->service->showConsulByDocter($id);
+        return view('doctor.pages.consul', ['data' => $data]);
+    }
+
+    public function startCoverenceByAdmin($id)
+    {
+        $receipt = $this->recipeDetailService->showDataRecipePatient($id);
+        $medicine = $this->medicineService->findAll();
+        $data = $this->service->startConverenceAdminById($id);
+        $milliseconds = $data['time_start']; // example millisecond timestamp
+        $start = Carbon::createFromTimestamp($milliseconds);
+        $formattedDate = $start->format('Y-m-d H:i');
+        if ($data != null) {
+            // if (time() > $data['time_end']) {
+            //     return back()->withErrors("waktu consultasi sudah selesai");
+            // }
+            // if (time() < [$data['time_start']]) {
+            //     return back()->withErrors("Konsultasi akan dimulai pada : " . $formattedDate);
+            // }
+            return view('admin.jitsi', ['data' => $data, 'medicine' => $medicine, 'receipt' => $receipt, 'id_complaint' => $id]);
+        } else {
+            return back()->withErrors("data consul tidak ditemukan");
+        }
+    }
+
+    public function showConsulOnAdmin()
+    {
+        $data = $this->service->showConsulAdmin();
+        return view('admin.consul', ['data' => $data]);
+
+    }
+
+
+    public function addRecipe(Request $request)
+    {
+        dd($request);
+    }
+
 }

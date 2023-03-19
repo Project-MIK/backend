@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_doctor')->nullable(false);
-            $table->foreign('id_doctor')->references('id')->on('doctor');
+            $table->unsignedBigInteger('doctor_id')->nullable(false);
+            $table->foreign('doctor_id')->references('id')->on('doctors');
             $table->timestamps();
         });
     }

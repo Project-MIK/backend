@@ -16,11 +16,15 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->string('description')->nullable(true);
-            $table->integer("total_price");
+            $table->integer("price_medical_prescription")->default(0);
+            $table->enum('pickup_medical_prescription' , ['hospital-pharmacy' , 'delivery-gojek'])->default('hospital-pharmacy');
+            $table->enum('pickup_medical_status' , ['MENUNGGU DIAMBIL' , 'SUDAH DIAMBIL'  , 'DIKIRIM DENGAN GOJEK' , 'GAGAL DIKIRIM'])->default('MENUNGGU DIAMBIL');
+            $table->string('pickup_medical_addreass_pacient')->nullable(true);
+            $table->enum('pickup_medical_description' , ['alamat penerima tidak valid' , 'pasien tidak dapat dihubungi'])->nullable(true);
+            $table->timestamp('pickup_datetime')->nullable(true);
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

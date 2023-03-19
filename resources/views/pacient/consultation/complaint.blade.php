@@ -1,4 +1,5 @@
 <x-app-pacient title="Keluhan">
+
     @slot('styles')
         <style>
             button,select{height:50px!important}#back-page-1{display:none}#back-page-2{display:block}#next-step{width:100%}@media (min-width:991.98px){#back-page-1{display:block}#back-page-2{display:none}#next-step{width:25%}}
@@ -16,9 +17,9 @@
                     </a>
                     <form class="w-100" action="" method="POST">
                         @csrf
-                        @if ($message = Session::get('message'))
+                        @if ($errors->any())
                             <div class="alert alert-info">
-                                {{$message}}
+                                {{$errors->first()}}
                             </div>
                         @endif
                         <div class="d-flex align-items-center">

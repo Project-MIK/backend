@@ -12,9 +12,9 @@
                         <h1 class="font-weight-bold text-bunting text-xl">Masuk</h1>
                         <p class="text-trouth font-weight-light text-sm">Masuk dengan akun anda untuk menggunakan layanan medis</p>
                         <div class="my-5">
-                            @if($errors->any())                   
+                            @if($errors->any())               
                                 <div class="alert alert-danger" role="alert">
-                                    {{$errors->all()->first()}}
+                                    {{$errors->first()}}
                                 </div>
                             @endif         
                             <div class="form-group mb-4">

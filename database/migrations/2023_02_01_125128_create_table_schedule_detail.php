@@ -14,17 +14,16 @@ return new class extends Migration
     public function up()
     {
 
-        Schema::dropIfExists("schedule_detail");
 
-        Schema::create('schedule_detail', function (Blueprint $table) {
+        Schema::create('schedule_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_schedule');
+            $table->unsignedBigInteger('schedule_id');
             $table->timestamp('consultation_date');
             $table->timestamp('time_start')->nullable();
             $table->timestamp('time_end')->nullable();
             $table->string('link');
             $table->enum('status', ['selesai' , 'belum_selesai' , 'kosong']);
-            $table->foreign('id_schedule')->references('id')->on('schedules')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('schedule_id')->references('id')->on('schedules')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -36,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule_detail');
+        Schema::dropIfExists('schedule_details');
     }
 };

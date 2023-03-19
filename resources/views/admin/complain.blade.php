@@ -164,6 +164,8 @@
             </div>
         </div>
     </div>
+    <x-slot:footer>
+    </x-slot:footer>
 </x-modals.modal>
 @endsection
 @section('after-js')

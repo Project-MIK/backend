@@ -8,7 +8,7 @@
         <div class="card shadow-lg rounded-lg w-100 mx-auto">
             <div class="card-body">
                 <div class="p-5 d-flex">
-                    @if (!$live_consultation)
+                    @if (!$live_consultation)   
                         <a id="back-page-1" class="mr-3" href="/dashboard">
                             <svg role="button" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M38 24H10" stroke="#525666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

@@ -2,7 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\GuestAdmin;
 use App\Http\Middleware\IsAdminLogin;
+use App\Http\Middleware\OnlyThoseWhoDontHaveRecordMiddleware;
+use App\Http\Middleware\PattientIsAuthenticate;
 use App\Http\Middleware\PattientMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -66,6 +69,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         "isAdmin" => IsAdminLogin::class,
-        'pattentNotAuthenticate' => PattientMiddleware::class
+        'pattentNotAuthenticate' => PattientMiddleware::class,
+        'checkRecord' => OnlyThoseWhoDontHaveRecordMiddleware::class,
+        'guestAdmin' => GuestAdmin::class,
+        'pattientAuthenticate' => PattientIsAuthenticate::class
     ];
 }

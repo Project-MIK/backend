@@ -6,6 +6,7 @@ use App\Models\Record;
 use App\Services\RecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class RecordServiceTest extends TestCase
@@ -95,5 +96,22 @@ class RecordServiceTest extends TestCase
         $service = new RecordService();
         $res = $service->validBuktiPembayaran("KL6901595");
         $this->assertTrue($res);
+    }
+
+    public function test_update_status(){
+       
+        
+    }
+
+    public function test_show_consultation(){
+        $service = new RecordService();
+        $service->showComplaintOnAdmin();
+    }
+
+    public function test_set_consultation_complete(){
+        $id = "KL0923210";
+        $service = new RecordService();
+        $res = $service->consultationComplete($id);
+        dd($res);
     }
 }

@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Helpers\Helper;
+use App\Http\Controllers\PattientController;
+use App\Http\Requests\PattienLoginRequest;
 use App\Http\Requests\StorePattientMedicalRequest;
 use App\Http\Requests\StorePattientRequest;
 use App\Http\Requests\UpdatePattientRequest;
@@ -295,9 +297,10 @@ class PattientTest extends TestCase
                 "id_registration_officer" => 1,
             ]
         );
-      
+
     }
-    public function test_store_controller(){
+    public function test_store_controller()
+    {
         $data = [
             "fullname" => $this->faker->name(),
             "email" => $this->faker->email(),
@@ -315,15 +318,16 @@ class PattientTest extends TestCase
             "date_birth" => "asdas",
             "blood_group" => "B",
             "place_birth" => "banyuwani",
-            "medical_record_id" => random_int(100000 , 999999),
+            "medical_record_id" => random_int(100000, 999999),
             "id_registration_officer" => 1,
-            "nik" => random_int(1000000000000000 , 9999999999999999)
+            "nik" => random_int(1000000000000000, 9999999999999999)
         ];
-        $response = $this->post("rekam" , $data);
-        $response->assertSessionHas('message' , "berhasil menambahkan patient , berhasil mengirimkan email");
+        $response = $this->post("rekam", $data);
+        $response->assertSessionHas('message', "berhasil menambahkan patient , berhasil mengirimkan email");
     }
 
-    public function test_store_controller_wna(){
+    public function test_store_controller_wna()
+    {
         $data = [
             "fullname" => $this->faker->name(),
             "email" => $this->faker->email(),
@@ -341,11 +345,120 @@ class PattientTest extends TestCase
             "date_birth" => "asdas",
             "blood_group" => "B",
             "place_birth" => "banyuwani",
-            "medical_record_id" => random_int(100000 , 999999),
+            "medical_record_id" => random_int(100000, 999999),
             "id_registration_officer" => 1,
-            "no_paspor" => random_int(1000000000000000 , 9999999999999999)
+            "no_paspor" => random_int(1000000000000000, 9999999999999999)
         ];
-        $response = $this->post("rekam" , $data);
-        $response->assertSessionHas('message' , "berhasil menambahkan patient , berhasil mengirimkan email");
+        $response = $this->post("rekam", $data);
+        $response->assertSessionHas('message', "berhasil menambahkan patient , berhasil mengirimkan email");
     }
+
+    public function test_show_record()
+    {
+        $service = new PattientService();
+        $res = $service->showRecordDashboard(12);
+        dd($res);
+    }
+
+    public function test_show_record_action()
+    {
+        $service = new PattientService();
+        $service->showDataActionConsultation("KL2039824");
+    }
+
+
+    // login
+
+    public function test_login_service_success()
+    {
+        $service = new PattientService();
+        $data = [
+            "no_medical_records" => 123123,
+            "password" => "rahasia"
+        ];
+        $res = $service->login($data);
+        $this->assertTrue($res);
+    }
+
+    public function test_login_service_failed()
+    {
+        $service = new PattientService();
+        $data = [
+            "no_medical_records" => 123123,
+            "password" => "salah"
+        ];
+        $res = $service->login($data);
+        $this->assertFalse($res);
+    }
+
+    public function test_login_route_success()
+    {
+        $data = [
+            "no_medical_records" => 123123,
+            "password" => "rahasia"
+        ];
+        $res = $this->post("/masuk", $data);
+        $res->assertSessionHas('message', 'berhasil login');
+    }
+
+    public function test_login_route_failed()
+    {
+        $data = [
+            "no_medical_records" => 123123,
+            "password" => "rahasias"
+        ];
+        $res = $this->post("/masuk", $data);
+        $res->assertSessionHasErrors('msg', 'Password atau No Rekam Medik Salah');
+    }
+    // register
+    public function test_register_success()
+    {
+        $data = [
+            "fullname" => 'user',
+            "email" => $this->faker->email(),
+            "gender" => 'W',
+            "password" => 'rahasia',
+            "phone_number" => '08556912312',
+            "address_RT" => 01,
+            "address_RW" => 02,
+            "address_desa" => "gambiran",
+            "address_dusun" => 'yosomulyo',
+            "address_kecamatan" => 'gambiran',
+            'address_kabupaten' => 'bwi',
+            'citizen' => 'WNI',
+            'profession' => 'GURU',
+            'date_birth' => '2022-sep-12',
+            'blood_group' => 'A',
+            'place_birth' => 'BWI',
+            'nik' => random_int(1000000000000000,9999999999999999)
+        ];
+        $res = $this->post('daftar', $data);
+        $res->assertSessionHas('message' , 'berhasil registrasi harap menunggu hingga no rekam medis di kirimkan');
+    }
+
+    public function test_register_failed_email_has_been_taken()
+    {
+        $data = [
+            "fullname" => 'user',
+            "email" => "mohammadtajutzamzami07@gmail.com",
+            "gender" => 'W',
+            "password" => 'rahasia',
+            "phone_number" => '08556912312',
+            "address_RT" => 01,
+            "address_RW" => 02,
+            "address_desa" => "gambiran",
+            "address_dusun" => 'yosomulyo',
+            "address_kecamatan" => 'gambiran',
+            'address_kabupaten' => 'bwi',
+            'citizen' => 'WNI',
+            'profession' => 'GURU',
+            'date_birth' => '2022-sep-12',
+            'blood_group' => 'A',
+            'place_birth' => 'BWI',
+            'nik' => random_int(1000000000000000,9999999999999999)
+        ];
+        $res = $this->post('daftar', $data);
+        $res->assertSessionHasErrors();
+    }
+
 }

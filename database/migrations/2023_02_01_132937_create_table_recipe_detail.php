@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_recipe')->nullable(false);
             $table->unsignedBigInteger('id_medicine')->nullable(false);
+            $table->integer('qty')->nullable(false);
+            $table->double('total_price')->nullable(true);
             $table->foreign('id_recipe')->references('id')->on('recipes')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_medicine')->references('id')->on('medicines')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

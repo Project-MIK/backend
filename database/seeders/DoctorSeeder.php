@@ -20,7 +20,7 @@ class DoctorSeeder extends Seeder
             "gender" => "M" , 
             "address" => "jember" , 
             "phone" => 123 , 
-            "id_polyclinic" => 1
+            "polyclinic_id" => 1
         ]);
     }
 }

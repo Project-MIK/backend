@@ -2,6 +2,7 @@
 
 namespace App\View\Components\ConsultationActions;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class Setting extends Component
@@ -29,30 +30,29 @@ class Setting extends Component
      */
     public function render()
     {
+        $user = Auth::guard('pattient')->user();
         $pacient = [
-            "id" => "PCT4234728342",
-            "citizen" => "Warga Negara Indonesia",
-            "nik" => "6386497275804764",
-            "no_paspor" => "-",
-            "fullname" => "Aristo Caesar Pratama",
-            "place_birth" => "Banyuwangi",
-            "date_birth" => "04-07-2002",
-            "gender" => "M",
-            "blood_group" => "O",
-            "profession" => "Software Enginer",
-            "addreass" => "003/005/Blokagung/Karangdoro/Tegalsari/Banyuwangi",
-            "number_phone" => "085235119101",
-            "email" => "aristo.belakang@gmail.com",
+            "id" => $user->id,
+            "citizen" => $user->citizen,
+            "nik" => $user->nik ==null ? '-' : $user->nik,
+            "no_paspor" =>$user->no_paspor ==null ? '-' : $user->no_paspor,
+            "fullname" => $user->name,
+            "place_birth" => $user->place_birth,
+            "date_birth" => $user->date_birth,
+            "gender" => $user->gender,
+            "blood_group" => $user->blood_group,
+            "profession" => $user->profession,
+            "addreass" => $user->address,
+            "number_phone" => $user->phone_number,
+            "email" => $user->email,
             "created_at" => now()
         ];
-
         $blood_group = [
             "A",
             "B",
             "AB",
             "O"
         ];
-
         return view('components.consultation-actions.setting', [
             "pacient" => $pacient,
             "addreass" => $this->getAddreass($pacient['addreass']),

@@ -2,6 +2,7 @@
 
 namespace App\View\Components\PacientConsultation;
 
+use App\Http\Controllers\PaymentMethodController;
 use Illuminate\View\Component;
 
 class StatusPaymentConsultation extends Component
@@ -23,7 +24,8 @@ class StatusPaymentConsultation extends Component
         $status = "",
         $proofPayment = "",
         $validStatus = ""
-    ) {
+    )
+    {
         $this->id = $id;
         $this->price = $price;
         $this->status = $status;
@@ -39,22 +41,13 @@ class StatusPaymentConsultation extends Component
      */
     public function render()
     {
-        $this->banks = [
-            [
-                "id" => "BCA",
-                "name" => "BCA ( Bank Central Asia )",
-                "image" => "bca-logo.png",
-                "no_card" => "623724239",
-                "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
-            ],
-            [
-                "id" => "BRI",
-                "name" => "BRI ( Bank Rakyat Indonesia )",
-                "image" => "bri-logo.png",
-                "no_card" => "689564234",
-                "name_card" => "RUMAH SAKIT CITRA HUSADA JEMBER"
-            ]
-        ];
+        $controller = new PaymentMethodController();
+        $res = $controller->index();
+        foreach ($res as $key => $value) {
+            # code...
+            $res[$key]['image'] = strtolower($value['id']) . '-' . 'logo' . '.png';
+        }
+        $this->banks = $res;
         return view('components.pacient-consultation.status-payment-consultation');
     }
 }
