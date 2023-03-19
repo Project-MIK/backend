@@ -9,6 +9,7 @@
     @method('put')
     <div class="my-5">
         
+        @if($data['citizen']=='WNI')
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
@@ -22,6 +23,21 @@
                 </div>
             </div>
         </div>
+        @else
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
+                <input type="text" value="{{$data['citizen']}}" class="form-control py-4" id="inputCitizen" name="citizen" placeholder="Ketikkan nomor induk kependudukan" readonly required>
+
+            </div>
+            <div class="form-group col-md-6">
+                <div id="nik" class="d-block">
+                    <label for="inputNik" id="labelNik" class="text-trouth">Nomor Paspor</label>
+                    <input type="text" value="{{$data['no_paspor']}}" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" autofocus required>
+                </div>
+            </div>
+        </div>
+        @endif
         
         </select>
 
