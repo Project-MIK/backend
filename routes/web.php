@@ -36,11 +36,11 @@ Route::view("/", "pacient.index");
 
 // Authentication - Login
 Route::view("/masuk", "pacient.auth.login")->middleware('pattentNotAuthenticate');
-Route::post("/masuk", [PattientController::class, "login"])->name('login');
+// Route::post("/masuk", [PattientController::class, "login"])->name('login');
 
 // # Register
 Route::view("/daftar", "pacient.auth.register")->middleware('pattentNotAuthenticate');
-Route::post("/daftar", [PattientController::class, "store"]);
+// Route::post("/daftar", [PattientController::class, "store"]);
 
 // # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgot-password");
@@ -633,9 +633,18 @@ Route::prefix('admin')->group(
                 Route::delete('receipt/destroy', function (Request $request) {
                     //request {'id':'id obat yang akan dihapus dari resep'}
 
-                    $response = [
-                        'status' => 'success'
-                    ];
+            //data from getById($id_consul) 
+            $data = [
+                'id_consul' => $id_consul, 
+                'doctor' => 'Dr. Anis', 
+                'patien' => 'Bachtiar',
+                'duration' => 7200000 //in milisecond
+            ];
+            return view('admin.jitsi', ['data' => $data]);
+        });
+    });
+
+    Route::prefix('poly')->group(function () {
 
                     echo json_encode($response);
                 })->name('receipt.destroy');
