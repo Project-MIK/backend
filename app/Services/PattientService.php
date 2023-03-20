@@ -76,7 +76,7 @@ class PattientService
             if ($response) {
                 $dataRekamMedic = [
                     "medical_record_id" => $request['medical_record_id'],
-                    "id_registration_officer" => $request['id_registration_officer']
+                    "id_admin" => $request['id_admin']
                 ];
                 $insertRekamMedic = $this->medicalRecordService->insert(
                     $dataRekamMedic
@@ -218,11 +218,11 @@ class PattientService
             ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
             ->leftJoin('recipes', 'record.id_recipe', 'recipes.id')
             ->select('record.status_payment_consultation', 'recipes.pickup_medical_description as status_payment_medical_prescription', 'record.id as id_record', 'record.description', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'schedule_details.consultation_date as schedule');
-         
+
         $check = $this->record->where('medical_record_id', $medicalRecords)->get()->toArray();
         if (sizeof($check) > 0) {
             $res = $query->where('record.status_consultation', '=', 'consultation-complete')
-            ->where('record.medical_record_id', "=",$medicalRecords)
+                ->where('record.medical_record_id', "=", $medicalRecords)
                 ->orwhere('record.status_payment_consultation', 'DIBATALKAN')
                 ->where('record.valid_status', '<', Carbon::now())
                 ->get()->toArray();
@@ -250,7 +250,7 @@ class PattientService
             ->join('doctors', 'doctors.id', 'record.doctor_id')
             ->join('polyclinics', 'polyclinics.id', 'doctors.polyclinic_id')
             ->join('record_category', 'record_category.id', 'record.id_category')
-            ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctors.name as doctor', 'schedule_details.consultation_date', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime' , 'recipes.price_medical_prescription' , 'recipes.status_payment_medical_prescription')->where('record.id', $idRecord)
+            ->select('record.bukti', 'pattient.phone_number', 'record.id_recipe', 'record.id as id_record', 'pattient.name as name_pacient', 'record.description', 'record_category.category_name', 'polyclinics.name as polyclinic', 'doctors.name as doctor', 'schedule_details.consultation_date', 'schedule_details.time_start as start_consultation', 'schedule_details.time_end as end_consultation', 'record.status_consultation as status', 'record.status_payment_consultation', 'record.valid_status', 'recipes.pickup_medical_prescription', 'recipes.pickup_medical_status', 'recipes.pickup_medical_addreass_pacient', 'recipes.pickup_medical_description', 'recipes.pickup_datetime', 'recipes.price_medical_prescription', 'recipes.status_payment_medical_prescription')->where('record.id', $idRecord)
             ->first();
         $response = [];
         if ($res != null) {
@@ -407,4 +407,44 @@ class PattientService
         }
         return false;
     }
+
+    public function kirimRekamMedic($noRekamMedic, $email, $idAdmin)
+    {
+        $response = [];
+        $user = $this->model->where('email', $email)->first();
+        if ($user != null) {
+            $checkExist = $this->medicalRecordService->findByMedicalRecordCheck($noRekamMedic);
+            if($checkExist){
+                $response['status'] =  false;
+                $response['message'] = 'no rekam medic sudah digunakan oleh user yang lain';
+            }else{
+                $isInsert = $this->medicalRecords->insert(
+                    [
+                        'id_admin' => $idAdmin,
+                        'medical_record_id' => $noRekamMedic
+                    ]
+                );
+                if($isInsert){
+                    $isUpdate = $this->model->where('id', $user->id)->update([
+                        'medical_record_id' => $noRekamMedic
+                    ]);
+                    if($isUpdate){
+                        $response['status'] = true;
+                        $response['message'] = 'berhasil mengirim rekam medic';
+                    }else{
+                        $response['status'] = false;
+                        $response['message'] = 'gagal mengupdate rekam medic';
+                    }
+                }else{
+                    $response['status'] = false;
+                    $response['message'] = 'gagal menambahkan rekam medic';
+                }
+            }
+        } else {
+            $response['status'] = false;
+            $response['message'] = 'user tidak ditemukan';
+        }
+        return $response;
+    }
+
 }

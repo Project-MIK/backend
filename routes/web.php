@@ -37,7 +37,7 @@ Route::view("/", "pacient.index");
 
 // Authentication - Login
 Route::view("/masuk", "pacient.auth.login")->middleware('pattentNotAuthenticate');
-Route::post("/masuk", [PattientController::class, "login"])->name('login');
+ Route::post("/masuk", [PattientController::class, "login"])->name('login');
 
 // # Register
 Route::view("/daftar", "pacient.auth.register")->middleware('pattentNotAuthenticate');
@@ -400,9 +400,7 @@ Route::prefix('admin')->group(
                     )->middleware('isAdmin');
                     Route::put(
                         'rs',
-                        function (Request $request) {
-                                        dd($request);
-                                    }
+                        [PattientController::class , "kirimRekamMedic"]
                     )->middleware('isAdmin');
                 }
         );
