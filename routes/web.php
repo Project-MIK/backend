@@ -644,13 +644,6 @@ Route::prefix('admin')->group(
         });
     });
 
-    Route::prefix('poly')->group(function () {
-
-                    echo json_encode($response);
-                })->name('receipt.destroy');
-            }
-        );
-
         Route::prefix('poly')->group(
             function () {
                 Route::get(
