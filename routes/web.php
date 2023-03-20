@@ -37,11 +37,11 @@ Route::view("/", "pacient.index");
 
 // Authentication - Login
 Route::view("/masuk", "pacient.auth.login")->middleware('pattentNotAuthenticate');
-Route::post("/masuk", [PattientController::class, "login"])->name('login');
+// Route::post("/masuk", [PattientController::class, "login"])->name('login');
 
 // # Register
 Route::view("/daftar", "pacient.auth.register")->middleware('pattentNotAuthenticate');
-Route::post("/daftar", [PattientController::class, "store"]);
+// Route::post("/daftar", [PattientController::class, "store"]);
 
 // # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgot-password");
