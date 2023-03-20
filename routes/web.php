@@ -51,7 +51,6 @@ Route::get("/recovery/{token}", [PattientController::class, "checkTokenValid"]);
 Route::post("/recovery/{token}", function (Request $request) {
     dd($request);
 });
-Route::post("/recovery/{token}", fn () => view("pacient.auth.recovery"));
 
 // Dashboard
 Route::prefix("/dashboard")->group(function () {
@@ -633,16 +632,17 @@ Route::prefix('admin')->group(
                 Route::delete('receipt/destroy', function (Request $request) {
                     //request {'id':'id obat yang akan dihapus dari resep'}
 
-            //data from getById($id_consul) 
-            $data = [
-                'id_consul' => $id_consul, 
-                'doctor' => 'Dr. Anis', 
-                'patien' => 'Bachtiar',
-                'duration' => 7200000 //in milisecond
-            ];
-            return view('admin.jitsi', ['data' => $data]);
-        });
-    });
+                    //data from getById($id_consul) 
+                    $data = [
+                        'id_consul' => $id_consul,
+                        'doctor' => 'Dr. Anis',
+                        'patien' => 'Bachtiar',
+                        'duration' => 7200000 //in milisecond
+                    ];
+                    return view('admin.jitsi', ['data' => $data]);
+                });
+            }
+        );
 
         Route::prefix('poly')->group(
             function () {
@@ -750,18 +750,18 @@ Route::prefix('admin')->group(
                         'total' => '200000',
                         'proof' => 'https://feb.umri.ac.id/wp-content/uploads/2021/03/Bukti-Pembayaran-Ujian-Skripsi.jpeg',
                         'status' => '2',
-                        'list_medicine'=>[
+                        'list_medicine' => [
                             [
-                                'medicine'=>'paracetamol',
-                                'qty'=>'10',
-                                'price'=>'10000',
-                                'sub_total'=>'100000'
+                                'medicine' => 'paracetamol',
+                                'qty' => '10',
+                                'price' => '10000',
+                                'sub_total' => '100000'
                             ],
                             [
-                                'medicine'=>'paracetamol',
-                                'qty'=>'10',
-                                'price'=>'10000',
-                                'sub_total'=>'100000'
+                                'medicine' => 'paracetamol',
+                                'qty' => '10',
+                                'price' => '10000',
+                                'sub_total' => '100000'
                             ]
                         ]
                     ],
@@ -772,12 +772,12 @@ Route::prefix('admin')->group(
                         'total' => '75000',
                         'proof' => 'https://edupay.zendesk.com/hc/article_attachments/360046355232/mceclip9.png',
                         'status' => '1',
-                        'list_medicine'=>[
+                        'list_medicine' => [
                             [
-                                'medicine'=>'paracetamol',
-                                'qty'=>'10',
-                                'price'=>'10000',
-                                'sub_total'=>'100000'
+                                'medicine' => 'paracetamol',
+                                'qty' => '10',
+                                'price' => '10000',
+                                'sub_total' => '100000'
                             ]
                         ]
                     ],
@@ -788,12 +788,12 @@ Route::prefix('admin')->group(
                         'total' => '250000',
                         'proof' => 'https://1.bp.blogspot.com/-vRxyZBWkyb4/Xn6k2sMrXuI/AAAAAAAAGog/Ay9PBsRutbo3Q6PcL6pXjsc-r-5MT9tLwCLcBGAsYHQ/s1600/buzzbreak%2Bbayar%2Blewat%2BDANA.png',
                         'status' => '0',
-                        'list_medicine'=>[
+                        'list_medicine' => [
                             [
-                                'medicine'=>'paracetamol',
-                                'qty'=>'10',
-                                'price'=>'10000',
-                                'sub_total'=>'100000'
+                                'medicine' => 'paracetamol',
+                                'qty' => '10',
+                                'price' => '10000',
+                                'sub_total' => '100000'
                             ]
                         ]
                     ]
@@ -802,14 +802,13 @@ Route::prefix('admin')->group(
                 return view('admin.receiptProof', ['data' => $data]);
             });
 
-            Route::put('update',function(Request $request){
+            Route::put('update', function (Request $request) {
                 dd($request);
             });
-
         });
 
-        Route::prefix('delivery')->group(function(){
-            Route::get('/',function(){
+        Route::prefix('delivery')->group(function () {
+            Route::get('/', function () {
                 $data = [
                     [
                         'name' => 'bachira',
@@ -817,16 +816,16 @@ Route::prefix('admin')->group(
                         'id_receipt' => 2,
                         'delivery_method' => 'gojek',
                         'status' => 'MENUNGGU DIAMBIL',
-                        'description'=>'',
-                        'no_telp'=> '081234567899',
+                        'description' => '',
+                        'no_telp' => '081234567899',
                         'address' => 'jln Semeru Sumbersari Jember'
                     ]
-                    ];
+                ];
 
-                return view('admin.delivery',['data'=>$data]);
+                return view('admin.delivery', ['data' => $data]);
             });
 
-            Route::put('update',function(Request $request){
+            Route::put('update', function (Request $request) {
                 dd($request);
             });
         });
