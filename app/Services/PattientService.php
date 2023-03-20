@@ -397,9 +397,8 @@ class PattientService
         $res = $this->recovery->where('token', $idtoken)->first();
         if ($res) {
             $id_pattient = $res->id_pattient;
-            $isUpdate = $this->model->where('id', $id_pattient)->update([
-                "password" => bcrypt($password)
-            ]);
+            $isUpdate = $this->changePassword($id_pattient , $password);
+            dd($isUpdate);
             if ($isUpdate) {
                 return true;
             }

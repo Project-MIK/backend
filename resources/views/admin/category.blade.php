@@ -33,7 +33,7 @@
                     <td>
                         <div class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Edit</button></div>
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Delete</button></div>
+                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' onclick="setDelete(this)" class=" col btn btn-block btn-danger btn-sm">Delete</button></div>
                         </div>
                     </td>
                 </tr>
@@ -74,7 +74,7 @@
         <form action="destroy" method="POST">
             @csrf
             @method('delete')
-            <input hidden name="id_category" value="1">
+            <input hidden id="delete_id" name="id_category" >
             <button type="submit" class="btn btn-block btn-danger btn-sm">Delete</button>
         </form>
     </x-modals.modal>
@@ -113,19 +113,16 @@
             function setEdit(params) {
                 var data = getData(params);
                 var id = document.getElementById('edit-id');
-                var poli = document.getElementById('edit-poly');
                 var category = document.getElementById('edit-category');
 
                 id.value = data.id;
-                for (let i = 0; i < poli.options.length; i++) {
-                    if (poli.options[i].value == data.poly) {
-                        poli.options[i].selected = true;
-                        break;
-                    }else{
-                        poli.options[i].selected = false;
-                    }
-                }
                 category.value = data.category;
+            }
+
+            function setDelete(params) {
+                var data = getData(params);
+                var id = document.getElementById('delete_id');
+                id.value = data.id;
             }
 
         </script>

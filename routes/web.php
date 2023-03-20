@@ -49,10 +49,7 @@ Route::post("/lupa-sandi", [PattientController::class, "sendEmailVerivikasi"]);
 
 // # Password Recovery
 Route::get("/recovery/{token}", [PattientController::class, "checkTokenValid"]);
-Route::post("/recovery/{token}", function (Request $request) {
-    dd($request);
-});
-Route::post("/recovery/{token}", fn() => view("pacient.auth.recovery"));
+Route::post("/recovery/{token}" , [PattientController::class , 'forgot_pasword']);
 
 // Dashboard
 Route::prefix("/dashboard")->group(function () {
