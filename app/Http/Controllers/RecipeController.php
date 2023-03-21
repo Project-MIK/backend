@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\RecipesService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class RecipeController extends Controller
 {
@@ -33,6 +34,18 @@ class RecipeController extends Controller
 
    public function updateBuktiPembayaran(Request $request, $id)
    {
+
+      $rules = [
+         'upload-proof-payment' => ['required'  , 'max:5120'],
+     ];
+ 
+     $customMessages = [
+         'required' => 'Silahkan masukan bukti pembayaran.',
+         'max' => 'bukti pembayaran tidak boleh lebih dari 5 mb'
+     ];
+ 
+     $this->validate($request, $rules, $customMessages);
+
       $res = $this->service->updateBuktiMedicalPrescription($request, $id);
       if ($res) {
          return redirect()->back()->with('message', 'berhasil mengirimkan bukti pembayaran , harap tunggu check secara berkala untuk melihat status anda');

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Helper;
 use App\Models\Record;
 use App\Models\RecordCategory;
 
@@ -49,13 +50,17 @@ class RecordCategoryService
     public function update($id, array $request)
     {
         $response = [];
+        $request['category_name'] = $request['category'];
+        unset($request['category']);
         $checkCategoryNull = $this->recordCategory->where('id', $id)->first();
         if ($checkCategoryNull == null) {
             $response['status'] = false;
             $response['message'] = 'gagal memperbarui data category , category tidak ditemukan';
             return $response;
         } else {
-            $checkNameCategory = $this->recordCategory->where('category_name', $request['category_name'])->first();
+            $isChange = Helper::compareToArrays($request , $id , 'record_category');
+            if($isChange){
+                $checkNameCategory = $this->recordCategory->where('category_name', $request['category_name'])->first();
             if ($checkNameCategory != null) {
                 $response['status'] = false;
                 $response['message'] = "gagal menambahkan data category , category tidak boleh sama";
@@ -74,6 +79,12 @@ class RecordCategoryService
                     return $response;
                 }
             }
+            }else{
+                $response['status'] = false;
+                $response['message'] = "gagal memperbarui data category , tidak ada perubahan data";
+                return $response;
+            }
+            
         }
     }
 

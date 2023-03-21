@@ -167,13 +167,7 @@ class RecipesService
 
     public function acceptOrReject(array $request)
     {
-        /*
-        request = [
-        id_recipe => 1,
-        id_consule => klsasd,
-        status => 'terkonfirmasi atau dibatalkan'
-        ];
-        */
+    
         if ($request['status'] == 'tidak disetujui') {
             $isUpdate = $this->model->where('id', $request['id_receipt'])->update([
                 'status_payment_medical_prescription' => 'DIBATALKAN'

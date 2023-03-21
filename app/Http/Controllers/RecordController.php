@@ -85,6 +85,16 @@ class RecordController extends Controller
 
     public function updateBukti(Request $request, $id)
     {
+        $rules = [
+            'upload-proof-payment' => ['required', 'max:5120'],
+        ];
+
+        $customMessages = [
+            'required' => 'Silahkan masukan bukti pembayaran.',
+            'max' => 'bukti pembayaran tidak boleh lebih dari 5 mb'
+        ];
+
+        $this->validate($request, $rules, $customMessages);
         $response = $this->service->updateBukti($id, $request);
         if ($response) {
             return redirect()->back()->with('message', "berhasil mengupload bukti pembayaran , harap menunggu hasil validasi");
@@ -174,7 +184,7 @@ class RecordController extends Controller
         $dataRequest = $request->except(['_token']);
         $dataRequest['id'] = $id;
         $this->service->setMetodeDelivery($dataRequest);
-        return redirect('/konsultasi/'.$id);
+        return redirect('/konsultasi/' . $id);
     }
 
 }

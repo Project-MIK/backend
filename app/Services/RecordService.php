@@ -403,13 +403,14 @@ class RecordService
                 "valid_status" => Carbon::parse($data->valid_status)->addHours(2)->toDateTimeString()
             ]);
         }
-
     }
-
     public function setMetodeDelivery(array $request)
     {
         $data = $this->record->where('id', $request['id'])->first();
         if ($data != null) {
+            $this->record->where('id' , $request['id'])->update([
+                'status_consultation' => 'consultation-complete'
+            ]);
             $idRecipe = $data->id_recipe;
             $metode = $request['pickup-medical-prescription'];
             if ($metode == 'delivery-gojek') {

@@ -60,14 +60,12 @@ class RecordCategoryController extends Controller
     public function update(Request $request)
     {
         $rules = [
-            'category' => ['required', 'min:4', "regex:/^[a-zA-Z]+$/u", 'unique:record_category,category_name'],
+            'category' => ['required', 'min:4', "string"],
         ];
 
         $customMessages = [
             'required' => 'Category Complaint tidak boleh kosong',
             "min" => "Category Complaint harus minimal 4 Character",
-            "regex" => "Category Complaint harus berupa huruf",
-            "unique" => "Nama Category Tidak boleh sama"
         ];
         $id = $request->id_category;
         $data = $this->validate($request, $rules, $customMessages);
