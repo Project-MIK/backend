@@ -79,8 +79,9 @@
     <div class="form-group">
         <label for="inputNama" class="text-trouth">No rekamedik</label>
         <input type="number" class="form-control py-4" id="inputNama" name="medical_record_id" required>
+        <input type="text" name="name" hidden id="rs-name">
     </div>
-    <input type="email" id="email-for-rs" name="email" hidden>
+    <input type="email" id="email-for-rs" hidden name="email">
     <button type='submit' class='ml-auto col-2 btn btn-block btn-default'>Update</button>
     </form>
     <x-slot:footer>
@@ -95,12 +96,12 @@
 @section('after-js')
 <script>
     function getData(button) {
-        tabel = button.parentElement.parentElement.parentElement.parentElement;
+        tabel = button.parentElement.parentElement;
         rawData = tabel.getElementsByTagName('td');
+        console.log(rawData);
 
         var obj = {
             name: rawData[1].innerText
-            , noRek: rawData[2].innerHTML
             , gender: rawData[3].innerText
             , citizen: rawData[4].innerText
             , email: rawData[5].innerHTML
@@ -112,8 +113,13 @@
 
     function setRs(params) {
         var data = getData(params);
+        // console.log(data);
         var email = document.getElementById('email-for-rs');
+        var id = document.getElementById('rs-id');
+        var name = document.getElementById('rs-name');
+
         email.value = data.email;
+        name.value = data.name;
     }
 
 
