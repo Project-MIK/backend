@@ -14,7 +14,7 @@ class MedicalRecords extends Model
     protected $fillable = [
         "medical_record_id" ,
         "id_pattient" , 
-        "id_registration_officer" , 
+        "id_admin", 
     ];
 
     protected $table = "medical_records";

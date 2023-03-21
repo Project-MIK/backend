@@ -95,8 +95,8 @@
                         </div>
                         <div id="pacient-contents" class="my-5">
                             <x-consultation-actions.consultation/>
-                            {{-- <x-consultation-actions.history/>
-                            <x-consultation-actions.setting/> --}}
+                            <x-consultation-actions.history/>
+                            <x-consultation-actions.setting/>
                         </div>
                     </div>
                 </div>

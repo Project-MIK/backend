@@ -54,8 +54,8 @@ class PattientController extends Controller
                 'gender' => ['required'],
                 'password' => ['required'],
                 'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
-                'address_RT' => ['required', 'numeric', 'max:3'],
-                'address_RW' => ['required', 'numeric', 'max:3'],
+                'address_RT' => ['required', 'numeric', 'digits:3'],
+                'address_RW' => ['required', 'numeric', 'digits:3'],
                 'address_desa' => ['required', 'string'],
                 'address_dusun' => ['required', 'string'],
                 'address_kecamatan' => ['required', 'string'],
@@ -80,8 +80,8 @@ class PattientController extends Controller
                 'gender' => ['required'],
                 'password' => ['required'],
                 'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
-                'address_RT' => ['required', 'numeric', 'max:3'],
-                'address_RW' => ['required', 'numeric', 'max:3'],
+                'address_RT' => ['required', 'numeric', 'digits:3'],
+                'address_RW' => ['required', 'numeric', 'digits:3'],
                 'address_desa' => ['required', 'string'],
                 'address_dusun' => ['required', 'string'],
                 'address_kecamatan' => ['required', 'string'],
@@ -103,10 +103,11 @@ class PattientController extends Controller
     }
     public function storewithRekamMedic(StorePattientMedicalRequest $request)
     {
-
+        $idAdmin = Auth::guard('admin')->user()->id;
+        $request['id_admin'] = $idAdmin;
+        unset($request['id_registration_officer']);
         $rules = [
             'medical_record_id' => ['required', 'digits:6'],
-            'id_registration_officer' => 'required',
         ];
 
         $customMessages = [
@@ -142,7 +143,7 @@ class PattientController extends Controller
                         'place_birth' => ['required'],
                         'nik' => ['required', 'numeric', 'digits:16', 'unique:pattient,nik'],
                         "medical_record_id" => ["required"],
-                        "id_registration_officer" => ['required']
+                        "id_admin" => ['required']
                     ]
                 )
             );
@@ -180,7 +181,7 @@ class PattientController extends Controller
                         'place_birth' => ['required'],
                         'paspor' => ['required', 'numeric', 'digits:16', 'unique:pattient,nik'],
                         "medical_record_id" => ["required"],
-                        "id_registration_officer" => ['required']
+                        "id_admin" => ['required']
                     ]
                 )
             );
@@ -234,7 +235,7 @@ class PattientController extends Controller
         $data = $pattienLoginRequest->validate($pattienLoginRequest->rules());
         $res = $this->service->login($data);
         if ($res) {
-            return redirect('dashboard')->with('message' , 'berhasil login');
+            return redirect('dashboard')->with('message', 'berhasil login');
         } else {
             return Redirect::back()->withErrors(['msg' => 'Password atau No Rekam Medik Salah']);
         }
@@ -243,7 +244,7 @@ class PattientController extends Controller
     public function showRecordDashboard($idMedicalRecord)
     {
         $res = $this->service->showRecordDashboard($idMedicalRecord);
-        
+
         return $res;
     }
     public function showRecordHistory($idMedicalRecord)
@@ -512,7 +513,11 @@ class PattientController extends Controller
     public function showDataAction($id)
     {
         $data = $this->service->showDataActionConsultation($id);
-        return view("pacient.consultation.detail-consultation", $data);
+        if (sizeof($data) == 0) {
+            return redirect()->back()->withErrors("id konsultasi tidak ditemukan");
+        } else {
+            return view("pacient.consultation.detail-consultation", $data);
+        }
     }
 
     public function sendEmailVerivikasi(Request $request)
@@ -527,7 +532,6 @@ class PattientController extends Controller
             return redirect("/lupa-sandi")->withErrors("Gagal mengirmkan email , email tidak terdaftar");
         }
     }
-
     // ubah di web.php
     public function forgot_pasword(Request $request)
     {
@@ -543,7 +547,6 @@ class PattientController extends Controller
         return redirect("recovery/" . $request->token_recovery)->withErrors("Gagal memperbarui kata sandi terjadi kesalahan");
     }
 
-    
     public function checkTokenValid($token)
     {
         $isValid = $this->recoveryService->checkTokenValid($token);
@@ -551,8 +554,25 @@ class PattientController extends Controller
             return view("pacient.auth.recovery", compact("token"));
         }
         return redirect('lupa-sandi')->withErrors($isValid['message']);
-
     }
+
+    public function kirimRekamMedic(Request $request)
+    {
+        $request->validate([
+            "medical_record_id" => ['required' , 'digits:6']
+        ]);
+        $response = $this->service->kirimRekamMedic($request['medical_record_id'], $request['email'], Auth::guard('admin')
+        ->user()->id);
+        if($response['status']){
+            Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'] ==null ? "anonymous" : $request['fullname'], $request['email']));
+            return redirect()->back()->with('message'  , $response['message']);
+        }else{
+            return redirect()->back()->withErrors($response['message']);
+        }   
+       
+    }
+
+
 
 
 }

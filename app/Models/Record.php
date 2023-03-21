@@ -23,7 +23,9 @@ class Record extends Model
         'valid_status',
         'status_consultation', 
         'status_payment_consultation',
-        'payment_method'
+        'payment_method',
+        'no_telp_delivery',
+        'address_pickup_delivery'
     ];
     
 }

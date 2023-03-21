@@ -7,6 +7,7 @@ use App\Helpers\Helper;
 use App\Models\Doctor;
 use App\Models\MedicalRecords;
 use App\Models\Pattient;
+use App\Models\Recipes;
 use App\Models\Record;
 use App\Models\RecordCategory;
 use App\Models\ScheduleDetail;
@@ -28,6 +29,7 @@ class RecordService
 
     private ScheduleDetail $schedule;
     private Pattient $pattient;
+    private Recipes $recipe;
 
 
     public function __construct()
@@ -38,6 +40,7 @@ class RecordService
         $this->schedule = new ScheduleDetail();
         $this->recordCategory = new RecordCategory();
         $this->pattient = new Pattient();
+        $this->recipe = new Recipes();
     }
 
     public function index()
@@ -47,7 +50,6 @@ class RecordService
 
     public function insert(array $request)
     {
-        dd($request);
         //KL6584690
         $resultId = "";
         do {
@@ -331,7 +333,7 @@ class RecordService
             ->where('schedule_details.time_end', '>=', Carbon::now())
             ->where('record.id', $id)
             ->first();
-        if ($res != null) { 
+        if ($res != null) {
             $res = $res->toArray();
             $start = now();
             $end = Carbon::parse($res['time_end']);
@@ -343,6 +345,7 @@ class RecordService
             $res['time_end'] = strtotime($res['time_end']);
         }
         # code...
+
         return $res;
     }
 
@@ -370,23 +373,74 @@ class RecordService
         return $res;
     }
 
-    public function addRecipe($id , array $request){
-        
-    }
-
-    public function update_to_consultation_waiting($idRecord){
-        
-    }
-
-    public function update_to_consultation_complete($idrecord){
+    public function addRecipe($id, array $request)
+    {
 
     }
 
-    public function update_to_confirmed_consultation_payment($idRecord){
-      
+    public function update_to_consultation_waiting($idRecord)
+    {
+        $this->record->where('id', $idRecord)->update([
+            'status_consultation' => 'waiting-consultation-payment'
+        ]);
     }
 
-    
+    public function update_to_consultation_complete($idrecord)
+    {
+
+    }
+    public function update_to_confirmed_consultation_payment($idRecord)
+    {
+
+    }
+    public function update_to_consultation_payment_waiting($idRecord)
+    {
+        // waiting-medical-prescription-payment
+        $data = $this->record->where('id', $idRecord)->first();
+        if ($data != null) {
+            $this->record->where('id', $idRecord)->update([
+                'status_consultation' => 'waiting-medical-prescription-payment',
+                "valid_status" => Carbon::parse($data->valid_status)->addHours(2)->toDateTimeString()
+            ]);
+        }
+
+    }
+
+    public function setMetodeDelivery(array $request)
+    {
+        $data = $this->record->where('id', $request['id'])->first();
+        if ($data != null) {
+            $idRecipe = $data->id_recipe;
+            $metode = $request['pickup-medical-prescription'];
+            if ($metode == 'delivery-gojek') {
+                $isUpdate = $this->recipe->where('id', $idRecipe)->update(
+                    [
+                        'no_telp_delivery' => $request['pacient-notelp'],
+                        'pickup_medical_addreass_pacient' => $request['pacient-addreass'],
+                        'pickup_medical_prescription' => 'delivery-gojek',
+                        'pickup_medical_status' => 'DIKIRIM DENGAN GOJEK'
+                    ]
+                );
+                if ($isUpdate) {
+                    return true;
+                }
+                return false;
+            } else if ($metode == ['hospital-pharmacy']) {
+                $isUpdate = $this->recipe->where('id', $idRecipe)->update([
+                    'pickup_medical_prescription' => 'hospital-pharmacy'
+                ]);
+                if ($isUpdate) {
+                    return true;
+                }
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+
 
 }
 
