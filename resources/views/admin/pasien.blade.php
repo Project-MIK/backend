@@ -79,7 +79,7 @@
     <div class="form-group">
         <label for="inputNama" class="text-trouth">No rekamedik</label>
         <input type="number" class="form-control py-4" id="inputNama" name="medical_record_id" required>
-        <input type="text" name="name" hidden id="rs-name">
+        <input type="text" name="fullname" hidden id="rs-name">
     </div>
     <input type="email" id="email-for-rs" hidden name="email">
     <button type='submit' class='ml-auto col-2 btn btn-block btn-default'>Update</button>
