@@ -731,14 +731,27 @@ Route::prefix('admin')->group(
                     'id'=>'1',
                     'name'=>'Bachtiar Arya Habibie',
                     'email'=>'bachtiarah73@gmail.com',
+                    'password'=>'rahasi',
                     'address'=>'Madiun'
             ];
                 return view('admin.setting',['data'=>$data]);
             });
 
-            Route::put('update',function(Request $request){
-                dd($request);
+            Route::prefix('update')->group(function(){
+                Route::put('password',function(Request $request){
+                    dd($request);
+                });
+
+                Route::put('email',function(Request $request){
+                    dd($request);
+                });
+
+                Route::put('/',function(Request $request){
+                    dd($request);
+                });
             });
+
+            
         });
     }
 
