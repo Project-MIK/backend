@@ -63,29 +63,31 @@ class AdminController extends Controller
     {
         $rules = [
             'name' => 'required',
-            'email' => 'required|email',
             'address' => 'required|max:250',
         ];
 
         $customMessages = [
             'required' => ':attribute Dibutuhkan.',
-            'email' => 'email tidak valid',
         ];
-
+        
         $this->validate($request, $rules, $customMessages);
-        $checkEmail = $this->service->findEmailOtherAdmin($request['email']);
-        if ($checkEmail != null) {
-            return redirect()->back()->withErrors('email sudah digunakan user yang lain');
+      
+        if(Auth::guard('admin')->check()){
+            $request['id'] = Auth::guard('admin')->user()->id;
+            $update = $this->service->update($request->except([
+                '_token',
+                '_method'
+            ]));    
+            if ($update['status']) {
+                return redirect()->back()->with('message', $update['message']);
+            } else {
+                return redirect()->back()->withErrors($update['message']);
+            }
+        }else{
+
         }
-        $update = $this->service->update($request->except([
-            '_token',
-            '_method'
-        ]));
-        if ($update['status']) {
-            return redirect()->back()->with('message', $update['message']);
-        } else {
-            return redirect()->back()->withErrors($update['message']);
-        }
+
+      
     }
 
 
@@ -93,6 +95,17 @@ class AdminController extends Controller
     {
         $password1 = $request->password1;
         $password2 = $request->password2;
+
+        $rules = [
+            'password1' => 'required',
+            'password2' => 'required',
+        ];
+
+        $customMessages = [
+            'required' => ':attribute Dibutuhkan.',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
 
         if ($password1 != $password2) {
             return redirect()->back()->withErrors("gagal memperbarui password password tidak sama");
@@ -273,6 +286,28 @@ class AdminController extends Controller
 
     }
 
+    public function displayDataAdmin(){
+        $data = $this->service->displayDataAdminOnSetting(Auth::guard('admin')->user()->id);
+        return view('admin.setting' , ['data' => $data]);
+    }
 
+    public function updateEmail(Request $request){
+
+        $rules = [
+            'email' => 'required|email',
+        ];
+
+        $customMessages = [
+            'required' => ':attribute Dibutuhkan.',
+            'email' => 'email dibutuhkan'
+        ];
+        $this->validate($request, $rules, $customMessages);
+        $response = $this->service->updateEmail(Auth::guard('id')->user()->id , $request->email);
+        if($response['status']){
+            return redirect()->back()->with('message' , $response['status']);
+        }else{
+            return redirect()->back()->withErrors($response['status']);
+        }
+    }
 
 }

@@ -726,32 +726,15 @@ Route::prefix('admin')->group(
         );
 
         ROute::prefix('setting')->group(function(){
-            Route::get('/',function(){
-                $data = [
-                    'id'=>'1',
-                    'name'=>'Bachtiar Arya Habibie',
-                    'email'=>'bachtiarah73@gmail.com',
-                    'password'=>'rahasi',
-                    'address'=>'Madiun'
-            ];
-                return view('admin.setting',['data'=>$data]);
-            });
+            Route::get('/',[AdminController::class , 'displayDataAdmin']);
 
             Route::prefix('update')->group(function(){
-                Route::put('password',function(Request $request){
-                    dd($request);
-                });
+                Route::put('password',[AdminController::class , 'updatePassword']);
 
-                Route::put('email',function(Request $request){
-                    dd($request);
-                });
+                Route::put('email',[AdminController::class , 'updateEmail']);
 
-                Route::put('/',function(Request $request){
-                    dd($request);
-                });
-            });
-
-            
+                Route::put('/',[AdminController::class , 'update']);
+            });            
         });
     }
 

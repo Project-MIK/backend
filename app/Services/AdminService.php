@@ -37,7 +37,6 @@ class AdminService
         $check = $this->admin->where('id', $request['id'])->first();
         if ($check != null) {
             $isChanged = Helper::compareToArrays($request, $request['id'], 'admin');
-            dd($isChanged);
             $response = [];
             if ($isChanged) {
                 $isUpdate = $this->admin->where('id', $request['id'])->update($request);
@@ -52,7 +51,6 @@ class AdminService
             } else {
                 $response['status'] = false;
                 $response['message'] = 'gagal memperbarui data admin , tidak ada perubahan';
-
             }
         } else {
             $response['status'] = false;
@@ -119,4 +117,35 @@ class AdminService
         return $response;
     }
 
+    public function displayDataAdminOnSetting($id)
+    {
+        $admin = $this->admin->where('id', $id)->first();
+        if ($admin != null) {
+            return $admin->toArray();
+        } else {
+            return [];
+        }
+    }
+
+    public function updateEmail($id, $email)
+    {
+        $check = $this->findEmailOtherAdmin($email);
+        $response = [];
+        if ($check != null) {
+            $response['status'] = false;
+            $response['message'] = 'email sudah digunakan user yang lain';
+        } else {
+            $isUpdate = $this->admin->where('id', $id)->update([
+                'email' => $email
+            ]);
+            if($isUpdate){
+                $response['status'] = true;
+                $response['message'] = 'Berhasil memperbarui email';
+            }else{
+                $response['status'] = false;
+                $response['message'] = 'gagal memperbarui email';
+            }
+        }
+        return $response;
+    }
 }
