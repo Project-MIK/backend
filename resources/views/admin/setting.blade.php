@@ -74,7 +74,7 @@
     <x-slot:header>
         <h2>Ganti Email</h2>
     </x-slot:header>
-    <form action="/admin/setting/update/password" method="POST">
+    <form action="/admin/setting/update/email" method="POST">
         @csrf
         @method('put')
         <input type="text" name="id" id="email-id" value="{{$data['id']}}" hidden>
