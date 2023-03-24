@@ -45,13 +45,15 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="fa-solid fa-money-bill-transfer"></i>
-                        <p>
-                            Transaksi
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                            <div class="col-10">
+                                <p>Transaksi</p>
+                                <i class="fas fa-angle-left right ml-auto justify-content-end"></i>
+                            </div>
+                        </div>
                     </a>
-                    
+
                     <ul class="nav nav-treeview" style="padding-left: 5%">
                         <li class="nav-item">
                             <a href="/admin/complain/" class="nav-link">
@@ -103,14 +105,17 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="fa-solid fa-database"></i>
-                        <p>
-                            Master
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-database"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Master
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </div>
+                        </div>
                     </a>
                     <ul class="nav nav-treeview" style="padding-left: 5%">
                         <li class="nav-item">
@@ -212,7 +217,7 @@
                     </a>
                 </li>
 
-                
+
                 <li class="nav-item">
                     <a href="/admin/schedule/" class="nav-link">
                         <div class="row">
@@ -239,7 +244,7 @@
                     </a>
                 </li>
 
-                
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

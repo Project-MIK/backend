@@ -724,6 +724,22 @@ Route::prefix('admin')->group(
             Route::put('update', [RecipeController::class , 'actionDelivery']);
         }
         );
+
+        ROute::prefix('setting')->group(function(){
+            Route::get('/',function(){
+                $data = [
+                    'id'=>'1',
+                    'name'=>'Bachtiar Arya Habibie',
+                    'email'=>'bachtiarah73@gmail.com',
+                    'address'=>'Madiun'
+            ];
+                return view('admin.setting',['data'=>$data]);
+            });
+
+            Route::put('update',function(Request $request){
+                dd($request);
+            });
+        });
     }
 
 );
