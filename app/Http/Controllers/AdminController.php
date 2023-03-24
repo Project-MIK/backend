@@ -292,7 +292,6 @@ class AdminController extends Controller
     }
 
     public function updateEmail(Request $request){
-
         $rules = [
             'email' => 'required|email',
         ];
