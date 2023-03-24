@@ -519,7 +519,6 @@ class PattientController extends Controller
             return view("pacient.consultation.detail-consultation", $data);
         }
     }
-
     public function sendEmailVerivikasi(Request $request)
     {
         $res = $this->service->sendEmailVerivikasi($request->email);
@@ -558,7 +557,6 @@ class PattientController extends Controller
 
     public function kirimRekamMedic(Request $request)
     {
-        dd($request);
         $request->validate([
             "medical_record_id" => ['required' , 'digits:6']
         ]);

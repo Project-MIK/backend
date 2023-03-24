@@ -59,26 +59,53 @@ class AdminController extends Controller
         $data = $this->service->findById($admin->id);
         return $data;
     }
-    public function update(UpdateAdminRequest $request, Admin $admin)
+    public function update(Request $request)
     {
-        $validatedData = $request->validate($request->validate($request->rules()['update']));
-        $isChanged = Helper::compareToArrays($validatedData, $admin, 'admin');
-        if ($isChanged) {
-            $responseAsbool = $this->service->update($request->validate($request->rules()), $admin);
-            if ($responseAsbool) {
-                // success update
-                $message = ['status' => true, "message" => "berhasil memperbarui data admin"];
-                return redirect()->back()->with('message', $message);
-            } else {
-                // failed update
-                $message = ['status' => false, "message" => "gagal memperbarui data admin"];
-                return redirect()->back()->with('message', $message);
-            }
+        $rules = [
+            'name' => 'required',
+            'email' => 'required|email',
+            'address' => 'required|max:250',
+        ];
+
+        $customMessages = [
+            'required' => ':attribute Dibutuhkan.',
+            'email' => 'email tidak valid',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+        $checkEmail = $this->service->findEmailOtherAdmin($request['email']);
+        if ($checkEmail != null) {
+            return redirect()->back()->withErrors('email sudah digunakan user yang lain');
+        }
+        $update = $this->service->update($request->except([
+            '_token',
+            '_method'
+        ]));
+        if ($update['status']) {
+            return redirect()->back()->with('message', $update['message']);
         } else {
-            $message = ['status' => false, "message" => "gagal memperbarui data admin , tidak ada perubahan"];
-            return redirect()->back()->with('message', $message);
+            return redirect()->back()->withErrors($update['message']);
         }
     }
+
+
+    public function updatePassword(Request $request)
+    {
+        $password1 = $request->password1;
+        $password2 = $request->password2;
+
+        if ($password1 != $password2) {
+            return redirect()->back()->withErrors("gagal memperbarui password password tidak sama");
+        } else {
+            $response = $this->service->updatePassword($password1, Auth::guard('admin')->user()->id);
+            if ($response) {
+                return redirect()->back()->with('message', 'berhasil memperbarui password');
+            } else {
+                return redirect()->back()->withErrors("Gagal memperbarui  password terjadi kesalahan");
+            }
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -238,12 +265,12 @@ class AdminController extends Controller
     public function updateAdmin(Request $request)
     {
         $res = $this->service->update($request->except(['_token', '_method']));
-        if($res['status']){
+        if ($res['status']) {
             return redirect('admin/admin')->with('message', $res['message']);
-        }else{
+        } else {
             return redirect('admin/admin')->withErrors($res['message']);
         }
-        
+
     }
 
 

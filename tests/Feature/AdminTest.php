@@ -41,7 +41,7 @@ class AdminTest extends TestCase
         $this->assertNotNull($response);
     }
 
-    public  function test_update_data()
+    public function test_update_data()
     {
         $this->admin = new AdminController();
         $request = new UpdateAdminRequest();
@@ -209,11 +209,12 @@ class AdminTest extends TestCase
         $this->assertNull($data);
     }
 
-    public function test_find_update_not_change(){
+    public function test_find_update_not_change()
+    {
         $service = new AdminService();
         $admin = new Admin();
         $admin->id = 1;
-        $request =  new UpdateAdminRequest();
+        $request = new UpdateAdminRequest();
         $request['name'] = "admin";
         $request['email'] = "email@email.com";
         $request['address'] = "alamat";
@@ -233,7 +234,7 @@ class AdminTest extends TestCase
         $keyword = "jan";
         $service = new AdminService();
         $data = $service->findByName($keyword);
-        $this->assertEquals(0 , $data->count());
+        $this->assertEquals(0, $data->count());
     }
 
     public function test_find_by_id_in_service()
@@ -252,33 +253,50 @@ class AdminTest extends TestCase
         $this->assertNull($data);
     }
 
-    public function test_delete_by_id_in_service_success(){
+    public function test_delete_by_id_in_service_success()
+    {
         $id = 26;
         $service = new AdminService();
         $response = $service->deleteById($id);
         $this->assertTrue($response);
     }
-    public function test_delete_by_id_in_service_failed(){
+    public function test_delete_by_id_in_service_failed()
+    {
         $id = 100000;
         $service = new AdminService();
         $response = $service->deleteById($id);
         $this->assertFalse($response);
     }
-    public function test_find_by_name_post_in_controller(){
+    public function test_find_by_name_post_in_controller()
+    {
         $data = ["name" => "okeee"];
         $res = $this->post("/admin/findByName", $data);
         $this->assertNull($res);
     }
 
-    public function test_store_controller(){
-        $data=[
-            "name" => "zam" , 
-            "password" => "rahasia" , 
-            "address" => "bwi" , 
+    public function test_store_controller()
+    {
+        $data = [
+            "name" => "zam",
+            "password" => "rahasia",
+            "address" => "bwi",
             "email" => "zam@zam.com"
         ];
-        $res = $this->post('/admin' , $data);
+        $res = $this->post('/admin', $data);
         dd($res);
+    }
+
+    public function test_update_admin_success()
+    {
+        $service = new AdminService();
+        $isUpdate = $service->update([
+            'id' => 1,
+            "name" => "new",
+            "password" => "rahasia",
+            "email" => "okasamm ",
+            "address" => "newaddress"
+        ]);
+        dd($isUpdate);
     }
 
 }

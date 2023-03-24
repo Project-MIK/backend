@@ -33,27 +33,33 @@ class AdminService
     }
     public function update(array $request): array
     {
-        $isChanged = Helper::compareToArrays($request, $request['id'], 'admin');
-        $response = [];
-        if ($isChanged) {
-            if ($this->admin->where('id', '=', $request['id'])->count() > 0) {
-                $data = $this->admin->find($request['id']);
-                $data->update($request);
-                $response['status'] = true;
-                $response['message'] = 'berhasil memperbarui data admin';
-               
+
+        $check = $this->admin->where('id', $request['id'])->first();
+        if ($check != null) {
+            $isChanged = Helper::compareToArrays($request, $request['id'], 'admin');
+            dd($isChanged);
+            $response = [];
+            if ($isChanged) {
+                $isUpdate = $this->admin->where('id', $request['id'])->update($request);
+                if ($isUpdate) {
+                    $response['status'] = true;
+                    $response['message'] = 'berhasil memperbarui data admin';
+
+                } else {
+                    $response['status'] = false;
+                    $response['message'] = 'gagal memperbarui data admin terjadi keslahan saat melakukan update';
+                }
             } else {
                 $response['status'] = false;
-                $response['message'] = 'gagal memperbarui data admin tidak ada perubahan';
-             
+                $response['message'] = 'gagal memperbarui data admin , tidak ada perubahan';
+
             }
         } else {
             $response['status'] = false;
-            $response['message'] = 'gagal memperbarui data admin , tidak ada perubahan';
-            
+            $response['message'] = 'gagal memperbarui data admin , admin tidak ditemukan';
+
         }
         return $response;
-       
     }
     public function findByEmail(string $email)
     {
@@ -89,11 +95,28 @@ class AdminService
         }
     }
 
+    public function updatePassword($id, $password)
+    {
+        $isUpdate = $this->admin->where('id', $id)->update([
+            'password' => bcrypt($password)
+        ]);
+        if ($isUpdate) {
+            return true;
+        }
+        return false;
+    }
+
 
     public function login(array $request)
     {
         $res = Auth::guard('admin')->attempt(['email' => $request['email'], 'password' => $request['password']]);
         return $res;
+    }
+
+    public function findEmailOtherAdmin($email)
+    {
+        $response = $this->admin->where('email', '!=', $email)->first();
+        return $response;
     }
 
 }
