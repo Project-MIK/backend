@@ -16,10 +16,10 @@
             <label>Nama</label>
             <input type="text" name="name" class="form-control" placeholder="Nama" value="{{$data['name']}}">
         </div>
-        
+
         <div class="form-group">
             <label>Alamat</label>
-            <textarea class="form-control" name="address" rows="3" placeholder="alamat" >{{$data['address']}}</textarea>
+            <textarea class="form-control" name="address" rows="3" placeholder="alamat">{{$data['address']}}</textarea>
         </div>
         <div class="ml-auto">
             <button type="submit" class="btn btn-block btn-success btn-lg">Save</button>
@@ -30,33 +30,42 @@
         <div class="col">
             <div class="form-group">
                 <label>email</label>
-                <input type="email" class="form-control" readonly placeholder="email" value="{{$data['email']}}">
+                <div class="row">
+                    <div class="col"><input type="email" class="form-control" readonly placeholder="email" value="{{$data['email']}}"></div>
+                    <div class="col">
+                        <button type="button" data-toggle='modal' data-target='#modal-email' class="btn btn-block btn-secondary align-bottom">Ganti Email</button>
+                    </div>
+                </div>
             </div>
-            <button type="button" data-toggle='modal' data-target='#modal-email' class="btn btn-block btn-secondary align-bottom">Ganti Email</button>
+
         </div>
         <div class="col">
             <div class="form-group">
                 <label>password</label>
-                <input type="text" class="form-control" readonly placeholder="email" value="{{$data['password']}}">
+                <button type="button" data-toggle='modal' data-target='#modal-password' class="btn btn-block btn-secondary align-bottom">Ganti Password</button>
             </div>
-            <button type="button" data-toggle='modal' data-target='#modal-password' class="btn btn-block btn-secondary align-bottom">Ganti Password</button>
+
         </div>
     </div>
 </div>
 
 <x-modals.modal id-modal='modal-password' modal-size='' modal-bg='' footer=''>
-<x-slot:header>
-    <h2>Ganti Password</h2>
-</x-slot:header>
+    <x-slot:header>
+        <h2>Ganti Password</h2>
+    </x-slot:header>
     <form action="/admin/setting/update/password" method="POST">
         @csrf
         @method('put')
         <input type="text" name="id" id="password-id" value="{{$data['id']}}" hidden>
         <div class="form-group">
             <label>Password</label>
-            <input type="text" class="form-control" placeholder="password" name="password" value="{{$data['password']}}">
+            <input type="text" class="form-control" placeholder="password" name="password">
         </div>
-        <button type="submit" class="btn btn-block btn-success btn-sm">Save</button>
+        <div class="form-group">
+            <label>Konfirmasi Password</label>
+            <input type="text" class="form-control" placeholder="konfirmasi password" name="confirm_password">
+        </div>
+        <button type="bUtton" class="btn btn-block btn-success btn-sm">Save</button>
     </form>
 </x-modals.modal>
 
@@ -64,17 +73,18 @@
     <x-slot:header>
         <h2>Ganti Email</h2>
     </x-slot:header>
-        <form action="/admin/setting/update/password" method="POST">
-            @csrf
-            @method('put')
-            <input type="text" name="id" id="email-id" value="{{$data['id']}}" hidden>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="text" class="form-control" placeholder="password" name="password" value="{{$data['email']}}">
-            </div>
-            <button type="submit" class="btn btn-block btn-success btn-sm">Save</button>
-        </form>
-    </x-modals.modal>
+    <form action="/admin/setting/update/password" method="POST">
+        @csrf
+        @method('put')
+        <input type="text" name="id" id="email-id" value="{{$data['id']}}" hidden>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" placeholder="email" name="email" value="{{$data['email']}}">
+        </div>
+
+        <button type="submit" class="btn btn-block btn-success btn-sm">Save</button>
+    </form>
+</x-modals.modal>
 
 @endsection
 @section('after-js')

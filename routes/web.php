@@ -731,7 +731,6 @@ Route::prefix('admin')->group(
                     'id'=>'1',
                     'name'=>'Bachtiar Arya Habibie',
                     'email'=>'bachtiarah73@gmail.com',
-                    'password'=>'rahasi',
                     'address'=>'Madiun'
             ];
                 return view('admin.setting',['data'=>$data]);
