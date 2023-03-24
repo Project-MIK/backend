@@ -53,19 +53,20 @@
     <x-slot:header>
         <h2>Ganti Password</h2>
     </x-slot:header>
-    <form action="/admin/setting/update/password" method="POST">
+    <form id="form_password" action="/admin/setting/update/password" method="POST">
         @csrf
         @method('put')
         <input type="text" name="id" id="password-id" value="{{$data['id']}}" hidden>
         <div class="form-group">
             <label>Password</label>
-            <input type="text" class="form-control" placeholder="password" name="password">
+            <input type="text" class="form-control" required placeholder="password" id="password" name="password">
         </div>
         <div class="form-group">
             <label>Konfirmasi Password</label>
-            <input type="text" class="form-control" placeholder="konfirmasi password" name="confirm_password">
+            <p class="text-danger" id="text-password" hidden>Password tidak sama</p>
+            <input required type="text" class="form-control" placeholder="konfirmasi password" id="cPassword" name="confirm_password">
         </div>
-        <button type="bUtton" class="btn btn-block btn-success btn-sm">Save</button>
+        <button type="button" onclick="IsSame(this)" class="btn btn-block btn-success btn-sm">Save</button>
     </form>
 </x-modals.modal>
 
@@ -89,4 +90,25 @@
 @endsection
 @section('after-js')
 
+<script>
+    function IsSame(params) {
+        var form = document.getElementById("form_password");
+        var password = document.getElementById("password");
+        var cPassword = document.getElementById("cPassword");
+        var button = params;
+        var alert = document.getElementById('text-password');
+
+        if (password && cPassword) {
+            if ((password.value == cPassword.value)) {
+                alert.hidden = true;
+                form.submit();
+            } else {
+                alert.hidden = false;
+            }
+        }
+
+
+    }
+
+</script>
 @endsection
