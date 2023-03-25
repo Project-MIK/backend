@@ -12,6 +12,7 @@ use App\Http\Controllers\PattientController;
 use App\Http\Controllers\RecordController;
 use App\Services\MedicalRecordService;
 use App\Services\PattientService;
+
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -22,6 +23,7 @@ use App\Services\MedicineService;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Svg\Tag\Rect;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -321,22 +323,23 @@ Route::prefix('konsultasi')->group(function () {
     Route::get(
         "/{id}/export",
         function ($id) {
-            $document = [
-                "fullname" => "Aristo Caesar Pratama",
-                "no_medical_record" => "00-89-43-78-34-56",
-                "id_consultation" => "KL6584691",
-                "valid_status" => 1676134847,
-                "consultation" => [
-                    "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
-                    "price" => "Rp. 90.000",
-                    "status" => "TERKOFIRMASI",
-                ],
-                "medical" => [
-                    "price" => "Rp. 90.000",
-                    "status" => "TERKOFIRMASI",
-                ]
-            ];
-
+            // $document = [
+            //     "fullname" => "Aristo Caesar Pratama",
+            //     "no_medical_record" => "00-89-43-78-34-56",
+            //     "id_consultation" => "KL6584691",
+            //     "valid_status" => 1676134847,
+            //     "consultation" => [
+            //         "doctor" => "DR. H. M. Pilox Kamacho H., S.pb",
+            //         "price" => "Rp. 90.000",
+            //         "status" => "TERKOFIRMASI",
+            //     ],
+            //     "medical" => [
+            //         "price" => "Rp. 90.000",
+            //         "status" => "TERKOFIRMASI",
+            //     ]
+            // ];
+            $controller = new RecordController();
+            $document = $controller->cetakDocument($id);
             $pdf = PDF::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
             return $pdf->download("DOKUMEN PENGAMBILAN OBAT - {$id}.pdf");
         }

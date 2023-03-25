@@ -187,4 +187,8 @@ class RecordController extends Controller
         return redirect('/konsultasi/' . $id);
     }
 
+    public function cetakDocument($id){
+        return $this->service->cetakDokumentPengambilanObat($id);
+    }
+
 }

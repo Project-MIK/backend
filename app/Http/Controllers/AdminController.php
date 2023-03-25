@@ -297,14 +297,15 @@ class AdminController extends Controller
 
         $customMessages = [
             'required' => ':attribute Dibutuhkan.',
-            'email' => 'email dibutuhkan'
+            'email' => 'email tidak valid'
         ];
         $this->validate($request, $rules, $customMessages);
-        $response = $this->service->updateEmail(Auth::guard('id')->user()->id , $request->email);
+
+        $response = $this->service->updateEmail(Auth::guard('admin')->user()->id , $request->email);
         if($response['status']){
-            return redirect()->back()->with('message' , $response['status']);
+            return redirect()->back()->with('message' , $response['message']);
         }else{
-            return redirect()->back()->withErrors($response['status']);
+            return redirect()->back()->withErrors($response['message']);
         }
     }
 

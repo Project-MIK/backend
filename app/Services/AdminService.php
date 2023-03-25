@@ -111,9 +111,9 @@ class AdminService
         return $res;
     }
 
-    public function findEmailOtherAdmin($email)
+    public function findEmailOtherAdmin($email , $id)
     {
-        $response = $this->admin->where('email', '!=', $email)->first();
+        $response = $this->admin->where('email', '=', $email)->where('id' , $id )->first();
         return $response;
     }
 
@@ -129,23 +129,32 @@ class AdminService
 
     public function updateEmail($id, $email)
     {
-        $check = $this->findEmailOtherAdmin($email);
+        $request = [
+            'email' => $email
+        ];
         $response = [];
-        if ($check != null) {
-            $response['status'] = false;
-            $response['message'] = 'email sudah digunakan user yang lain';
-        } else {
-            $isUpdate = $this->admin->where('id', $id)->update([
-                'email' => $email
-            ]);
-            if($isUpdate){
-                $response['status'] = true;
-                $response['message'] = 'Berhasil memperbarui email';
-            }else{
+        $check = $this->findEmailOtherAdmin($email , $id);
+        $isChange = Helper::compareToArrays($request, $id, 'admin');
+        if($isChange){
+            if ($check != null) {
                 $response['status'] = false;
-                $response['message'] = 'gagal memperbarui email';
+                $response['message'] = 'email sudah digunakan user yang lain';
+            } else {
+                $isUpdate = $this->admin->where('id', $id)->update([
+                    'email' => $email
+                ]);
+                if ($isUpdate) {
+                    $response['status'] = true;
+                    $response['message'] = 'Berhasil memperbarui email';
+                } else {
+                    $response['status'] = false;
+                    $response['message'] = 'gagal memperbarui email';
+                }
             }
-        }
+        }else{
+            $response['status'] = false;
+            $response['message'] = 'tidak ada perubahan email';
+        }   
         return $response;
     }
 }

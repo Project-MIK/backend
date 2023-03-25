@@ -442,6 +442,36 @@ class RecordService
     }
 
 
+    public function cetakDokumentPengambilanObat($idRecord){
+       $data =   $this->pattient
+            ->join('medical_records' , 'medical_records.medical_record_id' , 'pattient.medical_record_id')
+            ->join('record' , 'medical_records.medical_record_id' , 'record.medical_record_id')
+            ->join('doctors' , 'record.doctor_id' , 'doctors.id')
+            ->join('recipes' , 'record.id_recipe' , 'recipes.id')
+            ->join('recipe_detail' , 'recipe_detail.id_recipe' , 'recipe_detail.id')
+            ->select('pattient.name as fullname' , 'pattient.medical_record_id as no_medical_record' , 'record.id as id_consultation' , 'record.valid_status' , 'doctors.name as doctor' , 'record.status_payment_consultation as status' , 'recipes.price_medical_prescription as price' , 'recipes.status_payment_medical_prescription')
+            ->where('record.id' , $idRecord)
+            ->groupBy('record.id')
+            ->get()->toArray();
+        $consultation=[
+            'doctor' => $data[0]['doctor'],
+            'price' => "90.000",
+            'status' => $data[0]['status']
+        ];    
+        $medical = [
+            'price' => $data[0]['price'],
+            'status' => $data[0]['status_payment_medical_prescription']
+        ];
+        foreach ($data as $key => $value) {
+            # code...
+            unset($data[$key]['doctor'], $data[$key]['price'],$data[$key]['status'],$data[$key]['status_payment_medical_prescription']);
+            $data[$key]['valid_status'] = strtotime($data[$key]['valid_status']);
+        }
+        $newData = $data;
+        $newData[0]['consultation'] = $consultation;
+        $newData[0]['medical'] = $medical;
+        return $newData;
+    }
 
 }
 

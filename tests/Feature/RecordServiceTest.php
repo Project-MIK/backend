@@ -98,20 +98,31 @@ class RecordServiceTest extends TestCase
         $this->assertTrue($res);
     }
 
-    public function test_update_status(){
-       
-        
+    public function test_update_status()
+    {
+
+
     }
 
-    public function test_show_consultation(){
+    public function test_show_consultation()
+    {
         $service = new RecordService();
         $service->showComplaintOnAdmin();
     }
 
-    public function test_set_consultation_complete(){
+    public function test_set_consultation_complete()
+    {
         $id = "KL0923210";
         $service = new RecordService();
         $res = $service->consultationComplete($id);
         dd($res);
+    }
+
+    public function test_display_bukti()
+    {
+        $service = new RecordService();
+        $data=$service->cetakDokumentPengambilanObat('KL0923210');
+        dd($data);
+
     }
 }
