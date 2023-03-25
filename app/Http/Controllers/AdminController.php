@@ -93,12 +93,11 @@ class AdminController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $password1 = $request->password1;
-        $password2 = $request->password2;
-
+        $password1 = $request->password;
+        $password2 = $request->confirm_password;
         $rules = [
-            'password1' => 'required',
-            'password2' => 'required',
+            'password' => 'required',
+            'confirm_password' => 'required',
         ];
 
         $customMessages = [
@@ -110,7 +109,7 @@ class AdminController extends Controller
         if ($password1 != $password2) {
             return redirect()->back()->withErrors("gagal memperbarui password password tidak sama");
         } else {
-            $response = $this->service->updatePassword($password1, Auth::guard('admin')->user()->id);
+            $response = $this->service->updatePassword(Auth::guard('admin')->user()->id,$password1);
             if ($response) {
                 return redirect()->back()->with('message', 'berhasil memperbarui password');
             } else {
