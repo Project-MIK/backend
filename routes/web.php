@@ -12,7 +12,6 @@ use App\Http\Controllers\PattientController;
 use App\Http\Controllers\RecordController;
 use App\Services\MedicalRecordService;
 use App\Services\PattientService;
-use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PolyclinicController;
