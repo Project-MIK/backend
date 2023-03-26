@@ -12,6 +12,7 @@ use App\Http\Controllers\PattientController;
 use App\Http\Controllers\RecordController;
 use App\Services\MedicalRecordService;
 use App\Services\PattientService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PolyclinicController;
@@ -21,6 +22,8 @@ use App\Services\MedicineService;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Svg\Tag\Rect;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -338,7 +341,7 @@ Route::prefix('konsultasi')->group(function () {
             $controller = new RecordController();
             $document = $controller->cetakDocument($id)[0];
         
-            $pdf = PDF::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
+            $pdf = Pdf::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
             return $pdf->download("DOKUMEN PENGAMBILAN OBAT - {$id}.pdf");
         }
     );
