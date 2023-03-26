@@ -25,6 +25,7 @@ use PHPUnit\TextUI\XmlConfiguration\Group;
 use Svg\Tag\Rect;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -339,8 +340,9 @@ Route::prefix('konsultasi')->group(function () {
             //     ]
             // ];
             $controller = new RecordController();
-            $document = $controller->cetakDocument($id);
-            $pdf = PDF::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
+            $document = $controller->cetakDocument($id)[0];
+        
+            $pdf = \PDF::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
             return $pdf->download("DOKUMEN PENGAMBILAN OBAT - {$id}.pdf");
         }
     );
