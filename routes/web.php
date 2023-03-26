@@ -21,7 +21,6 @@ use App\Services\MedicineService;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Svg\Tag\Rect;
-use PDF;
 
 /*
 |--------------------------------------------------------------------------

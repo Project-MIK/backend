@@ -45,7 +45,7 @@
                         <div class="alert alert-danger" role="alert">
                             {{$errors->all()->first()}}
                         </div>
-                    @endif       
+                    @endif   
                     <label for="bankPayment" class="text-trouth">Bank Pembayaran</label>
                     <select id="bankPayment" class="form-control" name="bank-payment" onchange="setBankPayment(this)">
                         @foreach ($banks as $bank)
