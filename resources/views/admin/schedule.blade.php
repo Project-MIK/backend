@@ -21,6 +21,8 @@
                     <th>tanggal</th>
                     <th>mulai</th>
                     <th>akhir</th>
+                    <th hidden>id dekoter</th>
+                    <th>dokter</th>
                     <th></th>
                 </tr>
             </thead>
@@ -40,6 +42,8 @@
                     <td>{{$date}}</td>
                     <td>{{$start}}</td>
                     <td>{{$end}}</td>
+                    <td>{{$item['doctor_id']}}</td>
+                    <td>{{$item['doctor_name']}}</td>
                     <td>
                         <div class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Edit</button></div>
@@ -56,6 +60,8 @@
                     <th>tanggal</th>
                     <th>mulai</th>
                     <th>akhir</th>
+                    <th hidden>id dokter</th>
+                    <th>dokter</th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -72,6 +78,14 @@
 
     <form action="/admin/schedule/store" method="POST">
         @csrf
+        <div class="form-group">
+            <label>Select</label>
+            <select name="doctor" class="form-control">
+                @foreach($doctor as $item)
+                    <option value="{{$item['id_doctor']}}">{{$item['name']}}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -88,7 +102,7 @@
                 <div class="form-group">
                     <label>start</label>
                     <div class="input-group date" id="timepickerstart" data-target-input="nearest">
-                        <input type="text" name="start"  class="form-control datetimepicker-input" data-target="#timepickerstart" />
+                        <input type="text" name="start" class="form-control datetimepicker-input" data-target="#timepickerstart" />
                         <div class="input-group-append" data-target="#timepickerstart" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="far fa-clock"></i></div>
                         </div>
@@ -127,6 +141,14 @@
         @csrf
         @method('put')
         <input type="text" id="edit-id" name="id" hidden>
+        <div class="form-group">
+            <label>Select</label>
+            <select name="doctor" id="edit-doctor" class="form-control">
+                @foreach($doctor as $item)
+                    <option value="{{$item['id_doctor']}}">{{$item['name']}}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -178,10 +200,10 @@
     </x-slot:footer>
     <h5>Apakah anda yakin inging menghapus data ini?</h5>
     <form action="/admin/schedule/destroy" method="POST">
-    @csrf
-    @method('delete')
-    <input type="text" name="id" id="delete-id" hidden>
-    <button type="submit" class="btn btn-block btn-danger">delete</button>
+        @csrf
+        @method('delete')
+        <input type="text" name="id" id="delete-id" hidden>
+        <button type="submit" class="btn btn-block btn-danger">delete</button>
     </form>
 </x-modals.modal>
 
@@ -197,9 +219,11 @@
 
         var obj = {
             id: rawData[1].innerText
-            , date : rawData[2].innerText
+            , date: rawData[2].innerText
             , start: rawData[3].innerText
             , end: rawData[4].innerText
+            , id_doctor: rawData[5].innerText
+            , doctor: rawData[6].innerText
         };
 
         return obj;
@@ -211,11 +235,13 @@
         var date = document.getElementById('edit-date');
         var start = document.getElementById('edit-start');
         var end = document.getElementById('edit-end');
+        var doctor = document.getElementById('edit-doctor');
 
         id.value = data.id;
         date.value = data.date;
         start.value = data.start;
         end.value = data.end;
+        doctor.value = data.id_doctor;
     }
 
     function setDelete(params) {
