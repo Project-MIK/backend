@@ -39,7 +39,7 @@
                     <td>{{$item['duration']/60}} menit</td>
                     <td>{{$start}}</td>
                     <td>{{$end}}</td>
-                    <td><a href="{{$item['link']}}" target="blank"><button class="col detail btn btn-block btn-primary btn-sm">Mulai Konsultasi</button></a></td>
+                    <td><a href="/doctor/consul/jitsi/{{$item['consul_id']}}" target="blank"><button class="col detail btn btn-block btn-primary btn-sm">Mulai Konsultasi</button></a></td>
                 </tr>
                 @php($no++)
                 @endforeach

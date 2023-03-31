@@ -18,6 +18,7 @@ use App\Http\Controllers\PolyclinicController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecordCategoryController;
 use App\Services\MedicineService;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Svg\Tag\Rect;
@@ -488,7 +489,7 @@ Route::prefix('admin')->group(
                                 'name' => 'Dokter 3'
                             ],
                         ];
-    
+
                         $data = [
                             [
                                 'id' => '1',
@@ -496,7 +497,7 @@ Route::prefix('admin')->group(
                                 'start' => '1677373423',
                                 'end' => '1675386223',
                                 'doctor_id' => '1',
-                                'doctor_name'=>'doctor 1'
+                                'doctor_name' => 'doctor 1'
                             ],
                             [
                                 'id' => '2',
@@ -504,10 +505,10 @@ Route::prefix('admin')->group(
                                 'start' => '1677373423',
                                 'end' => '1675386223',
                                 'doctor_id' => '2',
-                                'doctor_name'=>'doctor 2'
+                                'doctor_name' => 'doctor 2'
                             ],
                         ];
-                        return view('admin.schedule', ['data' => $data,'doctor'=>$doctor]);
+                        return view('admin.schedule', ['data' => $data, 'doctor' => $doctor]);
                     }
                 )->middleware('isAdmin');
                 Route::post(
@@ -809,10 +810,22 @@ Route::prefix('doctor')->group(function () {
         }
     );
 
-    Route::get(
-        '/consul',
-        [RecordController::class, 'showConsulByDoctor']
-    );
+    Route::prefix('consul')->group(function () {
+        Route::get(
+            '/',
+            [RecordController::class, 'showConsulByDoctor']
+        );
+
+        Route::get('jitsi/{id}', function ($id) {
+            $data = [
+                'patien' => 'patien 1',
+                'doctor' => 'doctor 1',
+                'duration' => 7200000
+            ];
+
+            view('doctor.pages.jitsi', ['data' => $data]);
+        });
+    });
 
     Route::prefix('category')->group(
         function () {
@@ -887,7 +900,7 @@ Route::prefix('doctor')->group(function () {
                             'start' => '1677373423',
                             'end' => '1675386223',
                             'doctor_id' => '1',
-                            'doctor_name'=>'doctor 1'
+                            'doctor_name' => 'doctor 1'
                         ],
                         [
                             'id' => '2',
@@ -895,10 +908,10 @@ Route::prefix('doctor')->group(function () {
                             'start' => '1677373423',
                             'end' => '1675386223',
                             'doctor_id' => '2',
-                            'doctor_name'=>'doctor 2'
+                            'doctor_name' => 'doctor 2'
                         ],
                     ];
-                    return view('doctor.pages.schedule', ['data' => $data,'doctor'=>$doctor]);
+                    return view('doctor.pages.schedule', ['data' => $data, 'doctor' => $doctor]);
                 }
             );
         }
