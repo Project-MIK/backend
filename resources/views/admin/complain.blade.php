@@ -14,6 +14,7 @@
             <thead>
                 <tr>
                     <th>no</th>
+                    <th hidden>id</th>
                     <th>nama</th>
                     <th>categori</th>
                     <th>poli</th>
@@ -21,6 +22,7 @@
                     <th>metode pembayaran</th>
                     <th>jumlah pembayaran</th>
                     <th>bukti pembayaran</th>
+                    <th hidden>description</th>
                     <th>status</th>
                     <th></th>
                 </tr>
@@ -67,6 +69,7 @@
             <tfoot>
                 <tr>
                     <th>no</th>
+                    <th hidden>id</th>
                     <th>nama</th>
                     <th>categori</th>
                     <th>poli</th>
@@ -170,6 +173,15 @@
 @endsection
 @section('after-js')
 <script>
+    $(function() {
+        $("#example1").DataTable({
+            "responsive": true
+            , "lengthChange": false
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+    });
+
     function getData(button) {
         tabel = button.parentElement.parentElement.parentElement.parentElement;
         rawData = tabel.getElementsByTagName('td');

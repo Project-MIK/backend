@@ -64,11 +64,22 @@
 </div>
 
 <x-modals.modal id-modal="vc" modal-size="modal-xl" modal-bg="" header="" footer="">
-    <div class="container" ></div>
+    <div class="container"></div>
     <x-slot id="jitsi"></x-slot>
 </x-modals.modal>
 @endsection
 @section('after-js')
+<script>
+    $(function() {
+        $("#example1").DataTable({
+            "responsive": true
+            , "lengthChange": false
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+    });
+
+</script>
 {{-- <script>
     const domain = 'meet.jit.si';
     const options = {

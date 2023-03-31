@@ -14,7 +14,9 @@
                 <button type='button' data-toggle='modal' data-target='#modal-tambah' class='ml-auto col-3 btn btn-block btn-default btn-sm'>Tambah</button>
                 <tr>
                     <th>no</th>
+                    <th hidden>id poly</th>
                     <th>poliklinik</th>
+                    <th hidden>id kategori</th>
                     <th>kategori</th>
                     <th></th>
                 </tr>
@@ -114,6 +116,15 @@
 @endsection
 @section('after-js')
 <script>
+     $(function() {
+        $("#example1").DataTable({
+            "responsive": true
+            , "lengthChange": false
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+    });
+
     function getData(button) {
         tabel = button.parentElement.parentElement.parentElement.parentElement;
         rawData = tabel.getElementsByTagName('td');
