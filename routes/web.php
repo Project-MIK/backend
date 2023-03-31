@@ -934,7 +934,7 @@ Route::prefix('doctor')->group(function () {
                 return view('doctor.pages.setting',['data'=>$data]);
             });
 
-            Route::post('/store',function(Request $request){
+            Route::put('/update',function(Request $request){
                 dd($request);
             });
 
