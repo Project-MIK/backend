@@ -19,6 +19,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecordCategoryController;
 use App\Services\MedicineService;
 use Barryvdh\DomPDF\PDF;
+use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Svg\Tag\Rect;
@@ -914,6 +915,36 @@ Route::prefix('doctor')->group(function () {
                     return view('doctor.pages.schedule', ['data' => $data, 'doctor' => $doctor]);
                 }
             );
+        }
+    );
+
+    Route::prefix('setting')->group(
+        function(){
+            Route::get('/',function(){
+                $data = [
+                    'id'=>'1',//id dokter
+                    'name'=>'doctor siapa',
+                    'email'=>'doctorsiapa@gmail.com',
+                    'no_telp'=>'089123456789',
+                    'gender'=>'W',
+                    'poly'=>'anak',
+                    'address'=>'jember'
+                ];
+
+                return view('doctor.pages.setting',['data'=>$data]);
+            });
+
+            Route::post('/store',function(Request $request){
+                dd($request);
+            });
+
+            Route::put('/update/email',function(Request $request){
+                dd($request);
+            });
+
+            Route::put('/update/password',function(Request $request){
+                dd($request);
+            });
         }
     );
 });
