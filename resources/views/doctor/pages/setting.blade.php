@@ -1,9 +1,23 @@
 @extends('layouts.doctor.app')
 @section('content-header')
-<h1>Pengaturan</h1>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Pengaturan</h1>
+        </div>
+        <div class="col">
+            <div class="float-right">
+                <a href="/doctor/logout"><button type="button" class="btn btn-block btn-secondary btn-sm">Log Out</button></a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
 @endsection
 @section('content')
 <div class="container ">
+    
     <form action="/doctor/setting/update" method="POST">
         @csrf
         @method('put')

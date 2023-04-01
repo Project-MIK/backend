@@ -1,6 +1,18 @@
 @extends('layouts.admin.app')
 @section('content-header')
-
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Pengaturan</h1>
+        </div>
+        <div class="col">
+            <div class="float-right">
+                <a href="/admin/logout"><button type="button" class="btn btn-block btn-secondary btn-sm">Log Out</button></a>
+            </div>
+        </div>
+    </div>
+    
+</div>
 @endsection
 @section('content')
 {{-- nama, email, password, address --}}

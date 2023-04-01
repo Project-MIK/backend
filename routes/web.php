@@ -380,6 +380,17 @@ Route::prefix('admin')->group(
             }
         );
 
+        Route::prefix('logout')->group(
+            function(){
+                Route::get(
+                    '/',
+                    function(){
+                        dd("logout");
+                    }
+                );
+            }
+        );
+
         Route::prefix('pasien')->group(
             function () {
                 Route::view('view', 'admin.pasien')->middleware('isAdmin');
@@ -806,6 +817,17 @@ Route::prefix('doctor')->group(function () {
                 'login',
                 function (Request $request) {
                     dd($request);
+                }
+            );
+        }
+    );
+
+    Route::prefix('logout')->group(
+        function(){
+            Route::get(
+                '/',
+                function(){
+                    dd("logout");
                 }
             );
         }
