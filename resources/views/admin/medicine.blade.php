@@ -15,6 +15,7 @@
                 <button type='button' data-toggle='modal' data-target='#modal-tambah' class='ml-auto col-2 btn btn-block btn-default'>Tambah</button>
                 <tr>
                     <th>no</th>
+                    <th hidden>id</th>
                     <th>nama</th>
                     <th>harga</th>
                     <th>stok</th>

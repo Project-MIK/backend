@@ -19,6 +19,8 @@ use App\Http\Controllers\PolyclinicController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecordCategoryController;
 use App\Services\MedicineService;
+use Barryvdh\DomPDF\PDF;
+use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Svg\Tag\Rect;
@@ -383,6 +385,17 @@ Route::prefix('admin')->group(
             }
         );
 
+        Route::prefix('logout')->group(
+            function(){
+                Route::get(
+                    '/',
+                    function(){
+                        dd("logout");
+                    }
+                );
+            }
+        );
+
         Route::prefix('pasien')->group(
             function () {
                 Route::view('view', 'admin.pasien')->middleware('isAdmin');
@@ -479,21 +492,40 @@ Route::prefix('admin')->group(
                     '/',
                     function () {
 
+                        $doctor = [
+                            [
+                                'id_doctor' => '1',
+                                'name' => 'Dokter 1'
+                            ],
+                            [
+                                'id_doctor' => '2',
+                                'name' => 'Dokter 2'
+                            ],
+                            [
+                                'id_doctor' => '3',
+                                'name' => 'Dokter 3'
+                            ],
+                        ];
+
                         $data = [
                             [
-                                'id' => '10',
+                                'id' => '1',
                                 'date' => '1677373423',
                                 'start' => '1677373423',
-                                'end' => '1675386223'
+                                'end' => '1675386223',
+                                'doctor_id' => '1',
+                                'doctor_name' => 'doctor 1'
                             ],
                             [
                                 'id' => '2',
                                 'date' => '1677373423',
                                 'start' => '1677373423',
-                                'end' => '1675386223'
+                                'end' => '1675386223',
+                                'doctor_id' => '2',
+                                'doctor_name' => 'doctor 2'
                             ],
                         ];
-                        return view('admin.schedule', ['data' => $data]);
+                        return view('admin.schedule', ['data' => $data, 'doctor' => $doctor]);
                     }
                 )->middleware('isAdmin');
                 Route::post(
@@ -781,10 +813,33 @@ Route::prefix('doctor')->group(function () {
         }
     );
 
-    Route::get(
-        '/consul',
-        [RecordController::class, 'showConsulByDoctor']
+    Route::prefix('logout')->group(
+        function(){
+            Route::get(
+                '/',
+                function(){
+                    dd("logout");
+                }
+            );
+        }
     );
+
+    Route::prefix('consul')->group(function () {
+        Route::get(
+            '/',
+            [RecordController::class, 'showConsulByDoctor']
+        );
+
+        Route::get('jitsi/{id}', function ($id) {
+            $data = [
+                'patien' => 'patien 1',
+                'doctor' => 'doctor 1',
+                'duration' => 7200000
+            ];
+
+            view('doctor.pages.jitsi', ['data' => $data]);
+        });
+    });
 
     Route::prefix('category')->group(
         function () {
@@ -837,24 +892,72 @@ Route::prefix('doctor')->group(function () {
             Route::get(
                 '/',
                 function () {
+                    $doctor = [
+                        [
+                            'id_doctor' => '1',
+                            'name' => 'Dokter 1'
+                        ],
+                        [
+                            'id_doctor' => '2',
+                            'name' => 'Dokter 2'
+                        ],
+                        [
+                            'id_doctor' => '3',
+                            'name' => 'Dokter 3'
+                        ],
+                    ];
 
                     $data = [
                         [
                             'id' => '1',
                             'date' => '1677373423',
                             'start' => '1677373423',
-                            'end' => '1675386223'
+                            'end' => '1675386223',
+                            'doctor_id' => '1',
+                            'doctor_name' => 'doctor 1'
                         ],
                         [
                             'id' => '2',
                             'date' => '1677373423',
                             'start' => '1677373423',
-                            'end' => '1675386223'
+                            'end' => '1675386223',
+                            'doctor_id' => '2',
+                            'doctor_name' => 'doctor 2'
                         ],
                     ];
-                    return view('doctor.pages.schedule', ['data' => $data]);
+                    return view('doctor.pages.schedule', ['data' => $data, 'doctor' => $doctor]);
                 }
             );
+        }
+    );
+
+    Route::prefix('setting')->group(
+        function(){
+            Route::get('/',function(){
+                $data = [
+                    'id'=>'1',//id dokter
+                    'name'=>'doctor siapa',
+                    'email'=>'doctorsiapa@gmail.com',
+                    'no_telp'=>'089123456789',
+                    'gender'=>'W',
+                    'poly'=>'anak',
+                    'address'=>'jember'
+                ];
+
+                return view('doctor.pages.setting',['data'=>$data]);
+            });
+
+            Route::put('/update',function(Request $request){
+                dd($request);
+            });
+
+            Route::put('/update/email',function(Request $request){
+                dd($request);
+            });
+
+            Route::put('/update/password',function(Request $request){
+                dd($request);
+            });
         }
     );
 });

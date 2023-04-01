@@ -11,7 +11,7 @@
     <!-- /.card-header -->
     <div class="card-body">
         <button type='button' data-toggle='modal' data-target='#tambah' class='ml-auto col-2 btn btn-block btn-default'>Tambah</button>
-        <table id="tabel-petugas" class="table table-bordered table-striped">
+        <table id="tabel-petugas" class="table nowrap table-bordered table-striped">
             <thead>
                 <tr>
                     <th>no</th>
@@ -20,7 +20,7 @@
                     <th>email</th>
                     <th>gender</th>
                     <th>alamat</th>
-                    <th></th>
+                    <th>action</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,13 +52,14 @@
                     <th>email</th>
                     <th>gender</th>
                     <th>alamat</th>
-                    <th></th>
+                    <th>action</th>
                 </tr>
             </tfoot>
         </table>
     </div>
     <!-- /.card-body -->
 </div>
+
 
 <x-modals.modal id-modal='tambah' modal-size='' modal-bg='' footer=''>
     <x-slot:header>
@@ -144,9 +145,16 @@
 @section('after-js')
 <script>
     $(function() {
-        $("#tabel-petugas").DataTable({
+        $("#example1").DataTable({
             "responsive": true
             , "lengthChange": false
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+        $("#tabel-petugas").DataTable({
+            "responsive": true
+            , "lengthChange": true
             , "autoWidth": false
             , 'scrollX': true
             , 'ordering': true

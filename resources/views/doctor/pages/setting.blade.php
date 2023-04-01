@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.doctor.app')
 @section('content-header')
 <div class="container">
     <div class="row">
@@ -7,17 +7,18 @@
         </div>
         <div class="col">
             <div class="float-right">
-                <a href="/admin/logout"><button type="button" class="btn btn-block btn-secondary btn-sm">Log Out</button></a>
+                <a href="/doctor/logout"><button type="button" class="btn btn-block btn-secondary btn-sm">Log Out</button></a>
             </div>
         </div>
     </div>
     
 </div>
+
 @endsection
 @section('content')
-{{-- nama, email, password, address --}}
 <div class="container ">
-    <form action="/admin/setting/update" method="POST">
+    
+    <form action="/doctor/setting/update" method="POST">
         @csrf
         @method('put')
         <div class="form-group">
@@ -27,6 +28,22 @@
         <div class="form-group">
             <label>Nama</label>
             <input type="text" name="name" class="form-control" placeholder="Nama" value="{{$data['name']}}">
+        </div>
+        <div class="form-group">
+            <label>No telpon</label>
+            <input type="text" name="no_telp" class="form-control" placeholder="Nama" value="{{$data['no_telp']}}">
+        </div>
+        <div class="form-group">
+            <label>Poliklinik</label>
+            <input type="text" readonly class="form-control" placeholder="Nama" value="{{$data['poly']}}">
+        </div>
+        <div class="form-group">
+            <label>Gender</label>
+            <select class="form-control">
+                <option value=""></option>
+                <option value="M" {{ $data['gender'] >= 'M' ? 'selected' : '' }}>laki laki</option>
+                <option value="W" {{ $data['gender'] >= 'W' ? 'selected' : '' }}>wanita</option>
+            </select>
         </div>
 
         <div class="form-group">
@@ -65,7 +82,7 @@
     <x-slot:header>
         <h2>Ganti Password</h2>
     </x-slot:header>
-    <form id="form_password" action="/admin/setting/update/password" method="POST">
+    <form id="form_password" action="/doctor/setting/update/password" method="POST">
         @csrf
         @method('put')
         <input type="text" name="id" id="password-id" value="{{$data['id']}}" hidden>
@@ -86,7 +103,7 @@
     <x-slot:header>
         <h2>Ganti Email</h2>
     </x-slot:header>
-    <form action="/admin/setting/update/email" method="POST">
+    <form action="/doctor/setting/update/email" method="POST">
         @csrf
         @method('put')
         <input type="text" name="id" id="email-id" value="{{$data['id']}}" hidden>
@@ -98,10 +115,8 @@
         <button type="submit" class="btn btn-block btn-success btn-sm">Save</button>
     </form>
 </x-modals.modal>
-
 @endsection
 @section('after-js')
-
 <script>
     function IsSame(params) {
         var form = document.getElementById("form_password");
@@ -123,4 +138,9 @@
     }
 
 </script>
+
 @endsection
+
+
+    
+

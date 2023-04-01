@@ -39,7 +39,7 @@
                     <td>{{$item['duration']/60}} menit</td>
                     <td>{{$start}}</td>
                     <td>{{$end}}</td>
-                    <td><a href="{{$item['link']}}" target="blank"><button class="col detail btn btn-block btn-primary btn-sm">Mulai Konsultasi</button></a></td>
+                    <td><a href="/doctor/consul/jitsi/{{$item['consul_id']}}" target="blank"><button class="col detail btn btn-block btn-primary btn-sm">Mulai Konsultasi</button></a></td>
                 </tr>
                 @php($no++)
                 @endforeach
@@ -61,4 +61,14 @@
 </div>
 @endsection
 @section('after-js')
+<script>
+     $(function() {
+        $("#example1").DataTable({
+            "responsive": true
+            , "lengthChange": false
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+    });
+</script>
 @endsection
