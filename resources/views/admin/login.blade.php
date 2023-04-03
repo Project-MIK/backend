@@ -76,5 +76,41 @@
     <script src="{{asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+
+    @if(session('message'))
+    {{-- {{dd(session('message'))}} --}}
+    <script>
+        $(function() {
+            $(document).ready(function() {
+                $(document).Toasts('create', {
+                    class: 'bg-success'
+                    , title: 'success'
+                    , autohide: true
+                    , delay: 2000
+                    , body: "{{ session('message')}}"
+                })
+            });
+        });
+
+    </script>
+    @endif
+    @if($errors->any())
+    <script>
+        console.log('mesage recorded');
+        $(function() {
+            $(document).ready(function() {
+                $(document).Toasts('create', {
+                    class: 'bg-danger'
+                    , title: 'error'
+                    , autohide: true
+                    , delay: 2000
+                    , body: '@foreach ($errors->all() as $error)<li>{{$error}}</li>@endforeach'
+                })
+            });
+        });
+
+    </script>
+    {{-- {{dd($errors)}} --}}
+    @endif
 </body>
 </html>
