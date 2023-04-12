@@ -19,7 +19,6 @@ use App\Http\Controllers\PolyclinicController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecordCategoryController;
 use App\Services\MedicineService;
-use Barryvdh\DomPDF\PDF;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
@@ -389,9 +388,7 @@ Route::prefix('admin')->group(
             function(){
                 Route::get(
                     '/',
-                    function(){
-                        dd("logout");
-                    }
+                   [AdminController::class , "logout"]
                 );
             }
         );

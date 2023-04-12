@@ -61,6 +61,7 @@ class AdminController extends Controller
     }
     public function update(Request $request)
     {
+        
         $rules = [
             'name' => 'required',
             'address' => 'required|max:250',
@@ -84,7 +85,7 @@ class AdminController extends Controller
                 return redirect()->back()->withErrors($update['message']);
             }
         }else{
-
+            return redirect('admin/login')->withErrors('please login');
         }
 
       
@@ -307,6 +308,12 @@ class AdminController extends Controller
         }else{
             return redirect()->back()->withErrors($response['message']);
         }
+    }
+
+
+    public function logout(){
+        Auth::guard('admin')->logout();
+        return redirect("/admin/login")->with('message' , 'success logout');
     }
 
 }
