@@ -846,7 +846,7 @@ Route::prefix('doctor')->group(function () {
                 'duration' => 7200000
             ];
 
-            view('doctor.pages.jitsi', ['data' => $data]);
+            return view('doctor.pages.jitsi', ['data' => $data]);
         });
     });
 
