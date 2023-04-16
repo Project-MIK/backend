@@ -456,7 +456,7 @@ Route::prefix('admin')->group(
                 Route::put('update', [MedicinesController::class, "update"]);
                 Route::delete('destroy', [MedicinesController::class, "destroy"]);
             }
-        );
+        )->middleware('isAdmin');;
 
         Route::prefix('category')->group(
             function () {
@@ -479,7 +479,7 @@ Route::prefix('admin')->group(
                     [RecordCategoryController::class, 'destroy']
                 )->middleware('isAdmin');
             }
-        );
+        )->middleware('isAdmin');;
 
         Route::prefix('schedule')->group(
             function () {
@@ -566,9 +566,9 @@ Route::prefix('admin')->group(
                 Route::get(
                     '/',
                     [RecordController::class, 'showConsulOnAdmin']
-                );
+                )->middleware('isAdmin');;
                 //startCoverenceByAdmin
-                Route::get('vidcon/{id_consul}', [RecordController::class, "startCoverenceByAdmin"]);
+                Route::get('vidcon/{id_consul}', [RecordController::class, "startCoverenceByAdmin"])->middleware('isAdmin');;
                 Route::post(
                     'receipt/store',
                     function (Request $request) {
@@ -618,7 +618,7 @@ Route::prefix('admin')->group(
                             //echo http_response_code(409);
                         }
                     }
-                )->name("receipt.store");
+                )->name("receipt.store")->middleware('isAdmin');
 
                 Route::delete(
                     'receipt/destroy',
@@ -631,7 +631,7 @@ Route::prefix('admin')->group(
                         ];
                         echo json_encode($response);
                     }
-                )->name('receipt.destroy');
+                )->name('receipt.destroy')->middleware('isAdmin');;
             }
         );
 
@@ -690,7 +690,7 @@ Route::prefix('admin')->group(
                     }
                 );
             }
-        );
+        )->middleware('isAdmin');;
 
         Route::prefix('doctor')->group(
             function () {
@@ -723,55 +723,55 @@ Route::prefix('admin')->group(
 
                         return view('admin.doctor', ['data' => $data, 'poly' => $poly]);
                     }
-                );
+                )->middleware('isAdmin');;
 
                 Route::post(
                     'store',
                     function (Request $request) {
                         dd($request);
                     }
-                );
+                )->middleware('isAdmin');;
 
                 Route::put(
                     'update',
                     function (Request $request) {
                         dd($request);
                     }
-                );
+                )->middleware('isAdmin');;
 
                 Route::delete(
                     'destroy',
                     function (Request $request) {
                         dd($request);
                     }
-                );
+                )->middleware('isAdmin');
             }
         );
 
         Route::prefix('receiptProof')->group(
             function () {
-                Route::get('/', [RecipeController::class, 'displayDataRequiresApproval']);
+                Route::get('/', [RecipeController::class, 'displayDataRequiresApproval'])->middleware('isAdmin');;
 
-                Route::put('update', [RecipeController::class, 'acceptOrRejectMedicinePayment']);
+                Route::put('update', [RecipeController::class, 'acceptOrRejectMedicinePayment'])->middleware('isAdmin');;
             }
         );
 
         Route::prefix('delivery')->group(
             function () {
-                Route::get('/', [RecipeController::class, 'showDataDelivery']);
-                Route::put('update', [RecipeController::class, 'actionDelivery']);
+                Route::get('/', [RecipeController::class, 'showDataDelivery'])->middleware('isAdmin');;
+                Route::put('update', [RecipeController::class, 'actionDelivery'])->middleware('isAdmin');;
             }
         );
 
         ROute::prefix('setting')->group(function(){
-            Route::get('/',[AdminController::class , 'displayDataAdmin']);
+            Route::get('/',[AdminController::class , 'displayDataAdmin'])->middleware('isAdmin');;
 
             Route::prefix('update')->group(function(){
-                Route::put('password',[AdminController::class , 'updatePassword']);
+                Route::put('password',[AdminController::class , 'updatePassword'])->middleware('isAdmin');;
 
-                Route::put('email',[AdminController::class , 'updateEmail']);
+                Route::put('email',[AdminController::class , 'updateEmail'])->middleware('isAdmin');;
 
-                Route::put('/',[AdminController::class , 'update']);
+                Route::put('/',[AdminController::class , 'update'])->middleware('isAdmin');;
             });            
         });
     }
@@ -827,15 +827,7 @@ Route::prefix('doctor')->group(function () {
             [RecordController::class, 'showConsulByDoctor']
         );
 
-        Route::get('jitsi/{id}', function ($id) {
-            $data = [
-                'patien' => 'patien 1',
-                'doctor' => 'doctor 1',
-                'duration' => 7200000
-            ];
-
-            view('doctor.pages.jitsi', ['data' => $data]);
-        });
+        Route::get('jitsi/{id}', [RecordController::class , "getJitsiDocter"]);
     });
 
     Route::prefix('category')->group(

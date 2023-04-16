@@ -408,7 +408,7 @@ class RecordService
     {
         $data = $this->record->where('id', $request['id'])->first();
         if ($data != null) {
-            $this->record->where('id' , $request['id'])->update([
+            $this->record->where('id', $request['id'])->update([
                 'status_consultation' => 'consultation-complete'
             ]);
             $idRecipe = $data->id_recipe;
@@ -442,35 +442,57 @@ class RecordService
     }
 
 
-    public function cetakDokumentPengambilanObat($idRecord){
-       $data =   $this->pattient
-            ->join('medical_records' , 'medical_records.medical_record_id' , 'pattient.medical_record_id')
-            ->join('record' , 'medical_records.medical_record_id' , 'record.medical_record_id')
-            ->join('doctors' , 'record.doctor_id' , 'doctors.id')
-            ->join('recipes' , 'record.id_recipe' , 'recipes.id')
-            ->join('recipe_detail' , 'recipe_detail.id_recipe' , 'recipe_detail.id')
-            ->select('pattient.name as fullname' , 'pattient.medical_record_id as no_medical_record' , 'record.id as id_consultation' , 'record.valid_status' , 'doctors.name as doctor' , 'record.status_payment_consultation as status' , 'recipes.price_medical_prescription as price' , 'recipes.status_payment_medical_prescription')
-            ->where('record.id' , $idRecord)
+    public function cetakDokumentPengambilanObat($idRecord)
+    {
+        $data = $this->pattient
+            ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
+            ->join('record', 'medical_records.medical_record_id', 'record.medical_record_id')
+            ->join('doctors', 'record.doctor_id', 'doctors.id')
+            ->join('recipes', 'record.id_recipe', 'recipes.id')
+            ->join('recipe_detail', 'recipe_detail.id_recipe', 'recipe_detail.id')
+            ->select('pattient.name as fullname', 'pattient.medical_record_id as no_medical_record', 'record.id as id_consultation', 'record.valid_status', 'doctors.name as doctor', 'record.status_payment_consultation as status', 'recipes.price_medical_prescription as price', 'recipes.status_payment_medical_prescription')
+            ->where('record.id', $idRecord)
             ->groupBy('record.id')
             ->get()->toArray();
-        $consultation=[
+        $consultation = [
             'doctor' => $data[0]['doctor'],
             'price' => "90.000",
             'status' => $data[0]['status']
-        ];    
+        ];
         $medical = [
             'price' => $data[0]['price'],
             'status' => $data[0]['status_payment_medical_prescription']
         ];
         foreach ($data as $key => $value) {
             # code...
-            unset($data[$key]['doctor'], $data[$key]['price'],$data[$key]['status'],$data[$key]['status_payment_medical_prescription']);
+            unset($data[$key]['doctor'], $data[$key]['price'], $data[$key]['status'], $data[$key]['status_payment_medical_prescription']);
             $data[$key]['valid_status'] = strtotime($data[$key]['valid_status']);
         }
         $newData = $data;
         $newData[0]['consultation'] = $consultation;
         $newData[0]['medical'] = $medical;
         return $newData;
+    }
+
+    public function getJitsiViewDoctor($id)
+    {
+        $data = $this->pattient
+            ->join('medical_records', 'medical_records.medical_record_id', 'pattient.medical_record_id')
+            ->join('record', 'medical_records.medical_record_id', 'record.medical_record_id')
+            ->join('doctors', 'doctors.id', 'record.doctor_id')
+            ->join('schedule_details', 'schedule_details.id', 'record.schedule_id')
+            ->where('record.id', $id)
+            ->where('record.status_consultation', 'confirmed-consultation-payment')
+            ->select('pattient.name as patien', 'doctors.name as doctor', 'schedule_details.time_start', 'schedule_details.time_end')
+            ->get()->toArray();
+        $res = [];
+        if (count($data) > 0) {
+            $res['patien'] = $data[0]['patien'];
+            $res['doctor'] = $data[0]['doctor'];
+            $res['duration'] = strtotime($data[0]['time_end']) - strtotime($data[0]['time_end']);
+        }
+        return $res;
+
     }
 
 }

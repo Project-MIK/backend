@@ -191,4 +191,9 @@ class RecordController extends Controller
         return $this->service->cetakDokumentPengambilanObat($id);
     }
 
+    public function getJitsiDocter($id){
+        $data = $this->service->getJitsiViewDoctor($id);
+        return view('doctor.pages.jitsi', ['data' => $data]);
+    }
+
 }

@@ -125,4 +125,10 @@ class RecordServiceTest extends TestCase
         dd($data);
 
     }
+
+    public function test_showJitsi(){
+        $service = new RecordService();
+        $data=$service->getJitsiViewDoctor("KL0923210");
+        dd($data);
+    }
 }
