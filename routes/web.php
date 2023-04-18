@@ -581,7 +581,7 @@ Route::prefix('doctor')->group(function () {
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', function () {
             return view('doctor.pages.dashboard');
-        })->middleware('isDoctor');
+        })->middleware('auth:doctor');
     });
 
     Route::middleware('DoctorLoggedIn')->prefix('login')->group(function() {
@@ -589,7 +589,7 @@ Route::prefix('doctor')->group(function () {
         Route::post('/', [AuthDoctorController::class, 'authenticate']);
     });
 
-    Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('isDoctor');
+    Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('auth:doctor');
 
     Route::get('/consul', function () {
         $data = [

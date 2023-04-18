@@ -40,13 +40,12 @@ class ScheduleService {
     
     public function findByDoctorAndDate($id, $date)
     {
-        // $data = Schedule::with('scheduleDetails')->where('doctor_id', $id)->whereDate('consultation_date', $date)->get()->toArray();
+        // $data = Schedule::with('scheduleDetails')->where('doctor_id', $id)->whereDate('consultation_date', $date)->get();
         $data = DB::table('schedules')
                 ->join('schedule_details', 'schedules.id', '=', 'schedule_details.schedule_id')
                 ->where('doctor_id', $id)
                 ->whereDate('consultation_date', $date)
-                ->get()
-                ->toArray();
+                ->get();
 
         if($data == null) {
             return null;

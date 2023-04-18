@@ -21,7 +21,7 @@ class DoctorFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'gender' => 'M',
+            'gender' => fake()->randomElement(['M', 'W']),
             'address' => fake()->address(),
             'phone' => 123412341234,
             'polyclinic_id' => fake()->numberBetween(1, 3)

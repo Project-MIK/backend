@@ -87,8 +87,10 @@ class DoctorController extends Controller
         $scheduleService = new ScheduleService();
         $schedule = $scheduleService->findByDoctor($id);
         $scheduleDetails = null;
-        $scheduleTime = $scheduleService->findByDoctorAndDate($id, $date);
+        $scheduleTime = (array) $scheduleService->findByDoctorAndDate($id, $date);
         // dd($scheduleTime);
+        // dd(gettype($scheduleTime));
+        
 
         if ($schedule !== null) {
             $scheduleDetails = $schedule[0]['schedule_details'];
@@ -103,7 +105,7 @@ class DoctorController extends Controller
             'detail_doctor' => [
                 'price_consultation' => "Rp. 90.000",
                 'date_schedule' => $scheduleDetails,
-                'time_schedule' => $scheduleTime[0]
+                'time_schedule' => $scheduleTime
             ]
         ]);
     }

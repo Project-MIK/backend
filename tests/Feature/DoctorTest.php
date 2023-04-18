@@ -17,7 +17,7 @@ class DoctorTest extends TestCase
         $this->controller = new DoctorController();
         $response = $this->controller->index();
 
-        dd($response);
+        // dd($response);
 
         $this->assertNotNull($response);
     }

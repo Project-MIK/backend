@@ -24,7 +24,7 @@ class ScheduleDetailFactory extends Factory
             'time_start' => fake()->time(), 
             'time_end' => fake()->time(), 
             'link' => 'www.youtube.com', 
-            'status' => 'terisi', 
+            'status' => fake()->randomElement(['kosong', 'terisi']), 
             'schedule_id' => fake()->numberBetween(1, 3)
         ];
     }
