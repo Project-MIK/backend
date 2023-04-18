@@ -293,6 +293,7 @@ class RecordService
             ->join('schedule_details', 'schedule_details.id', 'record.schedule_id')
             ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'schedule_details.time_start as start', 'schedule_details.time_end as end')
             ->where('doctors.id', $id)
+            ->where('record.status_consultation' , 'confirmed-consultation-payment')
             ->get()->toArray();
         foreach ($data as $key => $value) {
             # code...

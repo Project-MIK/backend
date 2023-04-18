@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PolyclinicController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecordCategoryController;
+use App\Models\Doctor;
 use App\Services\MedicineService;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
@@ -780,15 +781,16 @@ Route::prefix('admin')->group(
 
 
 //dokter
-Route::prefix('doctor')->group(function () {
-    Route::prefix('/dashboard')->group(
+Route::prefix('doctor')->name('doctor.')->group(function () {
+
+    Route::prefix('/')->group(
         function () {
             Route::get(
                 '/',
                 function () {
                     return view('doctor.pages.dashboard');
                 }
-            );
+            )->name('dashboard');
         }
     );
 
