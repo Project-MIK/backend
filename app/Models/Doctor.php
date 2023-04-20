@@ -21,14 +21,14 @@ class Doctor extends Authenticatable
         'polyclinic_id',
     ];
 
-    public function polyclinic() :BelongsTo
+    public function polyclinic(): BelongsTo
     {
         return $this->belongsTo(Polyclinic::class);
     }
 
-    public function schedules() :HasManyThrough
+    public function schedules(): HasManyThrough
     {
-        return $this->hasManyThrough(ScheduleDetail::class, Schedule::class);
+        return $this->hasManyThrough(ScheduleDetail::class, Schedule::class, 'doctor_id', 'schedule_id', 'id', 'id');
     }
 
     protected $hidden = [

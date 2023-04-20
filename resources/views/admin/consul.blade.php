@@ -41,7 +41,7 @@
                     <td>{{$item['duration']/60}} menit</td>
                     <td>{{$start}}</td>
                     <td>{{$end}}</td>
-                    <td><button data-toggle='modal' data-target='#vc' class="col detail btn btn-block btn-primary btn-sm">Mulai Konsultasi</button></td>
+                    <td><a target="blank" href="/admin/consul/vidcon/{{$item['consul_id']}}"><button class="col detail btn btn-block btn-primary btn-sm">Mulai Konsultasi</button></a></td>
                 </tr>
                 @php($no++)
                 @endforeach
@@ -64,11 +64,22 @@
 </div>
 
 <x-modals.modal id-modal="vc" modal-size="modal-xl" modal-bg="" header="" footer="">
-    <div class="container" ></div>
+    <div class="container"></div>
     <x-slot id="jitsi"></x-slot>
 </x-modals.modal>
 @endsection
 @section('after-js')
+<script>
+    $(function() {
+        $("#example1").DataTable({
+            "responsive": true
+            , "lengthChange": false
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+    });
+
+</script>
 {{-- <script>
     const domain = 'meet.jit.si';
     const options = {

@@ -8,35 +8,18 @@
     @csrf
     @method('put')
     <div class="my-5">
-        @if($data['citizen']=="WNI")
+        
+        @if($data['citizen']=='WNI')
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                <select id="inputCitizen" class="form-control" name="citizen" onchange="setNIK(this)">
-                    <option selected value="WNI">Warga Negara Indonesia</option>
-                    <option value="WNA">Warga Negara Asing</option>
-                </select>
+                <input type="text" value="{{$data['citizen']}}" class="form-control py-4" id="inputCitizen" name="citizen" placeholder="Ketikkan nomor induk kependudukan" readonly required>
+
             </div>
             <div class="form-group col-md-6">
                 <div id="nik" class="d-block">
                     <label for="inputNik" id="labelNik" class="text-trouth">NIK <span class="text-sm font-weight-normal">( Nomor Induk Kependudukan )</span></label>
-                    <input type="text" value="{{$data['nik']}}" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" value="-" autofocus required>
-                </div>
-            </div>
-        </div>
-        @elseif($data['citizen']=="WNA")
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                <select id="inputCitizen" class="form-control" name="citizen" onchange="setNIK(this)">
-                    <option value="WNI">Warga Negara Indonesia</option>
-                    <option selected value="WNA">Warga Negara Asing</option>
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-                <div id="nik" class="d-block">
-                    <label for="inputNik" id="labelNik" class="text-trouth">Paspor</span></label>
-                    <input type="text" value="{{$data['no_paspor']}}" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" value="-" autofocus required>
+                    <input type="text" value="{{$data['nik']}}" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" autofocus required>
                 </div>
             </div>
         </div>
@@ -44,23 +27,18 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCitizen" class="text-trouth">Kewarganegaraan</label>
-                <select id="inputCitizen" class="form-control" name="citizen" onchange="setNIK(this)">
-                    <option selected value="WNI">Warga Negara Indonesia</option>
-                    <option value="WNA">Warga Negara Asing</option>
-                </select>
+                <input type="text" value="{{$data['citizen']}}" class="form-control py-4" id="inputCitizen" name="citizen" placeholder="Ketikkan nomor induk kependudukan" readonly required>
+
             </div>
             <div class="form-group col-md-6">
                 <div id="nik" class="d-block">
-                    <label for="inputNik" id="labelNik" class="text-trouth">NIK <span class="text-sm font-weight-normal">( Nomor Induk Kependudukan )</span></label>
-                    <input type="text" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" value="-" autofocus required>
-                </div>
-                <div id="paspor" class="d-none">
-                    <label for="inputPaspor" class="text-trouth">Nomor Paspor</label>
-                    <input type="text" class="form-control py-4" id="inputPaspor" name="no_paspor" placeholder="Ketikkan nomor paspor" value="-" required>
+                    <label for="inputNik" id="labelNik" class="text-trouth">Nomor Paspor</label>
+                    <input type="text" value="{{$data['no_paspor']}}" class="form-control py-4" id="inputNik" name="nik" placeholder="Ketikkan nomor induk kependudukan" autofocus required>
                 </div>
             </div>
         </div>
         @endif
+        
         </select>
 
         <div class="form-row">
@@ -97,36 +75,37 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="inputBloodGroup" class="text-trouth">Golongan Darah</label>
+                        <label for="inputBloodGroup" class="text-trouth">Golongan Darah {{$data['blood_group']}}</label>
                         <select id="inputBloodGroup" class="form-control" name="blood_group">
+                            
                             @switch($data['blood_group'])
                                 @case("A")
                                     <option selected value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="AB">AB</option>
                                     <option value="O">O</option>
-                                    <option selected value="-"></option>
+                                    <option value="-"></option>
                                     @break
                                 @case("B")
                                     <option value="A">A</option>
                                     <option selected value="B">B</option>
                                     <option value="AB">AB</option>
                                     <option value="O">O</option>
-                                    <option selected value="-"></option>
+                                    <option value="-"></option>
                                     @break
                                 @case("AB")
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option selected value="AB">AB</option>
                                     <option value="O">O</option>
-                                    <option selected value="-"></option>
+                                    <option value="-"></option>
                                     @break
                                 @case("O")
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="AB">AB</option>
                                     <option selected value="O">O</option>
-                                    <option selected value="-"></option>
+                                    <option value="-"></option>
                                     @break
                                 @default
                                     <option value="A">A</option>
@@ -187,15 +166,11 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputEmail" class="text-trouth">Email</label>
-                <input value="{{$data['email']}}" type="text" class="form-control py-4" id="inputEmail" name="email" placeholder="Ketikkan email" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputPassword" class="text-trouth">Kata Sandi</label>
-                <input value="{{$data['password']}}" type="text" class="form-control py-4" id="inputPassword" name="password" placeholder="Ketikkan kata sandi" required>
+                <input readonly value="{{$data['email']}}" type="text" class="form-control py-4" id="inputEmail" name="email" placeholder="Ketikkan email" required>
             </div>
         </div>
     </div>
-    <input type="text" value="{{$data['medical_record_id']}}" hidden>
+    <input type="text" name="medical_record_id" value="{{$data['medical_record_id']}}" hidden>
     <button type='submit' class='ml-auto col-2 btn btn-block btn-primary'>Update</button>
 </form>
 @endsection

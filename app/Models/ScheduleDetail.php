@@ -11,15 +11,17 @@ class ScheduleDetail extends Model
 
 
     protected $fillable = [
-        'consultation_date', 
-        'time_start', 
-        'time_end', 
-        'link', 
-        'status', 
+        'consultation_date',
+        'time_start',
+        'time_end',
+        'link',
+        'status',
         'schedule_id'
     ];
 
-    public function schedules() {
+    public function schedules()
+    {
         return $this->belongsTo(Schedules::class);
     }
+    protected $table = "schedule_details";
 }

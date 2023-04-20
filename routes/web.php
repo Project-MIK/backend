@@ -62,20 +62,20 @@ Route::prefix("/dashboard")->group(function () {
     // # Showing data consultation, history and setting
     Route::view("/", "pacient.dashboard.index");
     // # Action pacient save setting
-    Route::post("/save-setting", [PattientController::class , 'updateDataPattient']);
+    Route::post("/save-setting", [PattientController::class, 'updateDataPattient']);
     //changeEmail
     // # Action pacient change email
-    Route::post("/change-email", [PattientController::class , 'changeEmail']);
+    Route::post("/change-email", [PattientController::class, 'changeEmail']);
 
     // # Action pacient change password
-    Route::post("/change-password",[PattientController::class , 'changePassword']);
+    Route::post("/change-password", [PattientController::class, 'changePassword']);
 });
 
 // Consultation
 Route::prefix('konsultasi')->group(function () {
-    
+
     // Create consultation #1 - description complaint & set category
-    Route::get('/', [RecordCategoryController::class , 'index'] )->middleware('checkRecord');
+    Route::get('/', [RecordCategoryController::class, 'index'])->middleware('checkRecord');
     Route::post('/', function (Request $request) {
         session(['consultation' => [
             "description" => trim($request->input("consultation_complaint")),
@@ -276,30 +276,30 @@ Route::prefix('konsultasi')->group(function () {
             "status_payment_consultation" => "TERKONFIRMASI", // PROSES VERIFIKASI / BELUM TERKONFIRMASI / TERKONFIRMASI / DIBATALKAN
             "proof_payment_consultation" => "https://i.pinimg.com/236x/68/ed/dc/68eddcea02ceb29abde1b1c752fa29eb.jpg",
 
-        //     "price_medical_prescription" => "Rp. 100.000", // null
-        //     "status_payment_medical_prescription" => "TERKONFIRMASI",
-        //     "proof_payment_medical_prescription" => "https://tangerangonline.id/wp-content/uploads/2021/06/IMG-20210531-WA0027.jpg",
+            //     "price_medical_prescription" => "Rp. 100.000", // null
+            //     "status_payment_medical_prescription" => "TERKONFIRMASI",
+            //     "proof_payment_medical_prescription" => "https://tangerangonline.id/wp-content/uploads/2021/06/IMG-20210531-WA0027.jpg",
 
-        //     "pickup_medical_prescription" => "delivery-gojek", // hospital-pharmacy, delivery-gojek
-        //     "pickup_medical_status" => "GAGAL DIKIRIM", // MENUNGGU DIAMBIL, SUDAH DIAMBIL, DIKIRIM DENGAN GOJEK, GAGAL DIKIRIM, TIDAK MENERIMA SEKRANG
-        //     "pickup_medical_no_telp_pacient" => "085235119101",
-        //     "pickup_medical_addreass_pacient" => "Enim ullamco reprehenderit nulla aliqua reprehenderit",
-        //     "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
-        //     "pickup_by_pacient" => "Aristo Caesar Pratama",
-        //     "pickup_datetime" => 1676184847,
+            //     "pickup_medical_prescription" => "delivery-gojek", // hospital-pharmacy, delivery-gojek
+            //     "pickup_medical_status" => "GAGAL DIKIRIM", // MENUNGGU DIAMBIL, SUDAH DIAMBIL, DIKIRIM DENGAN GOJEK, GAGAL DIKIRIM, TIDAK MENERIMA SEKRANG
+            //     "pickup_medical_no_telp_pacient" => "085235119101",
+            //     "pickup_medical_addreass_pacient" => "Enim ullamco reprehenderit nulla aliqua reprehenderit",
+            //     "pickup_medical_description" => "Alamat yang anda berikan tidak dapat dituju oleh driver GOJEK", // alamat penerima tidak valid, pasien tidak dapat dihubungi
+            //     "pickup_by_pacient" => "Aristo Caesar Pratama",
+            //     "pickup_datetime" => 1676184847,
 
             "valid_status" => 1677653043
         ]);
     });
     // Cancel sheduling consultation
     Route::get('/{id}/cancel-consultation', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/cancel-consultation', [RecordController::class , 'cancelConsultation']);
+    Route::post('/{id}/cancel-consultation', [RecordController::class, 'cancelConsultation']);
 
     // Send proof payment to confirmation consultation
     Route::get('/{id}/payment-consultation', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/payment-consultation', [RecordController::class , 'updateBukti'] );
-    
-    
+    Route::post('/{id}/payment-consultation', [RecordController::class, 'updateBukti']);
+
+
     // function (Request $request, $id) {
     //     // dd([
     //     //     "id" => $id,
@@ -373,12 +373,12 @@ Route::prefix('konsultasi')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::view('/', 'admin.dashboard',);
 
-    Route::prefix('login')->group(function(){
-        Route::get('/',function(){
+    Route::prefix('login')->group(function () {
+        Route::get('/', function () {
             return view('admin.login');
         });
 
-        Route::post('login',function(Request $request){
+        Route::post('login', function (Request $request) {
             dd($request);
         });
     });
@@ -584,7 +584,7 @@ Route::prefix('doctor')->group(function () {
         })->middleware('auth:doctor');
     });
 
-    Route::middleware('DoctorLoggedIn')->prefix('login')->group(function() {
+    Route::middleware('DoctorLoggedIn')->prefix('login')->group(function () {
         Route::get('/', [AuthDoctorController::class, 'index']);
         Route::post('/', [AuthDoctorController::class, 'authenticate']);
     });
@@ -672,5 +672,5 @@ Route::prefix('doctor')->group(function () {
 });
 
 // Logout ( Clear all session pacient )
-Route::get("/keluar", [PattientController::class , 'logout']);
+Route::get("/keluar", [PattientController::class, 'logout']);
 Route::get('/doctors', [DoctorController::class, 'index']);

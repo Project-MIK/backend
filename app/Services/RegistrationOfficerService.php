@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\RegistrationOfficers;
 use Dotenv\Exception\ValidationException as ExceptionValidationException;
 use Illuminate\Validation\ValidationException;
+use PDOException;
 
 class RegistrationOfficerService
 {
@@ -55,9 +56,8 @@ class RegistrationOfficerService
             }
         }
         try {
-            $request['password'] = bcrypt($request['password']);
             $res = $this->model->where('id', $id)->update($request);
-            if($res){
+            if ($res) {
                 return true;
             }
             return true;
@@ -67,11 +67,17 @@ class RegistrationOfficerService
         }
     }
 
-    public function deleteById($id){
-        $res = $this->model->where('id', $id)->delete();
-        if($res == 1){
-            return true;
+    public function deleteById($id)
+    {
+        try {
+            $res = $this->model->where('id', $id)->delete();
+            if ($res == 1) {
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            return false;
         }
-        return false;
+
     }
 }

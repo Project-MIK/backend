@@ -16,6 +16,10 @@ class MedicineService{
 
     public function findAll(){
         $responseData = $this->model->all()->toArray();
+        foreach ($responseData as $key => $value) {
+            # code...
+            unset($responseData[$key]['created_at'],$responseData[$key]['updated_at']);
+        }
         return $responseData;
     }
 

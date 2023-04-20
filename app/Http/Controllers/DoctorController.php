@@ -12,13 +12,13 @@ class DoctorController extends Controller
 {
     private DoctorService $service;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->service = new DoctorService();
     }
 
     public function index()
     {
-        
     }
 
     public function showByPolyclinic()
@@ -27,27 +27,15 @@ class DoctorController extends Controller
 
         $id = session('consultation')['polyclinic'][0];
         $doctors = $this->service->findByPolyclinic($id);
-        $schedule = null;
-        $scheduleDetails = null;
-        $scheduleService = new ScheduleService();
 
-        if ($doctors !== null) {
-            $doctor_id = $doctors[0]['id'];
-            $schedule = $scheduleService->findByDoctor($doctor_id);
-            $scheduleDetails = null;
-        }
-
-        if ($schedule !== null) {
-            $scheduleDetails = $schedule[0]['schedule_details'];
-        }
-
+        $schedules[] = $doctors[0]['schedules'];
 
         return view('pacient.consultation.doctor', [
             'doctors' => $doctors,
             'detail_doctor' => [
                 'price_consultation' => "Rp. 90.000",
-                'date_schedule' => $scheduleDetails,
-                'time_schedule' => $scheduleDetails
+                'date_schedule' => $schedules,
+                'time_schedule' => $schedules
             ]
         ]);
     }
@@ -55,24 +43,25 @@ class DoctorController extends Controller
     public function showById($id)
     {
         if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
-        
+
         $polyclinic_id = session('consultation')['polyclinic'][0];
         $doctors = $this->service->findByPolyclinic($polyclinic_id);
-        $scheduleService = new ScheduleService();
-        $schedule = $scheduleService->findByDoctor($id);
-        $scheduleDetails = null;
 
-        if ($schedule !== null) {
-            $scheduleDetails = $schedule[0]['schedule_details'];
+        foreach ($doctors as $doctor) {
+            if ($doctor['id'] == $id) {
+                $schedules[] = $doctor['schedules'];
+            }
         }
+
+        // dd($schedules);
 
         return view('pacient.consultation.doctor', [
             'id' => $id,
             'doctors' => $doctors,
             'detail_doctor' => [
                 'price_consultation' => "Rp. 90.000",
-                'date_schedule' => $scheduleDetails,
-                'time_schedule' => $scheduleDetails
+                'date_schedule' => $schedules,
+                'time_schedule' => $schedules
             ]
         ]);
     }
@@ -83,20 +72,18 @@ class DoctorController extends Controller
 
         $polyclinic_id = session('consultation')['polyclinic'][0];
         $doctors = $this->service->findByPolyclinic($polyclinic_id);
-        // dd($date);
-        $scheduleService = new ScheduleService();
-        $schedule = $scheduleService->findByDoctor($id);
-        $scheduleDetails = null;
-        $scheduleTime = (array) $scheduleService->findByDoctorAndDate($id, $date);
-        // dd($scheduleTime);
-        // dd(gettype($scheduleTime));
-        
 
-        if ($schedule !== null) {
-            $scheduleDetails = $schedule[0]['schedule_details'];
+        foreach ($doctors as $doctor) {
+            if ($doctor['id'] == $id) {
+                $schedules[] = $doctor['schedules'];
+            }
         }
 
-        // dd($id, $date);
+        foreach ($schedules[0] as $schedule) {
+            if (date('d-M-Y', strtotime($schedule['consultation_date'])) == $date) {
+                $times[0][] = $schedule;
+            }
+        }
 
         return view('pacient.consultation.doctor', [
             'id' => $id,
@@ -104,8 +91,8 @@ class DoctorController extends Controller
             'doctors' => $doctors,
             'detail_doctor' => [
                 'price_consultation' => "Rp. 90.000",
-                'date_schedule' => $scheduleDetails,
-                'time_schedule' => $scheduleTime
+                'date_schedule' => $schedules,
+                'time_schedule' => $times
             ]
         ]);
     }
@@ -115,7 +102,7 @@ class DoctorController extends Controller
         //
     }
 
-    public function store(DoctorStoreRequest $request) : bool
+    public function store(DoctorStoreRequest $request): bool
     {
         $response = $this->service->add($request->validate($request->rules()));
 

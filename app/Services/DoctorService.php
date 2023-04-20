@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services;
 
@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\isEmpty;
 
-class DoctorService {
-    public function findAll() 
+class DoctorService
+{
+    public function findAll()
     {
         $data = Doctor::with('schedules')->get()->toArray();
 
@@ -22,7 +23,8 @@ class DoctorService {
 
     public function findByPolyclinic($id)
     {
-        $data = Doctor::where('polyclinic_id', $id)->get()->toArray();
+        // $data = Doctor::where('polyclinic_id', $id)->get()->toArray();\
+        $data = Doctor::with('schedules')->where('polyclinic_id', $id)->get()->toArray();
 
         if ($data == null) {
             return null;
@@ -31,7 +33,7 @@ class DoctorService {
         }
     }
 
-    public function findById($id) 
+    public function findById($id)
     {
         $data = Doctor::with('schedules')->where('id', $id)->first();
 
@@ -42,7 +44,7 @@ class DoctorService {
         }
     }
 
-    public function add(array $request) 
+    public function add(array $request)
     {
         try {
             Doctor::create($request);

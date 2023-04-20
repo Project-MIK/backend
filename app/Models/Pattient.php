@@ -26,7 +26,8 @@ class Pattient extends Authenticatable
         'blood_group',
         'place_birth' ,
         'nik' , 
-        'no_paspor'
+        'no_paspor',
+        'medical_record_id'
     ];
 
     protected $hidden = ['password'];

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->time('time_start')->nullable();
             $table->time('time_end')->nullable();
             $table->string('link');
-            $table->enum('status', ['kosong' , 'terisi']);
+            $table->enum('status', ['kosong', 'terisi']);
             $table->foreignId('schedule_id')->nullable()->constrained('schedules')->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });

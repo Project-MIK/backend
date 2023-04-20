@@ -1,5 +1,3 @@
-
-
 @extends('layouts.admin.app')
 @section('content-header')
 <h1>Category Complaint</h1>
@@ -19,6 +17,7 @@
                 <button type='button' data-toggle='modal' data-target='#tambah-kategori' class='ml-auto col-3 btn btn-block btn-default btn-sm'>Tambah</button>
                 <tr>
                     <th>no</th>
+                    <th hidden>id kategori</th>
                     <th>kategori</th>
                     <th></th>
                 </tr>
@@ -32,8 +31,8 @@
                     <td>{{$item['category']}}</td>
                     <td>
                         <div class="row">
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Danger</button></div>
+                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Edit</button></div>
+                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' onclick="setDelete(this)" class=" col btn btn-block btn-danger btn-sm">Delete</button></div>
                         </div>
                     </td>
                 </tr>
@@ -51,83 +50,95 @@
     </div>
 </div>
 
-    <!-- /.card-body -->
+<!-- /.card-body -->
 
-    <x-modals.modal id-modal="tambah-kategori" modal-size="" modal-bg="">
-        <x-slot:header><h3>Tambah Kategori</h3></x-slot:Header>
-        <x-slot:footer></x-slot:footer>
-        <form action="store" method="post">
-            @csrf
-            @method('post')
-            <div class="form-group">
-                <label for="store-category">Kategori</label>
-                <input type="text" class="form-control" id="store-category" placeholder="Masukan kategori" name="category">
-            </div>
-            <button type="submit" class="btn btn-block btn-default btn-sm">Simpan</button>
-        </form>
-    </x-modals.modal>
+<x-modals.modal id-modal="tambah-kategori" modal-size="" modal-bg="">
+    <x-slot:header>
+        <h3>Tambah Kategori</h3>
+    </x-slot:Header>
+    <x-slot:footer></x-slot:footer>
+    <form action="store" method="post">
+        @csrf
+        @method('post')
+        <div class="form-group">
+            <label for="store-category">Kategori</label>
+            <input type="text" class="form-control" id="store-category" placeholder="Masukan kategori" name="category">
+        </div>
+        <button type="submit" class="btn btn-block btn-default btn-sm">Simpan</button>
+    </form>
+</x-modals.modal>
 
-    <x-modals.modal id-modal="modal-delete" modal-size="modal-sm" modal-bg="bg-danger">
-        <x-slot:header><h3>Warning</h3></x-slot:Header>
-        <x-slot:footer></x-slot:footer>
-        <h3>Apakah Anda Yakin Ingin menghapus data ini?</h3>
-        <form action="destroy" method="POST">
-            @csrf
-            @method('delete')
-            <input hidden name="id_category" value="1">
-            <button type="submit" class="btn btn-block btn-danger btn-sm">Delete</button>
-        </form>
-    </x-modals.modal>
+<x-modals.modal id-modal="modal-delete" modal-size="modal-sm" modal-bg="bg-danger">
+    <x-slot:header>
+        <h3>Warning</h3>
+    </x-slot:Header>
+    <x-slot:footer></x-slot:footer>
+    <h3>Apakah Anda Yakin Ingin menghapus data ini?</h3>
+    <form action="destroy" method="POST">
+        @csrf
+        @method('delete')
+        <input hidden id="delete_id" name="id_category">
+        <button type="submit" class="btn btn-block btn-danger btn-sm">Delete</button>
+    </form>
+</x-modals.modal>
 
-    <x-modals.modal id-modal="modal-edit" modal-size="" modal-bg="">
-        <x-slot:header><h3>Edit Kategori</h3></x-slot:Header>
-        <x-slot:footer></x-slot:footer>
-            <form action="update" method="post">
-                @csrf
-                @method('put')
-                <input name="id_category" hidden id="edit-id">
-                <div class="form-group">
-                    <label for="edit-category">Kategori</label>
-                    <input type="text" class="form-control" id="edit-category" placeholder="Masukan kategori" name="category">
-                </div>
-                <button type="submit" class="col-4 btn btn-block btn-primary btn-sm">Submit</button>
-            </form>
-    </x-modals.modal>
-        @endsection
-        @section('after-js')
+<x-modals.modal id-modal="modal-edit" modal-size="" modal-bg="">
+    <x-slot:header>
+        <h3>Edit Kategori</h3>
+    </x-slot:Header>
+    <x-slot:footer></x-slot:footer>
+    <form action="update" method="post">
+        @csrf
+        @method('put')
+        <input name="id_category" hidden id="edit-id">
+        <div class="form-group">
+            <label for="edit-category">Kategori</label>
+            <input type="text" class="form-control" id="edit-category" placeholder="Masukan kategori" name="category">
+        </div>
+        <button type="submit" class="col-4 btn btn-block btn-primary btn-sm">Submit</button>
+    </form>
+</x-modals.modal>
+@endsection
+@section('after-js')
 
-        <script>
-            function getData(button) {
-                tabel = button.parentElement.parentElement.parentElement.parentElement;
-                rawData = tabel.getElementsByTagName('td');
+<script>
+    $(function() {
+        $("#example1").DataTable({
+            "responsive": true
+            , "lengthChange": false
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+    });
 
-                var obj = {
-                    id: rawData[1].innerText
-                    , category: rawData[2].innerText
-                    , poly: rawData[3].getAttribute('data-id')
-                };
+    function getData(button) {
+        tabel = button.parentElement.parentElement.parentElement.parentElement;
+        rawData = tabel.getElementsByTagName('td');
 
-                return obj;
-            }
+        var obj = {
+            id: rawData[1].innerText
+            , category: rawData[2].innerText
+            , poly: rawData[3].getAttribute('data-id')
+        };
 
-            function setEdit(params) {
-                var data = getData(params);
-                var id = document.getElementById('edit-id');
-                var poli = document.getElementById('edit-poly');
-                var category = document.getElementById('edit-category');
+        return obj;
+    }
 
-                id.value = data.id;
-                for (let i = 0; i < poli.options.length; i++) {
-                    if (poli.options[i].value == data.poly) {
-                        poli.options[i].selected = true;
-                        break;
-                    }else{
-                        poli.options[i].selected = false;
-                    }
-                }
-                category.value = data.category;
-            }
+    function setEdit(params) {
+        var data = getData(params);
+        var id = document.getElementById('edit-id');
+        var category = document.getElementById('edit-category');
 
-        </script>
+        id.value = data.id;
+        category.value = data.category;
+    }
 
-        @endsection
+    function setDelete(params) {
+        var data = getData(params);
+        var id = document.getElementById('delete_id');
+        id.value = data.id;
+    }
+
+</script>
+
+@endsection

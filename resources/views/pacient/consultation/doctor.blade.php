@@ -76,14 +76,16 @@
                                                 @foreach ($doctors as $doctor)
                                                     <option id="{{ $doctor['id'] }}"
                                                         value="{{ $doctor['id'] }}-{{ $doctor['name'] }}">
-                                                        {{ $doctor['name'] }}</option>
+                                                        {{ $doctor['name'] }}
+                                                    </option>
                                                 @endforeach
                                             @else
                                                 @foreach ($doctors as $doctor)
                                                     <option id="{{ $doctor['id'] }}"
                                                         value="{{ $doctor['id'] }}-{{ $doctor['name'] }}"
                                                         {{ $doctor['id'] == $id ? 'selected' : '' }}>
-                                                        {{ $doctor['name'] }}</option>
+                                                        {{ $doctor['name'] }}
+                                                    </option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -105,24 +107,24 @@
                                                 <select id="inputScheduleDate" class="form-control"
                                                     name="consultation_schedule_date" onchange="getDateSchedule(this)">
                                                     @if (!isset($date))
-                                                        @if ($detail_doctor['date_schedule'] == null)
-                                                            <option value="-">-</option>
-                                                        @else
-                                                            @foreach ($detail_doctor['date_schedule'] as $date_schedule)
-                                                                <option id="{{ $date_schedule['consultation_date'] }}"
-                                                                    value="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}">
+                                                        @foreach ($detail_doctor['date_schedule'] as $date_schedules)
+                                                            @if ($date_schedules == null)
+                                                                <option value="">-</option>
+                                                            @else
+                                                                @foreach ($date_schedules as $date_schedule)
+                                                                    <option id="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}" value="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}">
+                                                                        {{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        @foreach ($detail_doctor['date_schedule'] as $date_schedules)
+                                                            @foreach ($date_schedules as $date_schedule)
+                                                                <option id="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}" value="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}" {{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) == $date ? 'selected' : '' }}>
                                                                     {{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}
                                                                 </option>
                                                             @endforeach
-                                                        @endif
-                                                    @else
-                                                        @foreach ($detail_doctor['date_schedule'] as $date_schedule)
-                                                            <option
-                                                                id="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}"
-                                                                value="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}"
-                                                                {{ date('Y-m-d', strtotime($date_schedule['consultation_date'])) == $date ? 'selected' : '' }}>
-                                                                {{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}
-                                                            </option>
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -133,32 +135,17 @@
                                                     Barat)</label>
                                                 <select id="inputScheduleTime" class="form-control"
                                                     name="consultation_schedule_time">
-                                                    @if (!isset($date))
-                                                            @if ($detail_doctor['time_schedule'] == null)
-                                                            <option value="-">-</option>
-                                                        @else
-                                                            @foreach ($detail_doctor['time_schedule'] as $time)
-                                                                <option
-                                                                    value="{{ $time['time_start'] }}-{{ $time['time_end'] }}">
-                                                                    {{ date('h : i : s', strtotime($time['time_start'])) }}
-                                                                    - {{ date('h : i : s', strtotime($time['time_end'])) }}
-                                                                </option>
-                                                            @endforeach
-                                                        @endIf
-                                                    @else
-                                                         {{-- @foreach ($detail_doctor['time_schedule'] as $time)
-                                                            <option
-                                                                value="{{ $time['time_start'] }}-{{ $time['time_end'] }}">
-                                                                {{ date('h : i : s', strtotime($time['time_start'])) }}
-                                                                - {{ date('h : i : s', strtotime($time['time_end'])) }}
-                                                            </option>
-                                                        @endforeach --}}
-                                                        @if ($detail_doctor['time_schedule'] == null)
+                                                    @foreach ($detail_doctor['time_schedule'] as $time_schedules)
+                                                        @if ($time_schedules == null)
                                                             <option value="">-</option>
                                                         @else
-
+                                                            @foreach ($time_schedules as $time)
+                                                                <option value="{{ $time['time_start'] }}-{{ $time['time_end'] }}">
+                                                                    {{ date('h : i', strtotime($time['time_start'])) }} - {{ date('h : i', strtotime($time['time_end'])) }}
+                                                                </option>
+                                                            @endforeach
                                                         @endif
-                                                    @endif
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

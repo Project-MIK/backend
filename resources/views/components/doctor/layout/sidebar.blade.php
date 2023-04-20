@@ -65,6 +65,18 @@
                         </div>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="/doctor/setting" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-gear"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Setting
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
                 
             </ul>
         </nav>

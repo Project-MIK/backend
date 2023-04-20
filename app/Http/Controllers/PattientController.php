@@ -6,10 +6,12 @@ use App\Http\Requests\PattienLoginRequest;
 use App\Http\Requests\StorePattientMedicalRequest;
 use App\Http\Requests\StorePattientRequest;
 use App\Http\Requests\UpdatePattientRequest;
+use App\Mail\EmailVerivication;
 use App\Mail\MailHelper;
 use App\Models\Pattient;
 use App\Services\MedicalRecordService;
 use App\Services\PattientService;
+use App\Services\RecoveryAccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -23,11 +25,14 @@ class PattientController extends Controller
     private PattientService $service;
     private MedicalRecordService $medicalRecordService;
 
+    private RecoveryAccountService $recoveryService;
+
 
     public function __construct()
     {
         $this->service = new PattientService();
         $this->medicalRecordService = new MedicalRecordService();
+        $this->recoveryService = new RecoveryAccountService();
     }
     public function index()
     {
@@ -41,7 +46,7 @@ class PattientController extends Controller
     }
     public function store(StorePattientRequest $request)
     {
-        if ($request['citizen'] == 'indonesia') {
+        if ($request['citizen'] == 'WNI') {
             $request['citizen'] = 'WNI';
             $res = $this->service->store($request->validate([
                 'fullname' => ['required', 'string', 'min:4'],
@@ -49,8 +54,8 @@ class PattientController extends Controller
                 'gender' => ['required'],
                 'password' => ['required'],
                 'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
-                'address_RT' => ['required', 'numeric', 'max:3'],
-                'address_RW' => ['required', 'numeric', 'max:3'],
+                'address_RT' => ['required', 'numeric', 'digits:3'],
+                'address_RW' => ['required', 'numeric', 'digits:3'],
                 'address_desa' => ['required', 'string'],
                 'address_dusun' => ['required', 'string'],
                 'address_kecamatan' => ['required', 'string'],
@@ -75,8 +80,8 @@ class PattientController extends Controller
                 'gender' => ['required'],
                 'password' => ['required'],
                 'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
-                'address_RT' => ['required', 'numeric', 'max:3'],
-                'address_RW' => ['required', 'numeric', 'max:3'],
+                'address_RT' => ['required', 'numeric', 'digits:3'],
+                'address_RW' => ['required', 'numeric', 'digits:3'],
                 'address_desa' => ['required', 'string'],
                 'address_dusun' => ['required', 'string'],
                 'address_kecamatan' => ['required', 'string'],
@@ -98,9 +103,11 @@ class PattientController extends Controller
     }
     public function storewithRekamMedic(StorePattientMedicalRequest $request)
     {
+        $idAdmin = Auth::guard('admin')->user()->id;
+        $request['id_admin'] = $idAdmin;
+        unset($request['id_registration_officer']);
         $rules = [
             'medical_record_id' => ['required', 'digits:6'],
-            'id_registration_officer' => 'required',
         ];
 
         $customMessages = [
@@ -109,11 +116,12 @@ class PattientController extends Controller
         ];
         $this->validate($request, $rules, $customMessages);
         $res = $this->medicalRecordService->findByMedicalRecordCheck($request['medical_record_id']);
+
         if ($res != null) {
-            return redirect()->back()->withErrors("message", "no rekam medic sudah digunakan gunakan");
+            return redirect()->back()->withErrors("no rekam medic sudah digunakan gunakan");
         }
         if ($request['citizen'] == 'WNI') {
-            
+
             $res = $this->service->storeWithAdmin(
                 $request->validate(
                     [
@@ -121,7 +129,7 @@ class PattientController extends Controller
                         'email' => ['required', 'email', 'unique:pattient,email'],
                         'gender' => ['required'],
                         'password' => ['required'],
-                     'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
+                        'phone_number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:13'],
                         'address_RT' => ['required', 'numeric'],
                         'address_RW' => ['required', 'numeric'],
                         'address_desa' => ['required', 'string'],
@@ -135,7 +143,7 @@ class PattientController extends Controller
                         'place_birth' => ['required'],
                         'nik' => ['required', 'numeric', 'digits:16', 'unique:pattient,nik'],
                         "medical_record_id" => ["required"],
-                        "id_registration_officer" => ['required']
+                        "id_admin" => ['required']
                     ]
                 )
             );
@@ -143,13 +151,13 @@ class PattientController extends Controller
                 try {
                     //code...
                     Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'], $request['email']));
-                    return redirect()->back()->with("message", "gagal mengirim email");
+                    return redirect('admin/pasien')->with("message", "berhasil mengirim email");
                 } catch (\Throwable $th) {
                     //throw $th;
-                    return redirect()->back()->with("message", "gagal mengirim email");
+                    return redirect()->back()->withErrors("gagal mengirim email");
                 }
             } else {
-                return redirect()->back()->with("message", "gagal mengirim mendaftarkan passien");
+                return redirect()->back()->withErrors("gagal mengirim mendaftarkan passien");
             }
         } else {
             $res = $this->service->storeWithAdmin(
@@ -171,9 +179,9 @@ class PattientController extends Controller
                         'date_birth' => ['required'],
                         'blood_group' => ['required'],
                         'place_birth' => ['required'],
-                        'no_paspor' => ['required', 'numeric', 'digits:16', 'unique:pattient,nik'],
+                        'paspor' => ['required', 'numeric', 'digits:16', 'unique:pattient,nik'],
                         "medical_record_id" => ["required"],
-                        "id_registration_officer" => ['required']
+                        "id_admin" => ['required']
                     ]
                 )
             );
@@ -181,13 +189,13 @@ class PattientController extends Controller
                 try {
                     //code...
                     Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'], $request['email']));
-                    return redirect()->back()->with("message", "gagal mengirim email");
+                    return redirect('admin/pasien')->with("message", "berhasil mengirim email");
                 } catch (\Throwable $th) {
                     //throw $th;
-                    return redirect()->back()->with("message", "gagal mengirim email");
+                    return redirect()->back()->withErrors("gagal mengirim email");
                 }
             } else {
-                return redirect()->back()->with("message", "gagal mengirim mendaftarkan passien");
+                return redirect()->back()->withErrors("gagal mengirim mendaftarkan passien");
             }
         }
     }
@@ -227,7 +235,7 @@ class PattientController extends Controller
         $data = $pattienLoginRequest->validate($pattienLoginRequest->rules());
         $res = $this->service->login($data);
         if ($res) {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('message', 'berhasil login');
         } else {
             return Redirect::back()->withErrors(['msg' => 'Password atau No Rekam Medik Salah']);
         }
@@ -388,9 +396,182 @@ class PattientController extends Controller
         }
     }
 
+
+
+
+    public function findByIdInaAdmin($id)
+    {
+        $data = $this->service->findByIdInAdmin($id);
+        if (sizeof($data) > 0) {
+            return view('admin.pasien-detail', ["data" => $data]);
+        }
+        return redirect('/admin/pasien');
+    }
+
+    public function updatePatientInAdmin(Request $request)
+    {
+        $id = 1;
+        $rules = [
+            'fullname' => ['required', 'min:4'],
+            'address_RT' => ['required', 'min:2', 'max:3'],
+            'address_RW' => ['required', 'min:2', 'max:3'],
+            'address_desa' => ['required', 'max:20', 'min:4'],
+            'address_kecamatan' => ['required', 'max:20', 'min:4'],
+            'address_kabupaten' => ['required', 'max:20', 'min:4'],
+            'no_telp' => ['required', 'min:10', 'max:13'],
+        ];
+        if ($request->citizen == 'WNI') {
+            $rules['nik'] = ['required', 'digits:16'];
+            $customMessages = [
+                'fullname.required' => 'Nama lengkap tidak boleh kosong.',
+                'fullname.min' => 'Nama lengkap tidak boleh kurang dari 4 digit',
+                'address_RT.required' => 'RT tidak boleh kosong',
+                'address_RT.min' => 'RT tidak boleh kurang dari 2 digit',
+                'address_RT.max' => 'RT tidak boleh lebih dari 3 digit',
+                'address_desa.required' => 'Desa tidak boleh kosong',
+                'address_desa.max' => 'Desa tidak boleh lebih dari 20 digit',
+                'address_desa.min' => 'Desa tidak boleh kurang dari 4 digit',
+                'address_kecamatan.required' => 'Kecamatan tidak boleh kosong',
+                'address_kecamatan.min' => 'Kecamatan tidak boleh kurang dari 4 digit',
+                'address_kecamatan.max' => 'Kecamatan tidak boleh lebih dari 20 digit',
+                'address_kabupaten.required' => 'Kabupaten tidak boleh kosong',
+                'address_kabupaten.max' => 'Kabupaten tidak boleh lebih dari 20 digit',
+                'address_kabupaten.min' => 'kabupaten tidak boleh kurang dari 4 digit',
+                'no_telp.required' => 'No Hp tidak boleh kosong',
+                'no_telp.min' => 'no Hp tidak boleh kurang dari 10 digit',
+                'no_telp.max' => 'no Hp tidak boleh lebih dari 13 digit'
+            ];
+            $checkNik = $this->service->checkNik($id, $request->nik);
+            // jika checknik true maka nik tidak ada yang digunakan
+            $this->validate($request, $rules, $customMessages);
+            if ($checkNik) {
+                return redirect()->back()->withErrors(['msg' => 'nik sudah digunakan olah pengguna lain']);
+            }
+        } else {
+            $checkPaspor = $this->service->checkNoPaspor($id, $request->no_paspor);
+            if ($checkPaspor) {
+                return redirect()->back()->withErrors(['msg' => 'no paspor sudah digunakan olah pengguna lain']);
+            }
+            $rules['no_paspor'] = ['required', 'digits:16', 'unique:pattient,no_paspor'];
+            $customMessages = [
+                'fullname.required' => 'Nama lengkap tidak boleh kosong.',
+                'fullname.min' => 'Nama lengkap tidak boleh kurang dari 4 digit',
+                'address_RT.required' => 'RT tidak boleh kosong',
+                'address_RT.min' => 'RT tidak boleh kurang dari 2 digit',
+                'address_RT.max' => 'RT tidak boleh lebih dari 3 digit',
+                'address_Desa.required' => 'Desa tidak boleh kosong',
+                'address_Desa.max' => 'Desa tidak boleh lebih dari 20 digit',
+                'address_Desa.min' => 'Desa tidak boleh kurang dari 4 digit',
+                'address_kecamatan.required' => 'Kecamatan tidak boleh kosong',
+                'address_kecamatan.min' => 'Kecamatan tidak boleh kurang dari 4 digit',
+                'address_kecamatan.max' => 'Kecamatan tidak boleh lebih dari 20 digit',
+                'address_kabupaten.required' => 'Kabupaten tidak boleh kosong',
+                'address_kabupaten.max' => 'Kabupaten tidak boleh lebih dari 20 digit',
+                'address_kabupaten.min' => 'kabupaten tidak boleh kurang dari 4 digit',
+                'number_phone.required' => 'No Hp tidak boleh kosong',
+                'number_phone.min' => 'no Hp tidak boleh kurang dari 10 digit',
+                'number_phone.max' => 'no Hp tidak boleh lebih dari 13 digit'
+            ];
+            //$ok =  $this->validate($request, $rules, $customMessages);
+        }
+        $data = $request->except([
+            'address_RT',
+            'address_RW',
+            'address_dusun',
+            'address_desa',
+            'address_kecamatan',
+            'address_kabupaten',
+            'no_telp',
+            'fullname',
+            'date_birth',
+            '_token',
+            'email',
+            'gender',
+            '_method',
+            'password'
+        ]);
+        $data['date_birth'] = $request->date_birth;
+        $data['name'] = $request->fullname;
+        $data['address'] = $request->address_RT . '/' . $request->address_RW . '/' . $request->address_Dusun . '/' . $request->address_Desa . '/' . $request->address_kecamatan . '/' . $request->address_kabupaten;
+        $data['phone_number'] = $request->no_telp;
+        $data['gender'] = $request->gender == 'female' ? 'W' : 'M';
+        $res = $this->service->updateDataPattient($data, $id);
+        if ($res) {
+            return redirect()->back()->with('message', 'berhasil memperbarui data');
+        } else {
+            echo "failed";
+            return redirect()->back()->withErrors(['msg' => 'Gagal Memperbarui Tidak ada perubahan data']);
+        }
+    }
+
     public function logout()
     {
         Auth::guard('pattient')->logout();
         return redirect('/masuk');
     }
+
+    public function showDataAction($id)
+    {
+        $data = $this->service->showDataActionConsultation($id);
+        if (sizeof($data) == 0) {
+            return redirect()->back()->withErrors("id konsultasi tidak ditemukan");
+        } else {
+            return view("pacient.consultation.detail-consultation", $data);
+        }
+    }
+    public function sendEmailVerivikasi(Request $request)
+    {
+        $res = $this->service->sendEmailVerivikasi($request->email);
+        if ($res != null) {
+            $id = $res->id;
+            $res = $this->recoveryService->insert($id);
+            Mail::to($request->email)->send(new EmailVerivication($res->token, $request->email));
+            return redirect()->back()->with("message", "berhasil mengirimkan email");
+        } else {
+            return redirect("/lupa-sandi")->withErrors("Gagal mengirmkan email , email tidak terdaftar");
+        }
+    }
+    // ubah di web.php
+    public function forgot_pasword(Request $request)
+    {
+        $password1 = $request->password1;
+        $password2 = $request->password2;
+        if ($password1 != $password2) {
+            return redirect("recovery/" . $request->token_recovery)->withErrors("Password dan Konfirmasi Password harus sama");
+        }
+        $res = $this->service->forgot_pasword($request->token_recovery, $request->password);
+        if ($res) {
+            return redirect('masuk')->with('message', 'berhasil memperbarui kata sandi , silahkan login');
+        }
+        return redirect("recovery/" . $request->token_recovery)->withErrors("Gagal memperbarui kata sandi terjadi kesalahan");
+    }
+
+    public function checkTokenValid($token)
+    {
+        $isValid = $this->recoveryService->checkTokenValid($token);
+        if ($isValid['status']) {
+            return view("pacient.auth.recovery", compact("token"));
+        }
+        return redirect('lupa-sandi')->withErrors($isValid['message']);
+    }
+
+    public function kirimRekamMedic(Request $request)
+    {
+        $request->validate([
+            "medical_record_id" => ['required' , 'digits:6']
+        ]);
+        $response = $this->service->kirimRekamMedic($request['medical_record_id'], $request['email'], Auth::guard('admin')
+        ->user()->id);
+        if($response['status']){
+            Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'] ==null ? "anonymous" : $request['fullname'], $request['email']));
+            return redirect()->back()->with('message'  , $response['message']);
+        }else{
+            return redirect()->back()->withErrors($response['message']);
+        }   
+       
+    }
+
+
+
+
 }

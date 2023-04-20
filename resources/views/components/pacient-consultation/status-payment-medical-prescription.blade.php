@@ -26,7 +26,7 @@
             <label for="price-consultation" class="text-trouth">Nominal Bayar Obat</label>
             <input type="text" class="form-control py-4 text-bunting font-weight-bold" id="price-consultation" value="{{ $price }}" readonly>
         </div>
-        @if ($validStatus > time())    
+        @if ($validStatus > time() || $status == "PROSES VERIFIKASI")    
         <div class="form-group col-12">
             <label for="status-payment" class="text-trouth">Status Pembayaran</label>
             <input type="text" class="form-control py-4" id="status-payment" value="{{ $status }}" readonly>
@@ -41,6 +41,11 @@
                     </div>              
                 @endif
                 <div class="form-group col-12">
+                    @if($errors->any())                   
+                        <div class="alert alert-danger" role="alert">
+                            {{$errors->all()->first()}}
+                        </div>
+                    @endif   
                     <label for="bankPayment" class="text-trouth">Bank Pembayaran</label>
                     <select id="bankPayment" class="form-control" name="bank-payment" onchange="setBankPayment(this)">
                         @foreach ($banks as $bank)
@@ -88,7 +93,7 @@
             @endif
         @else
             <div class="form-group col-12">
-                <div class="alert alert-info">
+                <div class="alert alert-danger">
                     Pembayaran obat telah melebihi batas waktu <strong>{{date("d-M-Y h:i:s", $validStatus)}} WIB</strong>, pembelian obat tidak dapat diulang kembali dan konsultasi dianggap selesai.
                 </div>
             </div>

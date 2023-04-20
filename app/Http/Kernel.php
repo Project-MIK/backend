@@ -2,8 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\GuestAdmin;
 use App\Http\Middleware\IsAdminLogin;
 use App\Http\Middleware\OnlyThoseWhoDontHaveRecordMiddleware;
+use App\Http\Middleware\PattientIsAuthenticate;
 use App\Http\Middleware\PattientMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -71,5 +73,7 @@ class Kernel extends HttpKernel
         'checkRecord' => OnlyThoseWhoDontHaveRecordMiddleware::class,
         'isDoctor' => \App\Http\Middleware\isDoctor::class,
         'DoctorLoggedIn' => \App\Http\Middleware\DoctorLoggedIn::class,
+        'guestAdmin' => GuestAdmin::class,
+        'pattientAuthenticate' => PattientIsAuthenticate::class
     ];
 }

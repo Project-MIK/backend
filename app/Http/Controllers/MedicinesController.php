@@ -20,12 +20,19 @@ class MedicinesController extends Controller
     public function __construct()
     {
         $this->service = new MedicineService();
+
     }
 
     public function index()
     {
-        $data =  $this->service->findAll();
-        return view('obat.obat' , ['data' => $data]);
+        $data = $this->service->findAll();
+        return view('admin.medicine', ['data' => $data]);
+    }
+
+    public function showMedicineOnDropdown()
+    {
+        $data = $this->service->findAll();
+        return $data;
     }
 
     public function show($id)
@@ -39,7 +46,7 @@ class MedicinesController extends Controller
     public function store(MedicinesStoreRequest $request)
     {
         $data = $request->validate([
-            "name" => ['required'] , 
+            "name" => ['required'],
             "price" => ["required"],
             "stock" => ['required']
         ]);
@@ -49,13 +56,13 @@ class MedicinesController extends Controller
                 "status" => true,
                 "message" => "berhasil menambahkan obat"
             ];
-             return redirect()->back()->with('message', $message);
+            return redirect()->back()->with('message', $message['message']);
         } {
             $message = [
                 "status" => false,
                 "message" => "gagal menambahkan obat , terjadi kesalahan server"
             ];
-             return redirect()->back()->with('message', $message);
+            return redirect()->back()->with('message', $message['message']);
         }
     }
 
@@ -63,24 +70,25 @@ class MedicinesController extends Controller
     {
     }
 
-    public function update(MedicinesUpdateRequest $request , $id){
+    public function update(MedicinesUpdateRequest $request)
+    {
         $data = $request->validate($request->rules());
-        $res = $this->service->update($data , $id);
-        if($res['status'] ==  true){
-            return redirect()->back()->with('message' , $res['message']);
-        }else{
-            return redirect()->back()->withErrors(['message' => $res['message']]);
+        $res = $this->service->update($data, $request->id);
+        if ($res['status'] == true) {
+            return redirect()->back()->with('message', $res['message']);
+        } else {
+            return redirect()->back()->withErrors($res['message']);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $res = $this->service->destroy($id);
-        if($res){
-            return redirect()->back()->with('message' , "berhasil menghapus obat");
-        }else{
-            return redirect()->back()->with('message' , "gagal menghapus obat");
+        $res = $this->service->destroy($request->id);
+        if ($res) {
+            return redirect()->back()->with('message', "berhasil menghapus obat");
+        } else {
+            return redirect()->back()->withErrors("gagal menghapus obat");
         }
-       
+
     }
 }
