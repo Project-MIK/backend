@@ -53,8 +53,6 @@ class DoctorController extends Controller
             }
         }
 
-        // dd($schedules);
-
         return view('pacient.consultation.doctor', [
             'id' => $id,
             'doctors' => $doctors,

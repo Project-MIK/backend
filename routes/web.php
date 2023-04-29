@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthDoctorController;
+use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MedicalRecordsController;
@@ -85,6 +86,9 @@ Route::prefix('konsultasi')->group(function () {
     });
 
     // Create consultation #2 - set polyclinic
+    Route::get('/poliklinik', [ConsultationController::class, 'polyclinic']);
+    Route::post('/poliklinik', [ConsultationController::class, 'storePolyclinic']);
+
     // Route::get('/poliklinik', function () {
     //     if (!isset(session("consultation")["description"])) return redirect("/konsultasi");
     //     return view("pacient.consultation.polyclinic", [
@@ -98,164 +102,16 @@ Route::prefix('konsultasi')->group(function () {
     //     ]);
     // });
 
-    Route::get('/poliklinik', [PolyclinicController::class, 'showByCategory']);
-    Route::post('/poliklinik', function (Request $request) {
-        session(['consultation' => array_merge(session('consultation'), [
-            "polyclinic" => explode("-", $request->input("consultation_polyclinic"))
-        ])]);
-        return redirect("/konsultasi/dokter");
-    });
 
     // Create consultation #3 - set doctor & schedule consultation
-    Route::get('/dokter', [DoctorController::class, 'showByPolyclinic']);
-    // Route::get('/dokter', function () {
-    //     if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
-    //     return view("pacient.consultation.doctor", [
-    //         "doctors" => [
-    //             [
-    //                 "id" => 1,
-    //                 "name" => "dr. IDA AYU SRI KUSUMA DEWI, M.Sc, Sp.A,MARS",
-    //             ],
-    //             [
-    //                 "id" => 2,
-    //                 "name" => "dr. PUTU VIVI PARYATI, M.Biomed, Sp.A",
-    //             ],
-    //             [
-    //                 "id" => 3,
-    //                 "name" => "dr. LUH GDE AYU PRAMITHA DEWI, M.Biomed, Sp.A",
-    //             ],
-    //         ],
-    //         "detail_doctor" => [
-    //             "price_consultation" => "Rp. 90.000",
-    //             "date_schedule" => [
-    //                 1676394000,
-    //                 1676480400,
-    //                 1676653199,
-    //             ],
-    //             "time_schedule" => [
-    //                 [
-    //                     "start" => 1676422800,
-    //                     "end" => 1676426400
-    //                 ],
-    //                 [
-    //                     "start" => 1676426400,
-    //                     "end" => 1676430000
-    //                 ],
-    //                 [
-    //                     "start" => 1676430000,
-    //                     "end" => 1676433600
-    //                 ]
-    //             ]
-    //         ]
-    //     ]);
-    // });
-    Route::get('/dokter/{id}', [DoctorController::class, 'showById']);
-    // Route::get('/dokter/{id}', function ($id) {
-    //     if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
-    //     return view("pacient.consultation.doctor", [
-    //         "id" => $id,
-    //         "doctors" => [
-    //             [
-    //                 "id" => 1,
-    //                 "name" => "dr. IDA AYU SRI KUSUMA DEWI, M.Sc, Sp.A,MARS",
-    //             ],
-    //             [
-    //                 "id" => 2,
-    //                 "name" => "dr. PUTU VIVI PARYATI, M.Biomed, Sp.A",
-    //             ],
-    //             [
-    //                 "id" => 3,
-    //                 "name" => "dr. LUH GDE AYU PRAMITHA DEWI, M.Biomed, Sp.A",
-    //             ],
-    //         ],
-    //         "detail_doctor" => [
-    //             "price_consultation" => "Rp. 90.000",
-    //             "date_schedule" => [
-    //                 1677395000,
-    //                 1677824000,
-    //                 1677654199,
-    //             ],
-    //             "time_schedule" => [
-    //                 [
-    //                     "start" => 1676422800,
-    //                     "end" => 1676426400
-    //                 ],
-    //                 [
-    //                     "start" => 1676426400,
-    //                     "end" => 1676430000
-    //                 ],
-    //                 [
-    //                     "start" => 1676430000,
-    //                     "end" => 1676433600
-    //                 ]
-    //             ]
-    //         ]
-    //     ]);
-    // });
-    Route::get('/dokter/{id}/{date}', [DoctorController::class, 'showByIdAndDate']);
-    // Route::get('/dokter/{id}/{date}', function ($id, $date) {
-    //     if (!isset(session("consultation")["polyclinic"])) return redirect("/konsultasi/poliklinik");
-    //     return view("pacient.consultation.doctor", [
-    //         "id" => $id,
-    //         "date" => $date,
-    //         "doctors" => [
-    //             [
-    //                 "id" => 1,
-    //                 "name" => "dr. IDA AYU SRI KUSUMA DEWI, M.Sc, Sp.A,MARS",
-    //             ],
-    //             [
-    //                 "id" => 2,
-    //                 "name" => "dr. PUTU VIVI PARYATI, M.Biomed, Sp.A",
-    //             ],
-    //             [
-    //                 "id" => 3,
-    //                 "name" => "dr. LUH GDE AYU PRAMITHA DEWI, M.Biomed, Sp.A",
-    //             ],
-    //         ],
-    //         "detail_doctor" => [
-    //             "price_consultation" => "Rp. 90.000",
-    //             "date_schedule" => [
-    //                 1677395000,
-    //                 1677824000,
-    //                 1677654199,
-    //             ],
-    //             "time_schedule" => [
-    //                 [
-    //                     "start" => 1676422800,
-    //                     "end" => 1676426400
-    //                 ],
-    //                 [
-    //                     "start" => 1676426400,
-    //                     "end" => 1676430000
-    //                 ],
-    //                 [
-    //                     "start" => 1676430000,
-    //                     "end" => 1676433600
-    //                 ]
-    //             ]
-    //         ]
-    //     ]);
-    // });
-    Route::post('/dokter', function (Request $request) {
-        session(['consultation' => array_merge(session('consultation'), [
-            "doctor" => explode("-", $request->input("consultation_doctor")),
-            "price" => $request->input("consultation_price"),
-            "schedule_date" => $request->input("consultation_schedule_date"),
-            "schedule_time" => explode("-", $request->input("consultation_schedule_time"))
-        ])]);
-        return redirect("/konsultasi/rincian");
-    });
+    Route::get('/dokter', [ConsultationController::class, 'doctor']);
+    Route::post('/dokter', [ConsultationController::class, 'storeDoctor']);
+    Route::get('/dokter/{id}', [ConsultationController::class, 'showDoctor']);
+    Route::get('/dokter/{id}/{date}', [ConsultationController::class, 'showDateDoctor']);
 
     // Create consultation #4 - showing confirmation desciption data
-    Route::get('/rincian', function () {
-        if (!isset(session("consultation")["doctor"])) return redirect("/konsultasi/dokter");
-        return view("pacient.consultation.detail-order");
-    });
-    Route::post('/rincian', function (Request $request) {
-        // set data into database and remove session
-        // dd($request);
-        return redirect("/konsultasi/KL6584690#payment");
-    });
+    Route::get('/rincian', [ConsultationController::class, 'consultation']);
+    Route::post('/rincian', [ConsultationController::class, 'storeConsultation']);
 
     // Show pacient consultation based on ID
     Route::get('/{id}', function ($id) {
