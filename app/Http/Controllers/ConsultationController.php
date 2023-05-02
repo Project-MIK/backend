@@ -20,6 +20,7 @@ class ConsultationController extends Controller
 
         $category_id = session('consultation')['category'][0];
         $result = $this->service->findPolyclinicsByCategory($category_id);
+        $polyclinics = [];
 
         foreach ($result as $key => $value) {
             $polyclinics[$value['id']] = $value['name'];
@@ -125,6 +126,8 @@ class ConsultationController extends Controller
 
     public function consultation()
     {
+        // dd(session('consultation')['schedule_date']);
+
         if (!isset(session("consultation")["doctor"])) return redirect("/konsultasi/dokter");
         
         return view("pacient.consultation.detail-order");
@@ -132,6 +135,13 @@ class ConsultationController extends Controller
 
     public function storeConsultation(Request $request)
     {
-        return redirect("/konsultasi/KL6584690#payment");
+        $date = session('consultation')['schedule_date'];
+        $schedule = $this->service->findScheduleByDate($date);
+
+        session(['consultation' => array_merge(session('consultation'), [
+            "schedule" => $schedule->id
+        ])]);
+
+        dd(session('consultation'));
     }
 }
