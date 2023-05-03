@@ -108,8 +108,8 @@
                                                     name="consultation_schedule_date" onchange="getDateSchedule(this)">
                                                     @if (!isset($date))
                                                         @foreach ($detail_doctor['date_schedule'] as $date_schedules)
-                                                            @if ($date_schedules == null)
-                                                                <option value="">-</option>
+                                                            @if ($date_schedules->isEmpty())
+                                                                <option value="-">-</option>
                                                             @else
                                                                 @foreach ($date_schedules as $date_schedule)
                                                                     <option id="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}" value="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}">
@@ -136,7 +136,7 @@
                                                 <select id="inputScheduleTime" class="form-control"
                                                     name="consultation_schedule_time">
                                                     @foreach ($detail_doctor['time_schedule'] as $time_schedules)
-                                                        @if ($time_schedules == null)
+                                                        @if ($time_schedules->isEmpty())
                                                             <option value="">-</option>
                                                         @else
                                                             @foreach ($time_schedules as $time)

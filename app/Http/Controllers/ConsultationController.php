@@ -68,12 +68,15 @@ class ConsultationController extends Controller
 
         $polyclinic_id = session('consultation')['polyclinic'][0];
         $doctors = $this->service->findDoctorsByPolyclinic($polyclinic_id);
+        $schedules = [];
 
         foreach ($doctors as $doctor) {
             if ($doctor['id'] == $id) {
                 $schedules[] = $doctor['schedules'];
             }
         }
+
+        // dd($schedules[0]);
 
         return view('pacient.consultation.doctor', [
             'id' => $id,
@@ -131,8 +134,6 @@ class ConsultationController extends Controller
 
     public function consultation()
     {
-        // dd(session('consultation')['schedule_date']);
-
         if (!isset(session("consultation")["doctor"])) return redirect("/konsultasi/dokter");
         
         return view("pacient.consultation.detail-order");
