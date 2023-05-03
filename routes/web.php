@@ -407,7 +407,7 @@ Route::prefix('admin')->group(
                 Route::get(
                     'store',
                     function () {
-                        return view('admin.pasien-store');
+                         return view('admin.pasien-store');
                     }
                 )->middleware('isAdmin');
                 Route::put(
