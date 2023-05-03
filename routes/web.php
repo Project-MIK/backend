@@ -41,40 +41,40 @@ Route::view("/", "pacient.index");
 
 // Authentication - Login
 Route::view("/masuk", "pacient.auth.login")->middleware('pattentNotAuthenticate');
-Route::post("/masuk", [PattientController::class, "login"])->name('login');
+Route::post("/masuk", [PattientController::class, "login"])->name('login'); 
 
 // # Register
 Route::view("/daftar", "pacient.auth.register")->middleware('pattentNotAuthenticate');
-Route::post("/daftar", [PattientController::class, "store"]);
+Route::post("/daftar", [PattientController::class, "store"]); 
 
 // # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgot-password");
-Route::post("/lupa-sandi", [PattientController::class, "sendEmailVerivikasi"]);
+Route::post("/lupa-sandi", [PattientController::class, "sendEmailVerivikasi"]); 
 
 // # Password Recovery
-Route::get("/recovery/{token}", [PattientController::class, "checkTokenValid"]);
-Route::post("/recovery/{token}", [PattientController::class, 'forgot_pasword']);
+Route::get("/recovery/{token}", [PattientController::class, "checkTokenValid"]); 
+Route::post("/recovery/{token}", [PattientController::class, 'forgot_pasword']); 
 
 // Dashboard
 Route::prefix("/dashboard")->group(function () {
     // # Showing data consultation, history and setting
-    Route::view("/", "pacient.dashboard.index")->middleware('pattientAuthenticate');
+    Route::view("/", "pacient.dashboard.index")->middleware('pattientAuthenticate'); 
     // # Action pacient save setting
-    Route::post("/save-setting", [PattientController::class, 'updateDataPattient'])->middleware('pattientAuthenticate');
+    Route::post("/save-setting", [PattientController::class, 'updateDataPattient'])->middleware('pattientAuthenticate'); 
     //changeEmail
     // # Action pacient change email
-    Route::post("/change-email", [PattientController::class, 'changeEmail'])->middleware('pattientAuthenticate');
+    Route::post("/change-email", [PattientController::class, 'changeEmail'])->middleware('pattientAuthenticate'); 
 
     // # Action pacient change password
-    Route::post("/change-password", [PattientController::class, 'changePassword'])->middleware('pattientAuthenticate');
+    Route::post("/change-password", [PattientController::class, 'changePassword'])->middleware('pattientAuthenticate'); 
 });
 
 // Consultation
 Route::prefix('konsultasi')->group(function () {
 
     // Create consultation #1 - description complaint & set category
-    Route::get('/', [RecordCategoryController::class, 'index'])->middleware(['checkRecord', 'pattientAuthenticate']);
-    Route::post(
+    Route::get('/', [RecordCategoryController::class, 'index'])->middleware(['checkRecord', 'pattientAuthenticate']); 
+    Route::post( 
         '/',
         function (Request $request) {
             session([
@@ -85,7 +85,7 @@ Route::prefix('konsultasi')->group(function () {
             ]);
             return redirect("/konsultasi/poliklinik");
         }
-    )->middleware(['checkRecord', 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']); 
 
     // Create consultation #2 - set polyclinic
     Route::get(
@@ -103,7 +103,7 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]);
         }
-    )->middleware('pattientAuthenticate');
+    )->middleware('pattientAuthenticate'); 
     Route::post(
         '/poliklinik',
         function (Request $request) {
@@ -114,7 +114,7 @@ Route::prefix('konsultasi')->group(function () {
             ]);
             return redirect("/konsultasi/dokter");
         }
-    )->middleware(['checkRecord', 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']); 
 
     // Create consultation #3 - set doctor & schedule consultation
     Route::get(
@@ -161,7 +161,7 @@ Route::prefix('konsultasi')->group(function () {
                 ]
             ]);
         }
-    )->middleware(['checkRecord', 'pattientAuthenticate']);
+    )->middleware(['checkRecord', 'pattientAuthenticate']); 
     Route::get(
         '/dokter/{id}',
         function ($id) {
