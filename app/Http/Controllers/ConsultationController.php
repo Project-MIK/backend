@@ -76,7 +76,6 @@ class ConsultationController extends Controller
             }
         }
 
-        // dd($schedules[0]);
 
         return view('pacient.consultation.doctor', [
             'id' => $id,

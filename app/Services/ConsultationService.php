@@ -14,13 +14,13 @@ class ConsultationService {
         return $polyclinics;
     }
 
-    public function findDoctorsByPolyclinic(string $id): Collection
+    public function findDoctorsByPolyclinic(string $id): array
     {
         $doctors = Doctor::with(['schedules' => function ($query) {
             $query->whereDate('consultation_date', ">", now());
         }])->where('polyclinic_id', $id)->get();
 
-        return $doctors;
+        return $doctors->toArray();
     }
 
     public function findScheduleByDate(string $date)

@@ -42,9 +42,11 @@
                                 </select>                                  
                             </div>                            
                         </div>
-                        <div class="d-flex mt-5 flex-column align-items-end">
-                            <button id="next-step" type="submit" class="btn btn-bunting text-white font-weight-bold py-2 mb-4">Selanjutnya</button>
-                        </div>
+                        @if ($polyclinics != null)
+                            <div class="d-flex mt-5 flex-column align-items-end">
+                                <button id="next-step" type="submit" class="btn btn-bunting text-white font-weight-bold py-2 mb-4">Selanjutnya</button>
+                            </div>
+                        @endif
                     </form>
                 </div>
             </div>

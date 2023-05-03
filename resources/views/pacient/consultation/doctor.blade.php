@@ -108,7 +108,7 @@
                                                     name="consultation_schedule_date" onchange="getDateSchedule(this)">
                                                     @if (!isset($date))
                                                         @foreach ($detail_doctor['date_schedule'] as $date_schedules)
-                                                            @if ($date_schedules->isEmpty())
+                                                            @if (count($date_schedules) === 0)
                                                                 <option value="-">-</option>
                                                             @else
                                                                 @foreach ($date_schedules as $date_schedule)
@@ -136,7 +136,7 @@
                                                 <select id="inputScheduleTime" class="form-control"
                                                     name="consultation_schedule_time">
                                                     @foreach ($detail_doctor['time_schedule'] as $time_schedules)
-                                                        @if ($time_schedules->isEmpty())
+                                                        @if (count($time_schedules) === 0)
                                                             <option value="">-</option>
                                                         @else
                                                             @foreach ($time_schedules as $time)
@@ -152,10 +152,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex mt-4 flex-column align-items-end">
-                                <button id="next-step" type="submit"
-                                    class="btn btn-bunting text-white font-weight-bold py-2 mb-4">Selanjutnya</button>
-                            </div>
+                            @if (count($detail_doctor['date_schedule'][0]) !== 0 )
+                                <div class="d-flex mt-4 flex-column align-items-end">
+                                    <button id="next-step" type="submit" class="btn btn-bunting text-white font-weight-bold py-2 mb-4">Selanjutnya</button>
+                                </div>
+                            @endif
                         @endif
                     </form>
                 </div>
