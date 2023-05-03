@@ -90,7 +90,7 @@ class RecordService
                         "complaint" => $request['complaint'],
                         "doctor_id" => $request['id_doctor'],
                         "schedule_id" => 1,
-                        "id_category" => $request['id_category'],
+                        "id_category" => $request['id_category'][0],
                         "valid_status" => $validStatus
                     ]);
                     if ($created->exists()) {

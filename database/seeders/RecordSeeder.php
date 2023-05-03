@@ -17,34 +17,34 @@ class RecordSeeder extends Seeder
     public function run()
     {
         //
-        Record::create([
-            "id" => "KL0923210",
-            "medical_record_id" => 123123,
-            "description" => "mengalami ganguan sakit kepala complete" , 
-            "complaint" => "sakit kepala" , 
-            "doctor_id" => 1 , 
-            "schedule_id" => 1,
-            "id_category" => 1,
-            'status_consultation' => "confirmed-consultation-payment",
-            'valid_status' => Carbon::now()->addHour(),
-            'bukti' => 'crPpMrq4pf9w.UyqHeG5Jl3qwo.gvoZeNzgGV4T1V1396QYRW.png',
-            'status_payment_consultation' => 'TERKONFIRMASI',
-            'payment_method' => "BRI"
-        ]);
-        Record::create([
-            "id" => "KL0923211",
-            "medical_record_id" => 321321,
-            "description" => "mengalami ganguan sakit kepala  wna" , 
-            "complaint" => "sakit kepala" , 
-            "doctor_id" => 1 , 
-            "schedule_id" => 1,
-            "id_category" => 1,
-            'status_consultation' => "consultation-complete",
-            'valid_status' => Carbon::now(),
-            'bukti' => 'crPpMrq4pf9w.UyqHeG5Jl3qwo.gvoZeNzgGV4T1V1396QYRW.png',
-            'status_payment_consultation' => 'TERKONFIRMASI',
-            'payment_method' => "BRI",
-            'id_recipe' => 1,
-        ]);
+        // Record::create([
+        //     "id" => "KL0923210",
+        //     "medical_record_id" => 123123,
+        //     "description" => "mengalami ganguan sakit kepala complete" , 
+        //     "complaint" => "sakit kepala" , 
+        //     "doctor_id" => 1 , 
+        //     "schedule_id" => 1,
+        //     "id_category" => 1,
+        //     'status_consultation' => "confirmed-consultation-payment",
+        //     'valid_status' => Carbon::now()->addHour(),
+        //     'bukti' => 'crPpMrq4pf9w.UyqHeG5Jl3qwo.gvoZeNzgGV4T1V1396QYRW.png',
+        //     'status_payment_consultation' => 'TERKONFIRMASI',
+        //     'payment_method' => "BRI"
+        // ]);
+        // Record::create([
+        //     "id" => "KL0923211",
+        //     "medical_record_id" => 321321,
+        //     "description" => "mengalami ganguan sakit kepala  wna" , 
+        //     "complaint" => "sakit kepala" , 
+        //     "doctor_id" => 1 , 
+        //     "schedule_id" => 1,
+        //     "id_category" => 1,
+        //     'status_consultation' => "consultation-complete",
+        //     'valid_status' => Carbon::now(),
+        //     'bukti' => 'crPpMrq4pf9w.UyqHeG5Jl3qwo.gvoZeNzgGV4T1V1396QYRW.png',
+        //     'status_payment_consultation' => 'TERKONFIRMASI',
+        //     'payment_method' => "BRI",
+        //     'id_recipe' => 1,
+        // ]);
     }
 }
