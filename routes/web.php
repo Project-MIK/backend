@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MedicalRecordsController;
@@ -24,9 +23,7 @@ use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Svg\Tag\Rect;
-
-
-
+use App\Http\Controllers\ConsultationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -88,198 +85,32 @@ Route::prefix('konsultasi')->group(function () {
     )->middleware(['checkRecord', 'pattientAuthenticate']); 
 
     // Create consultation #2 - set polyclinic
-    Route::get(
-        '/poliklinik',
-        function () {
-            if (!isset(session("consultation")["description"]))
-                return redirect("/konsultasi");
-            return view("pacient.consultation.polyclinic", [
-                "polyclinics" => [
-                    "PL0001" => "POLIKLINIK OBGYN (OBSTETRI & GINEKOLOGI)",
-                    "PL0002" => "POLIKLINIK ANAK DAN TUMBUH KEMBANG",
-                    "PL0003" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
-                    "PL0004" => "POLIKLINIK BEDAH UMUM",
-                    "PL0005" => "POLIKLINIK BEDAH ONKOLOGI"
-                ]
-            ]);
-        }
-    )->middleware('pattientAuthenticate'); 
-    Route::post(
-        '/poliklinik',
-        function (Request $request) {
-            session([
-                'consultation' => array_merge(session('consultation'), [
-                    "polyclinic" => explode("-", $request->input("consultation_polyclinic"))
-                ])
-            ]);
-            return redirect("/konsultasi/dokter");
-        }
-    )->middleware(['checkRecord', 'pattientAuthenticate']); 
+    Route::get('/poliklinik', [ConsultationController::class, 'polyclinic']);
+    Route::post('/poliklinik', [ConsultationController::class, 'storePolyclinic']);
+
+    // Route::get('/poliklinik', function () {
+    //     if (!isset(session("consultation")["description"])) return redirect("/konsultasi");
+    //     return view("pacient.consultation.polyclinic", [
+    //         "polyclinics" => [
+    //             "PL0001" => "POLIKLINIK OBGYN (OBSTETRI & GINEKOLOGI)",
+    //             "PL0002" => "POLIKLINIK ANAK DAN TUMBUH KEMBANG",
+    //             "PL0003" => "POLIKLINIK PENYAKIT DALAM (INTERNA)",
+    //             "PL0004" => "POLIKLINIK BEDAH UMUM",
+    //             "PL0005" => "POLIKLINIK BEDAH ONKOLOGI"
+    //         ]
+    //     ]);
+    // });
+
 
     // Create consultation #3 - set doctor & schedule consultation
-    Route::get(
-        '/dokter',
-        function () {
-            if (!isset(session("consultation")["polyclinic"]))
-                return redirect("/konsultasi/poliklinik");
-            return view("pacient.consultation.doctor", [
-                "doctors" => [
-                    [
-                        "id" => 1,
-                        "name" => "dr. IDA AYU SRI KUSUMA DEWI, M.Sc, Sp.A,MARS",
-                    ],
-                    [
-                        "id" => 2,
-                        "name" => "dr. PUTU VIVI PARYATI, M.Biomed, Sp.A",
-                    ],
-                    [
-                        "id" => 3,
-                        "name" => "dr. LUH GDE AYU PRAMITHA DEWI, M.Biomed, Sp.A",
-                    ],
-                ],
-                "detail_doctor" => [
-                    "price_consultation" => "Rp. 90.000",
-                    "date_schedule" => [
-                        1676394000,
-                        1676480400,
-                        1676653199,
-                    ],
-                    "time_schedule" => [
-                        [
-                            "start" => 1676422800,
-                            "end" => 1676426400
-                        ],
-                        [
-                            "start" => 1676426400,
-                            "end" => 1676430000
-                        ],
-                        [
-                            "start" => 1676430000,
-                            "end" => 1676433600
-                        ]
-                    ]
-                ]
-            ]);
-        }
-    )->middleware(['checkRecord', 'pattientAuthenticate']); 
-    Route::get(
-        '/dokter/{id}',
-        function ($id) {
-            if (!isset(session("consultation")["polyclinic"]))
-                return redirect("/konsultasi/poliklinik");
-            return view("pacient.consultation.doctor", [
-                "id" => $id,
-                "doctors" => [
-                    [
-                        "id" => 1,
-                        "name" => "dr. IDA AYU SRI KUSUMA DEWI, M.Sc, Sp.A,MARS",
-                    ],
-                    [
-                        "id" => 2,
-                        "name" => "dr. PUTU VIVI PARYATI, M.Biomed, Sp.A",
-                    ],
-                    [
-                        "id" => 3,
-                        "name" => "dr. LUH GDE AYU PRAMITHA DEWI, M.Biomed, Sp.A",
-                    ],
-                ],
-                "detail_doctor" => [
-                    "price_consultation" => "Rp. 90.000",
-                    "date_schedule" => [
-                        1677395000,
-                        1677824000,
-                        1677654199,
-                    ],
-                    "time_schedule" => [
-                        [
-                            "start" => 1676422800,
-                            "end" => 1676426400
-                        ],
-                        [
-                            "start" => 1676426400,
-                            "end" => 1676430000
-                        ],
-                        [
-                            "start" => 1676430000,
-                            "end" => 1676433600
-                        ]
-                    ]
-                ]
-            ]);
-        }
-    )->middleware(['checkRecord', 'pattientAuthenticate']);
-    Route::get(
-        '/dokter/{id}/{date}',
-        function ($id, $date) {
-            if (!isset(session("consultation")["polyclinic"]))
-                return redirect("/konsultasi/poliklinik");
-            return view("pacient.consultation.doctor", [
-                "id" => $id,
-                "date" => $date,
-                "doctors" => [
-                    [
-                        "id" => 1,
-                        "name" => "dr. IDA AYU SRI KUSUMA DEWI, M.Sc, Sp.A,MARS",
-                    ],
-                    [
-                        "id" => 2,
-                        "name" => "dr. PUTU VIVI PARYATI, M.Biomed, Sp.A",
-                    ],
-                    [
-                        "id" => 3,
-                        "name" => "dr. LUH GDE AYU PRAMITHA DEWI, M.Biomed, Sp.A",
-                    ],
-                ],
-                "detail_doctor" => [
-                    "price_consultation" => "Rp. 90.000",
-                    "date_schedule" => [
-                        1677395000,
-                        1677824000,
-                        1677654199,
-                    ],
-                    "time_schedule" => [
-                        [
-                            "start" => 1676422800,
-                            "end" => 1676426400
-                        ],
-                        [
-                            "start" => 1676426400,
-                            "end" => 1676430000
-                        ],
-                        [
-                            "start" => 1676430000,
-                            "end" => 1676433600
-                        ]
-                    ]
-                ]
-            ]);
-        }
-    )->middleware(['checkRecord', 'pattientAuthenticate']);
-    Route::post(
-        '/dokter',
-        function (Request $request) {
-            session([
-                'consultation' => array_merge(session('consultation'), [
-                    "doctor" => explode("-", $request->input("consultation_doctor")),
-                    "price" => $request->input("consultation_price"),
-                    "schedule_date" => $request->input("consultation_schedule_date"),
-                    "schedule_time" => explode("-", $request->input("consultation_schedule_time"))
-                ])
-            ]);
-            return redirect("/konsultasi/rincian");
-        }
-    )->middleware(['checkRecord', 'pattientAuthenticate']);
+    Route::get('/dokter', [ConsultationController::class, 'doctor']);
+    Route::post('/dokter', [ConsultationController::class, 'storeDoctor']);
+    Route::get('/dokter/{id}', [ConsultationController::class, 'showDoctor']);
+    Route::get('/dokter/{id}/{date}', [ConsultationController::class, 'showDateDoctor']);
 
     // Create consultation #4 - showing confirmation desciption data
-    Route::get(
-        '/rincian',
-        function () {
-            if (!isset(session("consultation")["doctor"]))
-                return redirect("/konsultasi/dokter");
-            return view("pacient.consultation.detail-order");
-        }
-    )->middleware(['checkRecord', 'pattientAuthenticate']);
-    Route::post('/rincian', [RecordController::class, "store"]);
+    Route::get('/rincian', [ConsultationController::class, 'consultation']);
+    Route::post('/rincian', [ConsultationController::class, 'storeConsultation']);
 
     // Show pacient consultation based on ID
     Route::get(
@@ -307,12 +138,9 @@ Route::prefix('konsultasi')->group(function () {
 
     // Cancel scheduling medical prescription
     Route::get('/{id}/cancel-medical-prescription', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post(
-        '/{id}/cancel-medical-prescription',
-        function ($id) {
-            dd($id);
-        }
-    );
+    Route::post('/{id}/cancel-medical-prescription', function ($id) {
+        dd($id);
+    });
 
     // Send proof payment to confirmation medical prescription
     Route::get('/{id}/payment-medical-prescription', fn ($id) => redirect("/konsultasi/{$id}"));
@@ -357,14 +185,11 @@ Route::prefix('konsultasi')->group(function () {
 
     // Cancel pickup medical prescription
     Route::get('/{id}/cancel-pickup', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post(
-        '/{id}/cancel-pickup',
-        function ($id) {
-            dd([
-                "id" => $id
-            ]);
-        }
-    );
+    Route::post('/{id}/cancel-pickup', function ($id) {
+        dd([
+            "id" => $id
+        ]);
+    });
 });
 
 
@@ -781,177 +606,100 @@ Route::prefix('admin')->group(
 
 
 //dokter
-Route::prefix('doctor')->name('doctor.')->group(function () {
-
-    Route::prefix('/')->group(
-        function () {
-            Route::get(
-                '/',
-                function () {
-                    return view('doctor.pages.dashboard');
-                }
-            )->name('dashboard');
-        }
-    );
-
-    Route::prefix('login')->group(
-        function () {
-            Route::get(
-                '/',
-                function () {
-                    return view('doctor.pages.login');
-                }
-            );
-
-            Route::post(
-                'login',
-                function (Request $request) {
-                    dd($request);
-                }
-            );
-        }
-    );
-
-    Route::prefix('logout')->group(
-        function(){
-            Route::get(
-                '/',
-                function(){
-                    dd("logout");
-                }
-            );
-        }
-    );
-
-    Route::prefix('consul')->group(function () {
-        Route::get(
-            '/',
-            [RecordController::class, 'showConsulByDoctor']
-        );
-
-        Route::get('jitsi/{id}', [RecordController::class , "getJitsiDocter"]);
+Route::prefix('doctor')->group(function () {
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/', function () {
+            return view('doctor.pages.dashboard');
+        })->middleware('auth:doctor');
     });
 
-    Route::prefix('category')->group(
-        function () {
-            //category: nama kategori
-            //count: jumlah kategori digunakan pada komplain
-            Route::get(
-                '/',
-                function () {
-                    $poli = [
-                        ['id_poly' => '1', 'poly' => 'anak'],
-                        ['id_poly' => '2', 'poly' => 'dalam']
-                    ];
+    Route::middleware('DoctorLoggedIn')->prefix('login')->group(function () {
+        Route::get('/', [AuthDoctorController::class, 'index']);
+        Route::post('/', [AuthDoctorController::class, 'authenticate']);
+    });
 
-                    $data = [
-                        'data' => [
-                            ['id_category' => '1', 'category' => 'kepala', 'count' => 12, 'id_poly' => '1', 'poly' => 'anak'],
-                            ['id_category' => '2', 'category' => 'perut', 'count' => 12, 'id_poly' => '2', 'count' => 5, 'poly' => 'dalam'],
-                            ['id_category' => '3', 'category' => 'tangan', 'count' => 12, 'id_poly' => '1', 'count' => 0, 'poly' => 'anak']
-                        ],
-                        'poly' => $poli
-                    ];
-                    return view('doctor.pages.category', $data);
-                }
-            );
-            Route::post(
-                '/store',
-                function (Request $request) {
-                    dd($request);
-                }
-            );
-            Route::put(
-                '/update',
-                function (Request $request) {
-                    dd($request);
-                }
-            );
-            Route::delete(
-                '/destroy',
-                function (Request $request) {
-                    dd([$request]);
-                }
-            );
-        }
-    );
+    Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('auth:doctor');
 
-    Route::prefix('schedule')->group(
-        function () {
-            //category: nama kategori
-            //count: jumlah kategori digunakan pada komplain
-            Route::get(
-                '/',
-                function () {
-                    $doctor = [
-                        [
-                            'id_doctor' => '1',
-                            'name' => 'Dokter 1'
-                        ],
-                        [
-                            'id_doctor' => '2',
-                            'name' => 'Dokter 2'
-                        ],
-                        [
-                            'id_doctor' => '3',
-                            'name' => 'Dokter 3'
-                        ],
-                    ];
+    Route::get('/consul', function () {
+        $data = [
+            [
+                'consul_id' => 'KL4567',
+                'patient_name' => 'tajut zamzami', // name of patient who need consultation
+                'medrec' => '123456', //medical record of patient
+                'duration' => 3600, //the video duration of video conference in milisecond
+                'start' => '1677639600', //the jitsi meet start in timestamp
+                'end' => '1677643200', //the jitsi meet end in timestamp
+                'link' => 'https://meet.jit.si/KL4567' //the jitsi meeting link 
+            ],
+            [
+                'consul_id' => 'KL123',
+                'patient_name' => 'Bachtiar Arya', // name of patient who need consultation
+                'medrec' => '654321', //medical record of patient
+                'duration' => 3600, //the video duration of video conference in milisecond
+                'start' => '1677650400', //the jitsi meet start in timestamp
+                'end' => '1677654000', //the jitsi meet end in timestamp
+                'link' => 'https://meet.jit.si/KL123' //the jitsi meeting link 
+            ]
+        ];
 
-                    $data = [
-                        [
-                            'id' => '1',
-                            'date' => '1677373423',
-                            'start' => '1677373423',
-                            'end' => '1675386223',
-                            'doctor_id' => '1',
-                            'doctor_name' => 'doctor 1'
-                        ],
-                        [
-                            'id' => '2',
-                            'date' => '1677373423',
-                            'start' => '1677373423',
-                            'end' => '1675386223',
-                            'doctor_id' => '2',
-                            'doctor_name' => 'doctor 2'
-                        ],
-                    ];
-                    return view('doctor.pages.schedule', ['data' => $data, 'doctor' => $doctor]);
-                }
-            );
-        }
-    );
+        return view('doctor.pages.consul', ['data' => $data]);
+    });
 
-    Route::prefix('setting')->group(
-        function(){
-            Route::get('/',function(){
-                $data = [
-                    'id'=>'1',//id dokter
-                    'name'=>'doctor siapa',
-                    'email'=>'doctorsiapa@gmail.com',
-                    'no_telp'=>'089123456789',
-                    'gender'=>'W',
-                    'poly'=>'anak',
-                    'address'=>'jember'
-                ];
+    Route::prefix('category')->group(function () {
+        //category: nama kategori
+        //count: jumlah kategori digunakan pada komplain
+        Route::get('/', function () {
+            $poli = [
+                ['id_poly' => '1', 'poly' => 'anak'],
+                ['id_poly' => '2', 'poly' => 'dalam']
+            ];
 
-                return view('doctor.pages.setting',['data'=>$data]);
-            });
+            $data = [
+                'data' => [
+                    ['id_category' => '1', 'category' => 'kepala', 'count' => 12, 'id_poly' => '1', 'poly' => 'anak'],
+                    ['id_category' => '2', 'category' => 'perut', 'count' => 12, 'id_poly' => '2', 'count' => 5, 'poly' => 'dalam'],
+                    ['id_category' => '3', 'category' => 'tangan', 'count' => 12, 'id_poly' => '1', 'count' => 0, 'poly' => 'anak']
+                ],
+                'poly' => $poli
+            ];
+            return view('doctor.pages.category', $data);
+        });
+        Route::post('/store', function (Request $request) {
+            dd($request);
+        });
+        Route::put('/update', function (Request $request) {
+            dd($request);
+        });
+        Route::delete('/destroy', function (Request $request) {
+            dd([$request]);
+        });
+    });
 
-            Route::put('/update',function(Request $request){
-                dd($request);
-            });
+    Route::prefix('schedule')->group(function () {
+        //category: nama kategori
+        //count: jumlah kategori digunakan pada komplain
+        // Route::get('/', function () {
 
-            Route::put('/update/email',function(Request $request){
-                dd($request);
-            });
-
-            Route::put('/update/password',function(Request $request){
-                dd($request);
-            });
-        }
-    );
+        //     $data = [
+        //         [
+        //             'id' => '1',
+        //             'date' => '1677373423',
+        //             'start' => '1677373423',
+        //             'end' => '1675386223'
+        //         ],
+        //         [
+        //             'id' => '2',
+        //             'date' => '1677373423',
+        //             'start' => '1677373423',
+        //             'end' => '1675386223'
+        //         ],
+        //     ];
+        //     return view('doctor.pages.schedule', ['data' => $data]);
+        // });
+        Route::get('/{id}', [DoctorController::class, 'show']);
+    });
 });
 
 // Logout ( Clear all session pacient )
 Route::get("/keluar", [PattientController::class, 'logout']);
+Route::get('/doctors', [DoctorController::class, 'index']);

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PolyclinicRequest extends FormRequest
+class DoctorUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,11 @@ class PolyclinicRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => ['sometimes', 'string'],
+            'gender' => ['sometimes', 'in:W,M', 'string'],
+            'address' => ['sometimes', 'min:8', 'string'],
+            'phone' => ['sometimes', 'digits_between:12,13', 'numeric'],
+            'polyclinic_id' => ['sometimes', 'numeric']
         ];
     }
 }

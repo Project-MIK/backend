@@ -34,8 +34,8 @@ class Setting extends Component
         $pacient = [
             "id" => $user->id,
             "citizen" => $user->citizen,
-            "nik" => $user->nik ==null ? '-' : $user->nik,
-            "no_paspor" =>$user->no_paspor ==null ? '-' : $user->no_paspor,
+            "nik" => $user->nik == null ? '-' : $user->nik,
+            "no_paspor" => $user->no_paspor == null ? '-' : $user->no_paspor,
             "fullname" => $user->name,
             "place_birth" => $user->place_birth,
             "date_birth" => $user->date_birth,

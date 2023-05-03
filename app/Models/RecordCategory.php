@@ -14,4 +14,9 @@ class RecordCategory extends Model
         "category_name"
     ];
 
+    public function polyclinics()
+    {
+        $this->hasMany(Polyclinic::class);
+    }
+
 }

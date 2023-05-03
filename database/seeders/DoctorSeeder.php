@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Doctor;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DoctorSeeder extends Seeder
 {
@@ -15,12 +17,17 @@ class DoctorSeeder extends Seeder
      */
     public function run()
     {
-        Doctor::create([
-            "name" => "doktor kons", 
-            "gender" => "M" , 
-            "address" => "jember" , 
-            "phone" => 123 , 
-            "polyclinic_id" => 1
+        Doctor::factory(4)->create();
+        DB::table('doctors')->insert([
+            'name' => 'Sulthon',
+            'gender' => 'M',
+            'address' => 'kraksaan',
+            'phone' => '081212341234',
+            'email' => 'sulthon@gmail.com',
+            'password' => bcrypt('rahasia'),
+            'polyclinic_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
     }
 }

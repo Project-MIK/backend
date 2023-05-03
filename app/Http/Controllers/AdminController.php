@@ -170,9 +170,13 @@ class AdminController extends Controller
     }
     public function updateDataPattient(Request $request)
     {
+    
         // need id
-        if ($request->id != null) {
-            $id = $request->id;
+        if ($request->medical_record_id != null) {
+            //dd($request);
+
+            $model = $this->pattientService->findByMedicalRecord($request->medical_record_id);
+            $id = $model->id;
             $rules = [
                 'fullname' => ['required', 'min:4'],
                 'address_RT' => ['required', 'min:2', 'max:3'],
@@ -256,12 +260,13 @@ class AdminController extends Controller
                 'fullname',
                 'birth_date',
                 '_token',
-                'email'
+                'email',
+                '_method'
             ]);
-            $data['date_birth'] = $request->birth_date;
+            $data['date_birth'] = $request->date_birth;
             $data['name'] = $request->fullname;
-            $data['address'] = $request->address_RT . '/' . $request->address_RW . '/' . $request->address_Dusun . '/' . $request->address_Desa . '/' . $request->address_kecamatan . '/' . $request->address_kabupaten;
-            $data['phone_number'] = $request->number_phone;
+            $data['address'] = $request->address_RT . '/' . $request->address_RW . '/' . $request->address_dusun . '/' . $request->address_desa . '/' . $request->address_kecamatan . '/' . $request->address_kabupaten;
+            $data['phone_number'] = $request->no_telp;
             $res = $this->pattientService->updateDataPattient($data, $id);
             if ($res) {
                 return redirect()->back()->with('message', 'berhasil memperbarui data');

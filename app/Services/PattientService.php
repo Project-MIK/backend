@@ -397,7 +397,7 @@ class PattientService
         $res = $this->recovery->where('token', $idtoken)->first();
         if ($res) {
             $id_pattient = $res->id_pattient;
-            $isUpdate = $this->changePassword($id_pattient , $password);
+            $isUpdate = $this->changePassword($id_pattient, $password);
             dd($isUpdate);
             if ($isUpdate) {
                 return true;
@@ -413,28 +413,28 @@ class PattientService
         $user = $this->model->where('email', $email)->first();
         if ($user != null) {
             $checkExist = $this->medicalRecordService->findByMedicalRecordCheck($noRekamMedic);
-            if($checkExist){
+            if ($checkExist) {
                 $response['status'] =  false;
                 $response['message'] = 'no rekam medic sudah digunakan oleh user yang lain';
-            }else{
+            } else {
                 $isInsert = $this->medicalRecords->insert(
                     [
                         'id_admin' => $idAdmin,
                         'medical_record_id' => $noRekamMedic
                     ]
                 );
-                if($isInsert){
+                if ($isInsert) {
                     $isUpdate = $this->model->where('id', $user->id)->update([
                         'medical_record_id' => $noRekamMedic
                     ]);
-                    if($isUpdate){
+                    if ($isUpdate) {
                         $response['status'] = true;
                         $response['message'] = 'berhasil mengirim rekam medic';
-                    }else{
+                    } else {
                         $response['status'] = false;
                         $response['message'] = 'gagal mengupdate rekam medic';
                     }
-                }else{
+                } else {
                     $response['status'] = false;
                     $response['message'] = 'gagal menambahkan rekam medic';
                 }
@@ -446,4 +446,7 @@ class PattientService
         return $response;
     }
 
+    public function findByMedicalRecord($medicalRecords){
+        return $this->model->where('medical_record_id' , $medicalRecords)->first();
+    }
 }

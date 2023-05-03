@@ -33,9 +33,9 @@
                 @endphp
                 @foreach($data as $item)
                 @php
-                $date = \Carbon\Carbon::createFromTimestamp($item['start'])->format('d-m-Y');
-                $start = \Carbon\Carbon::createFromTimestamp($item['start'])->format('H:i:s');
-                $end =\Carbon\Carbon::createFromTimestamp($item['end'])->format('H:i:s');
+                $date = date('d-m-Y', strtotime($item['consultation_date']));
+                $start = \Carbon\Carbon::createFromTimestamp($item['time_start'])->format('H:i:s');
+                $end =\Carbon\Carbon::createFromTimestamp($item['time_end'])->format('H:i:s');
                 @endphp
                 <tr>
                     <td>{{$no}}</td>

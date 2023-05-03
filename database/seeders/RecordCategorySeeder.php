@@ -15,9 +15,6 @@ class RecordCategorySeeder extends Seeder
      */
     public function run()
     {
-        //
-        RecordCategory::create([
-            "category_name" => "kepala"
-        ]);
+        RecordCategory::factory(4)->create();
     }
 }

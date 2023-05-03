@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -17,7 +18,8 @@ return new class extends Migration {
             $table->string('medical_record_id', 6)->nullable(false);
             $table->string('description');
             $table->string('complaint');
-            $table->unsignedBigInteger('schedule_id');
+            // $table->foreignId('schedule_id')->nullable()->constrained('schedules')->cascadeOnUpdate()->nullOnDelete();
+            $table->unsignedBigInteger('schedule_id')->nullable(true);
             $table->unsignedBigInteger('id_recipe')->nullable(true);
             $table->foreign('schedule_id')->references('id')->on('schedule_details')
                 ->onDelete('cascade')
@@ -28,18 +30,17 @@ return new class extends Migration {
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->unsignedBigInteger('id_category')->nullable(true);
-            $table->enum('status_consultation', ['waiting-consultation-payment', 'confirmed-consultation-payment', 'consultation-complete' , 'waiting-medical-prescription-payment' , 'confirmed-medical-prescription-payment'])->default('waiting-consultation-payment')->nullable(false);
+            $table->enum('status_consultation', ['waiting-consultation-payment', 'confirmed-consultation-payment', 'consultation-complete', 'waiting-medical-prescription-payment', 'confirmed-medical-prescription-payment'])->default('waiting-consultation-payment')->nullable(false);
             $table->string('bukti')->nullable(true);
             $table->foreign('id_category')->references('id')->on('record_category')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->enum('status_payment_consultation', ['DIBATALKAN', 'PROSES VERIFIKASI', 'BELUM TERKONFIRMASI', 'PEMBAYARAN TIDAK VALID', 'TERKONFIRMASI'])->default('BELUM TERKONFIRMASI');
-            $table->enum('status_medical_prescription' ,['DIBATALKAN', 'PROSES VERIFIKASI', 'BELUM TERKONFIRMASI', 'PEMBAYARAN TIDAK VALID', 'TERKONFIRMASI'])->default('BELUM TERKONFIRMASI');
-        
+            $table->enum('status_medical_prescription', ['DIBATALKAN', 'PROSES VERIFIKASI', 'BELUM TERKONFIRMASI', 'PEMBAYARAN TIDAK VALID', 'TERKONFIRMASI'])->default('BELUM TERKONFIRMASI');
+
             $table->timestamp('valid_status')->nullable(true);
             $table->foreign('medical_record_id')->references('medical_record_id')->on('medical_records')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_recipe')->references('id')->on('recipes')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('doctor_id')->references('id')->on('doctors')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -53,13 +53,13 @@
                                         <div class="form-group col-md-6">
                                             <label for="date" class="text-trouth font-weight-light">Tanggal</label>
                                             <input type="text" class="d-none" name="schedule_date" value="{{session("consultation")["schedule_date"]}}">
-                                            <input type="text" id="date" class="form-control py-4" value="{{date("d- M - Y", session("consultation")["schedule_date"])}}" readonly>
+                                            <input type="text" id="date" class="form-control py-4" value="{{date("d- M - Y", strtotime(session("consultation")["schedule_date"]))}}" readonly>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="time" class="text-trouth font-weight-light">Jam (WIB)</label>
                                             <input type="text" class="d-none" name="schedule_time_start" value="{{session("consultation")["schedule_time"][0]}}">
                                             <input type="text" class="d-none" name="schedule_time_end" value="{{session("consultation")["schedule_time"][1]}}">
-                                            <input type="text" id="time" class="form-control py-4" value="{{date("h : i : s", session("consultation")["schedule_time"][0])}} - {{date("h : i : s", session("consultation")["schedule_time"][1])}} WIB" readonly>
+                                            <input type="text" id="time" class="form-control py-4" value="{{date("h : i : s", strtotime(session("consultation")["schedule_time"][0]))}} - {{date("h : i : s", strtotime(session("consultation")["schedule_time"][1]))}} WIB" readonly>
                                             <input type="text" class="d-none" name="price" value="{{session("consultation")["price"]}}">
                                         </div>
                                     </div>

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PolyclinicRequest;
-use App\Models\Polyclinic;
+use App\Http\Requests\PolyclinicStoreRequest;
+use App\Http\Requests\PolyclinicUpdateRequest;
 use App\Services\PolyclinicService;
-use Illuminate\Http\Request;
 
 class PolyclinicController extends Controller
 {
@@ -15,35 +14,20 @@ class PolyclinicController extends Controller
     {
         $this->service = new PolyclinicService();
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $data = $this->service->findAll();
-        return $data;
+        $polyclinics = $this->service->findAll();
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(PolyclinicRequest $request)
+    public function store(PolyclinicStoreRequest $request) : bool
     {
-        $response = $this->service->store($request->validate($request->rules()));
+        $response = $this->service->add($request->validate($request->rules()));
 
         if ($response) {
             session()->flash("message", "berhasil menambah poliklinik");
@@ -54,39 +38,40 @@ class PolyclinicController extends Controller
         return $response;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Polyclinic  $polyclinic
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Polyclinic $polyclinic)
+    public function show($id)
     {
-        $data = $this->service->findById($polyclinic->id);
-        return $data;
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Polyclinic  $polyclinic
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Polyclinic $polyclinic)
-    {
-        $data = $this->service->findById($polyclinic->id);
+
+        $data = $this->service->findById($id);
         return $data;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Polyclinic  $polyclinic
-     * @return \Illuminate\Http\Response
-     */
-    public function update(PolyclinicRequest $request, Polyclinic $polyclinic)
+    public function showByCategory()
     {
-        $response = $this->service->update($request->validate($request->rules()), $polyclinic);
+        if (!isset(session("consultation")["description"])) return redirect("/konsultasi");
+
+        
+        $id = session('consultation')['category'][0];
+
+        $polyclinics = [];
+        $data = $this->service->findByCategory($id);
+        if($data !== null) {
+            foreach ($data as $key => $value) {
+                $polyclinics[$value['id']] = $value['name'];
+            };
+        }
+        
+        return view('pacient.consultation.polyclinic', compact('polyclinics'));
+    }
+
+    public function edit($id)
+    {
+        $data = $this->service->findById($id);
+        return $data;
+    }
+
+    public function update(PolyclinicUpdateRequest $request, $id)
+    {
+        $response = $this->service->change($request->validate($request->rules()), $id);
         if ($response) {
             session()->flash("message", "berhasil memperbarui poliklinik");
         } else {
@@ -95,15 +80,9 @@ class PolyclinicController extends Controller
         return $response;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Polyclinic  $polyclinic
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Polyclinic $polyclinic)
+    public function destroy($id)
     {
-        $response = $this->service->deleteById($polyclinic->id);
+        $response = $this->service->deleteById($id);
         if ($response) {
             session()->flash("message", "berhasil menghapus poliklinik");
         } else {
@@ -113,9 +92,9 @@ class PolyclinicController extends Controller
         return $response;
     }
 
-    public function searchByName(Request $request)
+    public function searchByName(string $search)
     {
-        $data = $this->service->findByName($request);
+        $data = $this->service->findByName($search);
         return $data;
     }
 }

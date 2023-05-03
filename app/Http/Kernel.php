@@ -71,6 +71,8 @@ class Kernel extends HttpKernel
         "isAdmin" => IsAdminLogin::class,
         'pattentNotAuthenticate' => PattientMiddleware::class,
         'checkRecord' => OnlyThoseWhoDontHaveRecordMiddleware::class,
+        'isDoctor' => \App\Http\Middleware\isDoctor::class,
+        'DoctorLoggedIn' => \App\Http\Middleware\DoctorLoggedIn::class,
         'guestAdmin' => GuestAdmin::class,
         'pattientAuthenticate' => PattientIsAuthenticate::class
     ];

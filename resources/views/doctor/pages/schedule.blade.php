@@ -27,11 +27,11 @@
                 @php
                 $no= 1;
                 @endphp
-                @foreach($data as $item)
+                @foreach($data['schedules'] as $item)
                 @php
-                $date = \Carbon\Carbon::createFromTimestamp($item['start'])->format('d-m-Y');
-                $start = \Carbon\Carbon::createFromTimestamp($item['start'])->format('H:i:s');
-                $end =\Carbon\Carbon::createFromTimestamp($item['end'])->format('H:i:s');
+                $date = \Carbon\Carbon::createFromTimestamp($item['consultation_date'])->format('d-m-Y');
+                $start = \Carbon\Carbon::createFromTimestamp($item['time_start'])->format('H:i:s');
+                $end =\Carbon\Carbon::createFromTimestamp($item['time_end'])->format('H:i:s');
                 @endphp
                 <tr>
                     <td>{{$no}}</td>
@@ -40,7 +40,7 @@
                     <td>{{$start}}</td>
                     <td>{{$end}}</td>
                 </tr>
-                @php($no++)
+                @php($no++)d
                 @endforeach
             </tbody>
             <tfoot>

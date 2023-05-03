@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
-            $table->enum('gender', ['W', 'M']);
+            $table->enum('gender', ['W', 'M'])->nullable(false);
             $table->string('address')->nullable(false);
-            $table->integer('phone');
-            $table->unsignedBigInteger('polyclinic_id');
-            $table->foreign('polyclinic_id')->references('id')->on('polyclinics')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('phone', 13)->nullable(false);
+            $table->string('email')->nullable(false);
+            $table->string('password')->nullable(false);
+            $table->foreignId('polyclinic_id')->nullable()->constrained('polyclinics')->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -13,17 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-
-
         Schema::create('schedule_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('schedule_id');
-            $table->timestamp('consultation_date');
-            $table->timestamp('time_start')->nullable();
-            $table->timestamp('time_end')->nullable();
+            $table->date('consultation_date');
+            $table->time('time_start')->nullable();
+            $table->time('time_end')->nullable();
             $table->string('link');
-            $table->enum('status', ['selesai' , 'belum_selesai' , 'kosong']);
-            $table->foreign('schedule_id')->references('id')->on('schedules')->onUpdate('cascade')->onDelete('cascade');
+            $table->enum('status', ['kosong', 'terisi']);
+            $table->foreignId('schedule_id')->nullable()->constrained('schedules')->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

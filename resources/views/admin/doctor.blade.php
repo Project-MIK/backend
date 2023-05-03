@@ -1,11 +1,11 @@
 @extends('layouts.admin.app')
 @section('content-header')
-<h1>Dokter</h1>
+    <h1>Dokter</h1>
 @endsection
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">DataTable with default features</h3>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">DataTable with default features</h3>
 
     </div>
     <!-- /.card-header -->
@@ -176,8 +176,7 @@
             <div class="col">
                 <div class="d-flex align-items-center justify-content-center"><button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button></div>
             </div>
-        </div>
-    </form>
+        </form>
 
 </x-modals.modal>
 @endsection
