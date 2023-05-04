@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Collection;
 class ConsultationService {
     public function findPolyclinicsByCategory(string $id): Collection
     {
-        $polyclinics = Polyclinic::where('record_category_id', $id)->get();
+        $polyclinics = Polyclinic::whereHas('doctors', function ($query) use($id) {
+            $query->where('record_category_id', $id);
+        })->get();
 
         return $polyclinics;
     }

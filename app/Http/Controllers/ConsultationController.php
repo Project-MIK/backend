@@ -170,11 +170,12 @@ class ConsultationController extends Controller
                 "id_category" => $requestParam['category']
             ];
             $res = $this->recordService->insert($data);
+            dd($res);
             if ($res['status']) {
                 $id = $res['id'];
                 return redirect("/konsultasi/$id#payment");
             } else {
-                return redirect('dasboard')->with('message', 'gagal membuat konsultasi terjadi kesalahan');
+                return redirect('dashboard')->with('message', 'gagal membuat konsultasi terjadi kesalahan');
             }
         } else {
             return redirect("/masuk")->with("message", "silahkan login terlebih dahulu");

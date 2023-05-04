@@ -33,7 +33,7 @@
                                 <label for="category" class="text-trouth">Poliklinik</label>
                                 <select id="category" class="form-control" name="consultation_polyclinic">
                                     @if ($polyclinics == null)
-                                        <option value="-">-</option>
+                                        <option value="-">Tidak ada poliklinik untuk kategori tersebut</option>
                                     @else
                                         @foreach ($polyclinics as $id => $polyclinic )
                                             <option value="{{$id}}-{{$polyclinic}}">{{$polyclinic}}</option>

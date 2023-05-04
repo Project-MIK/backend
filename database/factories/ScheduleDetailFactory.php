@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\ScheduleDetail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,9 +21,9 @@ class ScheduleDetailFactory extends Factory
     public function definition()
     {
         return [
-            'consultation_date' => fake()->date(), 
-            'time_start' => fake()->time(), 
-            'time_end' => fake()->time(), 
+            'consultation_date' => Carbon::now()->addDay(), 
+            'time_start' => Carbon::now()->addHour(), 
+            'time_end' => Carbon::now()->addHours(2), 
             'link' => 'www.youtube.com', 
             'status' => fake()->randomElement(['kosong', 'terisi']), 
             'schedule_id' => fake()->numberBetween(1, 3)
