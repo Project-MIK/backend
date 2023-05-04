@@ -179,8 +179,5 @@ class ConsultationController extends Controller
         } else {
             return redirect("/masuk")->with("message", "silahkan login terlebih dahulu");
         }
-
-
-        dd(session('consultation'));
     }
 }
