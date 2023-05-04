@@ -31,6 +31,8 @@ class RecordService
     private Pattient $pattient;
     private Recipes $recipe;
 
+    private ScheduleDetailService $scheduleDetailService;
+
 
     public function __construct()
     {
@@ -41,6 +43,7 @@ class RecordService
         $this->recordCategory = new RecordCategory();
         $this->pattient = new Pattient();
         $this->recipe = new Recipes();
+        $this->scheduleDetailService = new ScheduleDetailService();
     }
 
     public function index()
@@ -328,12 +331,13 @@ class RecordService
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('doctors', 'doctors.id', 'record.doctor_id')
             ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
-            ->select('pattient.name as patien', 'record.id as id_consul', 'doctors.name as doctor', 'schedule_details.time_start', 'schedule_details.time_end')
+            ->select('pattient.name as patien', 'record.id as id_consul', 'doctors.name as doctor', 'schedule_details.time_start', 'schedule_details.time_end' , 'schedule_details.id as id_schedule')
             ->where('record.status_consultation', 'confirmed-consultation-payment')
             ->where('record.status_payment_consultation', 'TERKONFIRMASI')
             ->where('schedule_details.time_end', '>=', Carbon::now())
             ->where('record.id', $id)
             ->first();
+        $this->scheduleDetailService->updateStatus($res['id_schedule'] , 'kosong');
         if ($res != null) {
             $res = $res->toArray();
             $start = now();
@@ -359,7 +363,7 @@ class RecordService
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('doctors', 'doctors.id', 'record.doctor_id')
             ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
-            ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'doctors.name as doctor', 'schedule_details.time_start as start', 'schedule_details.time_end as end', 'record.valid_status')
+            ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'doctors.name as doctor', 'schedule_details.time_start as start', 'schedule_details.time_end as end', 'record.valid_status' , 'schedule_details.id as id_schedule')
             ->where('record.status_consultation', 'confirmed-consultation-payment')
             ->where('record.status_payment_consultation', 'TERKONFIRMASI')
             ->where('schedule_details.time_end', '>=', Carbon::now())

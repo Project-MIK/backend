@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\ConsultationService;
 use App\Services\RecordService;
+use App\Services\ScheduleDetailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -11,12 +12,15 @@ use Illuminate\Support\Facades\Validator;
 class ConsultationController extends Controller
 {
     private $service;
+
+    private ScheduleDetailService $scheduleDetailService;
     private RecordService $recordService;
     
     public function __construct(ConsultationService $consultationService) 
     {
         $this->service = $consultationService;
         $this->recordService = new RecordService();
+        $this->scheduleDetailService = new ScheduleDetailService();
     }
 
     public function polyclinic()
@@ -170,9 +174,10 @@ class ConsultationController extends Controller
                 "id_category" => $requestParam['category']
             ];
             $res = $this->recordService->insert($data);
-            dd($res);
             if ($res['status']) {
                 $id = $res['id'];
+                $schedules = $this->scheduleDetailService->updateStatus($requestParam['schedule'] , 'terisi');
+                dd($schedules);
                 return redirect("/konsultasi/$id#payment");
             } else {
                 return redirect('dashboard')->with('message', 'gagal membuat konsultasi terjadi kesalahan');
