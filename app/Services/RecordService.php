@@ -337,7 +337,10 @@ class RecordService
             ->where('schedule_details.time_end', '>=', Carbon::now())
             ->where('record.id', $id)
             ->first();
-        $this->scheduleDetailService->updateStatus($res['id_schedule'] , 'kosong');
+        
+
+        $isUpdate = $this->scheduleDetailService->updateStatus($res['id_schedule'] , 'kosong');
+        dd($isUpdate);
         if ($res != null) {
             $res = $res->toArray();
             $start = now();
@@ -494,7 +497,15 @@ class RecordService
         if (count($data) > 0) {
             $res['patien'] = $data[0]['patien'];
             $res['doctor'] = $data[0]['doctor'];
-            $res['duration'] = strtotime($data[0]['time_end']) - strtotime($data[0]['time_end']);
+            $res['duration'] = strtotime($data[0]['time_end']) - strtotime($data[0]['time_start']);
+            $start = now();
+            $end = Carbon::parse($data[0]['time_end']);
+            $duration = $start->diffInMilliseconds($end);
+            $start = strtotime($data[0]['time_start']);
+            $end = strtotime($data[0]['time_end']);
+            $res['duration'] = $duration;
+            $res['time_start'] = strtotime($data[0]['time_start']);
+            $res['time_end'] = strtotime($data[0]['time_end']);
         }
         return $res;
 

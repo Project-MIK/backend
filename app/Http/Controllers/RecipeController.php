@@ -61,9 +61,11 @@ class RecipeController extends Controller
    }
 
    public function acceptOrRejectMedicinePayment(Request $request)
-   {
+   { 
       $res = $this->service->acceptOrReject($request->except(['_token', '_method']));
-      dd($res);
+      if($res){
+         return redirect("konsultasi/$request->id_consul");
+      }
    }
 
    public function showDataDelivery()

@@ -23,6 +23,8 @@ class RecordController extends Controller
 
     private MedicineService $medicineService;
 
+    
+
     public function __construct()
     {
         $this->service = new RecordService();
@@ -140,7 +142,7 @@ class RecordController extends Controller
     public function showConsulByDoctor()
     {
         // $id = Auth::guard('admin')->user()->id; // change with id doctor
-        $id = 1;
+        $id = Auth::guard('doctor')->user()->id;
         $data = $this->service->showConsulByDocter($id);
         return view('doctor.pages.consul', ['data' => $data]);
     }
@@ -191,10 +193,12 @@ class RecordController extends Controller
     public function cetakDocument($id){
         return $this->service->cetakDokumentPengambilanObat($id);
     }
-
+    
     public function getJitsiDocter($id){
         $data = $this->service->getJitsiViewDoctor($id);
-        dd($data);
+        if(count($data) ==0){
+            return redirect('doctor/consul');
+        }
         return view('doctor.pages.jitsi', ['data' => $data]);
     }
 

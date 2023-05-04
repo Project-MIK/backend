@@ -146,7 +146,7 @@ class ConsultationController extends Controller
     {
         $date = session('consultation')['schedule_date'];
         $schedule = $this->service->findScheduleByDate($date);
-
+        
         session(['consultation' => array_merge(session('consultation'), [
             "schedule" => $schedule->id
         ])]);
