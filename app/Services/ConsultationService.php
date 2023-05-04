@@ -25,9 +25,12 @@ class ConsultationService {
         return $doctors->toArray();
     }
 
-    public function findScheduleByDate(string $date)
+    public function findScheduleByDate(string $doctor, string $date)
     {
-        $schedules = ScheduleDetail::whereDate('consultation_date', date('Y-m-d', strtotime($date)))->first();
+        // $schedules = ScheduleDetail::whereDate('consultation_date', date('Y-m-d', strtotime($date)))->first();
+        $schedules = ScheduleDetail::with(['schedule' => function ($query) use ($doctor) {
+            $query->where('doctor_id', $doctor);
+        }])->whereDate('consultation_date', date('Y-m-d', strtotime($date)))->first();
 
         return $schedules;
     }

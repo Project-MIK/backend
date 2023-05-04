@@ -144,8 +144,10 @@ class ConsultationController extends Controller
 
     public function storeConsultation(Request $request)
     {
+        $doctor = session('consultation')['doctor'][0];
         $date = session('consultation')['schedule_date'];
-        $schedule = $this->service->findScheduleByDate($date);
+        $schedule = $this->service->findScheduleByDate($doctor, $date);
+        dd($schedule);
 
         session(['consultation' => array_merge(session('consultation'), [
             "schedule" => $schedule->id
