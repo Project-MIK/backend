@@ -26,6 +26,15 @@ class ScheduleDetailService {
         }
     }
 
+    public function updateStatus(string $id, string $status)
+    {
+        $data = ScheduleDetail::where('id', $id)->update([
+            'status' => $status
+        ]);
+
+        return $data;
+    }
+
     public function add(array $request) {
         try {
             ScheduleDetail::create($request);

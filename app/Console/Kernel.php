@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Models\Record;
+use App\Models\ScheduleDetail;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -27,6 +28,12 @@ class Kernel extends ConsoleKernel
                 $record->update(['status' => 'consultation-complete']);
             }
         })->everyMinute();
+
+        $schedule->call(function () {
+            ScheduleDetail::query()->update([
+                'consultation_date' => Carbon::now()->addWeek()
+            ]);
+        })->weekly();
     }
 
     /**

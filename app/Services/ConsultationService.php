@@ -19,7 +19,7 @@ class ConsultationService {
     public function findDoctorsByPolyclinic(string $id): array
     {
         $doctors = Doctor::with(['schedules' => function ($query) {
-            $query->whereDate('consultation_date', ">", now());
+            $query->whereDate('consultation_date', ">", now())->where('status', "=", "kosong");
         }])->where('polyclinic_id', $id)->get();
 
         return $doctors->toArray();
