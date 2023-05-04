@@ -109,7 +109,7 @@
                                                     @if (!isset($date))
                                                         @foreach ($detail_doctor['date_schedule'] as $date_schedules)
                                                             @if (count($date_schedules) === 0)
-                                                                <option value="-">-</option>
+                                                                <option value="-">Jadwal tidak tersedia</option>
                                                             @else
                                                                 @foreach ($date_schedules as $date_schedule)
                                                                     <option id="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}" value="{{ date('d-M-Y', strtotime($date_schedule['consultation_date'])) }}">
@@ -137,7 +137,7 @@
                                                     name="consultation_schedule_time">
                                                     @foreach ($detail_doctor['time_schedule'] as $time_schedules)
                                                         @if (count($time_schedules) === 0)
-                                                            <option value="">-</option>
+                                                            <option value="">Jadwal tidak tersedia</option>
                                                         @else
                                                             @foreach ($time_schedules as $time)
                                                                 <option value="{{ $time['time_start'] }}-{{ $time['time_end'] }}">

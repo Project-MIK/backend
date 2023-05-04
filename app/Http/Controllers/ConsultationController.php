@@ -181,6 +181,6 @@ class ConsultationController extends Controller
         }
 
 
-        dd(session('consultation'));
+        // dd(session('consultation'));
     }
 }
