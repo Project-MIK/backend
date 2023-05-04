@@ -6,7 +6,6 @@ use App\Http\Requests\DoctorStoreRequest;
 use App\Http\Requests\DoctorUpdateRequest;
 use App\Models\Doctor;
 use App\Services\DoctorService;
-use App\Services\ScheduleService;
 
 class DoctorController extends Controller
 {
@@ -19,6 +18,13 @@ class DoctorController extends Controller
 
     public function index()
     {
+        $doctors = $this->service->findAllDoctors();
+        $polyclinics = $this->service->findAllPolyclinics();
+
+        return view('admin.doctor', [
+            'doctors' => $doctors,
+            'polyclinics' => $polyclinics,
+        ]);
     }
 
     public function showByPolyclinic()
@@ -100,9 +106,10 @@ class DoctorController extends Controller
         //
     }
 
-    public function store(DoctorStoreRequest $request): bool
+    public function store(DoctorStoreRequest $request)
     {
-        $response = $this->service->add($request->validate($request->rules()));
+        $validated = $request->validated();
+        $response = $this->service->add($validated);
 
         if ($response) {
             session()->flash("message", "berhasil menambah dokter");
@@ -110,7 +117,7 @@ class DoctorController extends Controller
             session()->flash("message", "gagal menambah dokter");
         }
 
-        return $response;
+        return redirect('/admin/doctor');
     }
 
     public function show($id)
@@ -127,27 +134,32 @@ class DoctorController extends Controller
         //
     }
 
-    public function update(DoctorUpdateRequest $request, $id)
+    public function update(DoctorUpdateRequest $request)
     {
-        $response = $this->service->change($request->validate($request->rules()), $id);
+        $id = $request->id;
+        $validated = $request->validated();
+        $response = $this->service->change($validated, $id);
+
         if ($response) {
             session()->flash("message", "berhasil memperbarui dokter");
         } else {
             session()->flash("message", "gagal memperbarui dokter");
         }
-        return $response;
+        return redirect('/admin/doctor');
     }
 
-    public function destroy($id)
+    public function destroy()
     {
+        $id = request()->id;
         $response = $this->service->deleteById($id);
+
         if ($response) {
             session()->flash("message", "berhasil menghapus dokter");
         } else {
             session()->flash("message", "gagal menghapus dokter");
         }
 
-        return $response;
+        return redirect('/admin/doctor');
     }
 
     public function searchByName(string $search)

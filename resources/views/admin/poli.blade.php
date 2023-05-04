@@ -23,13 +23,13 @@
             </thead>
             <tbody>
                 @php($no=1)
-                @foreach($data as $item)
+                @foreach($polyclinics as $polyclinic)
                 <tr>
                     <td>{{$no}}</td>
-                    <td hidden>{{$item['id_poly']}}</td>
-                    <td>{{$item['poly']}}</td>
-                    <td hidden>{{$item['id_category']}}</td>
-                    <td>{{$item['category']}}</td>
+                    <td hidden>{{$polyclinic['id']}}</td>
+                    <td>{{$polyclinic['name']}}</td>
+                    <td hidden>{{$polyclinic['record_category_id']}}</td>
+                    <td>{{$polyclinic['record_category']['category_name']}}</td>
                     <td>
                         <div class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
@@ -61,13 +61,13 @@
         @method('post')
         <div class="form-group">
             <label for="store-category">Poliklinik</label>
-            <input type="text" class="form-control" id="store-category" placeholder="Masukan kategori" name="poly">
+            <input type="text" class="form-control" id="store-category" placeholder="Masukan kategori" name="name">
         </div>
         <div class="form-group">
             <label>Kategori</label>
-            <select class="form-control" name="id_category">
-                @foreach($category as $item)
-                    <option value="{{$item['id_category']}}">{{$item['category']}}</option>
+            <select class="form-control" name="record_category_id">
+                @foreach($categories as $category)
+                    <option value="{{$category['id']}}">{{$category['category_name']}}</option>
                 @endforeach
             </select>
         </div>
@@ -85,13 +85,13 @@
         <input type="text" name="id" id="edit-id" hidden>
         <div class="form-group">
             <label for="store-category">Poliklinik</label>
-            <input type="text" class="form-control" id="edit-poly" placeholder="Masukan kategori" name="poly">
+            <input type="text" class="form-control" id="edit-poly" placeholder="Masukan kategori" name="name">
         </div>
         <div class="form-group">
             <label>Kategori</label>
-            <select class="form-control" name="id_category" id="edit-category">
-                @foreach($category as $item)
-                    <option value="{{$item['id_category']}}">{{$item['category']}}</option>
+            <select class="form-control" name="record_category_id" id="edit-category">
+                @foreach($categories as $category)
+                    <option value="{{$category['id']}}">{{$category['category_name']}}</option>
                 @endforeach
             </select>
         </div>

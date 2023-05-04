@@ -1,10 +1,14 @@
 <?php
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthDoctorController;
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\DoctorScheduleController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MedicalRecordsController;
 use App\Http\Controllers\MedicinesController;
 use App\Http\Controllers\RecipeDetailController;
 use App\Http\Controllers\RegistrationOfficersController;
+use App\Http\Controllers\ScheduleDetailController;
 use App\Mail\MailHelper;
 use App\Models\RegistrationOfficers;
 use App\Http\Controllers\PattientController;
@@ -286,8 +290,6 @@ Route::prefix('admin')->group(
 
         Route::prefix('category')->group(
             function () {
-                //category: nama kategori
-                //count: jumlah kategori digunakan pada komplain
                 Route::get(
                     '/',
                     [RecordCategoryController::class, 'indexAdmin']
@@ -305,74 +307,15 @@ Route::prefix('admin')->group(
                     [RecordCategoryController::class, 'destroy']
                 )->middleware('isAdmin');
             }
-        )->middleware('isAdmin');;
+        )->middleware('isAdmin');
 
-        Route::prefix('schedule')->group(
-            function () {
-                //category: nama kategori
-                //count: jumlah kategori digunakan pada komplain
-                Route::get(
-                    '/',
-                    function () {
-
-                        $doctor = [
-                            [
-                                'id_doctor' => '1',
-                                'name' => 'Dokter 1'
-                            ],
-                            [
-                                'id_doctor' => '2',
-                                'name' => 'Dokter 2'
-                            ],
-                            [
-                                'id_doctor' => '3',
-                                'name' => 'Dokter 3'
-                            ],
-                        ];
-
-                        $data = [
-                            [
-                                'id' => '1',
-                                'date' => '1677373423',
-                                'start' => '1677373423',
-                                'end' => '1675386223',
-                                'doctor_id' => '1',
-                                'doctor_name' => 'doctor 1'
-                            ],
-                            [
-                                'id' => '2',
-                                'date' => '1677373423',
-                                'start' => '1677373423',
-                                'end' => '1675386223',
-                                'doctor_id' => '2',
-                                'doctor_name' => 'doctor 2'
-                            ],
-                        ];
-                        return view('admin.schedule', ['data' => $data, 'doctor' => $doctor]);
-                    }
-                )->middleware('isAdmin');
-                Route::post(
-                    'store',
-                    function (Request $request) {
-
-                        dd($request);
-                    }
-                )->middleware('isAdmin');
-                Route::put(
-                    'update',
-                    function (Request $request) {
-                        dd($request);
-                    }
-                )->middleware('isAdmin');
-                Route::delete(
-                    'destroy',
-                    function (Request $request) {
-                        dd([$request]);
-                    }
-                )->middleware('isAdmin');
-            }
-        );
-
+        Route::controller(ScheduleDetailController::class)->prefix('schedule')->group(function () {
+            Route::get('/', 'index');
+            Route::post('/store', 'store');
+            Route::put('/update', 'update');
+            Route::delete('/destroy', 'destroy');
+        })->middleware('isAdmin');
+        
         Route::prefix('complain')->group(
             function () {
                 Route::get(
@@ -463,117 +406,20 @@ Route::prefix('admin')->group(
 
         Route::prefix('poly')->group(
             function () {
-                Route::get(
-                    '/',
-                    function () {
-                        // show data category on modal + polyclinic
-                        $controller = new RecordCategoryController();
-                        $category = $controller->showDataCategoryOnPolyclinic();
-                        if (sizeof($category) <= 0) {
-                            $category = [];
-                        }
-                        // ambil data poly
-                        $data = [
-                            [
-                                'id_poly' => '1',
-                                'poly' => 'anak',
-                                'id_category' => '1',
-                                'category' => 'kategori 1'
-                            ],
-                            [
-                                'id_poly' => '12',
-                                'poly' => 'dalam',
-                                'id_category' => '1',
-                                'category' => 'kategori 1'
-                            ],
-                            [
-                                'id_poly' => '13',
-                                'poly' => 'dalam',
-                                'id_category' => '2',
-                                'category' => 'kategori 2'
-                            ],
-                        ];
-                        return view('admin.poli', ['data' => $data, 'category' => $category]);
-                    }
-                );
-                Route::post(
-                    'store',
-                    function (Request $request) {
-                        dd($request);
-                    }
-                );
-                Route::put(
-                    'update',
-                    function (Request $request) {
-                        dd($request);
-                    }
-                );
-
-                Route::delete(
-                    'destroy',
-                    function (Request $request) {
-                        dd($request);
-                    }
-                );
+                Route::get('/', [PolyclinicController::class, 'index']);
+                Route::post('store', [PolyclinicController::class, 'store']);
+                Route::put('update', [PolyclinicController::class, 'update']);
+                Route::delete('destroy', [PolyclinicController::class, 'destroy']);
             }
         )->middleware('isAdmin');;
 
-        Route::prefix('doctor')->group(
-            function () {
-                Route::get(
-                    '/',
-                    function () {
-                        $poly = [
-                            [
-                                'id_poly' => '1',
-                                'name' => 'anak'
-                            ],
-                            [
-                                'id_poly' => '2',
-                                'name' => 'dalam'
-                            ],
-                        ];
-
-                        $data = [
-                            [
-                                'id' => '1',
-                                'name' => 'Dr Anis',
-                                'email' => 'anis@telemedicine.com',
-                                'no_telp' => '081212134546',
-                                'gender' => 'W',
-                                'id_poly' => '1',
-                                'poly' => 'anak',
-                                'address' => 'Jember'
-                            ]
-                        ];
-
-                        return view('admin.doctor', ['data' => $data, 'poly' => $poly]);
-                    }
-                )->middleware('isAdmin');;
-
-                Route::post(
-                    'store',
-                    function (Request $request) {
-                        dd($request);
-                    }
-                )->middleware('isAdmin');;
-
-                Route::put(
-                    'update',
-                    function (Request $request) {
-                        dd($request);
-                    }
-                )->middleware('isAdmin');;
-
-                Route::delete(
-                    'destroy',
-                    function (Request $request) {
-                        dd($request);
-                    }
-                )->middleware('isAdmin');
-            }
-        );
-
+        Route::controller(DoctorController::class)->prefix('/doctor')->group(function () {
+            Route::get('/', 'index');
+            Route::post('/store', 'store');
+            Route::put('/update', 'update');
+            Route::delete('/destroy', 'destroy');
+        })->middleware('idAdmin');
+        
         Route::prefix('receiptProof')->group(
             function () {
                 Route::get('/', [RecipeController::class, 'displayDataRequiresApproval'])->middleware('isAdmin');;
@@ -607,18 +453,16 @@ Route::prefix('admin')->group(
 
 //dokter
 Route::prefix('doctor')->group(function () {
-    Route::prefix('/dashboard')->group(function () {
-        Route::get('/', function () {
-            return view('doctor.pages.dashboard');
-        })->middleware('auth:doctor');
-    });
-
     Route::middleware('DoctorLoggedIn')->prefix('login')->group(function () {
         Route::get('/', [AuthDoctorController::class, 'index']);
         Route::post('/', [AuthDoctorController::class, 'authenticate']);
     });
 
-    Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('auth:doctor');
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/', function () {
+            return view('doctor.pages.dashboard');
+        })->middleware('auth:doctor');
+    });
 
     Route::get('/consul', function () {
         $data = [
@@ -644,6 +488,8 @@ Route::prefix('doctor')->group(function () {
 
         return view('doctor.pages.consul', ['data' => $data]);
     });
+
+    Route::get('/schedule', [DoctorScheduleController::class, 'index'])->middleware('auth:doctor');
 
     Route::prefix('category')->group(function () {
         //category: nama kategori
@@ -675,31 +521,8 @@ Route::prefix('doctor')->group(function () {
         });
     });
 
-    Route::prefix('schedule')->group(function () {
-        //category: nama kategori
-        //count: jumlah kategori digunakan pada komplain
-        // Route::get('/', function () {
-
-        //     $data = [
-        //         [
-        //             'id' => '1',
-        //             'date' => '1677373423',
-        //             'start' => '1677373423',
-        //             'end' => '1675386223'
-        //         ],
-        //         [
-        //             'id' => '2',
-        //             'date' => '1677373423',
-        //             'start' => '1677373423',
-        //             'end' => '1675386223'
-        //         ],
-        //     ];
-        //     return view('doctor.pages.schedule', ['data' => $data]);
-        // });
-        Route::get('/{id}', [DoctorController::class, 'show']);
-    });
+    Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('auth:doctor');
 });
 
 // Logout ( Clear all session pacient )
 Route::get("/keluar", [PattientController::class, 'logout']);
-Route::get('/doctors', [DoctorController::class, 'index']);

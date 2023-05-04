@@ -24,12 +24,9 @@ class ScheduleDetailUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            "consultation_data" => ['sometimes', 'date'],
+            "consultation_date" => ['sometimes', 'date'],
             "time_start" => ['sometimes', 'date_format:H:i:s'],
             "time_end" => ['sometimes', 'date_format:H:i:s'],
-            "link" => ['sometimes', 'string'],
-            "status" => ['sometimes', 'in:kosong,terisi'],
-            "schedule_id" => ['sometimes', 'numeric']
         ];
     }
 }

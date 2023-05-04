@@ -15,7 +15,6 @@
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
-                <button type='button' data-toggle='modal' data-target='#modal-tambah' class='ml-auto col-3 btn btn-block btn-default btn-sm'>Tambah</button>
                 <tr>
                     <th>no</th>
                     <th>tanggal</th>
@@ -27,20 +26,15 @@
                 @php
                 $no= 1;
                 @endphp
-                @foreach($data['schedules'] as $item)
-                @php
-                $date = \Carbon\Carbon::createFromTimestamp($item['consultation_date'])->format('d-m-Y');
-                $start = \Carbon\Carbon::createFromTimestamp($item['time_start'])->format('H:i:s');
-                $end =\Carbon\Carbon::createFromTimestamp($item['time_end'])->format('H:i:s');
-                @endphp
+                @foreach($schedules as $schedule)
                 <tr>
                     <td>{{$no}}</td>
-                    <td hidden>{{$item['id']}}</td>
-                    <td>{{$date}}</td>
-                    <td>{{$start}}</td>
-                    <td>{{$end}}</td>
+                    <td hidden>{{$schedule['id']}}</td>
+                    <td>{{ \Carbon\Carbon::createFromTimestamp(strtotime($schedule['consultation_date']))->format('d-m-Y') }}</td>
+                    <td>{{ \Carbon\Carbon::createFromTimestamp(strtotime($schedule['time_start']))->format('H:i:s') }}</td>
+                    <td>{{ \Carbon\Carbon::createFromTimestamp(strtotime($schedule['time_end']))->format('H:i:s') }}</td>
                 </tr>
-                @php($no++)d
+                @php($no++)
                 @endforeach
             </tbody>
             <tfoot>

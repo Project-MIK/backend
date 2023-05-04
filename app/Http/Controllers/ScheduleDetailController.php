@@ -16,9 +16,13 @@ class ScheduleDetailController extends Controller
     
     public function index()
     {
-        $data = $this->service->findAll();
+        $schedules = $this->service->findAllSchedules();
+        $doctors = $this->service->findAllDoctors();
 
-        return view('admin.schedule', ['data' => $data]);
+        return view('admin.schedule', [
+            'schedules' => $schedules,
+            'doctors' => $doctors,
+        ]);
     }
 
     public function create()
@@ -28,7 +32,10 @@ class ScheduleDetailController extends Controller
 
     public function store(ScheduleDetailStoreRequest $request)
     {
-        $response = $this->service->add($request->validate($request->rules()));
+        $doctor = $request['doctor_id'];
+        $validated = $request->validated();
+
+        $response = $this->service->add($validated, $doctor);
 
         if ($response) {
             session()->flash("message", "berhasil menambah detail jadwal");
@@ -36,7 +43,7 @@ class ScheduleDetailController extends Controller
             session()->flash("message", "gagal menambah detail jadwal");
         }
 
-        return $response;
+        return redirect('/admin/schedule');
     }
 
     public function show($id)
@@ -51,9 +58,12 @@ class ScheduleDetailController extends Controller
         
     }
 
-    public function update(ScheduleDetailUpdateRequest $request, $id)
+    public function update(ScheduleDetailUpdateRequest $request)
     {
-        $response = $this->service->change($request->validate($request->rules()), $id);
+        $id = $request->id;
+        $doctor = $request['doctor_id'];
+        $validated = $request->validated();
+        $response = $this->service->change($validated, $doctor, $id);
 
         if ($response) {
             session()->flash("message", "berhasil memperbarui detail jadwal");
@@ -61,11 +71,12 @@ class ScheduleDetailController extends Controller
             session()->flash("message", "gagal memperbarui detail jadwal");
         }
 
-        return $response;
+        return redirect('/admin/schedule');
     }
 
-    public function destroy($id)
+    public function destroy()
     {
+        $id = request()->id;
         $response = $this->service->delete($id);
 
         if ($response) {
@@ -74,6 +85,6 @@ class ScheduleDetailController extends Controller
             session()->flash("message", "gagal menghapus detail jadwal");
         }
 
-        return $response;
+        return redirect('/admin/schedule');
     }
 }

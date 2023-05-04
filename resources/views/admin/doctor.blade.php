@@ -28,17 +28,17 @@
             </thead>
             <tbody>
                 @php($no = 1)
-                @foreach($data as $item)
+                @foreach($doctors as $doctor)
                 <tr>
                     <td>{{$no++}}</td>
-                    <td hidden>{{$item['id']}}</td>
-                    <td>{{$item['name']}}</td>
-                    <td>{{$item['email']}}</td>
-                    <td>{{$item['no_telp']}}</td>
-                    <td>{{$item['gender']}}</td>
-                    <td hidden>{{$item['id_poly']}}</td>
-                    <td>{{$item['poly']}}</td>
-                    <td hidden>{{$item['address']}}</td>
+                    <td hidden>{{$doctor['id']}}</td>
+                    <td>{{$doctor['name']}}</td>
+                    <td>{{$doctor['email']}}</td>
+                    <td>{{$doctor['phone']}}</td>
+                    <td>{{$doctor['gender'] == "W" ? "Perempuan" : "Laki-Laki"}}</td>
+                    <td hidden>{{$doctor['polyclinic_id']}}</td>
+                    <td>{{$doctor['polyclinic']['name']}}</td>
+                    <td hidden>{{$doctor['address']}}</td>
                     <td>
                         <div class="row">
                             <div class="col"><button onclick="setEdit(this)" type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
@@ -88,7 +88,7 @@
         </div>
         <div class="form-group">
             <label for="form-telp">no telpon</label>
-            <input type="tel" class="form-control" name="telp" placeholder="08xx" required required pattern="[0-9\+]+">
+            <input type="tel" class="form-control" name="phone" placeholder="08xx" required required pattern="[0-9\+]+">
         </div>
         <div class="form-group">
             <label>Gender</label>
@@ -99,9 +99,9 @@
         </div>
         <div class="form-group">
             <label >Poliklinik</label>
-            <select class="form-control" name="poly">
-                @foreach($poly as $item)
-                    <option value="{{$item['id_poly']}}">{{$item['name']}}</option>
+            <select class="form-control" name="polyclinic_id">
+                @foreach($polyclinics as $polyclinic)
+                    <option value="{{$polyclinic['id']}}">{{$polyclinic['name']}}</option>
                 @endforeach
             </select>
         </div>
@@ -133,7 +133,7 @@
         </div>
         <div class="form-group">
             <label for="form-telp">no telpon</label>
-            <input id="form-telp" type="tel" class="form-control" name="telp" placeholder="08xx" required required pattern="[0-9\+]+">
+            <input id="form-telp" type="tel" class="form-control" name="phone" placeholder="08xx" required required pattern="[0-9\+]+">
         </div>
         <div class="form-group">
             <label>Gender</label>
@@ -144,9 +144,9 @@
         </div>
         <div class="form-group">
             <label for="form-poli">Poliklinik</label>
-            <select id="form-poli" class="form-control" id="form-gender" name="poly">
-                @foreach($poly as $item)
-                    <option value="{{$item['id_poly']}}">{{$item['name']}}</option>
+            <select id="form-poli" class="form-control" id="form-gender" name="polyclinic_id">
+                @foreach($polyclinics as $polyclinic)
+                    <option value="{{$polyclinic['id']}}">{{$polyclinic['name']}}</option>
                 @endforeach
             </select>
         </div>

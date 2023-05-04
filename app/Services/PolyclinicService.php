@@ -3,19 +3,23 @@
 namespace App\Services;
 
 use App\Models\Polyclinic;
+use App\Models\RecordCategory;
 use Exception;
 
 class PolyclinicService
 {
-    public function findAll()
+    public function findAllPolyclinics()
     {
         $data = Polyclinic::with('record_category')->orderBy('name')->get();
 
-        if ($data->isEmpty()) {
-            return null;
-        } else {
-            return $data;
-        }
+        return $data;
+    }
+
+    public function findAllCategories()
+    {
+        $data = RecordCategory::all();
+
+        return $data;
     }
 
     public function add(array $request)

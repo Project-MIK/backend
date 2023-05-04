@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('doctor_id')->nullable()->constrained('doctors')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('doctor_id')->nullable()->constrained('doctors')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

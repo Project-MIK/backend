@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Doctor;
+use App\Models\Polyclinic;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,15 +11,25 @@ use function PHPUnit\Framework\isEmpty;
 
 class DoctorService
 {
-    public function findAll()
+    public function findAllDoctors()
     {
-        $data = Doctor::with('schedules')->get()->toArray();
+        $data = Doctor::with(['polyclinic', 'schedules'])->get()->toArray();
 
-        if ($data == null) {
-            return null;
-        } else {
-            return $data;
-        }
+        return $data;
+    }
+
+    public function findAllDoctorSchedules($id)
+    {
+        $data = Doctor::with('schedules')->where('id', $id)->first();
+
+        return $data;
+    }
+
+    public function findAllPolyclinics()
+    {
+        $data = Polyclinic::all();
+
+        return $data;
     }
 
     public function findByPolyclinic($id)

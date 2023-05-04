@@ -31,20 +31,15 @@
                 @php
                 $no= 1;
                 @endphp
-                @foreach($data as $item)
-                @php
-                $date = date('d-m-Y', strtotime($item['consultation_date']));
-                $start = \Carbon\Carbon::createFromTimestamp($item['time_start'])->format('H:i:s');
-                $end =\Carbon\Carbon::createFromTimestamp($item['time_end'])->format('H:i:s');
-                @endphp
+                @foreach($schedules as $schedule)
                 <tr>
                     <td>{{$no}}</td>
-                    <td hidden>{{$item['id']}}</td>
-                    <td>{{$date}}</td>
-                    <td>{{$start}}</td>
-                    <td>{{$end}}</td>
-                    <td>{{$item['doctor_id']}}</td>
-                    <td>{{$item['doctor_name']}}</td>
+                    <td hidden>{{$schedule['id']}}</td>
+                    <td>{{ date('d-m-Y', strtotime($schedule['consultation_date'])) }}</td>
+                    <td>{{ \Carbon\Carbon::createFromTimestamp(strtotime($schedule['time_start']))->format('H:i:s') }}</td>
+                    <td>{{ \Carbon\Carbon::createFromTimestamp(strtotime($schedule['time_end']))->format('H:i:s') }}</td>
+                    <td hidden>{{$schedule['schedule']['doctor_id']}}</td>
+                    <td>{{$schedule['schedule']['doctor']['name']}}</td>
                     <td>
                         <div class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Edit</button></div>
@@ -82,9 +77,9 @@
         @csrf
         <div class="form-group">
             <label>Select</label>
-            <select name="doctor" class="form-control">
-                @foreach($doctor as $item)
-                    <option value="{{$item['id_doctor']}}">{{$item['name']}}</option>
+            <select name="doctor_id" class="form-control">
+                @foreach($doctors as $doctor)
+                    <option value="{{$doctor['id']}}">{{$doctor['name']}}</option>
                 @endforeach
             </select>
         </div>
@@ -93,7 +88,7 @@
                 <div class="form-group">
                     <label>Date:</label>
                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdate">
+                        <input type="text" name="consultation_date" class="form-control datetimepicker-input" data-target="#reservationdate">
                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -104,7 +99,7 @@
                 <div class="form-group">
                     <label>start</label>
                     <div class="input-group date" id="timepickerstart" data-target-input="nearest">
-                        <input type="text" name="start" class="form-control datetimepicker-input" data-target="#timepickerstart" />
+                        <input type="text" name="time_start" class="form-control datetimepicker-input" data-target="#timepickerstart" />
                         <div class="input-group-append" data-target="#timepickerstart" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="far fa-clock"></i></div>
                         </div>
@@ -116,7 +111,7 @@
                 <div class="form-group">
                     <label>end</label>
                     <div class="input-group date" id="timepickerend" data-target-input="nearest">
-                        <input type="text" name="end" class="form-control datetimepicker-input" data-target="#timepickerend" />
+                        <input type="text" name="time_end" class="form-control datetimepicker-input" data-target="#timepickerend" />
                         <div class="input-group-append" data-target="#timepickerend" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="far fa-clock"></i></div>
                         </div>
@@ -145,9 +140,9 @@
         <input type="text" id="edit-id" name="id" hidden>
         <div class="form-group">
             <label>Select</label>
-            <select name="doctor" id="edit-doctor" class="form-control">
-                @foreach($doctor as $item)
-                    <option value="{{$item['id_doctor']}}">{{$item['name']}}</option>
+            <select name="doctor_id" id="edit-doctor" class="form-control">
+                @foreach($doctors as $doctor)
+                    <option value="{{$doctor['id']}}">{{$doctor['name']}}</option>
                 @endforeach
             </select>
         </div>
@@ -156,7 +151,7 @@
                 <div class="form-group">
                     <label>Date</label>
                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" name="date" id="edit-date" class="form-control datetimepicker-input" data-target="#reservationdate">
+                        <input type="text" name="consultation_date" id="edit-date" class="form-control datetimepicker-input" data-target="#reservationdate">
                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -167,7 +162,7 @@
                 <div class="form-group">
                     <label>start</label>
                     <div class="input-group date" id="timepickerstart" data-target-input="nearest">
-                        <input type="text" name="start" id="edit-start" class="form-control datetimepicker-input" data-target="#timepickerstart" />
+                        <input type="text" name="time_start" id="edit-start" class="form-control datetimepicker-input" data-target="#timepickerstart" />
                         <div class="input-group-append" data-target="#timepickerstart" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="far fa-clock"></i></div>
                         </div>
@@ -179,7 +174,7 @@
                 <div class="form-group">
                     <label>end</label>
                     <div class="input-group date" id="timepickerend" data-target-input="nearest">
-                        <input type="text" id="edit-end" name="end" class="form-control datetimepicker-input" data-target="#timepickerend" />
+                        <input type="text" id="edit-end" name="time_end" class="form-control datetimepicker-input" data-target="#timepickerend" />
                         <div class="input-group-append" data-target="#timepickerend" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="far fa-clock"></i></div>
                         </div>

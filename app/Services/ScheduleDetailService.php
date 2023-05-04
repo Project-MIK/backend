@@ -2,18 +2,23 @@
 
 namespace App\Services;
 
+use App\Models\Doctor;
+use App\Models\Schedule;
 use App\Models\ScheduleDetail;
 use Exception;
 
 class ScheduleDetailService {
-    public function findAll() {
-        $data = ScheduleDetail::all();
+    public function findAllSchedules() {
+        $data = ScheduleDetail::with('schedule.doctor')->orderBy('consultation_date')->get();
 
-        if($data->isEmpty()) {
-            return null;
-        } else {
-            return $data;
-        }
+        return $data;
+    }
+
+    public function findAllDoctors()
+    {
+        $data = Doctor::orderBy('name')->get();
+
+        return $data;
     }
 
     public function findById($id) {
@@ -35,22 +40,42 @@ class ScheduleDetailService {
         return $data;
     }
 
-    public function add(array $request) {
+    public function add(array $request, string $id) {
         try {
-            ScheduleDetail::create($request);
+            $schedule = Schedule::create([
+                'doctor_id' => $id
+            ]);
+
+            $schedule->scheduleDetails()->create([
+                'consultation_date' => date('Y-m-d', strtotime($request['consultation_date'])),
+                'time_start' => $request['time_start'],
+                'time_end' => $request['time_end'],
+                'link' => '',
+                'status' => 'kosong'
+            ]);
+
             return true;
         } catch (Exception $e) {
             return false;
         }
     }
 
-    public function change(array $request, $id) {
-        $data = ScheduleDetail::find($id);
+    public function change(array $request, string $doctor, string $id) {
+        try {
+            $schedule = ScheduleDetail::find($id);
 
-        if($data != null) {
-            $data->update($request);
+            $schedule->schedule()->update([
+                'doctor_id' => $doctor
+            ]);
+
+            $schedule->update([
+                'consultation_date' => date('Y-m-d', strtotime($request['consultation_date'])),
+                'time_start' => $request['time_start'],
+                'time_end' => $request['time_end'],
+            ]);
+
             return true;
-        } else {
+        } catch (Exception $e) {
             return false;
         }
     }

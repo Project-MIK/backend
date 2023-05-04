@@ -17,7 +17,13 @@ class PolyclinicController extends Controller
 
     public function index()
     {
-        $polyclinics = $this->service->findAll();
+        $polyclinics = $this->service->findAllPolyclinics();
+        $categories = $this->service->findAllCategories();
+
+        return view('admin.poli', [
+            'polyclinics' => $polyclinics,
+            'categories' => $categories,
+        ]);
     }
 
     public function create()
@@ -25,9 +31,10 @@ class PolyclinicController extends Controller
         //
     }
 
-    public function store(PolyclinicStoreRequest $request) : bool
+    public function store(PolyclinicStoreRequest $request)
     {
-        $response = $this->service->add($request->validate($request->rules()));
+        $validated = $request->validated();
+        $response = $this->service->add($validated);
 
         if ($response) {
             session()->flash("message", "berhasil menambah poliklinik");
@@ -35,7 +42,7 @@ class PolyclinicController extends Controller
             session()->flash("message", "gagal menambah poliklinik");
         }
 
-        return $response;
+        return redirect('/admin/poly');
     }
 
     public function show($id)
@@ -69,19 +76,23 @@ class PolyclinicController extends Controller
         return $data;
     }
 
-    public function update(PolyclinicUpdateRequest $request, $id)
+    public function update(PolyclinicUpdateRequest $request)
     {
-        $response = $this->service->change($request->validate($request->rules()), $id);
+        $id = $request->id;
+        $validated = $request->validated();
+        $response = $this->service->change($validated, $id);
         if ($response) {
             session()->flash("message", "berhasil memperbarui poliklinik");
         } else {
             session()->flash("message", "gagal memperbarui poliklinik");
         }
-        return $response;
+        
+        return redirect('/admin/poly');
     }
 
-    public function destroy($id)
+    public function destroy()
     {
+        $id = request()->id;
         $response = $this->service->deleteById($id);
         if ($response) {
             session()->flash("message", "berhasil menghapus poliklinik");
@@ -89,7 +100,7 @@ class PolyclinicController extends Controller
             session()->flash("message", "gagal menghapus poliklinik");
         }
 
-        return $response;
+        return redirect('/admin/poly');
     }
 
     public function searchByName(string $search)

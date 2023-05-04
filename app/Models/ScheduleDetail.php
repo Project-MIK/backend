@@ -19,9 +19,10 @@ class ScheduleDetail extends Model
         'schedule_id'
     ];
 
-    public function schedules()
+    public function schedule()
     {
-        return $this->belongsTo(Schedules::class);
+        return $this->belongsTo(Schedule::class, 'schedule_id', 'id');
     }
+
     protected $table = "schedule_details";
 }
