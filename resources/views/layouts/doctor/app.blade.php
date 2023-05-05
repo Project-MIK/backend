@@ -38,6 +38,7 @@
 
 
     <x-admin-postrendered-assets />
+    @if(session('message'))
     <script>
         console.log('mesage recorded');
         $(function() {
