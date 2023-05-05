@@ -14,6 +14,6 @@ class SchedulesSeeder extends Seeder
      */
     public function run()
     {
-        Schedule::factory(10)->create();
+        Schedule::factory(3)->create();
     }
 }

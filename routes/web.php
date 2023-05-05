@@ -141,9 +141,7 @@ Route::prefix('konsultasi')->group(function () {
     // });
     // Cancel scheduling medical prescription
     Route::get('/{id}/cancel-medical-prescription', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/cancel-medical-prescription', function ($id) {
-        dd($id);
-    });
+    Route::post('/{id}/cancel-medical-prescription',[RecordController::class , "cancelMedicalPrescription"]);
  
     // Send proof payment to confirmation medical prescription
     Route::get('/{id}/payment-medical-prescription', fn ($id) => redirect("/konsultasi/{$id}"));

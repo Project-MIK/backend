@@ -17,7 +17,7 @@ class DoctorSeeder extends Seeder
      */
     public function run()
     {
-        Doctor::factory(4)->create();
+        Doctor::factory(2)->create();
         DB::table('doctors')->insert([
             'name' => 'Sulthon',
             'gender' => 'M',

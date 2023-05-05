@@ -21,11 +21,11 @@ class ScheduleDetailFactory extends Factory
     public function definition()
     {
         return [
-            'consultation_date' => Carbon::now()->addDay(), 
+            'consultation_date' => Carbon::now()->addDays($this->faker->numberBetween(1 , 3)), 
             'time_start' => Carbon::now()->addHour(), 
             'time_end' => Carbon::now()->addHours(2), 
             'link' => 'www.youtube.com', 
-            'status' => fake()->randomElement(['kosong', 'terisi']), 
+            'status' => 'kosong', 
             'schedule_id' => fake()->numberBetween(1, 3)
         ];
     }

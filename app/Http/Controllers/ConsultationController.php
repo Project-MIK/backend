@@ -144,13 +144,13 @@ class ConsultationController extends Controller
 
     public function storeConsultation(Request $request)
     {
+        $doctor = session('consultation')['doctor'][0];
         $date = session('consultation')['schedule_date'];
-        $schedule = $this->service->findScheduleByDate($date);
-        
+        $schedule = $this->service->findScheduleByDate($doctor, $date);
+       
         session(['consultation' => array_merge(session('consultation'), [
             "schedule" => $schedule->id
         ])]);
-
         $validator = Validator::make($request->all(), [
             'description' => ['required', 'max:255', 'min:10'],
             [
@@ -177,7 +177,6 @@ class ConsultationController extends Controller
             if ($res['status']) {
                 $id = $res['id'];
                 $schedules = $this->scheduleDetailService->updateStatus($requestParam['schedule'] , 'terisi');
-                dd($schedules);
                 return redirect("/konsultasi/$id#payment");
             } else {
                 return redirect('dashboard')->with('message', 'gagal membuat konsultasi terjadi kesalahan');

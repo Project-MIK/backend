@@ -126,6 +126,10 @@ class RecordController extends Controller
         }
     }
 
+    public function cancelMedicalPrescription($id){
+        $this->service->cancelMedicalPrescription($id);
+        return redirect("dashboard");
+    }
 
     public function showComplaintOnAdmin()
     {

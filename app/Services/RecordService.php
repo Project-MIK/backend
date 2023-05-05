@@ -63,7 +63,9 @@ class RecordService
             $uniqueid = $this->record->where('id', $resultId)->first();
         } while ($uniqueid != null);
         $scheduleTime = $this->schedule->where('id', $request['id_schedules'])->first();
-        $validStatus = new \DateTime(Carbon::parse($scheduleTime->time_start));
+        $oneHourAgo = Carbon::parse($scheduleTime->time_start)->subHour();
+        $oneHourAgoFormated = $oneHourAgo->format('H:i:s');
+        $validStatus = new \DateTime(Carbon::parse($scheduleTime->consultation_date. " " .$oneHourAgoFormated));
         $res = [];
 
         $exist = $this->medicalRecord->where('medical_record_id', $request['medical_record_id'])->first();
@@ -92,7 +94,7 @@ class RecordService
                         "description" => $request['description'],
                         "complaint" => $request['complaint'],
                         "doctor_id" => $request['id_doctor'],
-                        "schedule_id" => 1,
+                        "schedule_id" => $request['id_schedules'],
                         "id_category" => $request['id_category'][0],
                         "valid_status" => $validStatus
                     ]);
@@ -212,6 +214,8 @@ class RecordService
             "status_payment_consultation" => "DIBATALKAN",
             'status_consultation' => 'consultation-complete'
         ]);
+        $dataRecord = $this->record->where('id' , $id)->first();
+        $this->scheduleDetailService->updateStatus($dataRecord->schedule_id, "kosong");
         if ($res) {
             return true;
         }
@@ -294,18 +298,19 @@ class RecordService
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('doctors', 'doctors.id', 'record.doctor_id')
             ->join('schedule_details', 'schedule_details.id', 'record.schedule_id')
-            ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'schedule_details.time_start as start', 'schedule_details.time_end as end')
+            ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'schedule_details.time_start as start', 'schedule_details.time_end as end' , 'schedule_details.consultation_date')
             ->where('doctors.id', $id)
             ->where('record.status_consultation' , 'confirmed-consultation-payment')
             ->get()->toArray();
         foreach ($data as $key => $value) {
             # code...
-            $start = strtotime($data[$key]['start']);
-            $end = strtotime($data[$key]['end']);
-            unset($data[$key]['start'], $data[$key]['end']);
-            $data[$key]['duration'] = $end - $start;
-            $data[$key]['start'] = $start;
-            $data[$key]['end'] = $end;
+        
+            $timeStart = Carbon::parse($data[$key]['consultation_date']." ".$data[$key]['start']);
+            $timeEnd = Carbon::parse($data[$key]['consultation_date']." ".$data[$key]['end']);
+            $data[$key]['start'] = strtotime($timeStart);
+            $data[$key]['end'] = strtotime($timeEnd);
+            $duration = $data[$key]['end'] - $data[$key]['start'];
+            $data[$key]['duration'] = $duration;
             $data[$key]['link'] = "https://meet.jit.si/" . $data[$key]['consul_id'];
         }
         return $data;
@@ -334,13 +339,11 @@ class RecordService
             ->select('pattient.name as patien', 'record.id as id_consul', 'doctors.name as doctor', 'schedule_details.time_start', 'schedule_details.time_end' , 'schedule_details.id as id_schedule')
             ->where('record.status_consultation', 'confirmed-consultation-payment')
             ->where('record.status_payment_consultation', 'TERKONFIRMASI')
-            ->where('schedule_details.time_end', '>=', Carbon::now())
             ->where('record.id', $id)
             ->first();
         
 
         $isUpdate = $this->scheduleDetailService->updateStatus($res['id_schedule'] , 'kosong');
-        dd($isUpdate);
         if ($res != null) {
             $res = $res->toArray();
             $start = now();
@@ -366,15 +369,16 @@ class RecordService
             ->join('record', 'record.medical_record_id', 'medical_records.medical_record_id')
             ->join('doctors', 'doctors.id', 'record.doctor_id')
             ->join('schedule_details', 'record.schedule_id', 'schedule_details.id')
-            ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'doctors.name as doctor', 'schedule_details.time_start as start', 'schedule_details.time_end as end', 'record.valid_status' , 'schedule_details.id as id_schedule')
+            ->select('record.id as consul_id', 'pattient.name as patient_name', 'pattient.medical_record_id as medrec', 'doctors.name as doctor', 'schedule_details.time_start as start', 'schedule_details.time_end as end', 'record.valid_status' , 'schedule_details.id as id_schedule','schedule_details.consultation_date')
             ->where('record.status_consultation', 'confirmed-consultation-payment')
             ->where('record.status_payment_consultation', 'TERKONFIRMASI')
-            ->where('schedule_details.time_end', '>=', Carbon::now())
             ->get()->toArray();
         foreach ($res as $key => $value) {
             # code...
-            $res[$key]['start'] = strtotime($res[$key]['start']);
-            $res[$key]['end'] = strtotime($res[$key]['end']);
+            $timeStart = Carbon::parse($res[$key]['consultation_date']." ".$res[$key]['start']);
+            $timeEnd = Carbon::parse($res[$key]['consultation_date']." ".$res[$key]['end']);
+            $res[$key]['start'] = strtotime($timeStart);
+            $res[$key]['end'] = strtotime($timeEnd);
             $duration = $res[$key]['end'] - $res[$key]['start'];
             $res[$key]['duration'] = $duration;
         }
@@ -511,6 +515,18 @@ class RecordService
 
     }
 
+    public function cancelMedicalPrescription($id){
+        $record = $this->record->where('id' , $id)->first();
+        $recipe = $record->id_recipe;
+        $this->record->where('id', $id)->update(
+            [
+                'id_recipe' => null,
+                "status_consultation" => 'consultation-complete'
+            ]
+        );
+        Recipes::destroy($recipe);
+    }
+    
 }
 
 ?>
