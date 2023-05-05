@@ -7,8 +7,6 @@ use App\Models\Polyclinic;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
-use function PHPUnit\Framework\isEmpty;
-
 class DoctorService
 {
     public function findAllDoctors()
@@ -46,7 +44,7 @@ class DoctorService
 
     public function findById($id)
     {
-        $data = Doctor::with('schedules')->where('id', $id)->first();
+        $data = Doctor::with(['schedules', 'polyclinic'])->where('id', $id)->first();
 
         if ($data == null) {
             return null;
@@ -58,7 +56,16 @@ class DoctorService
     public function add(array $request)
     {
         try {
-            Doctor::create($request);
+            Doctor::create([
+                'name' => $request['name'],
+                'gender' => $request['gender'],
+                'address' => $request['address'],
+                'phone' => $request['phone'],
+                'email' => $request['email'],
+                'password' => bcrypt($request['password']),
+                'polyclinic_id' => $request['polyclinic_id'],
+            ]);
+
             return true;
         } catch (Exception $e) {
             return false;
@@ -70,11 +77,64 @@ class DoctorService
         $data = Doctor::where('id', $id);
 
         if ($data->count() > 0) {
-            $data->update($request);
+            $data->update([
+                'name' => $request['name'],
+                'gender' => $request['gender'],
+                'address' => $request['address'],
+                'phone' => $request['phone'],
+                'email' => $request['email'],
+                'polyclinic_id' => $request['polyclinic_id'],
+            ]);
             return true;
         } else {
             return false;
         }
+    }
+
+    public function changeSetting(array $request, string $id)
+    {
+        $doctor = Doctor::where('id', $id);
+
+        if ($doctor->count() > 0) {
+            $doctor->update([
+                'name' => $request['name'],
+                'gender' => $request['gender'],
+                'address' => $request['address'],
+                'phone' => $request['phone'],
+            ]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function changeEmail(array $email, string $id)
+    {
+        $doctor = Doctor::where('id', $id);
+
+        if ($doctor->count() > 0) {
+            $doctor->update($email);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function changePassword(array $request, string $id)
+    {
+        $doctor = Doctor::where('id', $id);
+
+        if ($doctor->count() > 0) {
+            $doctor->update([
+                'password' => bcrypt($request['password'])
+            ]);
+
+            return true;
+        }
+
+        return false;
     }
 
     public function deleteById($id)

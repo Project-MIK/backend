@@ -3,6 +3,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthDoctorController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DoctorScheduleController;
+use App\Http\Controllers\DoctorSettingController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MedicalRecordsController;
 use App\Http\Controllers\MedicinesController;
@@ -451,7 +452,7 @@ Route::prefix('admin')->group(
 
 //dokter
 Route::prefix('doctor')->group(function () {
-    Route::middleware('DoctorLoggedIn')->prefix('login')->group(function () {
+    Route::middleware('guestDoctor')->prefix('login')->group(function () {
         Route::get('/', [AuthDoctorController::class, 'index']);
         Route::post('/', [AuthDoctorController::class, 'authenticate']);
     });
@@ -460,14 +461,14 @@ Route::prefix('doctor')->group(function () {
     Route::redirect('/dashboard','/doctor/consul');
 
 
-    Route::prefix("/consul")->group(function(){
+    Route::middleware('isDoctor')->prefix("/consul")->group(function(){
         Route::get('/', [RecordController::class , "showConsulByDoctor"]);
         Route::get('jitsi/{id_consul}', [RecordController::class, "getJitsiDocter"]);
     });
 
-    Route::get('/schedule', [DoctorScheduleController::class, 'index'])->middleware('auth:doctor');
+    Route::get('/schedule', [DoctorScheduleController::class, 'index'])->middleware('isDoctor');
 
-    Route::prefix('category')->group(function () {
+    Route::middleware('isDoctor')->prefix('category')->group(function () {
         //category: nama kategori
         //count: jumlah kategori digunakan pada komplain
         Route::get('/', function () {
@@ -497,37 +498,18 @@ Route::prefix('doctor')->group(function () {
         });
     });
 
-    Route::prefix('setting')->group(function(){
-        Route::get('/',function (){
-            $data = [
-                'id' => 123,
-                'name' => 'John Doe',
-                'no_telp' => '555-1234',
-                'poly' => 'Cardiology',
-                'gender' => 'M',
-                'address' => '123 Main St',
-                'email' => 'johndoe@example.com',
-            ];;
-
-            return view('doctor.pages.setting',['data'=>$data]);
-        });
-
-        Route::prefix('update')->group(function(){
-            Route::put('password',function(Request $request){
-                dd($request);
+    Route::middleware('isDoctor')->prefix('setting')->group(function(){
+        Route::controller(DoctorSettingController::class)->group(function() {
+            Route::get('/', 'index');
+            Route::prefix('/update')->group(function () {
+                Route::put('/', 'update');
+                Route::put('/email', 'email');
+                Route::put('/password', 'password');
             });
-
-            Route::put('email',function(Request $request){
-                dd($request);
-            });
-
-            Route::put('/',function(Request $request){
-                dd($request);
-            });
-        });            
+        });         
     });
 
-    Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('auth:doctor');
+    Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('isDoctor');
 });
 
 // Logout ( Clear all session pacient )

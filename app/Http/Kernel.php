@@ -72,7 +72,7 @@ class Kernel extends HttpKernel
         'pattentNotAuthenticate' => PattientMiddleware::class,
         'checkRecord' => OnlyThoseWhoDontHaveRecordMiddleware::class,
         'isDoctor' => \App\Http\Middleware\isDoctor::class,
-        'DoctorLoggedIn' => \App\Http\Middleware\DoctorLoggedIn::class,
+        'guestDoctor' => \App\Http\Middleware\GuestDoctor::class,
         'guestAdmin' => GuestAdmin::class,
         'pattientAuthenticate' => PattientIsAuthenticate::class
     ];

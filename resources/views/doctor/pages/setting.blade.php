@@ -23,32 +23,31 @@
         @method('put')
         <div class="form-group">
             <label>Id</label>
-            <input type="text" name="name" readonly class="form-control" placeholder="Nama" value="{{$data['id']}}">
+            <input type="text" name="id" readonly class="form-control" placeholder="ID" value="{{$doctor['id']}}">
         </div>
         <div class="form-group">
             <label>Nama</label>
-            <input type="text" name="name" class="form-control" placeholder="Nama" value="{{$data['name']}}">
+            <input type="text" name="name" class="form-control" placeholder="Nama" value="{{$doctor['name']}}">
         </div>
         <div class="form-group">
             <label>No telpon</label>
-            <input type="text" name="no_telp" class="form-control" placeholder="Nama" value="{{$data['no_telp']}}">
+            <input type="text" name="phone" class="form-control" placeholder="Nomor Telepon" value="{{$doctor['phone']}}">
         </div>
         <div class="form-group">
             <label>Poliklinik</label>
-            <input type="text" readonly class="form-control" placeholder="Nama" value="{{$data['poly']}}">
+            <input type="text" readonly class="form-control" placeholder="Poliklinik" value="{{$doctor['polyclinic']['name']}}">
         </div>
         <div class="form-group">
             <label>Gender</label>
-            <select class="form-control">
-                <option value=""></option>
-                <option value="M" {{ $data['gender'] >= 'M' ? 'selected' : '' }}>laki laki</option>
-                <option value="W" {{ $data['gender'] >= 'W' ? 'selected' : '' }}>wanita</option>
+            <select class="form-control" name="gender">
+                <option value="M" {{ $doctor['gender'] >= 'M' ? 'selected' : '' }}>laki laki</option>
+                <option value="W" {{ $doctor['gender'] >= 'W' ? 'selected' : '' }}>wanita</option>
             </select>
         </div>
 
         <div class="form-group">
             <label>Alamat</label>
-            <textarea class="form-control" name="address" rows="3" placeholder="alamat">{{$data['address']}}</textarea>
+            <textarea class="form-control" name="address" rows="3" placeholder="alamat">{{$doctor['address']}}</textarea>
         </div>
         <div class="ml-auto">
             <button type="submit" class="btn btn-block btn-success btn-lg">Save</button>
@@ -60,7 +59,7 @@
             <div class="form-group">
                 <label>email</label>
                 <div class="row">
-                    <div class="col"><input type="email" class="form-control" readonly placeholder="email" value="{{$data['email']}}"></div>
+                    <div class="col"><input type="email" class="form-control" readonly placeholder="email" value="{{$doctor['email']}}"></div>
                     <div class="col">
                         <button type="button" data-toggle='modal' data-target='#modal-email' class="btn btn-block btn-secondary align-bottom">Ganti Email</button>
                     </div>
@@ -85,15 +84,15 @@
     <form id="form_password" action="/doctor/setting/update/password" method="POST">
         @csrf
         @method('put')
-        <input type="text" name="id" id="password-id" value="{{$data['id']}}" hidden>
+        <input type="text" name="id" id="password-id" value="{{$doctor['id']}}" hidden>
         <div class="form-group">
             <label>Password</label>
-            <input type="text" class="form-control" required placeholder="password" id="password" name="password">
+            <input type="password" class="form-control" required placeholder="password" id="password" name="password">
         </div>
         <div class="form-group">
             <label>Konfirmasi Password</label>
             <p class="text-danger" id="text-password" hidden>Password tidak sama</p>
-            <input required type="text" class="form-control" placeholder="konfirmasi password" id="cPassword" name="confirm_password">
+            <input required type="password" class="form-control" placeholder="konfirmasi password" id="cPassword" name="password_confirmation">
         </div>
         <button type="button" onclick="IsSame(this)" class="btn btn-block btn-success btn-sm">Save</button>
     </form>
@@ -106,10 +105,10 @@
     <form action="/doctor/setting/update/email" method="POST">
         @csrf
         @method('put')
-        <input type="text" name="id" id="email-id" value="{{$data['id']}}" hidden>
+        <input type="text" name="id" id="email-id" value="{{$doctor['id']}}" hidden>
         <div class="form-group">
             <label>Email</label>
-            <input type="text" class="form-control" placeholder="email" name="email" value="{{$data['email']}}">
+            <input type="text" class="form-control" placeholder="email" name="email" value="{{$doctor['email']}}">
         </div>
 
         <button type="submit" class="btn btn-block btn-success btn-sm">Save</button>

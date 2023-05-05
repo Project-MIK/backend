@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class DoctorLoggedIn
+class GuestDoctor
 {
     /**
      * Handle an incoming request.
@@ -18,7 +18,7 @@ class DoctorLoggedIn
     public function handle(Request $request, Closure $next)
     {
         if (Auth::guard('doctor')->check()) {
-            return redirect('/doctor/dashboard');
+            return redirect('/doctor/consul');
         }
 
         return $next($request);

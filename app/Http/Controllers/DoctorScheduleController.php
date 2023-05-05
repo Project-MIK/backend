@@ -15,7 +15,7 @@ class DoctorScheduleController extends Controller
 
     public function index()
     {
-        $id = auth()->id();
+        $id = auth('doctor')->id();
         $doctor = $this->service->findAllDoctorSchedules($id);
 
         return view('doctor.pages.schedule', [

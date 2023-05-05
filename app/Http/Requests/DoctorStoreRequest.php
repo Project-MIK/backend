@@ -28,6 +28,8 @@ class DoctorStoreRequest extends FormRequest
             'gender' => ['required', 'in:W,M', 'string'],
             'address' => ['required', 'min:8', 'string'],
             'phone' => ['required', 'digits_between:12,13', 'numeric'],
+            'email' => ['required', 'email', 'unique:doctors,email'],
+            'password' => ['required'],
             'polyclinic_id' => ['required', 'numeric']
         ];
     }

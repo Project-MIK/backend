@@ -28,6 +28,7 @@ class DoctorUpdateRequest extends FormRequest
             'gender' => ['sometimes', 'in:W,M', 'string'],
             'address' => ['sometimes', 'min:8', 'string'],
             'phone' => ['sometimes', 'digits_between:12,13', 'numeric'],
+            'email' => ['sometimes', 'email',],
             'polyclinic_id' => ['sometimes', 'numeric']
         ];
     }
