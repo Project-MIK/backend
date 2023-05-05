@@ -433,7 +433,7 @@ Route::prefix('admin')->group(
             }
         );
 
-        ROute::prefix('setting')->group(function(){
+        Route::prefix('setting')->group(function(){
             Route::get('/',[AdminController::class , 'displayDataAdmin'])->middleware('isAdmin');;
 
             Route::prefix('update')->group(function(){
@@ -495,6 +495,36 @@ Route::prefix('doctor')->group(function () {
         Route::delete('/destroy', function (Request $request) {
             dd([$request]);
         });
+    });
+
+    Route::prefix('setting')->group(function(){
+        Route::get('/',function (){
+            $data = [
+                'id' => 123,
+                'name' => 'John Doe',
+                'no_telp' => '555-1234',
+                'poly' => 'Cardiology',
+                'gender' => 'M',
+                'address' => '123 Main St',
+                'email' => 'johndoe@example.com',
+            ];;
+
+            return view('doctor.pages.setting',['data'=>$data]);
+        });
+
+        Route::prefix('update')->group(function(){
+            Route::put('password',function(Request $request){
+                dd($request);
+            });
+
+            Route::put('email',function(Request $request){
+                dd($request);
+            });
+
+            Route::put('/',function(Request $request){
+                dd($request);
+            });
+        });            
     });
 
     Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('auth:doctor');

@@ -196,6 +196,8 @@
         tabel = button.parentElement.parentElement.parentElement.parentElement;
         rawData = tabel.getElementsByTagName('td');
 
+        
+
         var obj = {
             id: rawData[1].innerText
             , name: rawData[2].innerText
@@ -206,6 +208,14 @@
             , poly: rawData[7].innerHTML
             , address: rawData[8].innerHTML
         };
+
+        if (obj.gender == 'Laki-Laki') {
+            obj.gender = 'M';
+        } else if (obj.gender == 'Perempuan') {
+            obj.gender = 'W';
+        }else{
+            obj.gender = '';
+        }
 
         return obj;
     }
@@ -220,6 +230,7 @@
         var telp = document.getElementById('form-telp');
         var poly = document.getElementById('form-poli');
 
+        console.log(data.gender);
         id.value = data.id;
         name.value = data.name;
         email.value = data.email;
