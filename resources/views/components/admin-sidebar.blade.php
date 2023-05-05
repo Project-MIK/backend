@@ -30,18 +30,6 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                    <a href="/admin" class="nav-link">
-                        <div class="row">
-                            <div class="col-2"><i class="fa-solid fa-gauge-high"></i></div>
-                            <div class="col-10">
-                                <p>
-                                    Dashboard
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </li>
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">

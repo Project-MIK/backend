@@ -197,7 +197,8 @@ Route::prefix('konsultasi')->group(function () {
 //admin
 Route::prefix('admin')->group(
     function () {
-        Route::view('/', 'admin.dashboard',)->middleware('isAdmin');
+        Route::redirect('/','/admin/complain');
+        // Route::view('/', 'admin.dashboard',)->middleware('isAdmin');
 
         Route::prefix('login')->group(
             function () {
@@ -455,11 +456,9 @@ Route::prefix('doctor')->group(function () {
         Route::post('/', [AuthDoctorController::class, 'authenticate']);
     });
 
-    Route::prefix('/dashboard')->group(function () {
-        Route::get('/', function () {
-            return view('doctor.pages.dashboard');
-        })->middleware('auth:doctor');
-    });
+    Route::redirect('/', '/doctor/consul');
+    Route::redirect('/dashboard','/doctor/consul');
+
 
     Route::prefix("/consul")->group(function(){
         Route::get('/', [RecordController::class , "showConsulByDoctor"]);
