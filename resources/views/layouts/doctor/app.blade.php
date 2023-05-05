@@ -38,8 +38,6 @@
 
 
     <x-admin-postrendered-assets />
-    @if(session('message'))
-    {{dd(session()->all())}}
     <script>
         console.log('mesage recorded');
         $(function() {
