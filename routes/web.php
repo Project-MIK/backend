@@ -245,7 +245,7 @@ Route::prefix('admin')->group(
             }
         );
 
-        Route::prefix('admin')->group(
+        Route::prefix('admin')->name('admin.')->group(
             function () {
                 Route::get('/', [AdminController::class, 'index'])->middleware('isAdmin');
                 Route::post('store', [AdminController::class, 'store'])->middleware('isAdmin');
@@ -253,7 +253,7 @@ Route::prefix('admin')->group(
                     'update',
                     [AdminController::class, "updateAdmin"]
                 )->middleware('isAdmin');
-                Route::delete('destroy', [AdminController::class, 'destroy'])->middleware('isAdmin');
+                Route::delete('destroy', [AdminController::class, 'destroy'])->middleware('isAdmin')->name('destroy');
             }
         );
 

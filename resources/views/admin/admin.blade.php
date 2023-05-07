@@ -120,7 +120,7 @@
     <x-slot:header><h3>Warning</h3></x-slot:Header>
     <x-slot:footer></x-slot:footer>
     <h5>apakah anda yakin ingin menghapus data ini?</h5>
-    <form action="destroy" method="post">
+    <form action="{{route('admin.destroy')}}" method="post">
         @csrf
         @method('delete')
         <input type="text" hidden name="id">

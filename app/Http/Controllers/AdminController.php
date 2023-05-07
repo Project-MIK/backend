@@ -124,9 +124,9 @@ class AdminController extends Controller
      *
      * @param  \App\Models\Admin  $admin
      */
-    public function destroy(Admin $admin)
+    public function destroy(Request $admin)
     {
-      
+       
         $res = $this->service->deleteById($admin->id);
         if ($res) {
             // success deelte
