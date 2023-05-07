@@ -134,8 +134,8 @@ class AdminController extends Controller
             return redirect('/admin/admin');
         } else {
             // failed delete
-            session()->flash("message", "gagal menghapus admin");
-            return redirect("/admin/admin");
+            
+            return redirect("/admin/admin")->withErrors("gagal menghapus admin");
         }
     }
     public function searchByName(KeyRequest $keyRequest)
