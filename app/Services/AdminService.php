@@ -25,6 +25,7 @@ class AdminService
     public function store(array $request)
     {
         try {
+            $request['password'] = bcrypt($request['password']);
             $this->admin->create($request);
             return true;
         } catch (\Exception $th) {
