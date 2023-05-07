@@ -129,18 +129,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/petugas" class="nav-link">
-                                <div class="row">
-                                    <div class="col-2"><i class="fa-solid fa-id-card"></i></div>
-                                    <div class="col-10">
-                                        <p>
-                                            Petugas
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="/admin/doctor/" class="nav-link">
                                 <div class="row">
                                     <div class="col-2"><i class="fa-solid fa-user-doctor"></i></div>
@@ -192,7 +180,7 @@
 
                 </li>
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="/admin/medrec/view" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-file-medical"></i></div>
@@ -203,7 +191,7 @@
                             </div>
                         </div>
                     </a>
-                </li>
+                </li> --}}
 
 
                 <li class="nav-item">

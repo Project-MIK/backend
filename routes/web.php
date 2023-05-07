@@ -257,15 +257,6 @@ Route::prefix('admin')->group(
             }
         );
 
-        Route::prefix('petugas')->group(
-            function () {
-                Route::get('/', [RegistrationOfficersController::class, 'index'])->middleware('isAdmin');
-                Route::post('store', [RegistrationOfficersController::class, 'store'])->middleware('isAdmin');
-                Route::put('update', [RegistrationOfficersController::class, 'update'])->middleware('isAdmin');
-                Route::delete('destroy', [RegistrationOfficersController::class, 'destroy'])->middleware('isAdmin');
-            }
-        );
-
 
         Route::prefix('medrec')->group(
             function () {

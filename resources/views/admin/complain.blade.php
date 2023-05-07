@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 @section('content-header')
-<h1>Complain Patient</h1>
+<h1>Komplain Pasien</h1>
 @endsection
 @section('content')
 <div class="card">
