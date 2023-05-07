@@ -126,7 +126,7 @@ class AdminController extends Controller
      */
     public function destroy(Admin $admin)
     {
-       
+      
         $res = $this->service->deleteById($admin->id);
         if ($res) {
             // success deelte
