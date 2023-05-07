@@ -59,7 +59,7 @@
                             <div class="col-2"><i class="fa-solid fa-gear"></i></div>
                             <div class="col-10">
                                 <p>
-                                    Setting
+                                    Pengaturan
                                 </p>
                             </div>
                         </div>
