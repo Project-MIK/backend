@@ -126,15 +126,16 @@ class AdminController extends Controller
      */
     public function destroy(Admin $admin)
     {
+       
         $res = $this->service->deleteById($admin->id);
         if ($res) {
             // success deelte
             session()->flash("message", "berhasil menghapus admin");
-            return redirect('/admin');
+            return redirect('/admin/admin');
         } else {
             // failed delete
             session()->flash("message", "gagal menghapus admin");
-            return redirect("/admin");
+            return redirect("/admin/admin");
         }
     }
     public function searchByName(KeyRequest $keyRequest)
@@ -220,11 +221,15 @@ class AdminController extends Controller
                     return redirect()->back()->withErrors(['msg' => 'nik sudah digunakan olah pengguna lain']);
                 }
             } else {
-                $checkPaspor = $this->pattientService->checkNoPaspor($id, $request->no_paspor);
+                $checkPaspor = $this->pattientService->checkNoPaspor($id, $request->nik);
+                
                 if ($checkPaspor) {
                     return redirect()->back()->withErrors(['msg' => 'no paspor sudah digunakan olah pengguna lain']);
                 }
-                $rules['no_paspor'] = ['required', 'digits:16', 'unique:pattient,no_paspor'];
+                
+                $request['no_paspor'] = $request->nik;
+                $rules['no_paspor'] = ['required', 'digits:16'];
+              //  $rules['nik'] = ['required', 'digits:16', 'unique:pattient,no_paspor'];
                 $customMessages = [
                     'fullname.required' => 'Nama lengkap tidak boleh kosong.',
                     'fullname.min' => 'Nama lengkap tidak boleh kurang dari 4 digit',
@@ -245,8 +250,10 @@ class AdminController extends Controller
                     'address_kabupaten.min' => 'kabupaten tidak boleh kurang dari 4 digit',
                     'no_telp.required' => 'No Hp tidak boleh kosong',
                     'no_telp.min' => 'no Hp tidak boleh kurang dari 10 digit',
-                    'no_telp.max' => 'no Hp tidak boleh lebih dari 13 digit'
+                    'no_telp.max' => 'no Hp tidak boleh lebih dari 13 digit',
+                    "no_paspor.digits" => "no paspor harus 16 digits" 
                 ];
+              
                 $this->validate($request, $rules, $customMessages);
             }
             $data = $request->except([
@@ -263,6 +270,9 @@ class AdminController extends Controller
                 'email',
                 '_method'
             ]);
+            if(isset($data['no_paspor'])){
+                unset($data['nik']);
+            }
             $data['date_birth'] = $request->date_birth;
             $data['name'] = $request->fullname;
             $data['address'] = $request->address_RT . '/' . $request->address_RW . '/' . $request->address_dusun . '/' . $request->address_desa . '/' . $request->address_kecamatan . '/' . $request->address_kabupaten;

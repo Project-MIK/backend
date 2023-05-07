@@ -45,7 +45,7 @@ class PattientService
         try {
             $request['password'] = bcrypt($request['password']);
             $request['name'] = $request['fullname'];
-            $request['address'] = "RT/RW : " . $request['address_RT'] . "/" . $request['address_RW'] . " Dusun " . $request['address_dusun'] . " Desa " . $request['address_desa'] . " Kec. " . $request['address_kecamatan'] . " Kab." . $request['address_kabupaten'];
+            $request['address'] = $request['address_RT'] . "/" . $request['address_RW']."/". $request['address_dusun'] ."/".$request['address_desa']."/". $request['address_kecamatan'] ."/". $request['address_kabupaten'];
             $res = $this->model->create($request);
             if ($res) {
                 return true;
@@ -121,6 +121,7 @@ class PattientService
     // return array 
     public function update(array $request, $id): array
     {
+       
         $data = $this->findById($id);
         $allData = $this->model->where('id', '<>', $id)->get();
         $isChanged = Helper::compareToArrays($request, $id, 'pattient');
