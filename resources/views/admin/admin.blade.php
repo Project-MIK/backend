@@ -123,7 +123,7 @@
     <form action="{{route('admin.destroy')}}" method="post">
         @csrf
         @method('delete')
-        <input type="text" hidden name="id">
+        <input id="delete-id" type="text" hidden name="id">
         <button type="submit" class="btn btn-block btn-danger btn-sm">YA!</button>
     </form>
 </x-modals.modal>
@@ -153,6 +153,8 @@
             , address: rawData[4].innerText
         };
 
+        console.log(obj);
+
         return obj;
     }
 
@@ -177,15 +179,15 @@
     }
 
     //untuk mengset data nama pada tabel ke form modal ketika btn dengan class detail di klik
-    const detailButtons = document.querySelectorAll(".detail");
+    // const detailButtons = document.querySelectorAll(".detail");
 
-    for (let i = 0; i < detailButtons.length; i++) {
-        detailButtons[i].addEventListener("click", function() {
-            const name = this.closest("tr").querySelector("td:nth-child(2)").innerHTML;
-            console.log(name);
-            fillName(name);
-        });
-    }
+    // for (let i = 0; i < detailButtons.length; i++) {
+    //     detailButtons[i].addEventListener("click", function() {
+    //         const name = this.closest("tr").querySelector("td:nth-child(2)").innerHTML;
+    //         console.log(name);
+    //         fillName(name);
+    //     });
+    // }
 
 </script>
 
