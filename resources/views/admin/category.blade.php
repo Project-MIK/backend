@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 @section('content-header')
-<h1>Category Complaint</h1>
+<h1>Kategori</h1>
 @endsection
 @section('content')
 
@@ -19,7 +19,7 @@
                     <th>no</th>
                     <th hidden>id kategori</th>
                     <th>kategori</th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,8 +42,9 @@
             <tfoot>
                 <tr>
                     <th>no</th>
+                    <th hidden>id kategori</th>
                     <th>kategori</th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </tfoot>
         </table>
@@ -104,8 +105,7 @@
 <script>
     $(function() {
         $("#example1").DataTable({
-            "responsive": true
-            , "lengthChange": false
+            "lengthChange": false
             , "autoWidth": false
             , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');

@@ -18,7 +18,7 @@
                     <th>poliklinik</th>
                     <th hidden>id kategori</th>
                     <th>kategori</th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@
                     <th>no</th>
                     <th>poliklinik</th>
                     <th>kategori</th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </tfoot>
         </table>

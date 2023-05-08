@@ -20,7 +20,7 @@
                     <td>durasi</td>
                     <td>mulai</td>
                     <td>akhir</td>
-                    <td>video conferece</td>
+                    <td>panggilan video</td>
                 </tr>
             </thead>
             <tbody>
@@ -56,7 +56,7 @@
                     <td>durasi</td>
                     <td>mulai</td>
                     <td>akhir</td>
-                    <td>video conferece</td>
+                    <td>panggilan video</td>
                 </tr>
             </tfoot>
         </table>

@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 @section('content-header')
-<h1>Medicine</h1>
+<h1>Obat</h1>
 @endsection
 @section('content')
 <div class="card">
@@ -19,7 +19,7 @@
                     <th>nama</th>
                     <th>harga</th>
                     <th>stok</th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,10 +43,11 @@
             <tfoot>
                 <tr>
                     <th>no</th>
+                    <th hidden>id</th>
                     <th>nama</th>
                     <th>harga</th>
                     <th>stok</th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </tfoot>
         </table>
@@ -130,8 +131,7 @@
 @section('after-js')
 <script>
     $("#example1").DataTable({
-        "responsive": true
-        , "lengthChange": false
+        "lengthChange": false
         , "autoWidth": false
         , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');

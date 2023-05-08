@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-money-bill-transfer"></i></div>
                             <div class="col-10">
-                                <p>Transaksi</p>
+                                <p>Trans</p>
                                 <i class="fas fa-angle-left right ml-auto justify-content-end"></i>
                             </div>
                         </div>
