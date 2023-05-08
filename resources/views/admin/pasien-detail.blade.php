@@ -65,7 +65,8 @@
                     <div class="form-group col-md-6">
                         <label for="inputGender" class="text-trouth">Jenis Kelamin</label>
                         <select id="inputGender" class="form-control" name="gender">
-                            @if($data['gender']=="L")
+                            {{$data['gender']}}
+                            @if($data['gender']=="M")
                             <option selected value="male">Laki-Laki</option>
                             <option value="female">Perempuan</option>
                             @else
