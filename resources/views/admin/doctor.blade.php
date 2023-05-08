@@ -23,7 +23,7 @@
                     <th hidden></th>
                     <th>poliklinik</th>
                     <th hidden></th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,7 +59,7 @@
                     <th hidden></th>
                     <th>poliklinik</th>
                     <th hidden></th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </tfoot>
         </table>

@@ -17,7 +17,7 @@
                     <th>total</th>
                     <th>status</th>
                     <th>bukti</th>
-                    <th>action</th>
+                    <th>aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,7 +58,7 @@
                     <th>total</th>
                     <th>status</th>
                     <th>bukti</th>
-                    <th>action</th>
+                    <th>aksi</th>
                 </tr>
             </tfoot>
         </table>

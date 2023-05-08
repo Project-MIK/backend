@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 @section('content-header')
-<h1>Komplain Pasien</h1>
+<h1>Persetujuan Konsultasi</h1>
 @endsection
 @section('content')
 <div class="card">
@@ -13,18 +13,18 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>no</th>
-                    <th hidden>id</th>
-                    <th>nama</th>
-                    <th>categori</th>
-                    <th>poli</th>
-                    <th>dokter</th>
-                    <th>metode pembayaran</th>
-                    <th>jumlah pembayaran</th>
-                    <th>bukti pembayaran</th>
-                    <th hidden>description</th>
-                    <th>status</th>
-                    <th></th>
+                    <th>NO</th>
+                    <th hidden>ID</th>
+                    <th>Nama</th>
+                    <th>Kategori</th>
+                    <th>Poli</th>
+                    <th>Dokter</th>
+                    <th>Metode Pembayaran</th>
+                    <th>Jumlah Pembayaran</th>
+                    <th>Bukti Pembayaran</th>
+                    <th hidden>Deskripsi</th>
+                    <th>Status</th>
+                    <th>aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,17 +68,18 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th>no</th>
-                    <th hidden>id</th>
-                    <th>nama</th>
-                    <th>categori</th>
-                    <th>poli</th>
-                    <th>dokter</th>
-                    <th>metode pembayaran</th>
-                    <th>jumlah pembayaran</th>
-                    <th>bukti pembayaran</th>
-                    <th>status</th>
-                    <th></th>
+                    <th>NO</th>
+                    <th hidden>ID</th>
+                    <th>Nama</th>
+                    <th>Kategori</th>
+                    <th>Poli</th>
+                    <th>Dokter</th>
+                    <th>Metode Pembayaran</th>
+                    <th>Jumlah Pembayaran</th>
+                    <th>Bukti Pembayaran</th>
+                    <th hidden>Deskripsi</th>
+                    <th>Status</th>
+                    <th>aksi</th>
                 </tr>
             </tfoot>
         </table>
@@ -175,11 +176,10 @@
 <script>
     $(function() {
         $("#example1").DataTable({
-            "responsive": true
-            , "lengthChange": false
-            , "autoWidth": false
-            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)' );
     });
 
     function getData(button) {

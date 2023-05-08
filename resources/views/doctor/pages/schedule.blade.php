@@ -1,6 +1,6 @@
 @extends('layouts.doctor.app')
 @section('content-header')
-<h1>Category Complaint</h1>
+<h1>Jadwal</h1>
 @endsection
 
 @section('content')
@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <th>no</th>
+                    <th hidden>id</th>
                     <th>tanggal</th>
                     <th>mulai</th>
                     <th>akhir</th>
@@ -40,6 +41,7 @@
             <tfoot>
                 <tr>
                     <th>no</th>
+                    <th hidden>id</th>
                     <th>tanggal</th>
                     <th>mulai</th>
                     <th>akhir</th>
@@ -57,6 +59,15 @@
 @section('after-js')
 
 <script>
+    $(function() {
+        $("#example1").DataTable({
+            "responsive": true
+            , "lengthChange": false
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+    });
+    
     function getData(button) {
         tabel = button.parentElement.parentElement.parentElement.parentElement;
         rawData = tabel.getElementsByTagName('td');

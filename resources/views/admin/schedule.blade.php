@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 @section('content-header')
-<h1>Category Complaint</h1>
+<h1>Jadwal</h1>
 @endsection
 
 @section('content')
@@ -24,7 +24,7 @@
                     <th>akhir</th>
                     <th hidden>id dekoter</th>
                     <th>dokter</th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,9 +57,9 @@
                     <th>tanggal</th>
                     <th>mulai</th>
                     <th>akhir</th>
-                    <th hidden>id dokter</th>
+                    <th hidden>id dekoter</th>
                     <th>dokter</th>
-                    <th></th>
+                    <th>aksi</th>
                 </tr>
             </tfoot>
         </table>
