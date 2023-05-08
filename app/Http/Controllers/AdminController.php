@@ -172,6 +172,7 @@ class AdminController extends Controller
     public function updateDataPattient(Request $request)
     {
     
+        dd($request);
         // need id
         if ($request->medical_record_id != null) {
             //dd($request);
