@@ -58,7 +58,6 @@
                             font-size: 16px;
                         "
                         >
-                        Hallo, <span id="name">Lathisa Anintya Maharani</span>
                         </td>
                     </tr>
                     <tr>

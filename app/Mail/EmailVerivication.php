@@ -16,16 +16,19 @@ class EmailVerivication extends Mailable
     public $token;
     public $email;
 
+    public $name;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($token , $email)
+    public function __construct($token , $email, $name)
     {
         $this->email = $email;
         //
         $this->token = $token;
+        $this->name = $name;
     }
 
     /**
@@ -53,7 +56,7 @@ class EmailVerivication extends Mailable
     {
         return new Content(
             view: 'test.mail-recovery',
-            with:["token" => $this->token]
+            with:["token" => $this->token,"name" =>$this->name]
             
         );
     }

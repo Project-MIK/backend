@@ -525,7 +525,7 @@ class PattientController extends Controller
         if ($res != null) {
             $id = $res->id;
             $res = $this->recoveryService->insert($id);
-            Mail::to($request->email)->send(new EmailVerivication($res->token, $request->email));
+            Mail::to($request->email)->send(new EmailVerivication($res->token, $request->email,$res->name));
             return redirect()->back()->with("message", "berhasil mengirimkan email");
         } else {
             return redirect("/lupa-sandi")->withErrors("Gagal mengirmkan email , email tidak terdaftar");
@@ -536,10 +536,11 @@ class PattientController extends Controller
     {
         $password1 = $request->password1;
         $password2 = $request->password2;
+  
         if ($password1 != $password2) {
             return redirect("recovery/" . $request->token_recovery)->withErrors("Password dan Konfirmasi Password harus sama");
         }
-        $res = $this->service->forgot_pasword($request->token_recovery, $request->password);
+        $res = $this->service->forgot_pasword($request->token_recovery, $request->password1);
         if ($res) {
             return redirect('masuk')->with('message', 'berhasil memperbarui kata sandi , silahkan login');
         }

@@ -399,7 +399,7 @@ class PattientService
         if ($res) {
             $id_pattient = $res->id_pattient;
             $isUpdate = $this->changePassword($id_pattient, $password);
-            dd($isUpdate);
+            
             if ($isUpdate) {
                 return true;
             }
