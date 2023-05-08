@@ -172,7 +172,11 @@ class AdminController extends Controller
     public function updateDataPattient(Request $request)
     {
     
-        dd($request);
+        if($request['gender'] == "male"){
+            $request['gender'] = "M";
+        }else{
+            $request['gender'] = "W";
+        }
         // need id
         if ($request->medical_record_id != null) {
             //dd($request);

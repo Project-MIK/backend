@@ -402,12 +402,6 @@ class PattientController extends Controller
     public function findByIdInaAdmin($id)
     {
         $data = $this->service->findByIdInAdmin($id);
-        if($data['gender'] == "W"){
-            $data['gender'] = "Perempuan";
-        }else{
-            $data['gender'] = "Laki-Laki";
-        }
-        dd($data);
         if (sizeof($data) > 0) {
             return view('admin.pasien-detail', ["data" => $data]);
         }
