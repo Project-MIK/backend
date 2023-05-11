@@ -12,6 +12,8 @@
 
 </style>
 @section('content')
+
+{{-- {{dd($request)}} --}}
 <div class="bg-white border m-5 rounded mx-auto">
     <div class="row">
         <div class="col">
@@ -27,7 +29,9 @@
     <div class="rounded" style="height: 100%">
         <div class="row rounded " style="height: 90%">
             <div class="col-9">
-                <div id="meet"></div>
+                <div id="meet">
+                    
+                </div>
             </div>
             <div class="col-3">
                 <div class="card card-primary ">
@@ -109,7 +113,7 @@
 
     const domain = 'meet.jit.si';
     const options = {
-        roomName: 'JitsiMeetAPIExample'
+        roomName: '{{basename(url()->current())}}'
         , width: '100%'
         , height: '100%'
         , parentNode: jitsiParentnode

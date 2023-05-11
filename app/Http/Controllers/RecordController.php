@@ -206,4 +206,11 @@ class RecordController extends Controller
         return view('doctor.pages.jitsi', ['data' => $data]);
     }
 
+    public function setStatusToComplete(Request $request)
+    {
+        echo $request->headers->get('referer');;
+        // $data = json_decode(file_get_contents('php://input'),true);
+        // echo $_GET['id'];
+    }
+
 }
