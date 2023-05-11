@@ -399,7 +399,9 @@ class RecordService
 
     public function update_to_consultation_complete($idrecord)
     {
-
+        $this->record->where('id' , $idrecord)->update([
+            "status_consultation" => "consultation-complete"
+        ]);
     }
     public function update_to_confirmed_consultation_payment($idRecord)
     {

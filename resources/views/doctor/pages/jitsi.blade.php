@@ -49,13 +49,13 @@
     
         const domain = 'meet.jit.si';
         const options = {
-            roomName: 'JitsiMeetAPIExample'
+            roomName: '{{basename(url()->current())}}'
             , width: '100%'
             , height: '100%'
             , parentNode: jitsiParentnode
             , lang: 'en'
             , userInfo: {
-                displayName: 'Admin'
+                displayName: "{{$data['doctor']}}"
             }
         };
         const api = new JitsiMeetExternalAPI(domain, options);

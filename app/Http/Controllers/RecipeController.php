@@ -63,11 +63,13 @@ class RecipeController extends Controller
    public function acceptOrRejectMedicinePayment(Request $request)
    { 
       $res = $this->service->acceptOrReject($request->except(['_token', '_method']));
+
+      
+
       if($res){
          return redirect("admin/admin")->with('message' , "berhasil mennyetujui pembayaran obat");
       }else{
-         
-         return redirect("admin/admin")->withErrors("Gagal menyetujui pembayaran obat terjadi kesalahan");
+         return redirect("admin/admin")->withErrors("Gagal menyetujui pembayaran obat, terjadi kesalahan");
       }
    }
 

@@ -505,3 +505,5 @@ Route::prefix('doctor')->group(function () {
 
 // Logout ( Clear all session pacient )
 Route::get("/keluar", [PattientController::class, 'logout']);
+
+Route::get('setstatus',[RecordController::class,'setStatusToComplete'])->name('set.status');

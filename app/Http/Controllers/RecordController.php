@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ComplaintStoreRequest;
 use App\Http\Requests\RecordStoreRequest;
+use App\Models\Record;
 use App\Services\MedicineService;
 use App\Services\RecipeDetailsService;
 use App\Services\RecordService;
@@ -23,7 +24,7 @@ class RecordController extends Controller
 
     private MedicineService $medicineService;
 
-    
+
 
     public function __construct()
     {
@@ -126,7 +127,8 @@ class RecordController extends Controller
         }
     }
 
-    public function cancelMedicalPrescription($id){
+    public function cancelMedicalPrescription($id)
+    {
         $this->service->cancelMedicalPrescription($id);
         return redirect("dashboard");
     }
@@ -194,16 +196,34 @@ class RecordController extends Controller
         return redirect('/konsultasi/' . $id);
     }
 
-    public function cetakDocument($id){
+    public function cetakDocument($id)
+    {
         return $this->service->cetakDokumentPengambilanObat($id);
     }
-    
-    public function getJitsiDocter($id){
+
+    public function getJitsiDocter($id)
+    {
         $data = $this->service->getJitsiViewDoctor($id);
-        if(count($data) ==0){
+        if (count($data) == 0) {
             return redirect('doctor/consul');
         }
         return view('doctor.pages.jitsi', ['data' => $data]);
+    }
+
+    public function setStatusToComplete(Request $request)
+    {
+        // $url = $request->headers->get('referer');
+        // ;
+        // echo $url;
+        // $segments = explode('/', rtrim($url, '/'));
+        // $idRecord = end($segments);
+        // echo $idRecord;
+        
+        $id = $_GET['key1'];
+        Record::with('id', $id)->update([
+            "status_consultation" => "consultation-complete"
+        ]);
+        // Return a response if needed
     }
 
 }
