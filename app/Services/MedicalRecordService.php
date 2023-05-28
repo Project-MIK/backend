@@ -70,7 +70,7 @@ class MedicalRecordService
             //throw $th;
             $response['status'] = false;
             $response['payload'] = null;
-            dd($th);
+          
             return $response;
         }
     }

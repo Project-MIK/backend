@@ -156,7 +156,7 @@ class RecordController extends Controller
     public function startCoverenceByAdmin($id)
     {
         $receipt = $this->recipeDetailService->showDataRecipePatient($id);
-        $medicine = $this->medicineService->findAll();
+        $medicine = $this->medicineService->findWhereStockNotEmpty();
         $data = $this->service->startConverenceAdminById($id);
         // $milliseconds = $data['time_start']; // example millisecond timestamp
         // $start = Carbon::createFromTimestamp($milliseconds);

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Medicines;
 use App\Models\Pattient;
 use App\Models\RecipeDetails;
 use App\Models\Record;
@@ -13,11 +14,14 @@ class RecipeDetailsService
     private Pattient $patient;
     private Record $record;
 
+    private Medicines $medicine;
+
     public function __construct()
     {
         $this->model = new RecipeDetails();
         $this->patient = new Pattient();
         $this->record = new Record();
+        $this->medicine = new Medicines();
     }
 
 
@@ -35,13 +39,22 @@ class RecipeDetailsService
 
     public function insert(array $request)
     {
+
         $res = $this->model->create([
             "id_recipe" => $request['id_recipe'],
             "id_medicine" => $request['id_medicine'],
             "qty" => $request['qty'],
             "total_price" => $request['total']
         ]);
+        
+        // update stock - qty
+
         if ($res) {
+
+            $medicineObj = $this->medicine->where("id" , $request['id_medicine'])->first();
+            $this->medicine->where("id" , $request['id_medicine'])->update([
+                "stock" => $medicineObj->stock - $request['qty']
+            ]);
             return true;
         }
         return false;
