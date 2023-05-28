@@ -13,10 +13,10 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>NO</th>
+                    <th>No Rekamedik</th>
                     <th hidden>ID</th>
                     <th>Nama</th>
-                    <th>Kategori</th>
+                    <th>Keluhan</th>
                     <th>Poli</th>
                     <th>Dokter</th>
                     <th>Metode Pembayaran</th>
@@ -32,10 +32,10 @@
                 @foreach($data as $record)
                 @php($no++)
                 <tr>
-                    <td>{{$no}}</td>
+                    <td>{{$record['no rekammedic']}}</td>
                     <td hidden>{{$record['id']}}</td>
                     <td>{{$record['name']}}</td>
-                    <td>{{$record['category']}}</td>
+                    <td>{{$record['description']}}</td>
                     <td>{{$record['poly']}}</td>
                     <td>{{$record['doctor']}}</td>
                     <td>{{$record['payment_method']}}</td>
@@ -111,7 +111,7 @@
         </div>
         <div class="col">
             <div class="form-group">
-                <label>Kategori</label>
+                <label>no rekamedik</label>
                 <p id="detail-category">kepala</p>
             </div>
         </div>
@@ -191,7 +191,7 @@
         var obj = {
             id: rawData[1].innerText
             , name: rawData[2].innerHTML
-            , category: rawData[3].innerText
+            , rekmed: rawData[0].innerText
             , poly: rawData[4].innerText
             , doctor: rawData[5].innerHTML
             , payment_method: rawData[6].innerHTML
@@ -208,10 +208,11 @@
 
     function setDetail(params) {
         var data = getData(params);
+        console.log(data);
         var img = document.getElementById('detail-img');
         var description = document.getElementById('detail-description');
         var name = document.getElementById('detail-name');
-        var category = document.getElementById('detail-category');
+        var rekmed = document.getElementById('detail-category');
         var poly = document.getElementById('detail-poly');
         var doctor = document.getElementById('detail-doctor');
         var payment_method = document.getElementById('detail-payment-method');
@@ -228,7 +229,7 @@
         img.setAttribute('src', data.link_photo);
         description.innerHTML = data.description;
         name.innerHTML = data.name;
-        category.innerHTML = data.category;
+        rekmed.innerHTML = data.rekmed;
         poly.innerHTML = data.poly;
         doctor.innerHTML = data.doctor;
         payment_method = data.payment_method;

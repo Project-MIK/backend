@@ -14,7 +14,7 @@
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
-                <button type='button' data-toggle='modal' data-target='#tambah-kategori' class='ml-auto col-3 btn btn-block btn-default btn-sm'>Tambah</button>
+                <button type='button' data-toggle='modal' data-target='#tambah-kategori' class='col-4 btn btn-block btn-default btn-sm'>Tambah</button>
                 <tr>
                     <th>no</th>
                     <th hidden>id kategori</th>

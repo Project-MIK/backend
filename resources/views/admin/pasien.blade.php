@@ -14,7 +14,7 @@
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
-                <a href="/admin/pasien/store"><button type='button' class='ml-auto col-2 btn btn-block btn-default'>Tambah</button></a>
+                <a href="/admin/pasien/store"><button type='button' class='col-4 btn btn-block btn-default'>Tambah</button></a>
                 <tr>
                     <th>no</th>
                     <th>nama</th>
@@ -124,7 +124,9 @@
 
 
     $(function() {
-        $("#example1").DataTable();
+        $("#example1").DataTable({
+        responsive: true
+    });
     });
 
 
