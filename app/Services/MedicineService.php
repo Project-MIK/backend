@@ -23,6 +23,16 @@ class MedicineService{
         return $responseData;
     }
 
+
+    public function findWhereStockNotEmpty(){
+        $responseData = $this->model->where("stock"  , "<>" , 0)->get()->toArray();
+        foreach ($responseData as $key => $value) {
+            # code...
+            unset($responseData[$key]['created_at'],$responseData[$key]['updated_at']);
+        }
+        return $responseData;
+    }
+
     public function findById($id){
         $data = $this->model->where('id' , $id)->first();
         return $data;
