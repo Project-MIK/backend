@@ -135,13 +135,31 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-12">
                                         <label for="inputEmail" class="text-trouth">Email</label>
                                         <input type="text" class="form-control py-4" id="inputEmail" name="email" placeholder="Ketikkan email" value="{{ old('email') }}" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputPassword" class="text-trouth">Kata Sandi</label>
-                                        <input type="text" class="form-control py-4" id="inputPassword" name="password" placeholder="Ketikkan kata sandi" value="{{ old('password') }}" required>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control py-4" id="inputPassword" name="password" placeholder="Ketikkan kata sandi" value="{{ old('password') }}" required>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-light" type="button" onclick="togglePasswordVisibility('inputPassword')">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPasswordConfirm" class="text-trouth">Konfirmasi Kata Sandi</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control py-4" id="inputConfirmPassword" name="password_confirm" placeholder="Ketikkan kata sandi" value="{{ old('password') }}" required>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-light" type="button" onclick="togglePasswordVisibility('inputConfirmPassword')">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

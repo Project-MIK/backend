@@ -26,7 +26,14 @@
                                     <label for="password" class="text-trouth">Kata Sandi</label>
                                     <a href="/lupa-sandi" class="text-dogger">Lupa Kata Sandi ?</a>
                                 </div>
-                                <input type="password" class="form-control py-4" id="password" name="password" aria-describedby="password" placeholder="Ketikkan kata sandi" required>
+                                <div class="input-group">
+                                    <input type="password" class="form-control py-4" id="password" name="password" aria-describedby="password" placeholder="Ketikkan kata sandi" required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-light" type="button" onclick="togglePasswordVisibility('password')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-bunting w-100 text-white font-weight-bold py-2 mb-4">Masuk</button>
