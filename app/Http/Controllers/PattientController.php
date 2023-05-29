@@ -46,6 +46,11 @@ class PattientController extends Controller
     }
     public function store(StorePattientRequest $request)
     {
+       
+       if($request->password != $request->password_confirm){
+        return back()->withErrors("konfirmasi dan password harus sama");
+       }
+       
         if ($request['citizen'] == 'WNI') {
             $request['citizen'] = 'WNI';
             $res = $this->service->store($request->validate([
