@@ -12,6 +12,8 @@ use App\Models\Pattient;
 use App\Services\MedicalRecordService;
 use App\Services\PattientService;
 use App\Services\RecoveryAccountService;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -99,7 +101,6 @@ class PattientController extends Controller
         } else {
             return redirect()->back()->with('message', 'gagal registrasi terjadi kesalahan server');
         }
-
     }
     public function storewithRekamMedic(StorePattientMedicalRequest $request)
     {
@@ -525,7 +526,7 @@ class PattientController extends Controller
         if ($res != null) {
             $id = $res->id;
             $res = $this->recoveryService->insert($id);
-            Mail::to($request->email)->send(new EmailVerivication($res->token, $request->email,$res->name));
+            Mail::to($request->email)->send(new EmailVerivication($res->token, $request->email, $res->name));
             return redirect()->back()->with("message", "berhasil mengirimkan email");
         } else {
             return redirect("/lupa-sandi")->withErrors("Gagal mengirmkan email , email tidak terdaftar");
@@ -536,7 +537,7 @@ class PattientController extends Controller
     {
         $password1 = $request->password1;
         $password2 = $request->password2;
-  
+
         if ($password1 != $password2) {
             return redirect("recovery/" . $request->token_recovery)->withErrors("Password dan Konfirmasi Password harus sama");
         }
@@ -559,20 +560,56 @@ class PattientController extends Controller
     public function kirimRekamMedic(Request $request)
     {
         $request->validate([
-            "medical_record_id" => ['required' , 'digits:6']
+            "medical_record_id" => ['required', 'digits:6']
         ]);
         $response = $this->service->kirimRekamMedic($request['medical_record_id'], $request['email'], Auth::guard('admin')
-        ->user()->id);
-        if($response['status']){
-            Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'] ==null ? "anonymous" : $request['fullname'], $request['email']));
-            return redirect()->back()->with('message'  , $response['message']);
-        }else{
+            ->user()->id);
+        if ($response['status']) {
+            Mail::to($request['email'])->send(new MailHelper($request['medical_record_id'], $request['fullname'] == null ? "anonymous" : $request['fullname'], $request['email']));
+            return redirect()->back()->with('message', $response['message']);
+        } else {
             return redirect()->back()->withErrors($response['message']);
-        }   
-       
+        }
     }
 
+    public function cetakRekamedik($id)
+    {
+        $documents = [
+            [
+                'fullname' => 'John Doe',
+                'no_medical_record' => '123456789',
+                'id_consultation' => 'CONS-001',
+                'valid_status' => time(),
+                'consultation' => [
+                    'doctor' => 'Dr. Smith',
+                    'price' => '$50',
+                    'status' => 'Completed',
+                ],
+                'medical' => [
+                    'price' => '$30',
+                    'status' => 'Paid',
+                ],
+            ],
+            [
+                'fullname' => 'John Doe',
+                'no_medical_record' => '123456789',
+                'id_consultation' => 'CONS-001',
+                'valid_status' => time(),
+                'consultation' => [
+                    'doctor' => 'Dr. Smith',
+                    'price' => '$50',
+                    'status' => 'Completed',
+                ],
+                'medical' => [
+                    'price' => '$30',
+                    'status' => 'Paid',
+                ],
+            ]
+        ];
+        // $htmlContent = view()->render();
+        $pdf = FacadePdf::loadView('admin.pdf.rekamedik', ['documents' => $documents]);
+        
 
-
-
+        return $pdf->download('consultation.pdf');
+    }
 }
