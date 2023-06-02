@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthDoctorController;
 use App\Http\Controllers\DoctorController;
@@ -43,40 +44,40 @@ Route::view("/", "pacient.index");
 
 // Authentication - Login
 Route::view("/masuk", "pacient.auth.login")->middleware('pattentNotAuthenticate');
-Route::post("/masuk", [PattientController::class, "login"])->name('login'); 
+Route::post("/masuk", [PattientController::class, "login"])->name('login');
 
 // # Register
 Route::view("/daftar", "pacient.auth.register")->middleware('pattentNotAuthenticate');
-Route::post("/daftar", [PattientController::class, "store"]); 
+Route::post("/daftar", [PattientController::class, "store"]);
 
 // # Forgot Password
 Route::view("/lupa-sandi", "pacient.auth.forgot-password");
-Route::post("/lupa-sandi", [PattientController::class, "sendEmailVerivikasi"]); 
+Route::post("/lupa-sandi", [PattientController::class, "sendEmailVerivikasi"]);
 
 // # Password Recovery
-Route::get("/recovery/{token}", [PattientController::class, "checkTokenValid"]); 
-Route::post("/recovery/{token}", [PattientController::class, 'forgot_pasword']); 
+Route::get("/recovery/{token}", [PattientController::class, "checkTokenValid"]);
+Route::post("/recovery/{token}", [PattientController::class, 'forgot_pasword']);
 
 // Dashboard
 Route::prefix("/dashboard")->group(function () {
     // # Showing data consultation, history and setting
-    Route::view("/", "pacient.dashboard.index")->middleware('pattientAuthenticate'); 
+    Route::view("/", "pacient.dashboard.index")->middleware('pattientAuthenticate');
     // # Action pacient save setting
-    Route::post("/save-setting", [PattientController::class, 'updateDataPattient'])->middleware('pattientAuthenticate'); 
+    Route::post("/save-setting", [PattientController::class, 'updateDataPattient'])->middleware('pattientAuthenticate');
     //changeEmail
     // # Action pacient change email
-    Route::post("/change-email", [PattientController::class, 'changeEmail'])->middleware('pattientAuthenticate'); 
+    Route::post("/change-email", [PattientController::class, 'changeEmail'])->middleware('pattientAuthenticate');
 
     // # Action pacient change password
-    Route::post("/change-password", [PattientController::class, 'changePassword'])->middleware('pattientAuthenticate'); 
+    Route::post("/change-password", [PattientController::class, 'changePassword'])->middleware('pattientAuthenticate');
 });
 
 // Consultation
 Route::prefix('konsultasi')->group(function () {
 
     // Create consultation #1 - description complaint & set category
-    Route::get('/', [RecordCategoryController::class, 'index'])->middleware(['checkRecord', 'pattientAuthenticate']); 
-    Route::post( 
+    Route::get('/', [RecordCategoryController::class, 'index'])->middleware(['checkRecord', 'pattientAuthenticate']);
+    Route::post(
         '/',
         function (Request $request) {
             session([
@@ -87,7 +88,7 @@ Route::prefix('konsultasi')->group(function () {
             ]);
             return redirect("/konsultasi/poliklinik");
         }
-    )->middleware(['checkRecord', 'pattientAuthenticate']); 
+    )->middleware(['checkRecord', 'pattientAuthenticate']);
 
     // Create consultation #2 - set polyclinic
     Route::get('/poliklinik', [ConsultationController::class, 'polyclinic']);
@@ -142,8 +143,8 @@ Route::prefix('konsultasi')->group(function () {
     // });
     // Cancel scheduling medical prescription
     Route::get('/{id}/cancel-medical-prescription', fn ($id) => redirect("/konsultasi/{$id}"));
-    Route::post('/{id}/cancel-medical-prescription',[RecordController::class , "cancelMedicalPrescription"]);
- 
+    Route::post('/{id}/cancel-medical-prescription', [RecordController::class, "cancelMedicalPrescription"]);
+
     // Send proof payment to confirmation medical prescription
     Route::get('/{id}/payment-medical-prescription', fn ($id) => redirect("/konsultasi/{$id}"));
     Route::post(
@@ -172,7 +173,7 @@ Route::prefix('konsultasi')->group(function () {
             // ];
             $controller = new RecordController();
             $document = $controller->cetakDocument($id)[0];
-        
+
             $pdf = Pdf::loadView("pacient.consultation.pdf.consultation_pickup", compact("document"));
             return $pdf->download("DOKUMEN PENGAMBILAN OBAT - {$id}.pdf");
         }
@@ -198,7 +199,7 @@ Route::prefix('konsultasi')->group(function () {
 //admin
 Route::prefix('admin')->group(
     function () {
-        Route::redirect('/','/admin/complain');
+        Route::redirect('/', '/admin/complain');
         // Route::view('/', 'admin.dashboard',)->middleware('isAdmin');
 
         Route::prefix('login')->group(
@@ -214,10 +215,10 @@ Route::prefix('admin')->group(
         );
 
         Route::prefix('logout')->group(
-            function(){
+            function () {
                 Route::get(
                     '/',
-                   [AdminController::class , "logout"]
+                    [AdminController::class, "logout"]
                 );
             }
         );
@@ -235,13 +236,14 @@ Route::prefix('admin')->group(
                 Route::get(
                     'store',
                     function () {
-                         return view('admin.pasien-store');
+                        return view('admin.pasien-store');
                     }
                 )->middleware('isAdmin');
                 Route::put(
                     'rs',
                     [PattientController::class, "kirimRekamMedic"]
                 )->middleware('isAdmin');
+                Route::get('cetak/{id}',[PattientController::class,'cetakRekamedik']);
             }
         );
 
@@ -305,7 +307,7 @@ Route::prefix('admin')->group(
             Route::put('/update', 'update');
             Route::delete('/destroy', 'destroy');
         })->middleware('isAdmin');
-        
+
         Route::prefix('complain')->group(
             function () {
                 Route::get(
@@ -409,7 +411,7 @@ Route::prefix('admin')->group(
             Route::put('/update', 'update');
             Route::delete('/destroy', 'destroy');
         })->middleware('idAdmin');
-        
+
         Route::prefix('receiptProof')->group(
             function () {
                 Route::get('/', [RecipeController::class, 'displayDataRequiresApproval'])->middleware('isAdmin');;
@@ -425,16 +427,16 @@ Route::prefix('admin')->group(
             }
         );
 
-        Route::prefix('setting')->group(function(){
-            Route::get('/',[AdminController::class , 'displayDataAdmin'])->middleware('isAdmin');;
+        Route::prefix('setting')->group(function () {
+            Route::get('/', [AdminController::class, 'displayDataAdmin'])->middleware('isAdmin');;
 
-            Route::prefix('update')->group(function(){
-                Route::put('password',[AdminController::class , 'updatePassword'])->middleware('isAdmin');;
+            Route::prefix('update')->group(function () {
+                Route::put('password', [AdminController::class, 'updatePassword'])->middleware('isAdmin');;
 
-                Route::put('email',[AdminController::class , 'updateEmail'])->middleware('isAdmin');;
+                Route::put('email', [AdminController::class, 'updateEmail'])->middleware('isAdmin');;
 
-                Route::put('/',[AdminController::class , 'update'])->middleware('isAdmin');;
-            });            
+                Route::put('/', [AdminController::class, 'update'])->middleware('isAdmin');;
+            });
         });
     }
 
@@ -449,11 +451,11 @@ Route::prefix('doctor')->group(function () {
     });
 
     Route::redirect('/', '/doctor/consul');
-    Route::redirect('/dashboard','/doctor/consul');
+    Route::redirect('/dashboard', '/doctor/consul');
 
 
-    Route::middleware('isDoctor')->prefix("/consul")->group(function(){
-        Route::get('/', [RecordController::class , "showConsulByDoctor"]);
+    Route::middleware('isDoctor')->prefix("/consul")->group(function () {
+        Route::get('/', [RecordController::class, "showConsulByDoctor"]);
         Route::get('jitsi/{id_consul}', [RecordController::class, "getJitsiDocter"]);
     });
 
@@ -489,15 +491,15 @@ Route::prefix('doctor')->group(function () {
         });
     });
 
-    Route::middleware('isDoctor')->prefix('setting')->group(function(){
-        Route::controller(DoctorSettingController::class)->group(function() {
+    Route::middleware('isDoctor')->prefix('setting')->group(function () {
+        Route::controller(DoctorSettingController::class)->group(function () {
             Route::get('/', 'index');
             Route::prefix('/update')->group(function () {
                 Route::put('/', 'update');
                 Route::put('/email', 'email');
                 Route::put('/password', 'password');
             });
-        });         
+        });
     });
 
     Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('isDoctor');
@@ -506,4 +508,4 @@ Route::prefix('doctor')->group(function () {
 // Logout ( Clear all session pacient )
 Route::get("/keluar", [PattientController::class, 'logout']);
 
-Route::get('setstatus',[RecordController::class,'setStatusToComplete'])->name('set.status');
+Route::get('setstatus', [RecordController::class, 'setStatusToComplete'])->name('set.status');

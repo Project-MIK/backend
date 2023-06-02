@@ -45,6 +45,7 @@
                     <th>
                         <div class="row">
                             <div class="col"><a href="/admin/pasien/detail/{{$record['medical_record_id']}}"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></a></div>
+                            <div class="col"><a href="/admin/pasien/cetak/{{$record['medical_record_id']}}"><button type="button" class="col detail btn btn-block btn-primary btn-sm">Cetak Rekamedik</button></a></div>
                         </div>
                     </th>
                 </tr>
