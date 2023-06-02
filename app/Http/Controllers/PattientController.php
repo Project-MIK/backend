@@ -579,38 +579,40 @@ class PattientController extends Controller
 
     public function cetakRekamedik($id)
     {
-        $documents = [
-            [
-                'fullname' => 'John Doe',
-                'no_medical_record' => '123456789',
-                'id_consultation' => 'CONS-001',
-                'valid_status' => time(),
-                'consultation' => [
-                    'doctor' => 'Dr. Smith',
-                    'price' => '$50',
-                    'status' => 'Completed',
-                ],
-                'medical' => [
-                    'price' => '$30',
-                    'status' => 'Paid',
-                ],
-            ],
-            [
-                'fullname' => 'John Doe',
-                'no_medical_record' => '123456789',
-                'id_consultation' => 'CONS-001',
-                'valid_status' => time(),
-                'consultation' => [
-                    'doctor' => 'Dr. Smith',
-                    'price' => '$50',
-                    'status' => 'Completed',
-                ],
-                'medical' => [
-                    'price' => '$30',
-                    'status' => 'Paid',
-                ],
-            ]
-        ];
+        // $documents = [
+        //     [
+        //         'fullname' => 'John Doe',
+        //         'no_medical_record' => '123456789',
+        //         'id_consultation' => 'CONS-001',
+        //         'valid_status' => time(),
+        //         'consultation' => [
+        //             'doctor' => 'Dr. Smith',
+        //             'price' => '$50',
+        //             'status' => 'Completed',
+        //         ],
+        //         'medical' => [
+        //             'price' => '$30',
+        //             'status' => 'Paid',
+        //         ],
+        //     ],
+        //     [
+        //         'fullname' => 'John Doe',
+        //         'no_medical_record' => '123456789',
+        //         'id_consultation' => 'CONS-001',
+        //         'valid_status' => time(),
+        //         'consultation' => [
+        //             'doctor' => 'Dr. Smith',
+        //             'price' => '$50',
+        //             'status' => 'Completed',
+        //         ],
+        //         'medical' => [
+        //             'price' => '$30',
+        //             'status' => 'Paid',
+        //         ],
+        //     ]
+        // ];
+
+        $documents = $this->service->cetakRekamMedic($id);
         // $htmlContent = view()->render();
         $pdf = FacadePdf::loadView('admin.pdf.rekamedik', ['documents' => $documents]);
         

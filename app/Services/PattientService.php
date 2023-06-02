@@ -45,7 +45,7 @@ class PattientService
         try {
             $request['password'] = bcrypt($request['password']);
             $request['name'] = $request['fullname'];
-            $request['address'] = $request['address_RT'] . "/" . $request['address_RW']."/". $request['address_dusun'] ."/".$request['address_desa']."/". $request['address_kecamatan'] ."/". $request['address_kabupaten'];
+            $request['address'] = $request['address_RT'] . "/" . $request['address_RW'] . "/" . $request['address_dusun'] . "/" . $request['address_desa'] . "/" . $request['address_kecamatan'] . "/" . $request['address_kabupaten'];
             $res = $this->model->create($request);
             if ($res) {
                 return true;
@@ -121,7 +121,7 @@ class PattientService
     // return array 
     public function update(array $request, $id): array
     {
-       
+
         $data = $this->findById($id);
         $allData = $this->model->where('id', '<>', $id)->get();
         $isChanged = Helper::compareToArrays($request, $id, 'pattient');
@@ -399,7 +399,7 @@ class PattientService
         if ($res) {
             $id_pattient = $res->id_pattient;
             $isUpdate = $this->changePassword($id_pattient, $password);
-            
+
             if ($isUpdate) {
                 return true;
             }
@@ -415,7 +415,7 @@ class PattientService
         if ($user != null) {
             $checkExist = $this->medicalRecordService->findByMedicalRecordCheck($noRekamMedic);
             if ($checkExist) {
-                $response['status'] =  false;
+                $response['status'] = false;
                 $response['message'] = 'no rekam medic sudah digunakan oleh user yang lain';
             } else {
                 $isInsert = $this->medicalRecords->insert(
@@ -447,7 +447,62 @@ class PattientService
         return $response;
     }
 
-    public function findByMedicalRecord($medicalRecords){
-        return $this->model->where('medical_record_id' , $medicalRecords)->first();
+    public function findByMedicalRecord($medicalRecords)
+    {
+        return $this->model->where('medical_record_id', $medicalRecords)->first();
+    }
+
+
+    public function cetakRekamMedic($id)
+    {
+        $data = $this->model->join('medical_records', "pattient.medical_record_id", 'medical_records.medical_record_id')
+            ->join("record", 'record.medical_record_id', 'medical_records.medical_record_id')
+            ->join('schedule_details', 'schedule_details.id', 'record.schedule_id')
+            ->join('schedules', 'schedule_details.schedule_id', 'schedules.id')
+            ->join('doctors', 'schedules.doctor_id', 'doctors.id')
+            ->join('recipes', 'recipes.id', 'record.id_recipe')
+            ->select("pattient.name", 'pattient.medical_record_id as no_medical_record', 'record.id as id_consultation', 'record.valid_status', 'doctors.name as doctor', 'record.status_consultation', 'recipes.price_medical_prescription', 'recipes.status_payment_medical_prescription', 'pattient.medical_record_id')
+            ->where('pattient.medical_record_id', $id)->get();
+
+        $documents = [];
+
+
+        // [
+        //     'fullname' => 'John Doe',
+        //     'no_medical_record' => '123456789',
+        //     'id_consultation' => 'CONS-001',
+        //     'valid_status' => time(),
+        //     'consultation' => [
+        //         'doctor' => 'Dr. Smith',
+        //         'price' => '$50',
+        //         'status' => 'Completed',
+        //     ],
+        //     'medical' => [
+        //         'price' => '$30',
+        //         'status' => 'Paid',
+        //     ],
+        // ],
+
+        $consultation = [];
+        $medical = [];
+        foreach ($data as $key => $value) {
+            # code...
+            $documents[$key]['fullname'] = $value['name'];
+            $documents[$key]['no_medical_record'] = $value['no_medical_record'];
+            $documents[$key]['id_consultation'] = $value['id_consultation'];
+            $documents[$key]['valid_status'] = strtotime($value['valid_status']);
+            
+         
+            $consultation['doctor'] = $value['doctor'];
+            $consultation['price'] = "Rp.90.000";
+            $consultation['status'] = $value['status_consultation'];
+
+
+            $medical['price'] = $value['price_medical_prescription'];
+            $medical['status'] = $value['status_payment_medical_prescription'];
+            $documents[$key]['consultation'] =$consultation;
+            $documents[$key]['medical'] =$medical;
+        }
+        return $documents;
     }
 }
