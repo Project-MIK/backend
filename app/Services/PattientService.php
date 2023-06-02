@@ -461,7 +461,7 @@ class PattientService
             ->join('schedules', 'schedule_details.schedule_id', 'schedules.id')
             ->join('doctors', 'schedules.doctor_id', 'doctors.id')
             ->join('recipes', 'recipes.id', 'record.id_recipe')
-            ->select("pattient.name", 'pattient.medical_record_id as no_medical_record', 'record.id as id_consultation', 'record.valid_status', 'doctors.name as doctor', 'record.status_consultation', 'recipes.price_medical_prescription', 'recipes.status_payment_medical_prescription', 'pattient.medical_record_id')
+            ->select("pattient.name", 'pattient.medical_record_id as no_medical_record', 'record.id as id_consultation', 'record.valid_status', 'doctors.name as doctor', 'record.status_consultation', 'recipes.price_medical_prescription', 'recipes.status_payment_medical_prescription', 'pattient.medical_record_id','record.description')
             ->where('pattient.medical_record_id', $id)->get();
 
         $documents = [];
@@ -491,12 +491,12 @@ class PattientService
             $documents[$key]['no_medical_record'] = $value['no_medical_record'];
             $documents[$key]['id_consultation'] = $value['id_consultation'];
             $documents[$key]['valid_status'] = strtotime($value['valid_status']);
-            
+            $documents[$key]['description'] = $value['description'];
          
             $consultation['doctor'] = $value['doctor'];
             $consultation['price'] = "Rp.90.000";
             $consultation['status'] = $value['status_consultation'];
-
+                
 
             $medical['price'] = $value['price_medical_prescription'];
             $medical['status'] = $value['status_payment_medical_prescription'];
