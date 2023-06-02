@@ -231,7 +231,7 @@ class RecordService
             ->join('doctors', 'record.doctor_id', 'doctors.id')
             ->join('polyclinics', 'polyclinics.id', 'doctors.polyclinic_id')
             ->join('payment_metode', 'payment_metode.id', 'record.payment_method')
-            ->select('record.id as id_record', 'pattient.name as name', 'pattient.medical_record_id as no rekammedic', 'record.description as category', 'polyclinics.name as poly', 'doctors.name as doctor', 'record.bukti as link_foto', 'record.description', 'record.status_payment_consultation as status', 'payment_metode.name as payment_method')
+            ->select('record.id as id_record', 'pattient.name as name', 'pattient.medical_record_id as no rekammedic', 'record_category.category_name as category', 'polyclinics.name as poly', 'doctors.name as doctor', 'record.bukti as link_foto', 'record.description', 'record.status_payment_consultation as status', 'payment_metode.name as payment_method')
             ->get()->toArray();
         foreach ($res as $key => $value) {
             # code...
