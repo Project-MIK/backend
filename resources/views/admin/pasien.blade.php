@@ -14,7 +14,7 @@
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
-                <a href="/admin/pasien/store"><button type='button' class='ml-auto col-2 btn btn-block btn-default'>Tambah</button></a>
+                <a href="/admin/pasien/store"><button type='button' class='col-4 btn btn-block btn-default'>Tambah</button></a>
                 <tr>
                     <th>no</th>
                     <th>nama</th>
@@ -45,6 +45,7 @@
                     <th>
                         <div class="row">
                             <div class="col"><a href="/admin/pasien/detail/{{$record['medical_record_id']}}"><button type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></a></div>
+                            <div class="col"><a href="/admin/pasien/cetak/{{$record['medical_record_id']}}"><button type="button" class="col detail btn btn-block btn-primary btn-sm">Cetak Rekamedik</button></a></div>
                         </div>
                     </th>
                 </tr>
@@ -124,7 +125,9 @@
 
 
     $(function() {
-        $("#example1").DataTable();
+        $("#example1").DataTable({
+        responsive: true
+    });
     });
 
 

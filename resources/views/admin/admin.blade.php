@@ -15,11 +15,12 @@
         <h3 class="card-title">DataTable with default features</h3>
     </div>
     <!-- /.card-header -->
-    <div class="card-body">
+    <div class="card-body   ">
         {{-- {{dd($data)}} --}}
         <table id="example1" class="table table-bordered table-striped">
+            <button type='button' data-toggle='modal' data-target='#modal-tambah' class='col-4 p-2 btn btn-block btn-default'>Tambah</button>
+
             <thead>
-                <button type='button' data-toggle='modal' data-target='#modal-tambah' class='ml-auto col-2 btn btn-block btn-default'>Tambah</button>
                 <tr>
                     <th>no</th>
                     <th hidden>id</th>
@@ -134,10 +135,7 @@
     $(function() {
         $("#example1").DataTable({
             "responsive": true
-            , "lengthChange": false
-            , "autoWidth": false
-            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+        })
     });
 
 
