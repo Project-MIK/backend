@@ -580,6 +580,7 @@ class PattientController extends Controller
                 'no_medical_record' => '123456789',
                 'id_consultation' => 'CONS-001',
                 'valid_status' => time(),
+                'description'=>'deskripsi keluhan',
                 'consultation' => [
                     'doctor' => 'Dr. Smith',
                     'price' => '$50',
@@ -595,6 +596,7 @@ class PattientController extends Controller
                 'no_medical_record' => '123456789',
                 'id_consultation' => 'CONS-001',
                 'valid_status' => time(),
+                'description'=>'deskripsi keluahn',
                 'consultation' => [
                     'doctor' => 'Dr. Smith',
                     'price' => '$50',
