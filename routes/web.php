@@ -308,20 +308,6 @@ Route::prefix('admin')->group(
             Route::delete('/destroy', 'destroy');
         })->middleware('isAdmin');
 
-        Route::prefix('complain')->group(
-            function () {
-                Route::get(
-                    '/',
-                    [RecordController::class, 'showComplaintOnAdmin']
-                )->middleware('isAdmin');
-
-                Route::put(
-                    'agreement',
-                    [RecordController::class, 'confirmStatusPayment']
-                )->middleware('isAdmin');
-            }
-        );
-
         Route::prefix('consul')->group(
             function () {
                 Route::get(
@@ -501,6 +487,20 @@ Route::prefix('doctor')->group(function () {
             });
         });
     });
+    
+    Route::middleware('isDoctor')->prefix('complain')->group(
+        function () {
+            Route::get(
+                '/',
+                [RecordController::class, 'showComplaintOnDoctor']
+            )->middleware('isAdmin');
+
+            Route::put(
+                'agreement',
+                [RecordController::class, 'confirmStatusPayment']
+            )->middleware('isAdmin');
+        }
+    );
 
     Route::get('/logout', [AuthDoctorController::class, 'logout'])->middleware('isDoctor');
 });

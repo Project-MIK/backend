@@ -30,6 +30,18 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
+                    <a href="/doctor/complain/" class="nav-link">
+                        <div class="row">
+                            <div class="col-2"><i class="fa-solid fa-bandage"></i></div>
+                            <div class="col-10">
+                                <p>
+                                    Komplain
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="/doctor/consul" class="nav-link">
                         <div class="row">
                             <div class="col-2"><i class="fa-solid fa-stethoscope"></i></div>
