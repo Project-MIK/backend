@@ -199,7 +199,7 @@ Route::prefix('konsultasi')->group(function () {
 //admin
 Route::prefix('admin')->group(
     function () {
-        Route::redirect('/', '/admin/complain');
+        Route::redirect('/', '/admin/consul');
         // Route::view('/', 'admin.dashboard',)->middleware('isAdmin');
 
         Route::prefix('login')->group(
@@ -493,12 +493,12 @@ Route::prefix('doctor')->group(function () {
             Route::get(
                 '/',
                 [RecordController::class, 'showComplaintOnDoctor']
-            )->middleware('isAdmin');
+            )->middleware('isDoctor');
 
             Route::put(
                 'agreement',
                 [RecordController::class, 'confirmStatusPayment']
-            )->middleware('isAdmin');
+            )->middleware('isDoctor');
         }
     );
 
