@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.doctor.app')
 @section('content-header')
 <h1>Persetujuan Konsultasi</h1>
 @endsection
@@ -149,7 +149,7 @@
         </div>
         <div class="col">
             <div class="m-1">
-                <form action="/admin/complain/agreement" method="POST">
+                <form action="/doctor/complain/agreement" method="POST">
                     @csrf
                     @method('put')
                     <input name="id" id="detail-id-setuju" hidden>
@@ -158,7 +158,7 @@
                 </form>
             </div>
             <div class="m-1">
-                <form action="/admin/complain/agreement" method="POST">
+                <form action="/doctor/complain/agreement" method="POST">
                     @csrf
                     @method('put')
                     <input name="id" id="detail-id-tidak" hidden>
