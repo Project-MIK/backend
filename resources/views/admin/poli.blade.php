@@ -43,7 +43,9 @@
             <tfoot>
                 <tr>
                     <th>no</th>
+                    <th hidden>id poly</th>
                     <th>poliklinik</th>
+                    <th hidden>id kategori</th>
                     <th>kategori</th>
                     <th>aksi</th>
                 </tr>
@@ -122,8 +124,9 @@
             , "lengthChange": false
             , "autoWidth": false
             , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+
 
     function getData(button) {
         tabel = button.parentElement.parentElement.parentElement.parentElement;
