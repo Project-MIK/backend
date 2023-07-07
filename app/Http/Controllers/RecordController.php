@@ -136,7 +136,7 @@ class RecordController extends Controller
     public function showComplaintOnDoctor()
     {
         $data = $this->service->showComplaintOnAdmin();
-        return view('doctor.pages.complain', ['data' => $data]);
+        return view('admin.complain', ['data' => $data]);
     }
 
     public function confirmStatusPayment(Request $request)

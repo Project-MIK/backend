@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthDoctorController;
+use App\Http\Controllers\DoctorComplainController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DoctorScheduleController;
 use App\Http\Controllers\DoctorSettingController;
@@ -308,6 +309,20 @@ Route::prefix('admin')->group(
             Route::delete('/destroy', 'destroy');
         })->middleware('isAdmin');
 
+        Route::middleware('isAdmin')->prefix('complain')->group(
+            function () {
+                Route::get(
+                    '/',
+                    [RecordController::class, 'showComplaintOnDoctor']
+                );
+
+                Route::put(
+                    'agreement',
+                    [RecordController::class, 'confirmStatusPayment']
+                );
+            }
+        );
+
         Route::prefix('consul')->group(
             function () {
                 Route::get(
@@ -492,12 +507,12 @@ Route::prefix('doctor')->group(function () {
         function () {
             Route::get(
                 '/',
-                [RecordController::class, 'showComplaintOnDoctor']
+                [DoctorComplainController::class, 'showComplaintOnDoctor']
             )->middleware('isDoctor');
 
             Route::put(
                 'agreement',
-                [RecordController::class, 'confirmStatusPayment']
+                [DoctorComplainController::class, 'confirmStatusPayment']
             )->middleware('isDoctor');
         }
     );

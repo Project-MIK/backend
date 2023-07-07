@@ -24,7 +24,7 @@ class DoctorLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email:dns'],
+            'email' => ['required', 'email'],
             'password' => ['required']
         ];
     }

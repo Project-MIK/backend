@@ -32,6 +32,18 @@
 
                     <ul class="nav nav-treeview" style="padding-left: 5%">
                         <li class="nav-item">
+                            <a href="/admin/complain/" class="nav-link">
+                                <div class="row">
+                                    <div class="col-2"><i class="fa-solid fa-bandage"></i></div>
+                                    <div class="col-10">
+                                        <p>
+                                            Komplain
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="/admin/consul/" class="nav-link">
                                 <div class="row">
                                     <div class="col-2"><i class="fa-solid fa-stethoscope"></i></div>

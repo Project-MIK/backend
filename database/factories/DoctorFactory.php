@@ -25,7 +25,7 @@ class DoctorFactory extends Factory
             'address' => fake()->address(),
             'phone' => 123412341234,
             'email' => fake()->safeEmail(),
-            'password' => bcrypt('rahasiak'),
+            'password' => bcrypt('rahasia'),
             'polyclinic_id' => fake()->numberBetween(1, 3)
         ];
     }
