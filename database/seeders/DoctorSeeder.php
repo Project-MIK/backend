@@ -29,5 +29,16 @@ class DoctorSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+        DB::table('doctors')->insert([
+            'name' => 'zam',
+            'gender' => 'M',
+            'address' => 'kraksaan',
+            'phone' => '081212341234',
+            'email' => 'zam@gmail.com',
+            'password' => bcrypt('rahasia'),
+            'polyclinic_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
     }
 }

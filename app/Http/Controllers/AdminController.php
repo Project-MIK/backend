@@ -164,7 +164,7 @@ class AdminController extends Controller
         ];
         $res = $this->service->login($data);
         if ($res) {
-            return redirect('admin')->with('message', 'Berhasil login');
+            return redirect('admin/consul')->with('message', 'Berhasil login');
         } else {
             return Redirect::back()->withErrors(['msg' => 'Password atau Email Kamu Salah']);
         }

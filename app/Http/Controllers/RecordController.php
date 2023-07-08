@@ -133,10 +133,10 @@ class RecordController extends Controller
         return redirect("dashboard");
     }
 
-    public function showComplaintOnAdmin()
+    public function showComplaintOnDoctor()
     {
         $data = $this->service->showComplaintOnAdmin();
-        return view('admin.complain', ['data' => $data]);
+        return view('doctor.pages.complain', ['data' => $data]);
     }
 
     public function confirmStatusPayment(Request $request)
