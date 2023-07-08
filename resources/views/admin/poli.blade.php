@@ -33,7 +33,7 @@
                     <td>
                         <div class="row">
                             <div class="col"><button type="button" data-toggle='modal' data-target='#modal-edit' onclick="setEdit(this)" class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
-                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' onclick="setDelete(this)" class=" col btn btn-block btn-danger btn-sm">Danger</button></div>
+                            <div class="col"><button type="button" data-toggle='modal' data-target='#modal-delete' onclick="setDelete(this)" class=" col btn btn-block btn-danger btn-sm">Delete</button></div>
                         </div>
                     </td>
                 </tr>
@@ -43,7 +43,9 @@
             <tfoot>
                 <tr>
                     <th>no</th>
+                    <th hidden>id poly</th>
                     <th>poliklinik</th>
+                    <th hidden>id kategori</th>
                     <th>kategori</th>
                     <th>aksi</th>
                 </tr>
@@ -122,8 +124,9 @@
             , "lengthChange": false
             , "autoWidth": false
             , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+
 
     function getData(button) {
         tabel = button.parentElement.parentElement.parentElement.parentElement;

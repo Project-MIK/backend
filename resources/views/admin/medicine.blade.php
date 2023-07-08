@@ -34,7 +34,7 @@
                     <td>
                         <div class="row">
                             <div class="col"><button onclick="setEdit(this)" type="button" data-toggle='modal' data-target='#modal-detail' class="col detail btn btn-block btn-primary btn-sm">Detail</button></div>
-                            <div class="col"><button onclick="setDelete(this)" type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Danger</button></div>
+                            <div class="col"><button onclick="setDelete(this)" type="button" data-toggle='modal' data-target='#modal-delete' class=" col btn btn-block btn-danger btn-sm">Delete</button></div>
                         </div>
                     </td>
                 </tr>

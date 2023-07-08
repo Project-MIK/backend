@@ -34,7 +34,7 @@
                     <td>{{$no}}</td>
                     <td>{{$record['name']}}</td>
                     @if(is_null($record['medical_record_id']))
-                    <td><button type="button" onclick="setRs(this)" data-toggle='modal' data-target='#modal-rs' class="btn btn-block btn-success btn-xs">Tambahkan no rs</button></td>
+                    <td><button type="button" onclick="setRs(this)" data-toggle='modal' data-target='#modal-rs' class="btn btn-block btn-success btn-xs">Tambahkan no RM</button></td>
                     @else
                     <td>{{$record['medical_record_id']}}</td>
                     @endif
@@ -126,10 +126,12 @@
 
     $(function() {
         $("#example1").DataTable({
-        responsive: true
+            "responsive": true
+            , "lengthChange": false
+            , "autoWidth": false
+            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0) ');
     });
-    });
-
 
     function fillName(name) {
         document.querySelector("#detail-nama").value = name;
